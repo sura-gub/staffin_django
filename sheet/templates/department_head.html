@@ -1,0 +1,785 @@
+{% extends 'common_header.html' %}
+{% load static %}
+
+{% block content %}
+    {% include 'header_adm.html' %}
+  
+   
+     <body  class="w-100 container-fluid">
+
+        <!-- <div class="col-md-12"  style="margin-top: 110px; margin-left: 50px;">
+     
+            <h5 class="ff">  <img src="{% static 'img/department.png'%}" alt="afadf" width="30px" height="30px">
+           ADD</h5>
+            <h5 class="ff1">DEPARTMENT HEAD</h5>        
+    </div> -->
+        <div class="row align-items-start">
+            <div class="col-md-12  col-12 mb-3 " style="margin-top: 30px;">
+               <button class="buttonhead col-4" data-text="Awesome">
+                <span class="actual-text">&nbsp;Add Department Head&nbsp;</span>
+            </button>
+            </div>
+            <div class="col-md-3  p-3 " style="border: 1px solid #abc6dd; border-radius: 10px;" >
+    <center>
+        <h5>Add Department Head/TL</h5>
+    </center>
+
+
+    <style>
+        input, select {
+            margin-bottom: 10px;
+            outline: none;  
+            border: 1px solid rgb(99, 97, 97);
+            border-radius: 5px;
+            height: 40px;
+        }
+        th{
+            padding: 15px;
+        }
+        td{
+            padding: 8px;
+        }
+        body {
+          background-image: url('{% static "img/logbg2.png" %}');
+          min-height: 600px;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+        .form-control{
+        background-color: #d0d9e1;
+       }
+       #table2 {
+        border: 1px solid black;
+        width: 100%;
+        border-collapse: collapse;
+        /* margin-top: 20px; */
+        background-color: #ffffff;
+
+    }
+
+    #table2 th, #table2 td {
+        border: 1px solid #a3c9d3;
+        padding: 5px;
+        text-align: center;
+    }
+
+    #table2 th {
+        background-color: #648386;
+        padding: 10px;
+    }
+
+    #mdata tr:nth-child(even) {
+        background-color: #e6f2ff;
+    }
+
+    #mdata tr:hover {
+        background-color: #ccebff;
+    }
+
+        /* for heading */
+  .buttonhead {
+    margin: 5.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  --fs-size: 1.8em;
+  font-weight: 800;
+
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+    </style>
+    
+    <center>
+        <form id="insertForm"  method="POST" style="zoom:0.9" class="col-md-12"  >
+            {% csrf_token %}
+            <div class="row">
+                <label for="departmentHead" class="col-md-6"><span style="color: red;">*</span>Department</label>
+                <select id="departmentHead" name="departmentHead" class="col-md-6" required>
+                    <!-- <option disabled selected>Select</option> -->
+                    <!-- Options will be dynamically added here using JavaScript -->
+                </select>
+
+                <label for="designation" class="col-md-6"><span style="color: red;">*</span>Designation</label>
+                <select id="designation" name="designation" class="col-md-6" required>
+                    <option value="" selected disabled>Select</option>
+                    <option value="Head">Head</option>
+                    <option value="TL">TL</option>                    
+                </select>
+
+                <label for="emp_id" class="col-md-6"><span style="color: red;">*</span>Employee ID</label>
+    <input type="text" class="col-md-6" name="emp_id" id="emp_id" oninput="validateEmployeeID()" required>
+
+    <script>
+        function validateEmployeeID() {
+            var empIdInput = document.getElementById("emp_id");
+            var empIdValue = empIdInput.value;
+
+            // Check if the input contains lowercase letters
+            if (/[a-z]/.test(empIdValue)) {
+                // alert("Only capital letters are allowed for Employee ID!");
+                // You can choose to clear the input or handle it in a different way
+                empIdInput.value = empIdValue.toUpperCase();
+            }
+        }
+    </script>
+
+
+<script>
+    $(document).ready(function(){
+        $('#emp_id').on('input', function(){
+            var empId = $(this).val();
+            $.ajax({
+                url: "{% url 'validate_employee_id' %}",
+                data: {'emp_id': empId},
+                dataType: 'json',
+                success: function(data){
+                    if ('name' in data) {
+                        $('#name').val(data.name);
+                    } else {
+                        $('#name').val('');
+                    }
+                },
+                error: function(xhr, status, error){
+                    $('#name').val('');
+                }
+            });
+        });
+    });
+</script>
+
+                <label for="" class="col-md-6"><span style="color: red;">*</span>Name</label>
+                <input type="text" name="name" id="name" class="col-md-6" placeholder="Type Here..." oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '').toUpperCase()" required>
+
+                <!-- <script>
+                    document.getElementById('name').addEventListener('input', function(event) {
+                        let input = event.target.value;
+                        let regex = /^[A-Z ]*$/; // Regular expression to allow only uppercase letters and spaces
+                        if (!regex.test(input)) {
+                            event.target.value = input.replace(/[^A-Z ]/g, ''); // Remove non-uppercase-letter characters
+                        }
+                    });
+                </script> -->
+                
+
+                <label for="" class="col-md-6"><span style="color: red;">*</span>Branch Name</label>
+                <input type="text" 
+       name="branch" 
+       id="branch" 
+       class="col-md-6" 
+       value="{% if request.session.selected_branch_id %}{{ request.session.selected_branch_id }}{% else %}{{ request.session.default_branch_id }}{% endif %}" 
+       readonly>
+
+
+                <center><input type="submit" value="Submit" class='col-md-4 btn ' style="background-color: #38696d; color: aliceblue;" onclick="validateForm()"></center>
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <div id="errorMessages"></div>
+
+
+            </div>
+        </form>
+
+        <script>
+
+            function validateForm() {
+    // Assuming validation passes, send data to the server
+    if (validateAndSubmit()) {
+        return true; // Continue with form submission
+    } else {
+        return false; // Stop form submission
+    }
+}
+
+function validateAndSubmit() {
+    var departmentName = document.getElementById('departmentHead').value;
+    var designation = document.getElementById('designation').value;
+    var empId = document.getElementById('emp_id').value;
+    var name = document.getElementById('name').value;
+    var errorMsg = ''; // Variable to store error message
+
+    // Check if department and designation are not selected
+    if ((departmentName === 'Select' || departmentName === '') && (designation === 'Select' || designation === '')) {
+        errorMsg += 'Please select a department and designation<br>';
+    } else {
+        // Check if department is not selected
+        if (departmentName === 'Select' || departmentName === '') {
+            errorMsg += 'Please select a department<br>';
+        }
+
+        // Check if designation is not selected
+        if (designation === 'Select' || designation === '') {
+            errorMsg += 'Please select a designation<br>';
+        }
+
+        // Check if Employee ID is empty
+        if (empId === '') {
+            errorMsg += 'Please fill the Employee ID field<br>';
+        }
+
+        // Check if Name is empty
+        if (name === '') {
+            errorMsg += 'Please fill the Name field<br>';
+        }
+    }
+
+    if (errorMsg !== '') {
+        // Display error messages in red color
+        document.getElementById('errorMessages').innerHTML = '<span style="color: red;">' + errorMsg + '</span>';
+        return false;
+    }
+
+    // If all fields are filled, submit the form
+    // submitForm();
+    return true;
+}
+
+function submitForm() {
+    var formData = new FormData(document.getElementById('insertForm'));
+    console.log("formData", formData);
+
+    // Use fetch to send data to the server
+    fetch('/departmenthead/', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.text();
+    })
+    .then(data => {
+        // Handle response from server if needed
+        console.log('Response:', data);
+    })
+    .catch(error => {
+        // Handle network errors or other issues
+        console.error('Error:', error.message);
+    });
+}
+
+            
+            
+            </script>
+            
+
+    </center>
+    <center>
+        {% if messages %}
+            
+                {% for message in messages %}
+                {% if message.tags == 'error'%}
+                <center><div class="alert alert-danger col-md-10">{{message}}</div></center>
+                <script>
+                    // JavaScript code to refresh the page after displaying the alert
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);  // Adjust the time delay (in milliseconds) as needed
+                </script>
+                {% else %}
+                <center><div class="alert alert-{{message.tags}} col-md-10">{{message}}</div></center>
+                <script>
+                    // JavaScript code to refresh the page after displaying the alert
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);  // Adjust the time delay (in milliseconds) as needed
+                </script>
+                    
+                    {% endif %}
+                {% endfor %}
+                
+        {% endif %}
+            </div>
+            <div class="col-md-9 ">
+        <table style="zoom:0.9" class="col-md-12" id="table2">
+            <thead>
+                <tr>
+                    <th class="col-md-2 border" style="width: 2%;"><center><h4>SL.No</h4></center></th>
+                    
+
+
+                    <th class="col-md-2 border"><center><h4>Department</h4></center></th>
+                    <th class="col-md-2 border"><center><h4>Designation</h4></center></th>
+                    <th class="col-md-2 border"><center><h4>Employee ID</h4></center></th>
+                    <th class="col-md-2 border"><center><h4>Name</h4></center></th>
+                    <th class="col-md-2 border"><center><h4>Branch</h4></center></th>
+                    
+                    <th class="col-md-1 border"><center><h4>Edit</h4></center></th>
+                    <th class="col-md-1 border"><center><h4>Delete</h4></center></th>
+                </tr>
+            </thead>
+            {% for mydataa in newadd_depart %}
+            <tbody id="mdata">
+                <tr >
+                    <td ><center>{{forloop.counter}}</center></td>
+                    
+                   
+                    <td ><center>{{mydataa.dept}}</center></td>
+                    <td ><center>{{mydataa.desig}}</center></td>
+                    <td ><center>{{mydataa.emp_id}}</center></td>
+                    <td ><center>{{mydataa.name}}</center></td>
+                    <td ><center>{{mydataa.branch}}</center></td>
+                    
+
+                    <td >
+                        <center>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#editModal" 
+                               onclick="openEditModal('{{ mydataa.id }}', '{{ mydataa.dept }}', '{{ mydataa.desig }}', '{{ mydataa.emp_id }}', '{{ mydataa.name }}', '{{ mydataa.branch }}')">
+                                <button class="btn"><img src="{% static 'img/edit.png' %}" height="20px" width="20px" alt=""></button>
+                            </a>
+                        </center>
+                    </td>
+                    
+
+                    <td><center>
+                        <a href="#" onclick="confirmDelete('{{ mydataa.id }}')">
+                            <button class="btn"><img src="{% static 'img/delete.png' %}" height="20px" width="20px" alt=""></button>
+                          </a>
+                    </center>
+                </td>
+                </tr>
+            </tbody>
+            {% endfor%}
+        </table>
+    </center>
+</div>
+    </div>
+
+        <!-- Add this modal structure at the end of your body -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Edit Department Head/TL</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <label for="departmentName" class="form-label">Department</label>
+                        <!-- <input type="text" id="departmentName" class="form-control" oninput="this.value = this.value.replace(/[^A-Za-z]/g, '').toUpperCase()"> -->
+
+                        <select id="departmentName" name="departmentName" class="col-md-6 form-select" required>
+                            <option disabled selected>Select</option>
+                            <!-- <option disabled selected>Select</option> -->
+                            <!-- Options will be dynamically added here using JavaScript -->
+                        </select>
+
+                        <label for="designation" class="form-label">Designation</label>
+                        <select id="designation1" name="designation1" class="col-md-6 form-select" required>
+                            <option selected disabled >Select</option>
+                            <option value="Head">Head</option>
+                            <option value="TL">TL</option>                    
+                        </select>
+
+                        <label for="employeeid" class="form-label">Employee ID</label>
+                        <input type="text" id="employeeid" name="employeeid" class="form-control" oninput="this.value = this.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase()">
+
+
+                        <script>
+                            $(document).ready(function(){
+                                $('#employeeid').on('input', function(){
+                                    var empIdd = $(this).val();
+                                    console.log("empIdd",empIdd)
+                                    $.ajax({
+                                        url: "{% url 'validate_employee_id1' %}",
+                                        data: {'employeeid': empIdd},
+                                        dataType: 'json',
+                                        success: function(data){
+                                            if ('name' in data) {
+                                                $('#name1').val(data.name);
+                                            } else {
+                                                $('#name1').val('');
+                                            }
+                                        },
+                                        error: function(xhr, status, error){
+                                            $('#name1').val('');
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+
+
+                        
+                        
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" id="name1" class="form-control" oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '').toUpperCase()">
+
+                        <label for="branch" class="form-label">Branch</label>
+                        <!-- <input type="text" id="branch2" class="form-control" oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '').toUpperCase()"> -->
+
+                        <select id="branch2" name="branch2" class="col-md-6 form-select" required>
+                            <!-- <option disabled selected>Select</option> -->
+                            <!-- <option disabled selected>Select</option> -->
+                            <!-- Options will be dynamically added here using JavaScript -->
+                        </select>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="saveChanges()" id="saveChangesBtn">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+
+
+    <!-- Update the URL in the fetch function in your HTML template -->
+    <script>
+        
+
+
+function openEditModal(id, department, designation, employeeid, name ,branch) {
+
+    var departmentNameSelect = document.getElementById('departmentName');
+
+// Fetch department names using AJAX
+function fetchDepartmentNames() {
+    // Update the URL below with the actual URL of your Django view
+    fetch('/get_department_names/')
+        .then(response => response.json())
+        .then(data => {
+            // Clear existing options
+            departmentNameSelect.innerHTML = '<option disabled selected>Select</option>';
+            // Add fetched department names as options
+            data.forEach(department => {
+                var option = document.createElement('option');
+                option.value = department.nm;
+                option.text = department.nm;
+                departmentNameSelect.add(option);
+            });
+            // Set selected department value after options are loaded
+            departmentNameSelect.value = department;
+        })
+        .catch(error => console.error('Error fetching department names:', error));
+}
+
+// Call the fetchDepartmentNames function to populate the department select options
+fetchDepartmentNames();
+
+
+function fetchBranchNames() {
+    // Update the URL below with the actual URL of your Django view
+    fetch('/get_branch_names1/')
+        .then(response => response.json())
+        .then(branchList => {
+            // Log the response value
+            console.log("Response from server:", branchList);
+            
+            // Clear existing options
+            var branchSelect = document.getElementById('branch2');
+            branchSelect.innerHTML = '<option disabled selected>Select</option>';
+            
+            // Add fetched branch names as options
+            branchList.forEach(branch => {
+                var option = document.createElement('option');
+                option.value = branch.branch_name; // or branch.branch_name based on what you want to set as value
+                option.text = branch.branch_name;
+                branchSelect.add(option);
+            });
+            
+            // Set selected branch value after options are loaded
+            // Assuming branchList[0] should be selected by default
+            branchSelect.value = branchList[0].branch_name; // or branchList[0].branch_name
+            console.log("Selected branch ID:", branchSelect.value);
+        })
+        .catch(error => console.error('Error fetching branch names:', error));
+}
+
+// Call the fetchBranchNames function to populate the branch select options
+fetchBranchNames();
+
+    // Set the id to the Save changes button inside the modal
+    document.getElementById('saveChangesBtn').setAttribute('data-id', id);
+
+    // Populate the input fields with the selected record's values
+    $('#departmentName').val(department);
+    $('#designation1').val(designation);
+    $('#employeeid').val(employeeid);
+    $('#name1').val(name);
+    $('#branch2').val(branch);
+
+    console.log("ID:", id);
+    console.log("Department:", department);
+    console.log("Designation:", designation);
+    console.log("Employee ID:", employeeid);
+    console.log("Name:", name);
+    console.log("Branch:", branch);
+}
+function saveChanges() {
+
+    // Retrieve the values of input fields
+    var departmentName = document.getElementById('departmentName').value;
+        var designation = document.getElementById('designation1').value;
+        var employeeid = document.getElementById('employeeid').value;
+        var name = document.getElementById('name1').value;
+        var branch = document.getElementById('branch2').value;
+        console.log("fkhyujfghh",branch)
+
+        // Check if any of the fields are empty
+        if (!departmentName || !designation || !employeeid || !name || !branch) {
+            // If any field is empty, show an alert message
+            alert("Please fill all the fields.");
+            return;
+        }
+
+    var updatedDepartmentName = $('#departmentName').val();
+    var designation = $('#designation1').val();
+    var employeeid = $('#employeeid').val();
+    var name = $('#name1').val();
+    var branch = $('#branch2').val();
+    console.log("name",name)
+    console.log("branch",branch)
+    var id = document.getElementById('saveChangesBtn').getAttribute('data-id');
+
+
+    console.log("ID:", id);
+    console.log("Department:", updatedDepartmentName);
+    console.log("Designation:", designation);
+    console.log("Employee ID:", employeeid);
+    console.log("Name:", name);
+    console.log("Branch:", branch);
+
+    const csrftoken = getCookie('csrftoken');
+    // Send AJAX request to update the record
+    $.ajax({
+        url: '/update_department_head/' + id + '/',
+        headers: {
+        'X-CSRFToken': csrftoken,  
+      },
+        method: 'POST',
+        data: {
+            'id':id,
+            'updatedDepartmentName': updatedDepartmentName,
+            'designation': designation,
+            'employeeid': employeeid,
+            'name': name,
+            'branch': branch,
+        },
+        success: function (data) {
+            if (data.success) {
+                // Close the modal or perform other actions
+                $('#editModal').modal('hide');
+                alert("Updated Successfully...!")
+                location.reload();
+                // Optionally, you can reload the page or update the table with the new data
+            } else {
+                // Handle errors if needed
+                alert('This field is already exists..Enter unique details...!');
+            }
+            // location.reload();
+        },
+        error: function () {
+            // Handle AJAX errors if needed
+            alert('Failed to update record. Please try again.');
+        }
+    });
+}
+
+
+function confirmDelete(itemId) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // If the user confirms, redirect to the delete URL
+        window.location.href = "{% url 'delete' 0 %}".replace('0', itemId);
+      }
+    });
+  }
+
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Check if the cookie name matches the request header expected format
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var departmentHeadSelect = document.getElementById('departmentHead');
+    
+            // Fetch department names using AJAX when the page loads
+            fetchDepartmentNames();
+            
+    
+            // Attach an event listener to the Department select for the change event
+            departmentHeadSelect.addEventListener('change', function () {
+                // Log the selected value to the console for testing
+                console.log('Selected value:', departmentHeadSelect.value);
+            });
+    
+            function fetchDepartmentNames() {
+                // Use AJAX to fetch department names from your Django view
+                // Update the URL below with the actual URL of your Django view
+                fetch('/get_department_names/')
+                    .then(response => response.json())
+                    .then(data => {
+                        // Clear existing options
+                        departmentHeadSelect.innerHTML = '<option value="" disabled selected>Select</option>';
+    
+                        // Add fetched department names as options
+                        data.forEach(department => {
+                            var option = document.createElement('option');
+                            option.value = department.nm;
+                            option.text = department.nm;
+                            departmentHeadSelect.add(option);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching department names:', error));
+            }
+        });
+    </script>
+    <script>
+        var lilota = document.getElementById("lolita");
+    var lilotaoff = document.getElementById("lolitaoff");
+    var offcanvas = document.getElementById("offcanvasExample");
+    var navigation1 = document.getElementById("navigation");
+    var branchSelect = document.getElementById("branchSelect");
+    
+    // Function to set dark mode based on the value stored in localStorage
+    function setDarkModeFromStorage() {
+      var element = document.body;
+      var storedDarkMode = localStorage.getItem('darkMode');
+      var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+    
+      if (storedDarkMode === 'true') {
+        element.classList.add('dark-mode');
+        toggleDarkModeButton.checked = true;
+        applyDarkModeStyles();
+      } else {
+        element.classList.remove('dark-mode');
+        toggleDarkModeButton.checked = false;
+        removeDarkModeStyles();
+      }
+    }
+    
+    // Function to apply dark mode styles
+    function applyDarkModeStyles() {
+      lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+      lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+      offcanvas.classList.add("offcanvasdrk");
+      navigation1.classList.add("navbardrk");
+      branchSelect.classList.add("selectheadadmindark");
+    }
+    
+    // Function to remove dark mode styles
+    function removeDarkModeStyles() {
+      lolita.src = "{% static 'img/staffinlogooff.png' %}";
+      lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+      offcanvas.classList.remove("offcanvasdrk");
+      navigation1.classList.remove("navbardrk");
+    
+      branchSelect.classList.remove("selectheadadmindark");
+    }
+    
+    // Function to toggle dark mode and store the state in localStorage
+    function toggleDarkMode() {
+      var element = document.body;
+      element.classList.toggle('dark-mode');
+        
+      if (element.classList.contains("dark-mode")) {
+        applyDarkModeStyles();
+      } else {
+        removeDarkModeStyles();
+      }
+    
+      // Store the current dark mode state in localStorage
+      var isDarkMode = element.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDarkMode.toString());
+    }
+    
+    // Call the function to set dark mode on page load
+    setDarkModeFromStorage();
+      </script>
+    
+{% endblock %}

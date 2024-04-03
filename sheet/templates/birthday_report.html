@@ -1,0 +1,550 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_adm.html' %}
+<!-- <head> -->
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css" />
+
+<!-- </head> -->
+<style>
+    body, html {
+        
+
+   overflow-x: hidden;
+}
+    .months {
+           display: flex;
+           justify-content: space-between;
+       }
+
+       .btn-group {
+           display: flex;
+       }
+       @media screen and (max-width:750px) {
+        .btn-group {
+            flex-wrap: wrap;
+       }
+       
+       }
+
+       .btn1 {
+           padding: 10px;
+           margin: 1px;
+           border: 1px solid #ccc;
+           background-color: #0073e6;
+           color: aliceblue;
+           cursor: pointer;
+           border-radius: 8px;
+       }
+</style>
+<style>
+   .btn-highlight {
+           background-color: #ffc107; /* Change the background color as needed */
+           color: black; /* Change the text color as needed */
+           /* Add any additional styling you want for the highlighted button */
+       }
+   
+   .table {
+       box-shadow: 0 0 30px rgba(0.1, 0.1, 0.1, 0.1); /* Adjust the values as needed */
+       padding: 8px;
+       align-items: center;
+       /* background-color:  #f5f5f0; */
+   }
+   
+   
+           .months {
+               margin-bottom: 20px;
+           }
+   
+           .btn-primary {
+               margin-bottom: 10px;
+               padding: 5px;
+               height: 40px;
+              
+           }
+           .center {
+       background-color: #ccebff;
+       height: 50px;
+       font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+       font-size: 30px;
+       width: 100%;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       margin-bottom: 10px;
+   }
+   
+   #birthday-content-container {
+       display: flex;
+       margin-left: 480px; /* Adjust the left margin for screens wider than 768px */
+       color: rgb(10, 10, 110);
+   }
+   
+   .cake-icon {
+       font-size: 30px;
+       color: rgb(216, 92, 133); /* Adjust the size and color of the cake icons */
+   }
+   
+   .cake-icon-left {
+       margin-right: 10px;
+       margin-top: 10px; /* Adjust the spacing between the content and the left cake icon */
+   }
+   
+   .cake-icon-right {
+       margin-left: 10px;
+       margin-top: 10px; /* Adjust the spacing between the content and the right cake icon */
+   }
+   .btn-group a.current-month {
+       background-color: #ffc107;
+       color: #fff;
+       animation: highlightButton 2s ease-in-out;
+   }
+   
+   @keyframes highlightButton {
+       0% {
+           background-color: #ffc107;
+       }
+       50% {
+           background-color: transparent;
+       }
+       100% {
+           background-color: #ffc107;
+       }
+   }
+   /* Add this to your existing stylesheet or create a new one */
+   
+   @keyframes highlight {
+       0% { background-color: transparent; }
+       50% { background-color: #ffc107; }
+       100% { background-color: transparent; }
+   }
+   
+   .highlight {
+               background-color:#ffcce0 !important; /* You can adjust the highlight color */
+           }
+   
+           @keyframes mymove {
+           0% {
+               transform: translateX(-50px);
+           }
+           50% {
+               transform: translateX(50px);
+           }
+           100% {
+               transform: translateX(-50px);
+           }
+       }
+   
+       #birthday-content-container {
+           animation-name: mymove;
+           animation-duration: 3s; /* Adjust the duration as needed */
+           animation-iteration-count: infinite;
+       }
+       
+   @media (max-width: 768px) {
+       .center {
+           display: flex;
+           flex-direction: column; /* Stack elements vertically on small screens */
+           align-items: center;
+           justify-content: center;
+       }
+   
+       #birthday-content-container {
+           margin-left: 0; /* Remove the left margin for small screens */
+       }
+   
+       .cake-icon-left {
+           margin-right: 0; /* Remove the right margin for small screens */
+           margin-bottom: 10px; /* Optional: Adjust the spacing between the content and the left cake icon */
+       }
+   
+       .cake-icon-right {
+           margin-left: 0; /* Remove the left margin for small screens */
+           margin-bottom: 10px; /* Optional: Adjust the spacing between the content and the right cake icon */
+       }
+   }
+   .btn1.active {
+           background-color: #f390cd;
+       }
+       .btn1:hover{
+        color: white;
+        background-color: #57eb2a;
+       }
+   
+                  /* for heading */
+  .buttonhead {
+    margin: 5.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  font-weight: 800;
+
+  --fs-size: 1.8em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+/* this is the text, when you hover on button */
+.hover-text {
+  position: absolute;
+  box-sizing: border-box;
+  content: attr(data-text);
+  color: var(--animation-color);
+  width: 0%;
+  inset: 0;
+  border-right: var(--border-right) solid var(--animation-color);
+  overflow: hidden;
+  transition: 0.5s;
+  -webkit-text-stroke: 1px var(--animation-color);
+}
+/* hover */
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+@media screen and (min-width:990px) {
+
+.bhc{
+    margin-left: 200px;
+
+}
+}
+@media screen and (max-width:600px) {
+
+.bhc{
+    margin-left: 100px;
+
+}
+}
+   </style>
+<body class="w-100 container-fluid">
+    <!-- <div class="col-md-12" style="margin-top: 110px;">
+        <h2 class="ff text-center" style="color: rgb(10, 10, 110);">BirthDay Report</h2>
+    </div> -->
+    <div class="col-md-12  col-12 mb-3 " style="margin-top: 30px;">
+        <button class="buttonhead col-4" data-text="Awesome">
+            <span class="actual-text">&nbsp;Birthday Report&nbsp;</span>
+        </button>
+    </div>
+    <!-- First row: Buttons for months -->
+    <div style="zoom:0.9;" class="row months">
+        <div class="btn-group">
+            <button class="btn btn1 " value="1" id="di" onclick="changeBackground(this)">January</button>
+            <button class="btn btn1 " onclick="changeBackground(this)">February</button>
+            <button class="btn btn1 " onclick="changeBackground(this)">March</button>
+            <button class="btn btn1 " onclick="changeBackground(this)">April</button>
+            <button class="btn btn1 " onclick="changeBackground(this)">May</button>
+            <button class="btn btn1 " onclick="changeBackground(this)">June</button>
+            <button class="btn btn1 " onclick="changeBackground(this)">July</button>
+            <button class="btn btn1 " onclick="changeBackground(this)">August</button>
+            <button class="btn btn1 " onclick="changeBackground(this)">September</button>
+            <button class="btn btn1 " onclick="changeBackground(this)">October</button>
+            <button class="btn btn1 " onclick="changeBackground(this)">November</button>
+            <button class="btn btn1 " onclick="changeBackground(this)">December</button>
+        </div>
+    </div>
+
+    
+    <div style="zoom:0.9"  class="row center">
+        <div class="col-12 mx-auto text-center">
+            <div  id="birthday-content-container">
+                <i id="cake-icon-left" class="fas bhc fa-birthday-cake cake-icon cake-icon-left"></i>
+                <div  id="birthday-title"> Birthday's on </div>
+                <i id="cake-icon-right" class="fas fa-birthday-cake cake-icon cake-icon-right"></i>
+            </div>
+        </div>
+    </div>
+    <div class="row bord">
+        <div class="col-12" >
+            
+            {% for item in data|dictsort:"dob" %}      
+    <div class="table mt-3 birthday-row {% if item.dob|date:'m' == current_month and item.dob|date:'j' == current_day %}current-date{% endif %}" data-birthday="{{ item.dob }}" id="birthday-table-{{ forloop.counter }}">
+        <p>{{ forloop.counter }}&nbsp;&nbsp;&nbsp;{{ item.nm }} {{ item.user_id }}
+            <span class="cake-icon-column" style="float: right;">
+                <i class="fas fa-birthday-cake" style="color: rgb(197, 18, 18);"></i>
+                &nbsp;&nbsp;Birthday Date:{{ item.dob }}
+            </span>
+        </p>
+    </div>
+{% endfor %}
+
+
+
+
+        </div>
+    </div>
+   
+<script>
+$(document).ready(function() {
+    // Set the initial values for selectedMonth and monthName
+    // var selectedMonth = 1;
+    // var monthName = 'January';
+    // Call the function to display the content based on the initial values
+    displayBirthday();
+});   
+</script>
+<script>
+   $(document).ready(function() {
+    // Get the current month and set it as the initial month
+    var currentDate = new Date();
+    var initialMonth = currentDate.toLocaleString('en-US', { month: 'long' });
+        var buttons = document.querySelectorAll('.btn1');
+        buttons.forEach(function(button) {
+            if (button.textContent === initialMonth) {
+                button.classList.add('active');
+            }
+        });
+        // Call the function to display the content based on the initial values
+        displayBirthday(initialMonth);
+    });
+    function getMonthNumber(monthName) {
+        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        return months.indexOf(monthName) + 1; // Adding 1 to make it 1-indexed
+    }
+    // Function to display birthday data based on the selected month
+
+   
+    function displayBirthday(selectedMonth, monthName) {
+        var currentDate = new Date();
+        var currentDay = currentDate.getDate();
+        var currentMonth = currentDate.getMonth() + 1; // Adding 1 to make it 1-indexed
+        $.ajax({
+            url: '/birthday_report_fetch/',
+            method: 'GET',
+            data: { selected_month: selectedMonth },
+            success: function (data) {
+                // 'data' is already a JavaScript array of objects, no need to parse it
+                console.log('Birthday data:', data);
+                // Clear the existing content in the container
+                var container = $('.row.bord .col-12');
+                container.empty();
+                // Populate the container with the fetched birthday data
+                for (var i = 0; i < data.length; i++) {
+                    var birthdayDiv = $('<div>').addClass('table mt-3 birthday-row').attr('data-birthday', data[i].dob).attr('id', 'birthday-table-' + (i + 1));
+                    if (data[i].dob.substring(5, 7) == currentMonth && data[i].dob.substring(8, 10) == currentDay) {
+                        birthdayDiv.addClass('highlight');
+                    }
+                    var p = $('<p>').text((i + 1) + '   ' + data[i].nm + ' ' + data[i].user_id);
+                    var cakeIconColumn = $('<span>').addClass('cake-icon-column').css('float', 'right');
+                    var cakeIcon = $('<i>').addClass('fas fa-birthday-cake').css('color', 'plum');
+                    // Assuming data[i].dob is in the format "YYYY-MM-DD"
+var dob = new Date(data[i].dob);
+
+// Get the day and month
+var day = dob.getDate();
+var month = dob.toLocaleString('default', { month: 'short' }); // Get the month as its abbreviated name
+
+// Get the first three letters of the year
+var year = dob.getFullYear().toString().substring(0, 4);
+
+// Construct the formatted date string
+var formattedDOB = day + ' ' + month + ' ' + year;
+
+// Assuming cakeIconColumn is a jQuery object
+cakeIconColumn.append(cakeIcon).append('   Birthday Date: ' + formattedDOB);
+
+
+
+                    p.append(cakeIconColumn);
+                    birthdayDiv.append(p);
+                    container.append(birthdayDiv);
+                }
+            },
+            error: function (error) {
+                console.error('Error fetching birthday data:', error);
+            }
+        });
+    }
+
+   
+    
+    // Set the initial values for selectedMonth and monthName
+    var initialMonth = 'January';
+    var buttons = document.querySelectorAll('.btn1');
+    buttons.forEach(function(button) {
+        button.addEventListener('click', function() {
+            // Remove 'active' class from all buttons
+            document.querySelectorAll('.btn1').forEach(function(btn) {
+                btn.classList.remove('active');
+            });
+            // Add 'active' class to the clicked button
+            button.classList.add('active');
+            // Fetch and display birthday data for the selected month
+            var selectedMonth = getMonthNumber(button.textContent);
+            var monthName = button.textContent;
+            // Display the selected month next to "Birthday's on"
+            document.getElementById('birthday-title').textContent = "Birthday's on " + monthName;
+            displayBirthday(selectedMonth, monthName);
+        });
+    });
+
+    $(document).ready(function() {
+     // Automatically trigger displayBirthday for the current month
+     var currentMonthNumber = (new Date()).getMonth() + 1; // Adding 1 to make it 1-indexed
+        var currentMonthName = new Date().toLocaleString('default', { month: 'long' });
+        displayBirthday(currentMonthNumber, currentMonthName);
+
+        
+
+        
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        // Function to get the current month number
+        function getCurrentMonthNumber() {
+            return (new Date()).getMonth() + 1; // Adding 1 to make it 1-indexed
+        }
+        // Function to store the current month in the session
+        function storeCurrentMonthInSession() {
+            var currentMonthNumber = getCurrentMonthNumber();
+            // Store current month in session
+            sessionStorage.setItem('currentMonth', currentMonthNumber);
+        }
+        // Function to retrieve the stored month from session and trigger click on corresponding button
+        function retrieveMonthFromSessionAndClickButton() {
+            var storedMonthNumber = sessionStorage.getItem('currentMonth');
+            // If stored month exists, trigger click on corresponding button
+            if (storedMonthNumber) {
+                var buttons = document.querySelectorAll('.btn1');
+                buttons.forEach(function(button) {
+                    if (getMonthNumber(button.textContent) == storedMonthNumber) {
+                        button.click(); // Trigger click on the button
+                    }
+                });
+            }
+        }
+        // Store current month in session when page is loaded
+        storeCurrentMonthInSession();
+        // Retrieve stored month from session and trigger click on corresponding button
+        retrieveMonthFromSessionAndClickButton();
+    });
+</script>
+
+<script>
+    var lilota = document.getElementById("lolita");
+var lilotaoff = document.getElementById("lolitaoff");
+var offcanvas = document.getElementById("offcanvasExample");
+var navigation1 = document.getElementById("navigation");
+var branchSelect = document.getElementById("branchSelect");
+
+// Function to set dark mode based on the value stored in localStorage
+function setDarkModeFromStorage() {
+  var element = document.body;
+  var storedDarkMode = localStorage.getItem('darkMode');
+  var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+
+  if (storedDarkMode === 'true') {
+    element.classList.add('dark-mode');
+    toggleDarkModeButton.checked = true;
+    applyDarkModeStyles();
+  } else {
+    element.classList.remove('dark-mode');
+    toggleDarkModeButton.checked = false;
+    removeDarkModeStyles();
+  }
+}
+
+// Function to apply dark mode styles
+function applyDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  offcanvas.classList.add("offcanvasdrk");
+  navigation1.classList.add("navbardrk");
+  branchSelect.classList.add("selectheadadmindark");
+}
+
+// Function to remove dark mode styles
+function removeDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+  offcanvas.classList.remove("offcanvasdrk");
+  navigation1.classList.remove("navbardrk");
+
+  branchSelect.classList.remove("selectheadadmindark");
+}
+
+// Function to toggle dark mode and store the state in localStorage
+function toggleDarkMode() {
+  var element = document.body;
+  element.classList.toggle('dark-mode');
+    
+  if (element.classList.contains("dark-mode")) {
+    applyDarkModeStyles();
+  } else {
+    removeDarkModeStyles();
+  }
+
+  // Store the current dark mode state in localStorage
+  var isDarkMode = element.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', isDarkMode.toString());
+}
+
+// Call the function to set dark mode on page load
+setDarkModeFromStorage();
+  </script>
+  
+</body>
+{% endblock %}

@@ -1,0 +1,544 @@
+{% extends 'common_header.html' %}
+{% load static %}
+
+{% block content %}
+    {% include 'header_adm.html' %}
+    <style>
+         input{
+    height: 40px;
+    width: 370px;
+    border-radius: 10px;
+    outline: none;
+    border: 1px solid rgb(124, 121, 121);
+} 
+td,th{
+    padding: 4px;
+}
+body {
+          background-image: url('{% static "img/logbg2.png" %}');
+          min-height: 600px;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+         
+        }
+        .form-control{
+        background-color: #d0d9e1;
+       }
+
+       #table2 {
+        border: 1px solid black;
+        width: 100%;
+        border-collapse: collapse;
+        /* margin-top: 20px; */
+        background-color: #ffffff;
+    }
+
+    #table2 th, #table2 td {
+        border: 1px solid #a3c9d3;
+        padding: 5px;
+        text-align: center;
+    }
+
+    #table2 th {
+        background-color: #648386;
+        padding: 10px;
+    }
+
+    #mydata tr:nth-child(even) {
+        background-color: #e6f2ff;
+    }
+
+    #mydata tr:hover {
+        background-color: #ccebff;
+    }
+
+
+
+  @media screen and (max-width:950px){
+    input{
+    height: 40px;
+    width: 270px;
+    border-radius: 10px;
+    outline: none;
+    border: 1px solid rgb(124, 121, 121);
+} 
+  }
+
+  /* for heading */
+  .buttonhead {
+    margin: 5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  --fs-size: 1.8em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  font-weight: 800;
+
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+    </style>
+    <body  class="w-100 container-fluid">
+
+    
+
+    <div class="row align-items-start">
+        <div class="col-md-12  col-12 mb-3 " style="margin-top: 30px;">
+            <button class="buttonhead col-4" data-text="Awesome">
+                <span class="actual-text">&nbsp;Add Department&nbsp;</span>
+            </button>
+        </div>
+    
+        <div class="col-md-4 p-3 rounded" style="border: 1px solid #abc6dd; border-radius: 10px;zoom:0.9;
+        ">
+   
+        <h5 class="mb-2"> <span style="color: red;">*</span>Department Name</h5>
+   
+        <form id="myForm">
+            {% csrf_token %}
+           
+            <input type="text" id="departmentNameInput" style="border: 1px solid #88b2d6; border-radius: 10px;" class="mb-3" name="departmentName" placeholder="Type Here....." oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '').toUpperCase()" required autofocus>
+        
+            <center>
+                <input type="submit" id="submit" value="Submit" class="btn mt-1" style="height: 40px;width:180px;border-radius: 20px;margin-bottom: -10px; background-color: #38696d; color: aliceblue;" >
+
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            </center>
+        </form>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                document.getElementById('submit').addEventListener('click', function(event) {
+                    event.preventDefault();  // Prevent the default form submission behavior
+                    var departmentName = document.getElementById('departmentNameInput').value;
+                    fetchData(departmentName);
+                });
+            
+                function fetchData(value) {
+                    // Check if the input is empty
+                    if (value === '') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Enter Department Name.',
+                        });
+                        return;
+                    }
+            
+                    // Make an AJAX request to fetch the data
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', '/check_existence/', true);  // Assuming '/check_existence/' is the endpoint for checking existence
+                    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState === 4 && xhr.status === 200) {
+                            // Handle the response
+                            var response = JSON.parse(xhr.responseText);
+                            if (response.hasOwnProperty('exists') && response.exists) {
+                                // Display alert for existence
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Department Already Exists.',
+                                });
+                               
+                                // document.getElementById('departmentNameInput').value = ''; 
+                                document.getElementById('departmentNameInput').focus(); // Set focus back to the input field
+                            } else {                               
+                                window.location.reload();
+                            }
+                        }
+                    };
+                    xhr.send('value=' + value);
+                }
+            });
+            </script>
+                
+
+    <center>
+<!-- 
+        {% if messages %}
+            
+                {% for message in messages %}
+                {% if message.tags == 'error'%}
+                <center><div class="alert alert-danger col-md-8">{{message}}</div></center>
+                <script>
+                    // JavaScript code to refresh the page after displaying the alert
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);  // Adjust the time delay (in milliseconds) as needed
+                </script>
+                {% else %}
+                <center><div class="alert alert-{{message.tags}} col-md-8">{{message}}</div></center>
+                <script>
+                    // JavaScript code to refresh the page after displaying the alert
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);  // Adjust the time delay (in milliseconds) as needed
+                </script>
+                    
+                    {% endif %}
+                {% endfor %}
+                
+        {% endif %} -->
+        
+        {% if messages %}
+    {% for message in messages %}
+        <script>
+            // JavaScript code for SweetAlert
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    icon: '{% if message.tags == "" %}error{% else %}{{ message.tags }}{% endif %}',
+                    title: '{% if message.tags == "" %}Oops...{% else %}{{ message.tags.capitalize }}{% endif %}',
+                    text: '{{ message|safe }}',
+                }).then(function() {
+                    // location.reload();
+                });
+            });
+        </script>
+    {% endfor %}
+{% endif %}
+
+    </div>
+
+    <div class="col-md-8">
+        <table class="col-md-12" style="background-color: white;zoom:0.9;" id="table2">
+            <thead style="background-color: #4F81BD;">
+                <tr class="border">
+                    <th class="col-md-3 border"><center><h4>SL.No</h4></center></th>
+                    <th class="col-md-3 border"><center><h4>Department</h4></center></th>
+                    <th class="col-md-3 border"><center><h4>Edit</h4></center></th>
+                    <th class="col-md-3 border"><center><h4>Delete</h4></center></th>
+                </tr>
+            </thead>
+            {% for mydata in data %}
+            <tbody id="mydata">
+                
+                    <td ><center>{{ forloop.counter }}</center></td>
+                    <td >
+                        <center>
+                          {{ mydata.nm }}
+                          <button class="btn" data-bs-toggle="modal" data-bs-target="#editModal" onclick="setEditModalValue('{{ mydata.nm }}')">
+                            <!-- Your button content -->
+                          </button>
+                        </center>
+                      </td>                  
+                    <td >
+                      <center>
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#editModal" onclick="openEditModal('{{ mydata.id }}','{{ mydata.nm }}')">
+                            <button class="btn" ><img src="{% static 'img/edit.png' %}" height="20px" width="20px" alt="" ></button>
+                        </a>
+                        
+                          
+                      </center>
+                    </td>
+                  
+                    <td >
+                      <center>
+                        <a href="#" onclick="confirmDelete('{{ mydata.id }}')">
+                            <button class="btn"><img src="{% static 'img/delete.png' %}" height="20px" width="20px" alt=""></button>
+                          </a>
+                      </center>
+                    </td>
+                  
+                  
+            </tbody>
+            {% endfor%}
+        </table>
+    </center>
+    
+    </div>
+    </div>
+
+    <!-- Add this modal structure at the end of your body -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Department</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="departmentName" class="form-label">Department Name:</label>
+                    <input type="text" id="departmentName" oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '').toUpperCase()" required autofocus class="form-control" value="{{madata.nm}}">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveChanges()" id="saveChangesBtn">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+  <script>
+    function openEditModal(id,depart) {
+
+        $('#departmentName').val(depart);
+      // Set the id to the Save changes button inside the modal
+      document.getElementById('saveChangesBtn').setAttribute('data-id', id);
+    }
+
+
+    function confirmDelete(itemId) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        Swal.fire({
+  title: 'Deleted!',
+  text: 'Your item has been deleted.',
+  icon: 'success',
+  timer: 2000 // 2 seconds
+});
+
+        // If the user confirms, redirect to the delete URL
+        window.location.href = "{% url 'delete_depart' 0 %}".replace('0', itemId);
+        
+        // Show success message
+        
+      }
+    });
+  }
+
+//   function confirmDelete(itemId) {
+//     Swal.fire({
+//       title: 'Are you sure?',
+//       text: 'You won\'t be able to revert this!',
+//       icon: 'warning',
+//       showCancelButton: true,
+//       confirmButtonColor: '#d33',
+//       cancelButtonColor: '#3085d6',
+//       confirmButtonText: 'Yes, delete it!'
+//     }).then((result) => {
+//       if (result.isConfirmed) {
+//         // If the user confirms, redirect to the delete URL
+//         window.location.href = "{% url 'delete_depart' 0 %}".replace('0', itemId);
+//       }
+//     });
+// }
+
+  
+  function setEditModalValue(value) {
+    // Set the value of the input field in the modal
+    document.getElementById('departmentName').value = value;
+  }
+
+
+  function convertToUppercase(inputField) {
+        // Get the current value of the input field
+        let inputValue = inputField.value;
+
+        // Convert the value to uppercase
+        let uppercaseValue = inputValue.toUpperCase();
+
+        // Set the uppercase value back to the input field
+        inputField.value = uppercaseValue;
+    }
+  </script>
+    
+  
+  <script>
+    
+     function saveChanges(departmentId) {
+
+
+        var departmentName = document.getElementById("departmentName").value.trim();
+
+if (departmentName === "") {
+    alert("Please fill in the field.");
+    return;
+}
+
+        // Get the updated department name from the input
+        var updatedDepartmentName = $('#departmentName').val();
+        var id = document.getElementById('saveChangesBtn').getAttribute('data-id');
+
+        // alert(id)
+        const csrftoken = getCookie('csrftoken');
+
+
+        // Send an AJAX request to update the department name
+        $.ajax({
+            url: '/update_department/' + id  +'/'  ,
+            headers: {
+        'X-CSRFToken': csrftoken,
+    },  // Replace with your actual endpoint for updating status
+            type: 'POST',
+            data: { new_name: updatedDepartmentName },
+            dataType: 'json',
+            success: function (response) {
+                if (response.success) {
+                 
+                    alert('Department name change successfully.');
+                    console.log('Department name updated successfully.');
+                    // Optionally, you can show a success message or refresh the page
+                    location.reload();  // Reload the page for simplicity
+                } else {
+                    console.error(response.error);
+            alert(response.error);
+                    // Optionally, you can show an error message
+                }
+            },
+            error: function () {
+                console.error('Error updating department name.');
+                // Optionally, you can show an error message
+            }
+        });
+
+        // Close the modal
+        $('#editModal').modal('hide');
+    }
+
+    function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Check if the cookie name matches the request header expected format
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+  </script>
+   <script>
+    var lilota = document.getElementById("lolita");
+var lilotaoff = document.getElementById("lolitaoff");
+var offcanvas = document.getElementById("offcanvasExample");
+var navigation1 = document.getElementById("navigation");
+var branchSelect = document.getElementById("branchSelect");
+
+// Function to set dark mode based on the value stored in localStorage
+function setDarkModeFromStorage() {
+  var element = document.body;
+  var storedDarkMode = localStorage.getItem('darkMode');
+  var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+
+  if (storedDarkMode === 'true') {
+    element.classList.add('dark-mode');
+    toggleDarkModeButton.checked = true;
+    applyDarkModeStyles();
+  } else {
+    element.classList.remove('dark-mode');
+    toggleDarkModeButton.checked = false;
+    removeDarkModeStyles();
+  }
+}
+
+// Function to apply dark mode styles
+function applyDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  offcanvas.classList.add("offcanvasdrk");
+  navigation1.classList.add("navbardrk");
+  branchSelect.classList.add("selectheadadmindark");
+}
+
+// Function to remove dark mode styles
+function removeDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+  offcanvas.classList.remove("offcanvasdrk");
+  navigation1.classList.remove("navbardrk");
+
+  branchSelect.classList.remove("selectheadadmindark");
+}
+
+// Function to toggle dark mode and store the state in localStorage
+function toggleDarkMode() {
+  var element = document.body;
+  element.classList.toggle('dark-mode');
+    
+  if (element.classList.contains("dark-mode")) {
+    applyDarkModeStyles();
+  } else {
+    removeDarkModeStyles();
+  }
+
+  // Store the current dark mode state in localStorage
+  var isDarkMode = element.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', isDarkMode.toString());
+}
+
+// Call the function to set dark mode on page load
+setDarkModeFromStorage();
+  </script>
+</body>
+{% endblock %}

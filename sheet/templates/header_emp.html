@@ -1,0 +1,498 @@
+<head>
+  {% load static %}
+  <Link  href="{% static 'img/icon.png' %}" alt="Attendance" rel="icon" >
+
+</head>  
+  <style>
+    .cardcl {
+      margin-top: 7px;
+  width: 27px;
+  height: 27px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 1px 1px 1px black, inset 1px 1px 1px black,
+    -0.5px -0.5px 2.5px rgba(0, 0, 0, 0.473), inset -0.5px -0.5px 2.5px rgba(0, 0, 0, 0.473);
+}
+
+.numbers {
+  font-weight: lighter;
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  transform: translate(-50%, -50%);
+  width: 10%;
+  height: 10%;
+  border-radius: 50%;
+  padding: 10px;
+  background-color: transparent;
+}
+
+.number {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  transform: translate(-50%, -50%);
+  display: inline-block;
+  width: 0.01rem;
+  height: 0.15rem;
+  background-color: rgb(106, 108, 117);
+}
+
+.number:nth-child(3),
+.number:nth-child(6),
+.number:nth-child(9),
+.number:nth-child(12) {
+  width: 0.5rem;
+  height: 0.35rem;
+}
+
+.needles {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.h,
+.m,
+.s,
+.center {
+  display: inline-block;
+  width: 1px;
+  height: 1px;
+  background-color: black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50% 50% 0 0;
+}
+
+.s {
+  transform: translate(-50%, -80%);
+}
+
+.h {
+  background-color: black;
+  transform-origin: 50% 100%;
+  animation: rotate 43200s 60s infinite linear;
+  transform: translate(-50%, -100%) rotateZ(5deg);
+  height: 1rem;
+  z-index: 1;
+}
+
+.m {
+  background-color: rgb(176, 176, 185);
+  z-index: 2;
+  height: 2rem;
+  width: 1.5px;
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%) rotateZ(60deg);
+  animation: rotate 3600s 60s infinite steps(60, end);
+}
+
+.s {
+  background-color: rgb(240, 31, 31);
+  z-index: 3;
+  height: 2.5rem;
+  width: 0.75px;
+  transform-origin: 50% 80%;
+  animation: rotate 60s infinite steps(60, end);
+}
+
+.center {
+  width: 7.5px;
+  height: 7.5px;
+  background-color: white;
+  border: solid 2px red;
+  z-index: 4;
+  border-radius: 50%;
+}
+
+@keyframes rotate {
+  100% {
+    transform: translate(-50%, -80%) rotateZ(360deg);
+  }
+}
+
+   .dih{
+    font-size: 16px;
+    width: 160px !important;
+  }
+  .dih1{
+    font-size: 16px;
+    width: 200px !important;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 5px; /* Adjust the width as needed */
+  }
+  
+  /* For the track (the area behind the thumb) */
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* You can set a background color if desired */
+  }
+  
+  /* For the thumb (the draggable part of the scrollbar) */
+  ::-webkit-scrollbar-thumb {
+    background-color: #8c9297; /* You can set a color for the thumb */
+    border-radius: 4px; /* You can adjust the border-radius for rounded corners */
+  }
+  
+  /* On hover, the thumb will have a slightly different color */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #7d8082;
+  }
+
+  
+/* The switch - the box around the slider */
+.switch {
+  display: block;
+  --width-of-switch: 3em;
+  --height-of-switch: 1.5em;
+  /* size of sliding icon -- sun and moon */
+  --size-of-icon: 1.4em;
+  /* it is like a inline-padding of switch */
+  --slider-offset: 0.3em;
+  position: relative;
+  width: var(--width-of-switch);
+  height: var(--height-of-switch);
+  top: 8px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #f4f4f5;
+  transition: .4s;
+  border-radius: 30px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: var(--size-of-icon,1.4em);
+  width: var(--size-of-icon,1.4em);
+  border-radius: 20px;
+  left: var(--slider-offset,0.3em);
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(40deg,#ff0080,#ff8c00 70%);
+  ;
+ transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #303136;
+}
+
+input:checked + .slider:before {
+  left: calc(100% - (var(--size-of-icon,1.4em) + var(--slider-offset,0.3em)));
+  background: #303136;
+  /* change the value of second inset in box-shadow to change the angle and direction of the moon  */
+  box-shadow: inset -3px -2px 5px -2px #8983f7, inset -10px -4px 0 0 #a3dafb;
+}
+
+
+
+.dark-mode {
+  
+  background-image: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2)), url('{% static "img/logbg2_drk.png" %}');
+          /* min-height: 650px;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center; */
+
+  /* background-image: linear-gradient(90deg, #3e4041 15%, #9b9d9f 35%, #586670 100%); */
+  /* color: white; */
+}
+/* .offcanvasdrk {
+   
+   background-color: rgb(0,0,0,0.8);
+   background-repeat: no-repeat;
+   background-size: cover;
+ width: 300px;
+} */
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="navigation">
+  {% load static %}
+  <div class="container-fluid">
+    <a  class="btn" data-bs-toggle="offcanvas" 
+    href="#offcanvasExample" role="button" aria-controls="offcanvasExample"><span> <img src="{% static 'img/widget-icon.png' %}" alt="logouyt" width="25px" height="25px"></span>
+    </a> 
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+      <div class="offcanvas-header">
+        <h3 class="offcanvas-title mt-0" id="offcanvasExampleLabel"> <img src="{% static 'img/staffinlogooff.png' %}" alt="logouyt" width="160px" height="50px" id="lolitaoff">  </h3>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+  
+      <div class="offcanvas-body">
+      <div class="dropdown mt-2 d-grid gap-2">
+       </div>
+
+       
+<div class="offcanvas-body">
+  <div class="btn-group dropend mt-2 d-grid gap-2" style="position: absolute; right: 10px; width: 280px;">
+<!-- <a href="{% url 'index_emp' %}" class="btn " id="index_emp" style="text-align: start; font-family: calibri; font-weight: bold;" ><i class="tog1 fa fa-inbox">
+  Home Employee</i>
+</a> -->
+
+<a href="{% url 'index_emp' %}" class="btn text-light" id="salary_status" style="text-align: start; font-family: calibri;" ><i class="fas fa-house-user" style="margin-left: 20px;padding-right: 20px;"></i> Home </a>
+
+
+</div>
+</div>
+
+
+
+<div class="offcanvas-body">
+  <div class="btn-group dropend mt-2 d-grid gap-2" style="position: absolute; right: 10px; width: 280px;">
+    <a href="#" class=" btn text-light tog dropdown-toggle text-start" style="height: 40px; display: flex; align-items: center;" data-bs-toggle="dropdown" aria-expanded="false">
+      <p style="font-family: calibri; margin: 0;">
+        <i class="fas fa-calendar-times" style="margin-left: 20px;padding-right: 20px;"></i> Leave
+      </p>
+    </a>
+    
+    
+<ul class="dropdown-menu" style="margin-left: 10px;">
+<!-- <li><a class="dropdown-header bg-secondary text-white" href="#" style="width: 150px;text-decoration:none">Visitors</a></li> -->
+<li><a class="dropdown-item dih"  href="{% url 'apply_leave' %}">Apply Leave & Status</a></li>
+
+</ul>
+</div>
+</div>
+
+<div class="offcanvas-body">
+       <div class="btn-group dropend mt-1 d-grid gap-1" style="position: absolute; right: 10px; width: 280px;">
+  
+
+  <a href="{% url 'attendance' %}" class="btn text-light" id="salary_status" style="text-align: start; font-family: calibri;" ><i class="tog1 fa fa-layer-group" style="margin-left: 20px;padding-right: 20px;"></i> Attendance Report</a>
+ 
+</div>
+</div>
+
+<div class="offcanvas-body">
+  <div class="btn-group dropend mt-2 d-grid gap-2" style="position: absolute; right: 10px; width: 280px;">
+<!-- <button type="button"  class="btn tog text-start" data-bs-toggle="dropdown" aria-expanded="false"><i class="tog1 fa fa-money-check">
+Salary Status</i>
+</button> -->
+<a href="{% url 'salary_status' %}" class="btn text-light" id="salary_status" style="text-align: start; font-family: calibri;" ><i class="fas fa-money-bill-wave" style="margin-left: 20px;padding-right: 20px;"></i> Salary Status</a>
+
+</div>
+</div>
+<style>
+#salary_status:hover{
+background-color: #BABFC4;
+font-weight: bold;
+}
+
+</style>
+
+<div class="offcanvas-body">
+  <div class="btn-group dropend mt-1 d-grid gap-2" style="position: absolute; right: 10px; width: 280px;">
+<button type="button"   class="text-light btn tog btn-secondary dropdown-toggle text-start" data-bs-toggle="dropdown" aria-expanded="false">
+<span style="font-family: calibri;"><i class="fas fa-money-check" style="margin-left: 20px;padding-right: 32px;"></i>Add Loan</span>
+</button>
+<ul class="dropdown-menu" style=" margin-left: 10px;"> 
+
+<li><a class="dropdown-item dih" href="{% url 'add_loan_emp' %}">Add Loan</a></li>
+
+ </ul>
+</div>
+</div>
+
+
+<div class="offcanvas-body">
+  <div class="btn-group dropend mt-2 d-grid gap-2" style="position: absolute; right: 10px; width: 280px;">
+    <a href="#" class=" btn text-light tog dropdown-toggle text-start" style="height: 40px; display: flex; align-items: center;" data-bs-toggle="dropdown" aria-expanded="false">
+      <p style="font-family: calibri; margin: 0;">
+        <i class="fas fa-laptop" style="margin-left: 20px;padding-right: 20px;"></i> Work From Home
+      </p>
+    </a>
+    
+    
+<ul class="dropdown-menu" style="margin-left: 10px; width:200px;">
+<!-- <li><a class="dropdown-header bg-secondary text-white" href="#" style="width: 150px;text-decoration:none">Visitors</a></li> -->
+<li><a class="dropdown-item dih1"  href="{% url 'add_wfh' %}">Add Work From Home</a></li>
+<li><a class="dropdown-item dih1"  href="{% url 'wfh_status' %}">Work From Home Status</a></li>
+</ul>
+</div>
+</div>
+<div class="offcanvas-body">
+       <div class="btn-group dropend mt-2 d-grid gap-2" style="position: absolute; right: 10px; width: 280px;">
+
+</div>
+</div>
+
+
+<div style="margin-top: 20px">
+  <table class="table table-bordered  bg-light" style=" border: 2px solid rgb(169, 169, 169);width: 250px;  margin-top: 70px; " >
+    <thead>
+    <tr>
+    <th colspan="2" class="text-center" style="color: #ff4343;">Activity Log</th>
+  </tr>
+  <tr>
+    <th style="color: #f80101;" class="text-center"> Last Login Time</th>
+    <th style="color: #f70000;" class="text-center"> Last Logout Time</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td class="text-center" style="color: rgb(0, 17, 255);">{{log_dt }} {{log_in_tm }}</td>
+    <td class="text-center" style="color: rgb(0, 34, 255);">{{log_out_dt }} {{log_out_tm }}</td>
+    
+  </tr>
+  
+  </tbody>
+  </table>
+  
+
+</div>
+<style>
+  table, th, td {
+    margin-left: -8px;
+    text-wrap: nowrap;
+  /* border: 1px solid rgb(255, 255, 255); */
+  font-size: 11px;
+  
+}
+</style>
+    </div>
+
+    
+    </div>
+
+    <style>
+      .timer-container {
+        display: flex;
+        align-items: center;
+      }
+  
+      .fa-user {
+        margin-right: 5px;
+      }
+      </style>
+     
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var timerElement = document.getElementById("timer");
+    var logoutLink = document.getElementById("logoutLink");
+    var totalTimeInSeconds = 20 * 60; // 20 minutes in seconds
+
+    function updateTimer() {
+      var minutes = Math.floor(totalTimeInSeconds / 60);
+      var seconds = totalTimeInSeconds % 60;
+      timerElement.textContent = `Timer : ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+      if (totalTimeInSeconds > 0) {
+        totalTimeInSeconds--;
+        setTimeout(updateTimer, 1000); // Update every second
+      } else {
+        // Timer has reached 00:00, trigger logout
+        window.location.href = logoutLink.getAttribute("href");
+      }
+    }
+
+    updateTimer();
+  });
+</script>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <!--navbar-->
+   &nbsp;
+    <a class="navbar-brand" style="color:#004aad" href="#"><img src="{% static 'img/staffinlogooff.png' %}" class="lo" id="lolita"></a><br>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <img src="{% static 'img/menu.png' %}" alt="logouyt" width="30px" height="30px"> </button>
+
+    
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+            <li class="nav-item">
+              <div class="timer-container">
+                <a class="nav-link" href="#"></a>
+                <div class="cardcl">
+                  <div class="numbers">
+                    <span class="number"></span>
+                    <span class="number"></span>
+                    <span class="number"></span>
+                    <span class="number"></span>
+                    <span class="number"></span>
+                    <span class="number"></span>
+                    <span class="number"></span>
+                    <span class="number"></span>
+                    <span class="number"></span>
+                    <span class="number"></span>
+                    <span class="number"></span>
+                    <span class="number"></span>
+                  </div>
+                  <div class="needles">
+                    <span class="h"></span>
+                    <span class="m"></span>
+                    <span class="s"></span>
+                    <span class="center"></span>
+                  </div>
+                  <div class="pie"></div>
+                </div>
+                &nbsp;
+                
+                
+                <b id="timer" style="font-family: calibri;font-size: 17px;color: red; margin-top: 8px;"></b>
+              </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile' %}"><i class="fa fa-user"></i>&nbsp;Profile</a>
+            </li>
+            
+              
+            
+       <div class="btn-group dropdown">
+        {% if request.session.nm %}
+        <button style="color: #121213;font-size: 17px;font-weight: bold;" type="button" class="btn btn-secondary-outline dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+           Welcome - {{ request.session.nm | upper}}
+           <script>
+           sessionStorage.setItem('username', '{{ request.session.username }}','nm', '{{ request.session.nm }}');
+           sessionStorage.setItem('nm', '{{ request.session.nm }}');
+         </script>
+             {% endif %}
+  </button>
+  <ul class="dropdown-menu dropdown-menu-start">
+    <li><a class="dropdown-item" href="{% url 'changepass_emp' %}">Change Password</a></li>
+    <li><a id="logoutLink" class="dropdown-item" href="{% url 'logout_view' %}">Logout</a></li>
+  </ul>
+</div>
+
+<label class="switch">
+  <input id="toggleDarkModeButton" onclick="toggleDarkMode()" type="checkbox">
+  <span class="slider"></span>
+</label>
+
+
+<script>
+  // JavaScript code
+document.addEventListener('DOMContentLoaded', function () {
+    // Add event listener to the logout link
+    var logoutLink = document.getElementById('logoutLink');
+    logoutLink.addEventListener('click', function(event) {
+        // Clear the application session
+        sessionStorage.clear();
+    });
+});
+
+</script>
+
+</nav> 

@@ -1,0 +1,689 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_adm.html' %}
+
+
+
+<style>
+
+    body {
+      background-image: url('{% static "img/logbg2.png" %}');
+      min-height: 600px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      font-family:  Calibri;
+    }
+
+
+
+
+         /* for heading */
+.buttonhead {
+  margin: 5.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  --fs-size: 1.8em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+</style>
+<body class="w-100 container-fluid">
+     
+    <div class="row align-items-start" >
+        <div class="col-md-12  mb-3" style="margin-top: 30px;">
+            <button class="buttonhead col-4" data-text="Awesome">
+                <span class="actual-text">&nbsp;Increment Report&nbsp;</span>
+            </button>
+        </div>
+        
+        
+</div>
+</div>
+        </div>
+        <div class="col-md-12 d-flex">
+            <div class="col-md-3">
+                <div class="col-md-12">
+                    <!-- <button class="btn btn-secondary">Motha/Year Increament Report</button> -->
+                    <h5 style="color:  #0000ff; font-weight: bolder;">Month/Year Increment Report</h5>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="col-md-12">
+                    <!-- <button class="btn btn-secondary">Year Increament Report</button> -->
+                    <h5 style="color:  #0000ff; font-weight: bolder;">Year Increment Report</h5>
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-12" style="text-align: end;">
+                    <!-- <button class="btn btn-secondary" style="width: 170px;">Staff ID</button> -->
+                    <h5 style="color:  #0000ff; font-weight: bolder;">Staff Name/ID</h5>
+                </div>
+            </div>
+
+        </div>
+         
+        <div class="col-md-12 d-flex mt-3" >
+            <!-- <div class="col-md-6 align-center">
+                <input type="text" id="search1" name="search1" class="custom-input" placeholder="Search Table">
+            </div> -->
+            
+            <div class="col-md-3 align-center ">
+              
+
+                <select id="monthDropdown" class="btn " style="background-color: #007399; color: white;">
+                    <option selected disabled>MONTH</option>
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>&nbsp;&nbsp;&nbsp;
+                <!-- Year dropdown -->
+                <select id="yearDropdown" class="btn " style="background-color: #007399; color: white;">
+                    <option selected disabled>YEAR</option>
+                    <!-- Options will be added dynamically using JavaScript -->
+                </select>
+        
+                <!-- Month dropdown -->
+                
+                </div>
+                <div class="col-md-2 align-center">
+                <select id="yearDropdown1" class="btn " style="background-color: #007399; color: white;" >
+                    <option selected disabled>YEAR</option>
+                    <!-- Options will be added dynamically using JavaScript -->
+                </select>&nbsp;&nbsp;&nbsp;
+                </div>
+             
+            <div class="col-md-7 " style="text-align: end;">
+                <input type="text" placeholder="Employee ID" list="datalistOptions" id="traineeIdSelect" style="border-color: #97b4eb; border-radius: 5px;">        
+                <datalist id="datalistOptions" ></datalist>
+            </div> 
+            <script>
+                 document.addEventListener('DOMContentLoaded', function () {
+                    // Call the fetchTraineeUserIds function when the page is loaded
+                    fetchTraineeUserIds();
+                });
+            
+                function fetchTraineeUserIds() {
+    fetch('/increament_report/employee_userid/')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Received data:', data);
+
+            const dataListOptions = document.getElementById('datalistOptions');
+            dataListOptions.innerHTML = ''; // Clear existing options
+
+            data.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user.user_id; // Set user_id as the option value
+                option.text = `${user.user_id} - ${user.nm}`; // Set user_id and nm as the option text
+                dataListOptions.appendChild(option);
+            });
+        })
+        .catch(error => console.error('Error fetching Employee user IDs:', error));
+}
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+    // Get a reference to the input box
+    var traineeIdInput = document.getElementById('traineeIdSelect');
+
+    // Add event listener for the 'change' event
+    traineeIdInput.addEventListener('change', function() {
+        fetchEmployeeDetails();
+    });
+});
+
+
+
+        
+        function fetchEmployeeDetails() {
+    const selectedEmployeeId = document.getElementById('traineeIdSelect').value;
+
+
+    if (selectedEmployeeId) {
+    console.log('Fetching Employee details for Employee ID:', selectedEmployeeId);
+
+    // Make a request to the Django server with the selectedEmployeeId
+    fetch(`/increament_report/employee_details/${selectedEmployeeId}/`, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(details => {
+        console.log('Received Employee details:', details);
+        updateTableWithData1(details);
+
+
+    })
+    .catch(error => console.error('Error fetching Employee details:', error));
+} else {
+    console.log('Please select a Employee ID before fetching details.');
+}
+        }
+
+
+        function updateTableWithData1(detailsList) {
+    // Hide the first table and show the second table
+    var tableOne = document.getElementById('increament_report');
+    var tableTwo = document.getElementById('increament_report1');
+    tableOne.style.display = "none";
+    tableTwo.style.display = "table";
+
+    // Get the tbody element of the second table
+    var tbody = tableTwo.querySelector('tbody');
+    
+    // Clear any existing rows in the second table
+    tbody.innerHTML = '';
+    tbody.style.backgroundColor = 'whitesmoke';
+    tbody.style.color = 'black';
+    tbody.style.textAlign = 'center';
+    // Iterate over each detail in the received list
+    detailsList.forEach(function(details, index) {
+        // Create a new row for each detail
+        var newRow = tbody.insertRow();
+
+        // Update the cells of the new row with the received details
+        newRow.insertCell().textContent = index + 1; // SL.NO
+        newRow.insertCell().textContent = details.user_id;
+        newRow.insertCell().textContent = details.salary;
+        newRow.insertCell().textContent = details.sal_last;
+        // newRow.insertCell().textContent = details.incre_dt;
+        // Assuming details.incre_dt is a valid date string
+var date = new Date(details.incre_dt);
+
+// Months array to convert month number to abbreviated month name
+var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+// Construct the formatted date string
+var formattedDate = date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
+
+// Assuming newRow is the reference to the row where you want to insert the cell
+var cell = newRow.insertCell();
+cell.textContent = formattedDate;
+
+        // newRow.insertCell().innerHTML = '<button class="btn" onclick="cancelIncrement(\'' + details.id + '\')"><image src="{% static "img/delete.png" %}" style="width:20px;height:20px;" /></button>';
+    });
+}
+
+
+
+
+
+            </script>
+            </div><br>
+            <div class="col-md-12 d-flex">
+
+                <div class="col-md-6 " style="text-align: start;">
+                     <input type="search" id="search" name="search" class="form-control" style="border-color: #97b4eb; border-radius: 3px; width: auto;" placeholder="Search..." autofocus>
+                </div> 
+
+            <div class="col-md-6 " style="text-align: end;">
+                <b><span id="YearMonth" style="color: red;font-size: 20px;">TITLE : </span></b>
+            </div> 
+
+
+        </div>
+            <div class="col-md-12 mt-2" >
+               <table class="table table-bordered " id="increament_report" >
+                <thead style="background-color: #1A49A1;color: white; text-align: center;" >
+                    <tr>
+                        <th>SL.NO</th>
+                        <th>Emp Id</th>
+                        <th>Increment Salary</th>
+                        <th>Current Salary</th>
+                        <th>Date Of Increment</th>
+                        <!-- <th>Cancel</th> -->
+                    </tr>
+                </thead>
+                <tr style="background-color: whitesmoke;">
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <!-- <td></td> -->
+                </tr>
+               </table>
+            </div> 
+            <div class="col-md-12 mt-2" >
+               <table class="table table-bordered " id="increament_report1" style="background-color: #1A49A1;color: white;display: none; text-align: center;">
+                <thead >
+                    <tr>
+                        <th>SL.NO</th>
+                        <th>Emp ID</th>
+                        <th>Increament Salary</th>
+                        <th>Current Salary</th>
+                        <th>Date Of Increament</th>
+                        <!-- <th>Cancel</th> -->
+                    </tr>
+                </thead>
+                <tr style="background-color: whitesmoke;" >
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <!-- <td></td> -->
+                </tr>
+               </table>
+            </div> 
+        <script>          
+            // JavaScript to dynamically set the current year and month
+            var currentYear = new Date().getFullYear();
+            var currentMonthString = new Date().toLocaleString('en-US', { month: 'long' });
+
+            // Set the current year as selected in the year dropdown
+            var yearDropdown = document.getElementById('yearDropdown');
+            for (var year = currentYear + 1; year >= currentYear - 10; year--) {
+                var option = document.createElement('option');
+                option.value = year;
+                option.text = year;
+                if (year === currentYear) {
+                    option.selected = true;
+                }
+                yearDropdown.add(option);
+            }
+            console.log('Selected Month:', yearDropdown.value);
+            // Convert the month string to a numeric value
+            var monthNumber = getMonthNumber(currentMonthString);
+
+            // Set the current month as selected in the month dropdown
+            var monthDropdown = document.getElementById('monthDropdown');
+            for (var i = 0; i < monthDropdown.options.length; i++) {
+                if (parseInt(monthDropdown.options[i].value, 10) === monthNumber) {
+                    monthDropdown.options[i].selected = true;
+                    console.log('Selected Month:', monthDropdown.value); // Add this line for debugging
+                    break;
+                }
+            }
+
+
+            function getMonthName(monthIndex) {
+    var monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    return monthNames[monthIndex - 1]; // Adjust index since JavaScript months are zero-based
+}
+
+            // Function to convert month string to numeric value
+            function getMonthNumber(monthString) {
+                // Create a Date object with the given month string
+                var date = new Date(Date.parse(monthString + ' 1, ' + currentYear)); // Use the current year
+
+                // Get the numeric month (0-based, so add 1)
+                var monthNumber = date.getMonth() + 1;
+
+                return monthNumber;
+            }
+            
+
+
+
+
+
+    var yearDropdown1 = document.getElementById('yearDropdown1');
+for (var year = currentYear + 1; year >= currentYear - 10; year--) {
+    var option = document.createElement('option');
+    option.value = year;
+    option.text = year;
+    if (year === currentYear) {
+        option.selected = true;
+    }
+    yearDropdown1.add(option);
+}
+
+// Function to convert month string to numeric value
+function getMonthNumber(monthString) {
+    // Create a Date object with the given month string
+    var date = new Date(Date.parse(monthString + ' 1, ' + currentYear)); // Use the current year
+
+    // Get the numeric month (0-based, so add 1)
+    var monthNumber1 = date.getMonth() + 1;
+
+    return monthNumber1;
+}
+
+yearDropdown1.addEventListener('change', yearReport); 
+
+function yearReport(){
+    var selectedYear1 = yearDropdown1.value;
+    console.log('Year1',selectedYear1)
+
+
+        var yearMonthSpan = document.getElementById('YearMonth');
+        yearMonthSpan.textContent = "TITLE: " + selectedYear1 ;
+
+    
+        // Fetch all records from PayrollMaathangi model using AJAX
+        $.ajax({
+            type: 'GET',
+            url: '/increament_report_year/',  // Replace with your actual endpoint
+            data: {
+                'selected_year': selectedYear1,
+            },
+        success: function (data) {
+            // Update the table with the received data
+            console.log(data);
+            
+            updateTableWithData(data);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+}
+// yearReport();
+
+        var selectedYear = yearDropdown.value;
+        var selectedMonth = monthDropdown.value;
+        var monthName = getMonthName(parseInt(selectedMonth));
+
+        var yearMonthSpan = document.getElementById('YearMonth');
+        yearMonthSpan.textContent = "TITLE: " + selectedYear + " : " + monthName.toUpperCase();
+
+               // Add event listeners for dropdown changes
+        yearDropdown.addEventListener('change', fetchDataBasedOnDropdowns);
+        monthDropdown.addEventListener('change', fetchDataBasedOnDropdowns);     
+// Function to fetch data based on selected dropdown values
+function fetchDataBasedOnDropdowns() {
+  
+
+    var selectedYear = yearDropdown.value;
+    var selectedMonth = monthDropdown.value;
+
+    var monthName = getMonthName(parseInt(selectedMonth));
+    yearMonthSpan.textContent = "TITLE: " + selectedYear + " : " + monthName.toUpperCase();
+
+    console.log('Year',selectedYear)
+    console.log('Month',selectedMonth)
+
+    $.ajax({
+        type: 'GET',
+        url: '/increament_report_month_year/',
+            data: {
+                'selected_year': selectedYear,
+                'selected_month': selectedMonth
+            },
+        success: function (data) {
+            // Update the table with the received data
+            if(data){
+                // tableBody.empty();
+                
+
+                updateTableWithData(data);
+                console.log(data)                
+            }
+            
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+// For Initial Call
+fetchDataBasedOnDropdowns();
+
+function updateTableWithData(data) {
+
+    var tableOne = document.getElementById('increament_report');
+    var tableTwo = document.getElementById('increament_report1');
+    
+    tableOne.style.display="table";
+    tableTwo.style.display="none";
+
+    var tableBody = $('#increament_report tbody');
+
+    // Clear existing rows
+    tableBody.empty();
+    tableBody.css('background-color', 'whitesmoke');
+    tableBody.css('text-align', 'center');
+    // Loop through the received data and create rows
+    data.forEach(function (entry, index) {
+    var row = $('<tr>');
+    // Format the incre_dt date
+    var date = new Date(entry.incre_dt);
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var formattedDate = `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+    
+    row.html(`
+        <td>${index + 1}</td>
+        <td>${entry.user_id}</td>
+        <td>${entry.salary}</td>
+        <td>${entry.sal_last}</td>
+        <td>${formattedDate}</td>
+    `);
+    tableBody.append(row);
+});
+
+}
+
+
+// <td><button class="btn" onclick="cancelIncrement(${entry.id})"><image src="{% static "img/delete.png" %}" style="width:20px;height:20px;" /></button></td>
+
+// function cancelIncrement(id){
+//     var id=id;
+//     console.log(id)
+
+//     Swal.fire({
+//         title: 'Are you sure?',
+//         text: 'You won\'t be able to revert this!',
+//         icon: 'warning',
+//         showCancelButton: true,
+//         confirmButtonColor: '#d33',
+//         cancelButtonColor: '#3085d6',
+//         confirmButtonText: 'Yes, delete it!'
+//     }).then((result) => {
+//         if (result.isConfirmed) {
+//             const csrftoken = getCookie('csrftoken');
+
+//             // Send a request to the server to delete the holiday
+//             $.ajax({
+//                 url: `/delete_increament_report/${id}/`,  // Update with your actual URL
+//                 headers: {
+//                     'X-CSRFToken': csrftoken,
+//                 },
+//                 method: 'POST',  // Adjust the method based on your server implementation
+//                 success: function (response) {
+//                     console.log('Holiday deleted successfully:', response);
+
+//                     // Reload the page for demonstration purposes
+//                     location.reload();
+//                 },
+//                 error: function (error) {
+//                     console.error('Error deleting holiday:', error);
+//                 }
+//             });
+//         }
+//     });
+// }
+
+
+$("document").ready(function(){
+        $('#search').keyup(function(){
+           var value=$(this).val().toLowerCase()
+           $("#increament_report tbody tr").filter(function(){
+            $(this).toggle($(this).text().toLocaleLowerCase().indexOf(value)>-1)
+           });
+
+        });
+    });
+
+
+
+    function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Check if the cookie name matches the request header expected format
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Function to format the month
+function formatDate(dateString) {
+var date = new Date(dateString);
+var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    return {
+    month: monthNames[date.getMonth()],
+    year: date.getFullYear()
+    };
+    }
+</script>       
+    </div>
+    <script>
+        var lilota = document.getElementById("lolita");
+    var lilotaoff = document.getElementById("lolitaoff");
+    var offcanvas = document.getElementById("offcanvasExample");
+    var navigation1 = document.getElementById("navigation");
+    var branchSelect = document.getElementById("branchSelect");
+    
+    // Function to set dark mode based on the value stored in localStorage
+    function setDarkModeFromStorage() {
+      var element = document.body;
+      var storedDarkMode = localStorage.getItem('darkMode');
+      var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+    
+      if (storedDarkMode === 'true') {
+        element.classList.add('dark-mode');
+        toggleDarkModeButton.checked = true;
+        applyDarkModeStyles();
+      } else {
+        element.classList.remove('dark-mode');
+        toggleDarkModeButton.checked = false;
+        removeDarkModeStyles();
+      }
+    }
+    
+    // Function to apply dark mode styles
+    function applyDarkModeStyles() {
+      lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+      lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+      offcanvas.classList.add("offcanvasdrk");
+      navigation1.classList.add("navbardrk");
+      branchSelect.classList.add("selectheadadmindark");
+    }
+    
+    // Function to remove dark mode styles
+    function removeDarkModeStyles() {
+      lolita.src = "{% static 'img/staffinlogooff.png' %}";
+      lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+      offcanvas.classList.remove("offcanvasdrk");
+      navigation1.classList.remove("navbardrk");
+    
+      branchSelect.classList.remove("selectheadadmindark");
+    }
+    
+    // Function to toggle dark mode and store the state in localStorage
+    function toggleDarkMode() {
+      var element = document.body;
+      element.classList.toggle('dark-mode');
+        
+      if (element.classList.contains("dark-mode")) {
+        applyDarkModeStyles();
+      } else {
+        removeDarkModeStyles();
+      }
+    
+      // Store the current dark mode state in localStorage
+      var isDarkMode = element.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDarkMode.toString());
+    }
+    
+    // Call the function to set dark mode on page load
+    setDarkModeFromStorage();
+      </script>
+
+    
+    
+</body>
+{% endblock %}

@@ -1,0 +1,1125 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_adm.html' %}
+<!-- <head> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css" />
+
+    <!-- </head> -->
+
+<style>
+
+    
+    body {
+          background-image: url('{% static "img/logbg2.png" %}');
+          min-height: 600px;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+        
+        .ashi {
+        max-height: 370px;
+        width: 300px;
+        overflow-y: auto;
+    }
+
+.box{
+    box-shadow: 0 0 10px rgba(31, 32, 32, 0.4);  
+    border: 1px solid #b6afaf; 
+    
+}
+/* input{
+    box-shadow: 0 0 10px rgba(44, 46, 46, 0.1);
+    padding: 2%;  
+} */
+.tab{
+    background-color: #005c99;
+    box-shadow: 0 0 10px rgba(31, 32, 32, 0.3); 
+    text-align: center;
+    color: white;
+}
+.ttbody{
+   background-color: #e6f5ff;
+   box-shadow: 0 0 10px rgba(31, 32, 32, 0.3); 
+   border: 1px solid rgb(207, 207, 207);
+   text-align: center;
+}
+td {
+    box-shadow: 0 0 10px rgba(31, 32, 32, 0.3); 
+      
+}
+.tdtop{
+    color: rgb(0, 42, 255);
+    font-size: 15px;
+    font-weight: 600;
+    font-family: calibri;
+}
+
+.con{
+    border: 1px solid rgb(131, 192, 212);
+    padding: 30px;
+    background-color: #eaf3f5;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(31, 32, 32, 0.3); 
+    
+}
+label{
+    font-weight: bolder;
+}
+
+
+    
+    .status-approved {
+    color: green;
+    text-transform: uppercase;
+}
+
+.status-pending {
+    color: red;
+    text-transform: uppercase;
+}
+
+.status-hold {
+    color: rgb(15, 76, 146); /* or any other color for "hold" status */
+    text-transform: uppercase;
+}
+
+.buttonhead {
+  margin: 100px 0 20px 500px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 200px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  font-weight: 800;
+
+  --fs-size: 2em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: 38696d;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+
+/* hover */
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+.custom-input {
+        border: 1px solid rgb(131, 192, 212);
+        /* Add any additional styling here */
+    }
+    /* button head */
+
+.buttonhead {
+    margin: 5.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+input[type="search"] {
+            padding: 8px;
+            border: 1px solid #35acb4;
+            border-radius: 7px;
+            outline: none;
+            width: 60%; /* Set the width as needed */
+            box-sizing: border-box;
+            margin-left: 3%;
+           
+        }
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 200px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  font-weight: 800;
+
+  --fs-size: 1.8em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+
+/* hover */
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+.a{
+        
+        background-color: rgba(255, 255, 255, 0.237);
+        border:1px solid rgb(210, 204, 204);
+    }
+    .a1{
+    
+        
+        height:1550px;
+       
+    }
+ .containeradli {
+
+    --size: 150px; 
+  --color: #bdcdd1;
+
+  background: transparent;
+  background-size: var(--size) var(--size);
+  
+}
+.nj{
+    margin-top:10px;
+    font-weight: bold;
+    color: red;
+ }
+
+ .priya{
+        cursor: pointer;
+    }
+    .priya:hover{
+    background-color: #990033;
+    color: white;
+}
+.highlighted {
+    background-color: #2381e1;
+    color: white;
+}
+
+ /* inputs top */
+ .inputint {
+  max-width: 190px;
+  height: 34px;
+  background-color: #ffffff;
+  border-radius: .5rem;
+  padding: 0 1rem;
+  border: 2px solid transparent;
+  font-size: 1rem;
+  transition: border-color .3s cubic-bezier(.25,.01,.25,1) 0s, color .3s cubic-bezier(.25,.01,.25,1) 0s,background .2s cubic-bezier(.25,.01,.25,1) 0s;
+}
+
+.labelint {
+  display: block;
+  margin-bottom: .3rem;
+  font-size: .9rem;
+  font-weight: bold;
+  color: #05060f99;
+  transition: color .3s cubic-bezier(.25,.01,.25,1) 0s;
+}
+
+.input:hover, .input:focus, .input-intgroub:hover .input {
+  outline: none;
+  border-color: #05060f;
+}
+
+.input-intgroub:hover .labelint, .input:focus {
+  color: #05060fc2;
+}
+.input-intgroub{
+    margin-right: 100px;
+}
+.bbt{
+    border-radius: 10px;
+    width: 80px;
+    margin-left: -50px;
+
+}
+
+.nj{
+    text-transform: uppercase;
+}
+.table-container {
+      max-height: 400px; 
+      overflow-y: auto; 
+    }
+
+@media screen and (min-width:750px) {
+    .a{
+            height:1550px;
+            background-color: rgba(255, 255, 255, 0.277);
+            /* border:1px solid darkgray; */
+        }
+
+    }
+
+        @media screen and (max-width:950px) {
+
+        .a{
+          
+            background-color: rgba(255, 255, 255, 0.361);
+            border:1px solid darkgray;
+        }}
+
+        .custom-container {
+    background-color: rgb(17, 82, 99); /* Set your desired background color */
+    color:white;
+    padding: 5px; /* Add padding for better styling */
+    border-radius: 5px; /* Optional: Add border-radius for rounded corners */
+    width: 70%;
+  /* margin-left: 70%; */
+    text-align: center;
+    /* margin-top: -10%; */
+    margin-left: 10%;
+  }
+
+</style>
+
+
+<body  class="w-100 container-fluid">
+  <div class="col-md-12  col-12 mb-3 " style="margin-top: 30px;">
+    <button class="buttonhead col-4" data-text="Awesome">
+        <span class="actual-text">&nbsp;Add Increment &nbsp;</span>
+    </button>
+</div>
+
+<div class="row ">
+    <div class="col-md-3 a containeradli">
+        <p style="margin-top: -4%;" class="text-center mt-4 custom-container" >
+            <label for="staff" style="font-weight: bold;  " >Emp</label>
+            <input type="radio" class="roleRadio" name="role" value="staff" checked>&nbsp;&nbsp;
+            <label for="admin" style="font-weight: bold;  ">Admin</label>
+            <input type="radio" class="roleRadio" name="role" value="admin">&nbsp;&nbsp;
+            <label for="admin" style="font-weight: bold;  ">All</label>
+            <input type="radio" class="roleRadio" name="role" value="all" >&nbsp;&nbsp;
+                                
+        
+        </p>
+<hr>
+<input type="search" placeholder="Search..." name="search" id="searchInput" autofocus>
+
+<script>
+    $('#searchInput').on('input', function () {
+                        var searchTerm = $(this).val().toLowerCase();
+
+                        $('#userTableBody tr').filter(function () {
+                            $(this).toggle($(this).text().toLowerCase().indexOf(searchTerm) > -1);
+                        });
+                    });
+</script>
+
+<div class="table-container mt-3 " >
+    <div class="ashi">
+<table class="table table-bordered">
+    <thead style="background-color: #005c99; color: white;">
+       <tr>
+<th class="col-2">SL.NO</th>
+    <th class="col-2 text-center">EMP.ID</th>
+    <th class="text-center">NAME</th>
+</tr> 
+    </thead>
+    <tbody id="userTableBody" style="background-color: white;">
+        
+
+    </tbody>
+</table>
+</div>
+</div>
+</div>
+       
+
+<div class="col-md-9 a1 containeradli" >
+<!-- <button class="btn btn-primary float-end m-3">view-staff</button> -->
+
+<h5 class="nj" id="userID">Name : UserId</h5>
+<div class="d-flex">
+<div class="bh">
+<div class="d-flex m-2">
+    <div class="input-intgroub">
+        <label class="labelint">Current Salary</label>
+        <input type="number" autocomplete="off" name="Email" id="current_salary" class="inputint" type="email" readonly>
+        <div></div></div> 
+
+        <div class="input-intgroub">
+            <label class="labelint">Increment Amount</label>
+            <input type="text" autocomplete="off" name="Email" id="increment_salary" class="inputint" type="email" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+            <div></div></div> 
+
+            <div class="input-intgroub">
+                <label class="labelint">Date of Increment</label>
+                <input type="date" autocomplete="off" name="Email" id="increment_date" class="inputint" type="email">
+                <div></div></div>
+                
+                
+                <input type="hidden" id="actual_salary" class="form-control" readonly>
+                
+                <input type="hidden" id="user_id" name="user_id" class="form-control">
+
+                <div class="">
+                    <button autocomplete="off" name="Email" id="Email" class="btn btn-success mt-4 bbt" type="email" onclick="check_increment(event)">Add</button>
+                    <div></div></div>
+
+<script>
+    $(document).ready(function() {
+
+// Check if the sessionStorage has the stored user ID and name
+if(sessionStorage.getItem("clickedUserID") !== null && sessionStorage.getItem("clickedUserName") !== null) {
+        var userId = sessionStorage.getItem("clickedUserID");
+        var userName = sessionStorage.getItem("clickedUserName");
+
+        // Set the values to the desired elements
+        document.getElementById("userID").textContent = userName + " : " + userId;
+        $('#user_id').val(userId);
+
+        // Apply the style to the row with the matching userId
+        $('#userTableBody tr[data-user-id="' + userId + '"]').addClass('highlighted');
+    }
+    var role=sessionStorage.getItem('selectedRole', role);
+        console.log('Radio button ',role)
+
+
+        // Check radio button based on role value
+        var roleRadios = document.getElementsByClassName('roleRadio');
+        for (var i = 0; i < roleRadios.length; i++) {
+            if (roleRadios[i].value === role) {
+                roleRadios[i].checked = true;
+                break; // Stop loop once matched radio button is found
+            }
+        }
+
+    var clickedUserID = sessionStorage.getItem("clickedUserID");
+    console.log("clickedUserID", clickedUserID);
+
+    // Check if the clickedUserID is stored in sessionStorage
+    if (clickedUserID) {
+        // Make an AJAX request to fetch user details using the stored userID
+        $.ajax({
+            url: '/get_user_details/',
+            method: 'POST',
+            data: { 
+                user_id: clickedUserID,
+                csrfmiddlewaretoken: '{{ csrf_token }}'  // Include the CSRF token
+            },
+            success: function (response) {
+                // Assuming response contains user details in JSON format as an array of objects
+                var userDetailsArray = response.user_details; // Accessing 'user_details' key
+                console.log("userDetails", userDetailsArray);
+
+                // Clear existing table content
+                $('#TableBody').empty(); 
+
+                // Iterate through userDetailsArray and create rows for each user
+                $.each(userDetailsArray, function(index, userDetails) {
+                    var row = '<tr id="userRow_' + userDetails.id + '">';
+                    row += '<td>' + (index + 1) + '</td>'; 
+                    row += '<td>' + userDetails.salary + '</td>'; 
+                    row += '<td>' + userDetails.sal_last + '</td>'; 
+
+                    // Assuming userDetails.incre_dt is in the format: "YYYY-MM-DD"
+                    var dateParts = userDetails.incre_dt.split('-');
+                    var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    var formattedDate = dateParts[2] + ' ' + monthNames[parseInt(dateParts[1], 10) - 1] + ' ' + dateParts[0];
+
+                    row += '<td>' + formattedDate + '</td>';
+
+                    if(index === userDetailsArray.length - 1) { // Display delete button only on the last entry
+                        row += '<td><button onclick="delete_salary_record(' + userDetails.id + ')" style="border:none;"><img src="../../static/img/delete.png" width="20px" height="20px" style="cursor: pointer;"></button></td>';
+                    } else {
+                        row += '<td></td>'; // For previous entries, add empty cell
+                    }
+                    row += '</tr>';
+                    $('#TableBody').append(row);
+                });
+            },
+            error: function (error) {
+                console.error('Error fetching user details:', error);
+            }
+        });
+
+
+       
+    
+    // Make an AJAX request to fetch user details from registerall table
+    $.ajax({
+        url: '/salary_fetch/',
+        method: 'POST',
+        data: { 
+            user_id: clickedUserID,
+            csrfmiddlewaretoken: '{{ csrf_token }}'  // Include the CSRF token
+        },
+        success: function (response) {
+            if (response && response.user_user && response.user_user.length > 0) {
+                var user = response.user_user[0]; // Assuming only one user is returned
+                console.log("user sdefsgrg  ",user)
+                $('#current_salary').val(user.sala); // Update input field with the sala value
+            } else {
+                console.error('No user details found');
+            }
+        },
+        error: function (error) {
+            console.error('Error fetching user details:', error);
+        }
+    });
+
+
+
+    }
+});
+
+
+</script>
+
+
+                    <script>
+                       $(document).on("click", ".priya", function(){
+    var userId = $(this).data("user-id"); // Changed to lowercase userId for consistency
+    var userName = $(this).data("name");
+    
+    // Storing data in sessionStorage
+    sessionStorage.setItem("clickedUserID", userId);
+    sessionStorage.setItem("clickedUserName", userName);
+
+    document.getElementById("userID").textContent = userName + " : " + userId;
+
+    console.log("Clicked User ID:", userId);
+    console.log("Clicked User Name:", userName);
+
+
+    // Now you have the userId and userName stored in sessionStorage.
+    // You can retrieve it whenever needed using sessionStorage.getItem()
+
+
+    
+    // Remove previous style if any
+    $('#userTableBody tr').removeClass('highlighted');
+
+    // Apply the style to the row with the matching userId
+    $('#userTableBody tr[data-user-id="' + userId + '"]').addClass('highlighted');
+    
+    // Example: document.getElementById("user_id").value = userID;
+    $('#user_id').val(userId); // Update the user ID input field
+});
+
+   
+                    
+
+
+                  
+    function validateIncrement() {
+        var userID = document.getElementById("user_id").value;
+        var incrementAmount = document.getElementById("increment_salary").value;
+        var incrementDate = new Date(document.getElementById("increment_date").value);
+        var today = new Date();
+
+        // Check if the user ID is empty
+        if (userID.trim() === "") {
+            alert("Please select a user ID.");
+            return false;
+        }
+
+        // Check if the increment amount is not empty and is a valid number
+        if (isNaN(incrementAmount) || incrementAmount.trim() === "") {
+            alert("Please enter a valid increment amount.");
+            return false;
+        }
+
+        // Check if the increment date is not empty and is not in the future
+        if (incrementDate > today) {
+            alert("The increment date cannot be in the future.");
+            return false;
+        }
+
+        
+       
+        return true;
+    }
+
+
+
+    function check_increment(event) {
+        event.preventDefault();
+
+        if (!validateIncrement()) {
+            return;
+        }
+
+        var userID = document.getElementById("user_id").value;
+        var incrementDate1 = document.getElementById("increment_date").value;
+        var csrftoken = getCookie('csrftoken');
+
+        $.ajax({
+    url: '/check_increment_date/',
+    method: 'POST',
+    data: { incrementDate: incrementDate1, userID: userID },
+    headers: { "X-CSRFToken": csrftoken },
+    success: function(response) {
+        if (response.exists) {
+            alert("An increment with the same date already exists. Please select a different date.");
+        }
+         else if (response.last_entry_incre_dt && new Date(response.last_entry_incre_dt) > new Date(incrementDate1)) {
+            alert("You can't select before the last increment date..!.");
+        } 
+        else {
+            calculateActualSalary();
+        }
+    },
+    error: function(xhr, status, error) {
+        console.error('Error occurred while checking increment date:', error);
+    }
+});
+
+
+
+
+    }
+
+
+    function calculateActualSalary() {
+        // Perform validation before proceeding
+        if (!validateIncrement()) {
+            return;
+        }
+
+        var currentSalary = parseFloat(document.getElementById("current_salary").value);
+        var incrementSalary = parseFloat(document.getElementById("increment_salary").value);
+        var incrementDate = new Date(document.getElementById("increment_date").value);
+        var today = new Date();
+
+        if (incrementDate <= today) {
+            var actualSalary = currentSalary + incrementSalary;
+            document.getElementById("actual_salary").value = actualSalary.toFixed(0);
+
+            var basicSalary = actualSalary * 55 / 100;
+            var hraSalary = basicSalary * 40 / 100;
+            var convAll = getAdjustedValue(actualSalary);
+            var for_medi = basicSalary + hraSalary + convAll;
+            var result_min = actualSalary - for_medi;
+            var medical_all = result_min / 2;
+
+            // Get the userID from wherever it's available
+            var userID = document.getElementById("user_id").value;
+            console.log("UserID:", userID);
+
+            var actual_salary = parseFloat(document.getElementById("actual_salary").value);
+            var increment_date = document.getElementById("increment_date").value;
+            // Prepare data to send to the server
+            var requestData = {
+                incrementSalary: incrementSalary,
+                increment_date: increment_date,
+                basicSalary: basicSalary,
+                hraSalary: hraSalary,
+                convAll: convAll,
+                medicalAll: medical_all,
+                actual_salary: actual_salary,
+                userID: userID
+            };
+
+            // Send data to the server using AJAX
+            $.ajax({
+                url: '/insert_salary/', // Replace with your server endpoint URL
+                type: 'POST',
+                data: requestData,
+                success: function(response) {
+                    // Handle success response
+                    console.log('Data inserted successfully:', response);
+                    swal({
+        title: "Success!",
+        text: "Salary increment successful.",
+        icon: "success",
+        
+    }).then((result) => {
+        if (result) {
+            console.log("OK button clicked. Page will not reload.");
+            location.reload();
+            // Optionally, you can perform any additional action here
+        }
+    });
+    
+
+                    // Update Current Salary
+                    var currentSalary = response.current_salary; // Assuming you get the current salary from the response
+                    $('#current_salary').val(currentSalary);
+
+                    // Clear Increment Amount and Increment Date inputs
+                    $('#increment_salary').val('');
+                    $('#increment_date').val('');
+
+                    getUserDetails(userID);
+                  
+                },
+                error: function(xhr, status, error) {
+                    // Handle error response
+                    console.error('Error occurred while inserting data:', error);
+                    // Optionally, you can display an error message to the user
+                }
+            });
+
+        } else {
+            alert("The increment date is in the future.");
+        }
+    }
+
+    function getAdjustedValue(actualSalary) {
+        if (actualSalary >= 10000) {
+            return 1600;
+        } else {
+            return 800;
+        }
+    }
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Check if the cookie contains the CSRF token
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function getUserDetails(userId) { // Accept userId as a parameter
+        // Make an AJAX request to fetch user details by ID
+        $.ajax({
+            url: '/get_user_details/',
+            method: 'POST',
+            data: {
+                user_id: userId,
+                csrfmiddlewaretoken: '{{ csrf_token }}' // Include the CSRF token
+            },
+            success: function(response) {
+                // Assuming response contains user details in JSON format as an array of objects
+                var userDetailsArray = response.user_details; // Accessing 'user_details' key
+                console.log("userDetails", userDetailsArray);
+
+                // Clear existing table content
+                $('#TableBody').empty();
+
+                // Iterate through userDetailsArray and create rows for each user
+                $.each(userDetailsArray, function(index, userDetails) {
+                    var row = '<tr id="userRow_' + userDetails.id + '">';
+                    row += '<td>' + (index + 1) + '</td>';
+
+                    row += '<td>' + userDetails.salary + '</td>';
+                    row += '<td>' + userDetails.sal_last + '</td>';
+                    // row += '<td>' + userDetails.incre_dt + '</td>';
+
+                    // Assuming userDetails.incre_dt is in the format: "YYYY-MM-DD"
+var dateParts = userDetails.incre_dt.split('-');
+var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+var formattedDate = dateParts[2] + ' ' + monthNames[parseInt(dateParts[1], 10) - 1] + ' ' + dateParts[0];
+
+row += '<td>' + formattedDate + '</td>';
+
+
+                    if(index === userDetailsArray.length - 1) { // Display delete button only on the last entry
+        row += '<td><button onclick="delete_salary_record(' + userDetails.id + ')" style="border:none;"><img src="../../static/img/delete.png" width="20px" height="20px" style="cursor: pointer;"></button></td>';
+    } else {
+        row += '<td></td>'; // For previous entries, add empty cell
+    }
+
+                    row += '</tr>';
+                    $('#TableBody').append(row);
+                });
+            },
+            error: function(error) {
+                console.error('Error fetching user details:', error);
+            }
+        });
+    }
+
+
+                    </script>
+                    
+            </div>
+
+<table class="table table-bordered t3 mt-4">
+    <thead style="background-color: #1a49a1;color: white;">
+      <tr>
+        <th>Sl.No</th>
+        
+        <th>Increment Salary</th>
+        <th>Current Salary</th>
+        <th>Increment Date</th>
+        <th>Cancel</th>
+    
+        </tr>
+    </thead>
+    <tbody style="background-color: whitesmoke;" id="TableBody">
+        <!-- <tr>
+            <td>1</td>
+            <td>5000</td>
+            <td>17000</td>
+            <td>19-06-2024</td>
+            <td><img src="../../static/img/delete.png" width="20px" height="20px" style="cursor: pointer;"></td>
+        
+            </tr> -->
+    </tbody>
+
+  </table>
+
+
+  <script>
+    $(document).ready(function () {
+        // Function to fetch and display user details based on radio button
+        function fetchUserDetails() {
+            var role = $('input[name="role"]:checked').val();
+            sessionStorage.setItem('selectedRole', role);
+
+            // Make an AJAX request to fetch data from the server
+            $.ajax({
+                url: '/increment_radio/',
+                method: 'POST',
+                data: { 
+                    role: role,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'  // Include the CSRF token
+                },
+                success: function (response) {
+                    // Check if the response contains an error
+                    if (response.error) {
+                        console.error('Error fetching data:', response.error);
+                        return;
+                    }
+
+                    // Clear existing table rows
+                    $('#userTableBody').empty();
+
+                    // Use the response directly without JSON.parse
+                    var responseData = response;
+                    var counter = 1;
+                    // Append new rows based on fetched data
+                    responseData.data.forEach(function (user) {
+                        $('#userTableBody').append('<tr class="priya" data-name="' + user.nm + '" data-user-id="' + user.user_id + '"><td>' + counter++ + '</td><td>' + user.user_id + '</td><td>' + user.nm + '</td></tr>');
+                    });
+
+
+
+                    $('#userTableBody').on('click', 'tr', function() {
+    var userId = $(this).data('user-id');
+    // Make an AJAX request to fetch user details from registerall table
+    $.ajax({
+        url: '/salary_fetch/',
+        method: 'POST',
+        data: { 
+            user_id: userId,
+            csrfmiddlewaretoken: '{{ csrf_token }}'  // Include the CSRF token
+        },
+        success: function (response) {
+            if (response && response.user_user && response.user_user.length > 0) {
+                var user = response.user_user[0]; // Assuming only one user is returned
+                console.log("user sdefsgrg  ",user)
+                $('#current_salary').val(user.sala); // Update input field with the sala value
+            } else {
+                console.error('No user details found');
+            }
+        },
+        error: function (error) {
+            console.error('Error fetching user details:', error);
+        }
+    });
+});
+
+
+
+
+
+
+$('#userTableBody').on('click', 'tr', function() {
+    var userId = $(this).data('user-id');
+    // Make an AJAX request to fetch user details by ID
+    $.ajax({
+        url: '/get_user_details/',
+        method: 'POST',
+        data: { 
+            user_id: userId,
+            csrfmiddlewaretoken: '{{ csrf_token }}'  // Include the CSRF token
+        },
+        success: function (response) {
+            // Assuming response contains user details in JSON format as an array of objects
+            var userDetailsArray = response.user_details; // Accessing 'user_details' key
+            console.log("userDetails", userDetailsArray);
+
+            // Clear existing table content
+            $('#TableBody').empty(); 
+
+            // Iterate through userDetailsArray and create rows for each user
+            $.each(userDetailsArray, function(index, userDetails) {
+    var row = '<tr id="userRow_' + userDetails.id + '">';
+    row += '<td>' + (index + 1) + '</td>'; 
+   
+    row += '<td>' + userDetails.salary + '</td>'; 
+    row += '<td>' + userDetails.sal_last + '</td>'; 
+    // row += '<td>' + userDetails.incre_dt + '</td>';
+    
+    // Assuming userDetails.incre_dt is in the format: "YYYY-MM-DD"
+var dateParts = userDetails.incre_dt.split('-');
+var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+var formattedDate = dateParts[2] + ' ' + monthNames[parseInt(dateParts[1], 10) - 1] + ' ' + dateParts[0];
+
+row += '<td>' + formattedDate + '</td>';
+
+
+    if(index === userDetailsArray.length - 1) { // Display delete button only on the last entry
+        row += '<td><button onclick="delete_salary_record(' + userDetails.id + ')" style="border:none;"><img src="../../static/img/delete.png" width="20px" height="20px" style="cursor: pointer;"></button></td>';
+    } else {
+        row += '<td></td>'; // For previous entries, add empty cell
+    }
+    row += '</tr>';
+    $('#TableBody').append(row);
+});
+
+
+        },
+        error: function (error) {
+            console.error('Error fetching user details:', error);
+        }
+    });
+});
+
+
+
+
+
+
+                },
+                error: function (error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+        }
+
+        // Call fetchUserDetails on page load and whenever the radio buttons change
+        $(document).on('change', '.roleRadio', fetchUserDetails);
+        fetchUserDetails(); // Initial call
+    });
+    
+// Function to delete a salary record
+function delete_salary_record(userId) {
+    // Display a SweetAlert confirmation dialog
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this record!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then((willDelete) => {
+        if (willDelete) {
+            // Proceed with deletion
+            console.log("Deleting salary record for user ID:", userId);
+            // Make an AJAX request to delete the salary record
+            $.ajax({
+                url: '/delete_salary_record/',
+                method: 'POST',
+                data: { 
+                    user_id: userId,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'  // Include the CSRF token
+                },
+                success: function (response) {
+    // If the deletion was successful, remove the corresponding row from the table
+    
+    // $('#userRow_' + userId).remove();
+    // Display success message
+    swal({
+        title: "Success",
+        text: "Salary record deleted successfully!",
+        icon: "success",
+        closeOnClickOutside: false, // Prevent closing by clicking outside
+        closeOnEsc: false // Prevent closing by pressing Esc key
+    }).then((result) => {
+        if (result) {
+            console.log("OK button clicked. Page will not reload.");
+            location.reload();
+            // Optionally, you can perform any additional action here
+        }
+    });
+    console.log("Salary record deleted successfully.");
+}
+
+                
+            });
+        } else {
+            // User cancelled the deletion
+            console.log("Deletion cancelled.");
+        }
+    });
+}
+
+
+
+
+</script>
+
+
+
+
+
+  <script>
+    var lilota = document.getElementById("lolita");
+var lilotaoff = document.getElementById("lolitaoff");
+var offcanvas = document.getElementById("offcanvasExample");
+var navigation1 = document.getElementById("navigation");
+var branchSelect = document.getElementById("branchSelect");
+
+// Function to set dark mode based on the value stored in localStorage
+function setDarkModeFromStorage() {
+  var element = document.body;
+  var storedDarkMode = localStorage.getItem('darkMode');
+  var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+
+  if (storedDarkMode === 'true') {
+    element.classList.add('dark-mode');
+    toggleDarkModeButton.checked = true;
+    applyDarkModeStyles();
+  } else {
+    element.classList.remove('dark-mode');
+    toggleDarkModeButton.checked = false;
+    removeDarkModeStyles();
+  }
+}
+
+// Function to apply dark mode styles
+function applyDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  offcanvas.classList.add("offcanvasdrk");
+  navigation1.classList.add("navbardrk");
+  branchSelect.classList.add("selectheadadmindark");
+}
+
+// Function to remove dark mode styles
+function removeDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+  offcanvas.classList.remove("offcanvasdrk");
+  navigation1.classList.remove("navbardrk");
+
+  branchSelect.classList.remove("selectheadadmindark");
+}
+
+// Function to toggle dark mode and store the state in localStorage
+function toggleDarkMode() {
+  var element = document.body;
+  element.classList.toggle('dark-mode');
+    
+  if (element.classList.contains("dark-mode")) {
+    applyDarkModeStyles();
+  } else {
+    removeDarkModeStyles();
+  }
+
+  // Store the current dark mode state in localStorage
+  var isDarkMode = element.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', isDarkMode.toString());
+}
+
+// Call the function to set dark mode on page load
+setDarkModeFromStorage();
+  </script>
+</body>
+<!-- {% include 'footer.html' %} -->
+{% endblock %}

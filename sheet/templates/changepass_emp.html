@@ -1,0 +1,322 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_emp.html' %}
+
+<style>
+.btnnn{
+  border: none;
+  padding: 10px;
+  background-color: transparent;
+  font-size: 20px;
+  border-radius: 10px;
+  transition-duration: 0.6s;
+
+}
+.btnnn:hover{
+  background-color: #C3C4C9;
+  box-shadow: 1px 2px 10px 5px rgba(20,20,20,0.1);
+}
+.btn:hover{
+  background-color: #C3C4C9;
+  box-shadow: 1px 2px 10px 5px rgba(20,20,20,0.1);
+}
+.btnnn2 {
+    border: none;
+    padding: 10px;
+    background-color: transparent;
+    font-size: 20px;
+    border-radius: 10px;
+    transition-duration: 0.6s;
+  }
+
+  .btnnn2:hover {
+    background-color: #C3C4C9;
+    box-shadow: 1px 2px 10px 5px rgba(20, 20, 20, 0.1);
+  }
+.brgr{
+    display:none;
+  }
+  .remov{
+    display:none;
+  }
+  
+@media screen and (max-width:700px) {
+
+  .card{
+  /* background-image:url('{% static "img/logback1.jpg" %}'); */
+  color:white;
+font-family:calibri;
+margin-top: 30px;
+margin-left: 40px !important;
+height: 440px;
+width: 450px;
+}
+  .brgr{
+  display:block;
+}
+.card{
+    width:100%;
+   justify-content:end;
+}
+.hd{
+  width:100%
+
+}
+.btnnn {
+    border: none;
+    background-color: transparent;
+    font-size: 10px;
+    border-radius: 5px;
+    transition-duration: 0.6s;
+    display:none;
+  }
+.btnnn2 {
+    border: none;
+    background-color: transparent;
+    font-size: 10px;
+    border-radius: 5px;
+    transition-duration: 0.6s;
+    display:none;
+  }
+}
+@media screen and (min-width:500PX) {
+
+.btnnn2 {
+  border: none;
+  background-color: transparent;
+  font-size: 10px;
+  border-radius: 5px;
+  transition-duration: 0.6s;
+  display:none;
+}
+}
+.card{
+  /* background-image:url('{% static "img/logback1.jpg" %}'); */
+  color:white;
+font-family:calibri;
+margin-top: 30px;
+margin-left: -70px;
+height: 440px;
+width: 450px;
+box-shadow: 10px 10px rgba(128, 167, 236, 0.612);
+border-radius: 10px;
+
+}
+.main-panel{
+  width: 1100px;
+  /* align: centre; */
+}
+.custom-width-input {
+            width: 100%;
+        }
+
+        .container {
+            margin-top: 60px;
+            width: 510px;
+          
+        }
+        body{
+            background-image: url('{% static "finimg/adsree.jpeg" %}');
+            background-size: cover;
+            background-position: center;
+        }
+        .card .card-title {
+    color: #1a49a1;
+    padding-top:7px;
+    text-transform: uppercase;
+    margin-top: -1.5rem;
+    margin-bottom: 1.5rem;
+      text-transform: capitalize;
+    width: 500px;
+    }
+.bgl{
+  background-color:white;
+  border-bottom: 1px solid  #cfe0f7;
+}
+
+.form-group{
+  padding-bottom: 20px;
+}
+  </style>
+   <style>
+  
+    body {
+      background-image: url('{% static "img/logbg2.png" %}');
+      min-height: 750px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    .hidden {
+            display: none;
+        }
+/* for inputs new */
+.input {
+  max-width: 390px;
+  margin-left: 18px !important;  
+  height: 44px;
+  background-color: #05060f52;
+  border-radius: .5rem;
+  padding: 0 1rem;
+  border: 2px solid transparent;
+  font-size: 1rem;
+  transition: border-color .3s cubic-bezier(.25,.01,.25,1) 0s, color .3s cubic-bezier(.25,.01,.25,1) 0s,background .2s cubic-bezier(.25,.01,.25,1) 0s;
+}
+
+.label {
+  display: block;
+  margin-left: 20px;
+  margin-bottom: .3rem;
+  font-size: .9rem;
+  font-weight: bold;
+  color: #05060f99;
+  transition: color .3s cubic-bezier(.25,.01,.25,1) 0s;
+}
+.input-group{
+  display: grid;
+}
+
+.input:hover, .input:focus, .input-group:hover .input {
+  outline: none;
+  border-color: #05060f;
+}
+
+.input-group:hover .label, .input:focus {
+  color: #05060fc2;
+}
+
+  </style>
+
+ <!-- Top Navbar-->
+ <body  class="w-100 container-fluid">
+                      
+    <div class="container">
+      <div class="row justify-content-center" style="margin-top: 50px;">
+            <div class="col-lg-8 col-md-10 col-sm-12 col-xl-8">
+              <div class="card">
+                <div class="card-body" style="margin-top: 30px;">
+                    <h2 class="card-title c fs-2" style="padding-left: 89px;">Change Password</h2>
+                    {% if messages %}
+                    <ul class="messages">
+                      {% for message in messages %}
+                          <li{% if message.tags == 'success' %} style="color: green; font-size: 20px;"{% elif message.tags == 'error' %} style="color: red; font-size: 20px;"{% endif %}>{{ message }}</li>
+                      {% endfor %}
+                  </ul>
+                  
+                    {% endif %}
+            
+                    <form class="forms-sample" method="post" action="{% url 'change_password_emp' %}">
+                        {% csrf_token %}
+<!-- 
+                        <div class="">
+                          <label class="label">Email address</label>
+                          <input autocomplete="off" name="Email" id="Email" class="input" type="email">
+                          <div></div></div> -->
+
+            
+                        <div class="input-group">
+                            <label class="label">Old Password</label>
+                            <input autocomplete="off" type="password" name="oldpassword" class="input"  id="oldpassword">
+                        </div>
+            
+                        <div class="input-group">
+                            <label class="label">New Password</label>
+                            <input type="password" name="newpassword" class="input" id="newpassword">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label class="label">Confirm New Password</label>
+                            <input type="password" name="confirmpwd" class="input" id="confirmpwd">
+                        </div>
+            
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary m-3">Change</button>
+                            <a class="btn btn-secondary  m-3" href="{% url 'changepass_emp' %}">Cancel</a>
+                        </div>
+            
+                        
+                        
+                    </form>
+                </div>
+            </div>
+            
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      var messages = document.querySelectorAll('.messages li');
+
+      messages.forEach(function (message) {
+          setTimeout(function () {
+              message.classList.add('hidden');
+          }, 2000); // 2 seconds
+      });
+  });
+</script> <script>
+  var lilota = document.getElementById("lolita");
+var lilotaoff = document.getElementById("lolitaoff");
+var offcanvas = document.getElementById("offcanvasExample");
+var navigation1 = document.getElementById("navigation");
+
+// Function to set dark mode based on the value stored in localStorage
+function setDarkModeFromStorage() {
+var element = document.body;
+var storedDarkMode = localStorage.getItem('darkMode');
+var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+
+if (storedDarkMode === 'true') {
+  element.classList.add('dark-mode');
+  toggleDarkModeButton.checked = true;
+  applyDarkModeStyles();
+} else {
+  element.classList.remove('dark-mode');
+  toggleDarkModeButton.checked = false;
+  removeDarkModeStyles();
+}
+}
+
+// Function to apply dark mode styles
+function applyDarkModeStyles() {
+lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+offcanvas.classList.add("offcanvasdrk");
+navigation1.classList.add("navbardrk");
+}
+
+// Function to remove dark mode styles
+function removeDarkModeStyles() {
+lolita.src = "{% static 'img/staffinlogooff.png' %}";
+lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+offcanvas.classList.remove("offcanvasdrk");
+navigation1.classList.remove("navbardrk");
+}
+
+// Function to toggle dark mode and store the state in localStorage
+function toggleDarkMode() {
+var element = document.body;
+element.classList.toggle('dark-mode');
+  
+if (element.classList.contains("dark-mode")) {
+  applyDarkModeStyles();
+} else {
+  removeDarkModeStyles();
+}
+
+// Store the current dark mode state in localStorage
+var isDarkMode = element.classList.contains('dark-mode');
+localStorage.setItem('darkMode', isDarkMode.toString());
+}
+
+// Call the function to set dark mode on page load
+setDarkModeFromStorage();
+</script>
+
+</body>
+{% endblock %}
+
+

@@ -1,0 +1,932 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_adm.html' %}
+
+<style>
+    body {
+        background-image: url('{% static "img/logbg2.png" %}');
+        min-height: 600px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        font-family: Calibri;
+
+    }
+
+    .bg-danger-subtle {
+        background-color: rgb(173, 224, 240);
+        /* Set your desired background color */
+        color: #076bee;
+        /* Set text color for better visibility */
+        padding: 5px 10px;
+        /* Add padding for better styling */
+        border-radius: 5px;
+        /* Optional: Add border-radius for rounded corners */
+        display: inline-block;
+        /* Ensure the background color only applies to the content */
+    }
+
+    .radio-label {
+        margin-right: 10px;
+        /* Optional: Add some spacing between radio buttons and labels */
+    }
+
+    .sel {
+        width: 80px;
+        /* Adjust the width as needed */
+        padding: 2px;
+        border: 1px solid #c6e0fa;
+        /* Bootstrap's default border color */
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-right: 5px;
+    }
+
+    .date {
+        width: 15%;
+        /* Adjust the width as needed */
+        padding: 4px;
+        border: 1px solid #adc2d8;
+        /* Bootstrap's default border color */
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-right: 10px;
+    }
+
+    table {
+        width: 80%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        box-shadow: 0 0 8px rgba(0.1, 0, 0, 0.1);
+    }
+
+    th,
+    td {
+        border: 1px solid rgb(160, 196, 238);
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #d4ebf5;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .hid {
+        display: none;
+    }
+
+    .box {
+        border: 1px solid #8fbdeb;
+        /* You can customize the border width and color */
+        padding: 25px;
+        box-sizing: content-box;
+        margin-left: 7%;
+        margin-right: 7%;
+    }
+    .dis
+    {
+        display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+
+     /* for heading */
+  .buttonhead {
+    margin: 5% 0 2% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  --fs-size: 1.8em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-weight: 800;
+
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+    
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+$(document).ready(function () {
+    var branchesNameSelect = $('#yourSelectElementId');
+    var employeeTable = $('#employeeTable');
+    
+    // Initialize a JavaScript variable with the branch name from the session
+    var branchesNameSelect;
+
+    if ("{{ request.session.selected_branch_id }}" !== "") {
+  branchesNameSelect = "{{ request.session.selected_branch_id }}";
+} else if ("{{ request.session.selected_all }}" !== "") {
+  branchesNameSelect = "{{ request.session.selected_all }}";
+} else {
+  branchesNameSelect = "{{ request.session.default_branch_id   }}";
+}
+
+
+                // Handle selection change
+               
+                    var selectedBranch = $(this).val();
+
+                    // Fetch and display data for the selected branch and depart='emp'
+                    $.ajax({
+                        url: '{% url "fetch_employee_data" %}', // Replace with the actual URL to fetch employee data
+                        type: 'GET',
+                        dataType: 'json',
+                        data: {
+                            branch_name: branchesNameSelect,
+                        },
+                        success: function (response) {
+                            employeeTable.empty(); // Clear previous data
+
+                            // Append headers
+                            employeeTable.append('<thead><tr><th colspan="4" class="text-center"><h4>' + branchesNameSelect + '</h4></th></tr><tr><th>#</th><th colspan="2">EMP</th><th>Check All/Uncheck All <input type="checkbox" id="checkAll"></th></tr></thead><tbody></tbody>');
+
+                            // Append data rows
+                            if (response.employee) {
+                                $.each(response.employee, function (index, employee) {
+                                    var row = $('<tr ><td>' + (index + 1) + '</td><td colspan="2">' + employee.nm + '<br>' + employee.user_id + '<p style="display:none;">' + employee.depart + employee.work_frm + employee.work_to + '</p>' + '</td><td><input type="checkbox"  id="check" class="employeeCheckbox" data-user_id="' + employee.user_id + '" data-depart="' + employee.depart + '" data-work_frm="' + employee.work_frm + '" data-work_to="' + employee.work_to + '"></td></tr>');
+                                    employeeTable.find('tbody').append(row);
+                                });
+
+                                // Handle "Check All" functionality
+                                $('#checkAll').on('change', function () {
+        $('.employeeCheckbox').prop('checked', $(this).prop('checked'));
+        // Call a function to insert attendance when "Check All" is clicked
+        // insertAttendanceData();
+        
+     });
+    var selectedDateInput = $('#selectdate');
+
+    
+    // Function to insert attendance data
+    function insertAttendanceData() {
+        var selectedEmployees = [];
+        var selectedDate = selectedDateInput.val();
+        // Iterate through checked checkboxes and collect employee details
+        $('.employeeCheckbox:checked').each(function () {
+            var user_id = $(this).data('user_id');
+            var depart = $(this).data('depart');
+            var work_frm = $(this).data('work_frm');
+            var work_to = $(this).data('work_to');
+
+            selectedEmployees.push({
+                user_id: user_id,
+                depart: depart,
+                work_frm: work_frm,
+                work_to: work_to,
+                
+            });
+            console.log("details", selectedEmployees);
+        });
+
+        // AJAX request to insert attendance data
+        $.ajax({
+            url: '{% url "insert_attendance_data" %}', // Replace with the actual URL to insert attendance data
+            type: 'POST',
+            dataType: 'json',
+            contentType: 'application/json',
+            data: JSON.stringify({ employees: selectedEmployees , date: selectedDate  }),
+            success: function (response) {
+                // Handle success response
+
+                console.log('Attendance data inserted successfully:', response);
+            },
+            error: function (error) {
+                console.log('Error inserting attendance data: ', error);
+                
+            }
+        });
+    }
+
+
+    $('.btn').on('click', function () {
+
+        // Validate the form
+    if (!validateForm()) {
+        // If validation fails, do not proceed with the switch case block
+        return;
+    }
+    
+    // Determine which update radio button is selected
+    var selectedRadio = $('input[name="update_radio"]:checked').val();
+
+    // Call the corresponding function based on the selected radio button
+    switch (selectedRadio) {
+        case 'update_mng_eng':
+            insertAttendance();
+            alert("Morning&evening attendance added successfully...!");
+            break;
+        case 'update_mng':
+            insertMng();
+            alert("Morning attendance added successfully...!");
+            break;
+        case 'update_evg':
+            insertEvg();
+            // Display an alert message for update_eng
+            alert("Evening attendance added successfully...!");
+            break;
+        // Add more cases if needed
+
+        default:
+        insertAttendanceData();
+        alert("Fullday attendance added successfully..!");
+            // Handle default case if necessary
+            break;
+    }
+});
+
+
+// Function to insert attendance data
+function insertAttendance() {
+    var selectedEmployees = getSelectedEmployees();
+    var data = getAttendanceData();
+
+    sendAjaxRequest('{% url "insert_attendance_time" %}', data);
+}
+
+// Function to insert mng data
+function insertMng() {
+    var selectedEmployees = getSelectedEmployees();
+    var data = getMngData();
+
+    sendAjaxRequest('{% url "insert_attendance_mng" %}', data);
+}
+
+// Function to insert evg data
+function insertEvg() {
+    var selectedEmployees = getSelectedEmployees();
+    var data = getEvgData();
+
+    sendAjaxRequest('{% url "insert_attendance_evg" %}', data);
+}
+
+// Common function to send AJAX request
+function sendAjaxRequest(url, data) {
+    $.ajax({
+        url: url,
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function (response) {
+            // Handle success response
+            console.log('Attendance data inserted successfully:', response);
+        },
+        error: function (error) {
+            // Handle error response
+            console.log('Error inserting attendance data: ', error.responseText);
+        }
+    });
+}
+
+// Common function to get selected employees
+function getSelectedEmployees() {
+    var selectedEmployees = [];
+
+    // Iterate through checked checkboxes and collect employee details
+    $('.employeeCheckbox:checked').each(function () {
+        var user_id = $(this).data('user_id');
+        var depart = $(this).data('depart');
+        var work_frm = $(this).data('work_frm');
+        var work_to = $(this).data('work_to');
+
+        selectedEmployees.push({
+            user_id: user_id,
+            depart: depart,
+            work_frm: work_frm,
+            work_to: work_to,
+        });
+    });
+
+    return selectedEmployees;
+}
+
+// Common function to get attendance data
+function getAttendanceData() {
+    return {
+        employees: getSelectedEmployees(),
+        date: $('#selectdate').val(),
+        work_frm_: $('#workfrom_time').val(),
+        numberSelect: $('#numberSelect').val(),
+        work_to_: $('#workto_time').val(),
+        worktoSelect: $('#worktoSelect').val(),
+        work_frm_time: $('input[name="workfrom_period"]:checked').val(),
+        work_to_time: $('input[name="workto_period"]:checked').val()
+    };
+}
+
+// Common function to get mng data
+function getMngData() {
+    return {
+        employees: getSelectedEmployees(),
+        date: $('#selectdate').val(),
+        work_frm_: $('#workfrom_time').val(),
+        numberSelect: $('#numberSelect').val(),
+        work_frm_time: $('input[name="workfrom_period"]:checked').val()
+    };
+}
+
+// Common function to get evg data
+function getEvgData() {
+    return {
+        employees: getSelectedEmployees(),
+        date: $('#selectdate').val(),
+        work_to_: $('#workto_time').val(),
+        worktoSelect: $('#worktoSelect').val(),
+        work_to_time: $('input[name="workto_period"]:checked').val()
+    };
+}
+
+
+                            } else {
+                                console.log('No employee data received.');
+                            }
+                        },
+                        error: function (error) {
+                            console.log('Error fetching employee data: ', error);
+                        }
+                    });
+                
+        
+    
+
+    
+});
+
+
+
+</script>
+
+<script>
+    // Function to toggle time fields based on user interaction
+function toggleTimeFields(option) {
+    var fulldayCheckbox = document.getElementById("fullDayCheckbox");
+    var inTimeContent = document.getElementById("in-time-content");
+    var outTimeContent = document.getElementById("out-time-content");
+
+    if (fulldayCheckbox.checked) {
+        // If fullday is checked, hide both
+        inTimeContent.classList.add("hid");
+        outTimeContent.classList.add("hid");
+    } else {
+        // If fullday is unchecked, display based on the radio button conditions
+        if (option === 'both') {
+            inTimeContent.classList.remove("hid");
+            outTimeContent.classList.remove("hid");
+        } else if (option === 'mng') {
+            inTimeContent.classList.remove("hid");
+            outTimeContent.classList.add("hid");
+        } else if (option === 'evg') {
+            inTimeContent.classList.add("hid");
+            outTimeContent.classList.remove("hid");
+        }
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    var fulldayCheckbox = document.getElementById("fullDayCheckbox");
+    var updateBothRadio = document.getElementById("update-both");
+
+    fulldayCheckbox.addEventListener("change", function () {
+        if (fulldayCheckbox.checked) {
+            // If fullday is checked, hide both
+            toggleTimeFields('none');
+        } else {
+            // If fullday is unchecked, display based on the radio button conditions
+            if (updateBothRadio.checked) {
+                toggleTimeFields('both');
+            } else if (document.getElementById("update-mng").checked) {
+                toggleTimeFields('mng');
+            } else if (document.getElementById("update-evg").checked) {
+                toggleTimeFields('evg');
+            }
+        }
+    });
+
+    // Set the initial state for radio buttons
+    if (updateBothRadio.checked) {
+        toggleTimeFields('both');
+    } else if (document.getElementById("update-mng").checked) {
+        toggleTimeFields('mng');
+    } else if (document.getElementById("update-evg").checked) {
+        toggleTimeFields('evg');
+    }
+});
+
+
+
+</script>
+
+<script>
+    // Function to validate the form
+    function validateForm() {
+    var fulldayCheckbox = document.getElementById("fullDayCheckbox");
+    var selectedDateInput = document.getElementById("selectdate");
+    var inTimeInput = document.getElementById("workfrom_time");
+    var outTimeInput = document.getElementById("workto_time");
+    var inTimePeriod = document.querySelector('input[name="workfrom_period"]:checked');
+    var outTimePeriod = document.querySelector('input[name="workto_period"]:checked');
+    var updateRadio = document.querySelector('input[name="update_radio"]:checked');
+    var errorDiv = document.getElementById("error");
+    // Check if checkAll checkbox is empty
+    var checkAllCheckbox = document.getElementById("checkAll");
+    // Checkboxes for additional validation
+    var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    var atLeastOneChecked = false;
+
+    // Loop through each checkbox to check if at least one is checked
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            atLeastOneChecked = true;
+            break;  // Exit the loop if at least one checkbox is checked
+        }
+    }
+
+    // Clear any previous error messages
+    errorDiv.innerHTML = '';
+
+    var branch = document.getElementById('yourSelectElementId').value;
+
+    if (fulldayCheckbox.checked) {
+        // Validate only the date
+        if (!selectedDateInput.value) {
+            errorDiv.innerHTML = 'Please select a date.';
+            return false;
+        }
+
+       // Assuming this code is within a function or script
+// that is executed when the form is submitted or a button is clicked
+
+
+
+// Assuming checkAllCheckbox is a reference to your "Check All" checkbox
+if (!checkAllCheckbox.checked) {
+    // Check if at least one individual checkbox is checked
+    var atLeastOneChecked = $('.employeeCheckbox:checked').length > 0;
+
+    if (!atLeastOneChecked) {
+        errorDiv.innerHTML = 'Please select check all or at least one checkbox.';
+        return false;
+    }
+}
+
+// Rest of your code (append data rows, etc.)
+
+
+
+
+        // Validate the branch selection
+        if (branch === 'Select' || branch === '') {
+            errorDiv.innerHTML = 'Please select a Branch.';
+            return false;
+        }
+
+       
+    } else {
+        // If fullday is unchecked, validate date, inTime, outTime, and checkbox selection
+        if (!selectedDateInput.value) {
+            errorDiv.innerHTML = 'Please select a date.';
+            return false;
+        }
+
+        if (updateRadio) {
+            if (updateRadio.value === 'update_mng_eng' && (!inTimeInput.value || !inTimePeriod || !outTimeInput.value || !outTimePeriod)) {
+                errorDiv.innerHTML = 'Please enter in-time and out time and select AM/PM.';
+                return false;
+            } else if (updateRadio.value === 'update_mng' && (!inTimeInput.value || !inTimePeriod)) {
+                errorDiv.innerHTML = 'Please enter in-time and select AM/PM.';
+                return false;
+            } else if (updateRadio.value === 'update_evg' && (!outTimeInput.value || !outTimePeriod)) {
+                errorDiv.innerHTML = 'Please enter out-time and select AM/PM.';
+                return false;
+            }
+        }
+
+        // Validate branch selection
+        if (branch === 'Select' || branch === '') {
+            errorDiv.innerHTML = 'Please select a Branch.';
+            return false;
+        }
+
+        // Display error message if no checkbox is checked
+        if (!atLeastOneChecked) {
+            errorDiv.innerHTML = 'Please select at least one checkbox.';
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var myForm = document.getElementById("myForm");
+
+        // Attach the validateForm function to the form's onsubmit event
+        myForm.addEventListener("submit", function (event) {
+            // Prevent the form from submitting if validation fails
+            if (!validateForm()) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+
+
+<body class="w-100 container-fluid">
+
+
+
+    <div class="col-lg-12" style="margin-top: 30px; ">
+        <button class="buttonhead col-4" data-text="Awesome">
+            <span class="actual-text">&nbsp;Add Attendance&nbsp;</span>
+        </button>
+        <div class="text-success ">
+        </div>
+
+    </div>
+    <div style="zoom:0.9" class="box">
+        <form  method="post"  id="myForm">
+            {% csrf_token %}
+            <center>
+                <div class="col-lg-12 text-center">
+                    <input type="date" class="text-center date" id="selectdate" name="selectdate">
+
+                    <label>Full Day</label>
+                    <input type="checkbox"  id="fullDayCheckbox"  checked>
+                </div>
+
+                <div class="p-3">
+                     <p class="bg-danger-subtle">
+                        <label>Update Mng & Evg</label>
+                        <input type="radio" id="update-both"  name="update_radio" value="update_mng_eng" class="radio-label" onclick="toggleTimeFields('both')" >
+                
+                        <label for="update-mng" class="radio-label">Update Mng</label>
+                        <input type="radio"  name="update_radio" value="update_mng" class="radio-label" onclick="toggleTimeFields('mng')">
+                
+                        <label for="update-evg" class="radio-label">Update Evg</label>
+                        <input type="radio" name="update_radio" value="update_evg" class="radio-label" onclick="toggleTimeFields('evg')">
+                    </p>
+                    <br>
+                    <!-- <div id="time-picker" class="dis">
+                        
+                        <p id="in-time-content" class="hid">
+                            <label class="dis">In Time &nbsp;
+                                <input type="time" class="col-md-8 form-control sel" name="workfrom_time" id="workfrom_time" >&nbsp;
+                                <input type="radio" name="workfrom_period" id="workfrom_am" value="AM"> AM&nbsp;
+                                <input type="radio" name="workfrom_period" id="workfrom_pm" value="PM"> PM
+                            </label>&nbsp;&nbsp;
+                        </p>&nbsp;&nbsp;&nbsp;&nbsp;
+                        
+                        <p id="out-time-content" class="hid">
+                            <label class="dis">Out Time &nbsp;
+                                <input type="time" class="col-md-8 form-control sel" name="workto_time" id="workto_time" >&nbsp;
+                                <input type="radio" name="workto_period" id="workto_am" value="AM"> AM&nbsp;
+                                <input type="radio" name="workto_period" id="workto_pm" value="PM"> PM
+                            </label>&nbsp;
+                        </p>
+                        
+                       
+                    </div>  -->
+                    <script>
+                        // Get reference to the checkbox and the div
+                    const fullDayCheckbox = document.getElementById('fullDayCheckbox');
+                    const p3Div = document.querySelector('.p-3');
+                    // Add event listener to the checkbox
+                    fullDayCheckbox.addEventListener('change', function() {
+                        // If the checkbox is unchecked, display the p-3 div, otherwise hide it
+                        if (!this.checked) {
+                            p3Div.style.display = 'block';
+                        } else {
+                            p3Div.style.display = 'none';
+                        }
+                    });
+                    // Initial check for checkbox state
+                    if (!fullDayCheckbox.checked) {
+                        p3Div.style.display = 'block';
+                    } else {
+                        p3Div.style.display = 'none';
+                    }
+                    </script>
+
+                    <div id="time-picker" class="dis">
+                        
+                        <p id="in-time-content" class="hid">
+                            <label class="dis">In Time &nbsp;
+                                <!-- <input type="time" class="col-md-8 form-control sel" name="workfrom_time" id="workfrom_time" >&nbsp; -->
+                                <!-- <input type="radio" name="workfrom_period" id="workfrom_am" value="AM"> AM&nbsp;
+                                <input type="radio" name="workfrom_period" id="workfrom_pm" value="PM"> PM -->
+                                <select style="width: 20%; padding: 2px; border-radius: 5px;border-color: #b8bdbe" name="workfrom_time" id="workfrom_time">
+                                    <option value="" selected disabled>--</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <select id="numberSelect" style="width: 20%; padding: 2px; border-radius: 5px;border-color: #cdcfcf" name="numberSelect">
+                                    <option value="" selected disabled>--</option>
+                                </select>
+                                <script>
+                                    // Get the select element
+                                    var selectElement = document.getElementById("numberSelect");
+                                
+                                    // Loop to add options from 0 to 59
+                                    for (var i = 0; i <= 59; i++) {
+                                        var option = document.createElement("option");
+                                        
+                                        // Use a two-digit format for single-digit numbers
+                                        var text = (i < 10) ? '0' + i : i;
+                                        
+                                        option.value = i;
+                                        option.text = text;
+                                        
+                                        selectElement.add(option);
+                                    }
+                                </script>
+                                <!-- <select style="width: 20%; padding: 2px; border-radius: 5px; border-color: #b8bdbe;" name="workfrom_period">
+                                    
+                                    <option value="AM">AM</option>
+                                    <option value="PM">PM</option>
+                                </select> -->
+                                <input type="radio" name="workfrom_period" id="workfrom_am" value="AM"> AM&nbsp;
+                                <input type="radio" name="workfrom_period" id="workfrom_pm" value="PM"> PM
+
+                            </label>&nbsp;&nbsp;
+                        </p>&nbsp;
+                        
+                        <p id="out-time-content" class="hid">
+                            <label class="dis">Out Time &nbsp;
+                                <!-- <input type="time" class="col-md-8 form-control sel" name="workto_time" id="workto_time" >&nbsp; -->
+                                <!-- <input type="radio" name="workto_period" id="workto_am" value="AM"> AM&nbsp;
+                                <input type="radio" name="workto_period" id="workto_pm" value="PM"> PM -->
+                                <select style="width: 20%; padding: 3px; border-radius: 5px;border-color: #b8bdbe"  name="workto_time" id="workto_time" >
+                                    <option value="" selected disabled>--</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                </select>
+                                <select id="worktoSelect" style="width: 20%; padding: 2px; border-radius: 5px;border-color: #b8bdbe" name="worktoSelect">
+                                    <option value="" selected disabled>--</option>
+                                </select>
+                                <script>
+                                    // Get the select element
+                                    var selectElement = document.getElementById("worktoSelect");
+                                
+                                    // Loop to add options from 0 to 59
+                                    for (var i = 0; i <= 59; i++) {
+                                        var option = document.createElement("option");
+                                        
+                                        // Use a two-digit format for single-digit numbers
+                                        var text = (i < 10) ? '0' + i : i;
+                                        
+                                        option.value = i;
+                                        option.text = text;
+                                        
+                                        selectElement.add(option);
+                                    }
+                                </script>
+                                <!-- <select style="width: 20%; padding: 2px; border-radius: 5px; border-color: #b8bdbe;" name="workto_period">
+                                    
+                                    <option value="AM">AM</option>
+                                    <option value="PM">PM</option>
+                                </select> -->
+                                <input type="radio" name="workto_period" id="workto_am" value="AM"> AM&nbsp;
+                                <input type="radio" name="workto_period" id="workto_pm" value="PM"> PM
+
+                            </label>&nbsp;
+                        </p>
+                        
+                       
+                    </div> 
+               
+
+                </div>
+            </center>
+
+            <center>
+                
+                <button class="btn mt-2 text-white"  style="background-color: rgb(18, 130, 153);" onclick="validateForm()" >Add</button>
+                <div class="text-danger" id="error"></div>
+            </center>
+
+
+            <div class=" col-md-2 col-lg-2 col-xl-2" style="margin-left: 10%;">
+
+                <!-- <select class="form-select text-white" style="background-color: rgb(18, 130, 153);"
+                    id="yourSelectElementId" name="yourSelectElementId">
+                    <option selected disabled>Select</option>
+                </select> -->
+                {% if 'selected_branch_id' in request.session %}
+                <input type="text" readonly class="form-control text-white" style="background-color: rgb(18, 130, 153);"
+                       id="yourSelectElementId" name="yourSelectElementId" value="{{ request.session.selected_branch_id }}">
+                <script>
+                    // Initialize a JavaScript variable with the branch name from the session
+                    var selectedBranchFromSession = "{{ request.session.selected_branch_id }}";
+                </script>
+            {% elif 'default_branch_id' in request.session %}
+                <input type="text" readonly class="form-control text-white" style="background-color: rgb(18, 130, 153);"
+                       id="yourSelectElementId" name="yourSelectElementId" value="{{ request.session.default_branch_id }}">
+                <script>
+                    // Initialize a JavaScript variable with the default branch name from the session
+                    var selectedBranchFromSession = "{{ request.session.default_branch_id }}";
+                </script>
+            {% else %}
+                {% if 'selected_all' in request.session %}
+                    <input type="text" readonly class="form-control text-white" style="background-color: rgb(18, 130, 153);"
+                           id="yourSelectElementId" name="yourSelectElementId" value="{{ request.session.selected_all }}">
+                    <script>
+                        // Initialize a JavaScript variable with the default branch name from the session
+                        var selectedBranchFromSession = "{{ request.session.selected_all }}";
+                    </script>
+                {% else %}
+                    <span style="color: red;">Please select a branch</span>
+                {% endif %}
+            {% endif %}
+            
+            
+            
+            
+
+
+            </div>
+            <center>
+                <div class="col-lg-12 mt-3">
+
+                    <table name="employeeTable" id="employeeTable">
+                        <thead>
+                            <tr>
+                                <th colspan="4" class="text-center">
+                                    <h4>Branch name</h4>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>#</th>
+                                <th colspan="2">EMP</th>
+                                <th>Check All/Uncheck All <input type="checkbox" > </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </center>
+        </form>
+
+        <script>
+            var lilota = document.getElementById("lolita");
+        var lilotaoff = document.getElementById("lolitaoff");
+        var offcanvas = document.getElementById("offcanvasExample");
+        var navigation1 = document.getElementById("navigation");
+        var branchSelect = document.getElementById("branchSelect");
+        
+        // Function to set dark mode based on the value stored in localStorage
+        function setDarkModeFromStorage() {
+          var element = document.body;
+          var storedDarkMode = localStorage.getItem('darkMode');
+          var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+        
+          if (storedDarkMode === 'true') {
+            element.classList.add('dark-mode');
+            toggleDarkModeButton.checked = true;
+            applyDarkModeStyles();
+          } else {
+            element.classList.remove('dark-mode');
+            toggleDarkModeButton.checked = false;
+            removeDarkModeStyles();
+          }
+        }
+        
+        // Function to apply dark mode styles
+        function applyDarkModeStyles() {
+          lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+          lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+          offcanvas.classList.add("offcanvasdrk");
+          navigation1.classList.add("navbardrk");
+          branchSelect.classList.add("selectheadadmindark");
+        }
+        
+        // Function to remove dark mode styles
+        function removeDarkModeStyles() {
+          lolita.src = "{% static 'img/staffinlogooff.png' %}";
+          lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+          offcanvas.classList.remove("offcanvasdrk");
+          navigation1.classList.remove("navbardrk");
+        
+          branchSelect.classList.remove("selectheadadmindark");
+        }
+        
+        // Function to toggle dark mode and store the state in localStorage
+        function toggleDarkMode() {
+          var element = document.body;
+          element.classList.toggle('dark-mode');
+            
+          if (element.classList.contains("dark-mode")) {
+            applyDarkModeStyles();
+          } else {
+            removeDarkModeStyles();
+          }
+        
+          // Store the current dark mode state in localStorage
+          var isDarkMode = element.classList.contains('dark-mode');
+          localStorage.setItem('darkMode', isDarkMode.toString());
+        }
+        
+        // Call the function to set dark mode on page load
+        setDarkModeFromStorage();
+          </script>
+    </div>
+</body>
+{% endblock %}

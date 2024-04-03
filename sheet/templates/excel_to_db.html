@@ -1,0 +1,231 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_adm.html' %}
+<style>
+    body {
+      background-image: url('{% static "img/logbg2.png" %}');
+      min-height: 600px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      font-family: Calibri ;
+    }
+     /* for heading */
+  .buttonhead {
+    margin: 5.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  --fs-size: 1.8em;
+  font-weight: 800;
+
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+    </style>
+<body class="w-100 container-fluid">
+  <form id="excelForm" method="POST" enctype="multipart/form-data" action="{% url 'excel_to_db' %}">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-12  col-12 mb-3 " style="margin-top: 30px;">
+                <button class="buttonhead col-4" data-text="Awesome">
+                    <span class="actual-text">&nbsp;Excel To Database&nbsp;</span>
+                   
+                </button>
+            </div>
+            <center>
+
+
+              <!-- {% if request.session.selected_branch_id %}
+          
+             
+              <h3 style="color: rgb(255, 0, 0);">{{ request.session.selected_branch_id }}</h3>
+                {% endif %} -->
+
+
+                <h3 style="color: rgb(255, 0, 0);">
+                  {% if 'selected_branch_id' in request.session %}
+                      {{ request.session.selected_branch_id }}
+                  {% else %}
+                  <h3 style="color: rgb(255, 0, 0);">
+                    {% if default_branch %}
+                        {{ default_branch }}
+                    {% else %}
+                        <span style="color: rgb(72, 8, 8);">Please select a company</span>
+                    {% endif %}
+                  </h3>
+                  {% endif %}
+              </h3>
+              
+
+
+            <div class="col-md-4" style="margin-top: 80px;zoom: 0.9;border: 1px solid rgb(216, 215, 215); height: 130px; background-color: rgb(241, 242, 243);">
+                <div>
+                    <p style="zoom: 0.9;font-size: 20px; padding-top: 5px;color: rgb(32, 78, 216); "><b>Please Add Your Attendance Excel Report File</b></p>
+                </div>
+                <p class="mt-2" style="height: 40px; border-radius: 5px; background-color: rgb(255, 255, 255); border: 1px solid rgb(216, 215, 215); box-shadow: 2px 2px 5px rgb(138, 138, 136); width: 200px;">
+                  <input id="attendanceFileInput" type="file" name="attendance_file" style="padding: 4px; border-radius: 5px;">
+                </p>
+                </p>
+            </div></center>
+            <center><button type="button" onclick="validateAndSubmit()" class="mt-2 btn btn-danger" style="zoom: 0.9;box-shadow: 4px 4px 5px rgb(56, 56, 55);">Start Process</button></center>
+        </div><br>
+        {% if messages %}
+        {% for message in messages %}
+            <script>
+                Swal.fire({
+                    icon: '{{ message.tags }}',
+                    title: '{{ message.tags }}!',
+                    text: '{{ message }}',
+                });
+            </script>
+        {% endfor %}
+    {% endif %}
+
+    </form>
+    <script>
+      function validateAndSubmit() {
+          var fileInput = document.getElementById('attendanceFileInput');
+          if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'Please choose a file!',
+              });
+          } else {
+              // Continue with form submission
+              document.getElementById('excelForm').submit();
+          }
+      }
+  </script>
+  <script>
+    var lilota = document.getElementById("lolita");
+var lilotaoff = document.getElementById("lolitaoff");
+var offcanvas = document.getElementById("offcanvasExample");
+var navigation1 = document.getElementById("navigation");
+var branchSelect = document.getElementById("branchSelect");
+
+// Function to set dark mode based on the value stored in localStorage
+function setDarkModeFromStorage() {
+  var element = document.body;
+  var storedDarkMode = localStorage.getItem('darkMode');
+  var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+
+  if (storedDarkMode === 'true') {
+    element.classList.add('dark-mode');
+    toggleDarkModeButton.checked = true;
+    applyDarkModeStyles();
+  } else {
+    element.classList.remove('dark-mode');
+    toggleDarkModeButton.checked = false;
+    removeDarkModeStyles();
+  }
+}
+
+// Function to apply dark mode styles
+function applyDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  offcanvas.classList.add("offcanvasdrk");
+  navigation1.classList.add("navbardrk");
+  branchSelect.classList.add("selectheadadmindark");
+}
+
+// Function to remove dark mode styles
+function removeDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+  offcanvas.classList.remove("offcanvasdrk");
+  navigation1.classList.remove("navbardrk");
+
+  branchSelect.classList.remove("selectheadadmindark");
+}
+
+// Function to toggle dark mode and store the state in localStorage
+function toggleDarkMode() {
+  var element = document.body;
+  element.classList.toggle('dark-mode');
+    
+  if (element.classList.contains("dark-mode")) {
+    applyDarkModeStyles();
+  } else {
+    removeDarkModeStyles();
+  }
+
+  // Store the current dark mode state in localStorage
+  var isDarkMode = element.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', isDarkMode.toString());
+}
+
+// Call the function to set dark mode on page load
+setDarkModeFromStorage();
+  </script>
+    </body>
+    {% endblock %}

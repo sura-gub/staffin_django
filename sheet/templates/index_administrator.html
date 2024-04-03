@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scholar</title>
+    <link href="{% static 'css/data3.css' %}" rel="stylesheet" >
+    <script src="{% static 'js/new.js' %}"></script>
+    <script src="{% static 'jquery/jquery.js' %}"></script>
+    <script src="{% static 'popper/popper.js' %}"></script>
+    <!-- <link rel="stylesheet" href="{% static 'css/style.css' %}"> -->
+    <!--fontawesome-->
+    <link href="{% static 'font/css/all.css' %}" rel="stylesheet">
+    <link href="{% static 'style.css' %}" rel="stylesheet">
+</head>
+<style>
+    /* Your existing CSS rules */
+  
+    body {
+      background-image: url('{% static "img/logbg2.png" %}');
+      min-height: 750px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  
+    /* Other CSS rules if you have */
+  </style>
+<body >
+            {% include 'header_administrator.html' %}
+
+<!--content-->
+
+<div class="row">
+  <div class="col-1">
+    <form method="post" >
+ 
+      
+    <h6 class="f3">
+      {% if current_user %}
+              <img src="{% static 'img/available.png' %}" alt="logouyt" width="80px" height="80px">
+              Welcome -{{current_user}}!
+              {% endif %}</h6>
+  
+    <h2 class="f">ATTENDANCE</h2>
+    <h6 class="f1">PORTAL</h6>
+  </form>
+  </div>
+</div>
+
+<!--footer-->   
+<footer class="footer text-center text-lg-start">
+    <div class="text-center p-3">
+        © 2023 Copyright:
+        <a class="text-blue" href="#"> mindekattendanceportal.com</a>
+    </div>
+</footer>
+
+<script>
+    // Enable dropdown functionality
+    $(document).ready(function(){
+        $('.dropdown-toggle').dropdown();
+    });
+</script>
+</body>
+</html>

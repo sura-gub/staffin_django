@@ -1,0 +1,646 @@
+<head>
+  {% load static %}
+  <Link  href="{% static 'img/icon.png' %}" alt="Attendance" rel="icon" >
+
+</head>
+
+<script>
+//   <script>
+
+// // When dark mode is enabled
+// localStorage.setItem('darkMode', 'enabled');
+
+// // When dark mode is disabled
+// localStorage.setItem('darkMode', 'disabled');
+// var lilota = document.getElementById("lolita");
+// var lilotaoff = document.getElementById("lolitaoff");
+// var offcanvas = document.getElementById("offcanvasExample");
+// var navigation1 = document.getElementById("navigation");
+// var findex = document.getElementById("findex");
+// var findex1 = document.getElementById("findex1");
+// var branchSelect = document.getElementById("branchSelect");
+
+
+// const darkModeToggle = document.getElementById('darkModeToggle');
+
+
+
+// function myFunction() {
+
+// const currentMode = localStorage.getItem('darkMode');
+
+// if (currentMode === 'enabled') {
+// localStorage.setItem('darkMode', 'disabled');
+// document.body.classList.remove('dark-mode');
+// } else {
+// localStorage.setItem('darkMode', 'enabled');
+// document.body.classList.add('dark-mode');
+// }
+
+// var element = document.body;
+// element.classList.toggle("dark-mode");
+// if (element.classList.contains("dark-mode")) {
+//   lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+//   lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+//   offcanvas.classList.add("offcanvasdrk");
+//   navigation1.classList.add("navbardrk");
+//   findex.classList.add("fdrk");
+//   findex1.classList.add("f1drk");
+//   branchSelect.classList.add("selectheadadmindark");
+// } else {
+//   lolita.src = "{% static 'img/staffinlogooff.png' %}";
+//   lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+//   offcanvas.classList.remove("offcanvasdrk");
+//   navigation1.classList.remove("navbardrk");
+//   findex.classList.remove("fdrk");
+//   findex1.classList.remove("f1drk");
+//   branchSelect.classList.remove("selectheadadmindark");
+// }
+// }
+// document.addEventListener('DOMContentLoaded', function() {
+// const darkModePreference = localStorage.getItem('darkMode');
+
+// if (darkModePreference === 'enabled') {
+//     // Apply dark mode styles
+//     document.body.classList.add('dark-mode');
+// } else {
+//     // Apply normal mode styles
+//     document.body.classList.remove('dark-mode');
+// }
+// });
+// </script>
+
+</script>
+
+<style>
+
+  ::-webkit-scrollbar {
+    width: 5px; /* Adjust the width as needed */
+  }
+  
+  /* For the track (the area behind the thumb) */
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* You can set a background color if desired */
+  }
+  
+  /* For the thumb (the draggable part of the scrollbar) */
+  ::-webkit-scrollbar-thumb {
+    background-color: #8c9297; /* You can set a color for the thumb */
+    border-radius: 4px; /* You can adjust the border-radius for rounded corners */
+  }
+  
+  /* On hover, the thumb will have a slightly different color */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #7d8082;
+  }
+
+  
+/* The switch - the box around the slider */
+.switch {
+  display: block;
+  --width-of-switch: 3em;
+  --height-of-switch: 1.5em;
+  /* size of sliding icon -- sun and moon */
+  --size-of-icon: 1.4em;
+  /* it is like a inline-padding of switch */
+  --slider-offset: 0.3em;
+  position: relative;
+  width: var(--width-of-switch);
+  height: var(--height-of-switch);
+  top: 35px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #f4f4f5;
+  transition: .4s;
+  border-radius: 30px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: var(--size-of-icon,1.4em);
+  width: var(--size-of-icon,1.4em);
+  border-radius: 20px;
+  left: var(--slider-offset,0.3em);
+  top: 50%;
+  transform: translateY(-50%);
+  background: linear-gradient(40deg,#ff0080,#ff8c00 70%);
+  ;
+ transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #303136;
+}
+
+input:checked + .slider:before {
+  left: calc(100% - (var(--size-of-icon,1.4em) + var(--slider-offset,0.3em)));
+  background: #303136;
+  /* change the value of second inset in box-shadow to change the angle and direction of the moon  */
+  box-shadow: inset -3px -2px 5px -2px #8983f7, inset -10px -4px 0 0 #a3dafb;
+}
+
+
+
+.dark-mode {
+  
+  background-image: linear-gradient(rgba(0,0,0,0.2),rgba(0,0,0,0.2)), url('{% static "img/logbg2_drk.png" %}');
+          /* min-height: 650px;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center; */
+
+  /* background-image: linear-gradient(90deg, #3e4041 15%, #9b9d9f 35%, #586670 100%); */
+  /* color: white; */
+}
+/* .offcanvasdrk {
+   
+   background-color: rgb(0,0,0,0.8);
+   background-repeat: no-repeat;
+   background-size: cover;
+ width: 300px;
+} */
+.sidpos{
+  position: fixed;
+  top: 217px !important;
+  left: 284px !important;
+}
+.sidpospay{
+  position: fixed;
+  top: 400px !important;
+  left: 284px !important;
+}
+.sidposinc{
+  position: fixed;
+  top: 470px !important;
+  left: 284px !important;
+}
+.sidposlon{
+  position: fixed;
+  top: 510px !important;
+  left: 284px !important;
+}
+@media screen and (max-width:750px) {
+  .sidpos{
+  position: fixed;
+  top: 217px !important;
+  left: 214px !important;
+}
+.sidpospay{
+  position: fixed;
+  top: 400px !important;
+  left: 214px !important;
+}
+.sidposinc{
+  position: fixed;
+  top: 470px !important;
+  left: 214px !important;
+}
+.sidposlon{
+  position: fixed;
+  top: 510px !important;
+  left: 214px !important;
+}
+}
+  </style>
+  
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="navigation">
+    {% load static %}
+    <div class="container-fluid">
+      <a  class="btn" data-bs-toggle="offcanvas" 
+      href="#offcanvasExample" role="button" aria-controls="offcanvasExample"><span> <img src="{% static 'img/widget-icon.png' %}" alt="logouyt" width="25px" height="25px"></span>
+      </a> 
+      <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+          <h3 class="offcanvas-title mt-0" id="offcanvasExampleLabel"> <img src="{% static 'img/staffinlogooff.png' %}" alt="logouyt" width="160px" height="50px" id="lolitaoff">  </h3>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+  
+        <div class="offcanvas-body sidscrl">
+        <div class="dropdown mt-2 d-grid gap-2">
+         </div>
+  
+         <div class="offcanvas-body">
+         <div class="btn-group dropend mt-1 d-grid gap-2" style="position: absolute; right: 10px; width: 280px;">
+          <!-- <a href="{% url 'index_admin' %}" style="text-decoration: none;"><button type="button" class="tog btn btn-secondary dropdown-toggle   text-start" style="width: 280px;">
+            <p class="tog1  text-black" style="font-family: calibri; font-weight: bold;" ><i class="fa fa-home"></i> Home ADMIN </p>
+  </button></a> -->
+
+
+  
+  <a href="{% url 'index_admin' %}" class="btn text-light" id="wfh" style="text-align: start; font-family: calibri;" ><i class="tog1 fa fa-home" style="margin-left: 19px;padding-right: 27px;"></i> Home</a>
+  </div>
+  </div>
+
+  <div class="offcanvas-body">
+    <div class="btn-group dropend mt-1 d-grid gap-2" style="position: absolute; right: 10px; width: 280px;">
+ 
+<a href="{% url 'wallpaper' %}" class="btn text-light" id="wfh" style="text-align: start; font-family: calibri;" ><i class="fa fa-image" style="margin-left: 20px;padding-right: 30px;"></i>Change Wallpaper</a>
+
+</div>
+</div>
+
+  <div class="offcanvas-body">
+      <div class="btn-group dropend mt-1 d-grid gap-2" style="position: absolute; right: 10px; width: 280px;">
+          <button type="button" class="text-light tog btn btn-secondary dropdown-toggle text-start" data-bs-toggle="dropdown" aria-expanded="false">
+              <span style="font-family: calibri;"><i class="tog1 fa fa-user" style="margin-left: 20px;padding-right: 30px;"></i>Company Settings</span>
+          </button>
+          <ul class="dropdown-menu sidpos" style="width: 200px; margin-left: 10px;">
+            <li class="dropdown-item text-white" style="background-color: #3d60d2;">Company Settings</li>
+            <li><a class="dropdown-item" href="{% url 'add_branch' %}" style="width: 200px;">Add Branch</a></li>
+              <li><a class="dropdown-item" href="{% url 'add_depart' %}" style="width: 200px;">Add Department</a></li>
+              <li ><a class="dropdown-item" href="{% url 'departmenthead' %}" style="width: 200px;">Add Department Head/TL</a></li>
+              
+              <!-- <li><a class="dropdown-item" href="{% url 'add_location' %}" style="width: 200px;">Add Location</a></li> -->
+          </ul>
+      </div>
+  </div>
+  
+  <div class="offcanvas-body">
+      <div class="btn-group dropend mt-1 d-grid gap-2" style="position: absolute; right: 10px; width: 280px;">
+          <button type="button" class="text-light tog btn btn-secondary dropdown-toggle text-start" data-bs-toggle="dropdown" aria-expanded="false">
+             
+              <span style="font-family: calibri;"><i class="tog1 fa fa-table" style="margin-left: 20px;padding-right: 30px;"></i>Employee Portal</span>
+          </button>
+          <ul class="dropdown-menu sidpos" style="height: 345px;width: fit-content; overflow-y: auto; top: -100px; margin-left: 10px;">
+
+             <!-- Second Dropdown Option -->
+             <li class="dropdown-header text-white" style="background-color: #3d60d2;">View</li>
+             <li><a class="dropdown-item" href="{% url 'admin_view' %}">View Administrator</a></li>
+             <li><a class="dropdown-item" href="{% url 'employee_view' %}">View Employee</a></li>
+             <li><a class="dropdown-item" href="{% url 'trainee_view' %}">View Trainee</a></li>
+             <!-- <li><a class="dropdown-item" href="{% url 'print_id' %}">Print Id</a></li> -->
+             <li><a class="dropdown-item" href="{% url 'birthday_report' %}">Birthday Reports</a></li>
+             <li><a class="dropdown-item" href="{% url 'anniversary_report' %}">Anniversary Reports</a></li>
+
+              <!-- First Dropdown Option -->
+              <li class="dropdown-header text-white" style="background-color: #3d60d2;">Registration</li>
+              <li><a class="dropdown-item" href="{% url 'register_admin' %}">Administrator</a></li>
+  
+              <li><a class="dropdown-item" href="{% url 'employee_admin' %}">Employee</a></li>
+              <li><a class="dropdown-item" href="{% url 'traniee_admin' %}">Trainee</a></li>                          
+               
+          </ul>
+      </div>
+  </div>
+  <div class="offcanvas-body">
+    <div class="btn-group dropend mt-1 d-grid gap-2" style="position: absolute; right: 10px; width: 280px;">
+     <!-- <a href="{% url 'visiters' %}" style="text-decoration: none;"><button type="button" class="tog btn btn-secondary  dropdown-toggle  text-start" style="width: 280px; ">
+       <p style="font-family: calibri; font-weight: bold;"><i class="tog1 fa fa-money-check text-black"></i> Visitors </p>
+  </button></a> -->
+  <a href="{% url 'print_id' %}" class="btn text-light" id="visiters" style="text-align: start; font-family: calibri;" ><i class="tog1 fa fa-inbox text-black" style="margin-left: 20px;padding-right: 25px;"></i> Print ID Card</a>
+  
+  </div>
+  </div>
+  
+  <div class="offcanvas-body">
+         <div class="btn-group dropend mt-1 d-grid gap-2" style="position: absolute; right: 10px; width: 280px;">
+    <button type="button"  class="text-light btn tog  btn-secondary dropdown-toggle text-start" data-bs-toggle="dropdown" aria-expanded="false">
+     
+      <span style="font-family: calibri;"><i class="tog1 fa fa-layer-group" style="margin-left: 20px;padding-right: 30px;"></i>Attendance</span>
+    </button>
+    <ul class="dropdown-menu sidpos" style="height: 400px;width: fit-content; overflow-y: auto; top: -170px; margin-left: 10px;">
+
+      <li class="dropdown-header text-white" style="background-color: #3d60d2;">Attendance Report</li>
+      <li><a class="dropdown-item" href="{% url 'today_report' %}">Today's Report</a></li>
+      <li><a class="dropdown-item" href="{% url 'add_attendance' %}">Add Punched Record</a></li>
+      <li><a class="dropdown-item" href="{% url 'empwise' %}">Employee Wise Attendance Report</a></li>
+      <!-- <li><a class="dropdown-item" href="#">Permi / Late Enable</a></li> -->
+      
+      <li class="dropdown-header text-white" style="background-color: #3d60d2;">Leave Reports</li>
+      <li><a class="dropdown-item" href="{% url 'leave_status' %}">Leave Status</a></li>
+      <!-- <li><a class="dropdown-item" href="#">Permission Exceed Leave</a></li> -->
+      <li><a class="dropdown-item" href="{% url 'employe_leave_report' %}">Employee Leave Report</a></li>
+      <!-- <li><a class="dropdown-item" href="#">Employee Permission Report</a></li> -->
+      <li><a class="dropdown-item" href="{% url 'total_employee_permission_report' %}">Total Employee Permission Report</a></li>
+      
+      <li class="dropdown-header text-white" style="background-color: #3d60d2;">Late Reports</li>
+      <li><a class="dropdown-item" href="{% url 'early_by_report' %}">Early By Report</a></li>
+      <li><a class="dropdown-item" href="{% url 'morning_morning' %}">Morning Late Report</a></li>
+
+      <li class="dropdown-header text-white" style="background-color: #3d60d2;">Permission</li>
+      <li><a class="dropdown-item" href="{% url 'add_permission' %}">Add permission</a></li>
+      <li><a class="dropdown-item" href="{% url 'permission_report1' %}">Permission Report</a></li>
+
+      <!-- <li><a class="dropdown-header text-white" style="background-color: #3d60d2;
+      text-decoration:none">Other</a></li> -->
+      <li class="dropdown-header text-white" style="background-color: #3d60d2;">Other</li>
+      <li><a class="dropdown-item " href="{% url 'set_holiday' %}">Set holiday</a></li>
+      <li><a class="dropdown-item " href="{% url 'excel_to_db' %}">Excel To Database</a></li>
+      <li><a class="dropdown-item " href="{% url 'add_leave' %}">Add Leave</a></li>
+      <li><a class="dropdown-item" href="#" id="enable">Early by/Late Enable</a></li>
+      <li><a class="dropdown-item" href="#" id="disable">Early by/Late Disable</a></li>
+      
+      <script>
+        $(document).ready(function() {
+            // Function to retrieve CSRF token from cookies
+            function getCookie(name) {
+                var cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        // Search for the CSRF cookie
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+      
+            // Function to fetch status from Django
+            function fetchStatus() {
+                $.ajax({
+                    url: '/fetch_status/',
+                    method: "GET",
+                    success: function(data) {
+                      
+    if (data.status === "enabled") {
+        $("#enable").css("color", "green");
+        $("#disable").css("color", "red"); // Resetting color to default
+        $("#enable").hide();
+        $("#disable").show();
+    } else {
+        $("#enable").css("color", "green"); // Resetting color to default
+        $("#disable").css("color", "red");
+        $("#enable").show();
+        $("#disable").hide();
+    }
+},
+
+                    error: function(xhr, status, error) {
+                        console.error("Error fetching status:", error);
+                    }
+                });
+            }
+      
+            // Call fetchStatus on page load
+            fetchStatus();
+      
+            $("#enable").click(function() {
+                var csrftoken = getCookie('csrftoken');
+                $.ajax({
+                    url: '/enable_disable_view/',
+                    method: "POST",
+                    headers: { "X-CSRFToken": csrftoken },  // Include CSRF token in headers
+                    data: { action: "enable" },
+                    success: function(data) {
+                        console.log("Enable successful");
+                        fetchStatus(); // Fetch status again after successful enable
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error:", error);
+                    }
+                });
+            });
+      
+            $("#disable").click(function() {
+                var csrftoken = getCookie('csrftoken');
+                $.ajax({
+                    url: '/enable_disable_view/',
+                    method: "POST",
+                    headers: { "X-CSRFToken": csrftoken },  // Include CSRF token in headers
+                    data: { action: "disable" },
+                    success: function(data) {
+                        console.log("Disable successful");
+                        fetchStatus(); // Fetch status again after successful disable
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error:", error);
+                    }
+                });
+            });
+        });
+      </script>
+      
+
+
+
+    </ul>
+  </div>
+  </div>
+  
+  
+  
+  <div class="offcanvas-body">
+         <div class="btn-group dropend mt-1 d-grid gap-2" style="position: absolute; right: 10px; width: 280px;">
+    <button type="button"   class="text-light btn tog btn-secondary dropdown-toggle text-start" data-bs-toggle="dropdown" aria-expanded="false">
+      <span style="font-family: calibri;"><i class="fa fa-calculator" style="margin-left: 20px;padding-right: 32px;"></i>Payroll</span>
+    </button>
+    <ul class="dropdown-menu sidpospay" style=" margin-left: 10px;">
+      <li><a class="dropdown-header text-white"style="background-color: #3d60d2;width: 150px;text-decoration:none">salary Payroll</a></li>
+      <li><a class="dropdown-item dih" href="{% url 'salary_calculation' %}">Salary Calculation</a></li>
+      <li><a class="dropdown-item dih" href="{% url 'salary_approval' %}">Salary Approvel</a></li>
+      <li><a class="dropdown-item dih" href="{% url 'salary_report' %}">Salary Report</a></li>
+      <!-- <li><a class="dropdown-header text-white" style="background-color: #3d60d2;width: 150px;text-decoration:none">Other</a></li>
+      <li><a class="dropdown-item dih" href="#">Payroll Till</a></li> -->
+    </ul>
+  </div>
+  </div>
+
+  <!-- increment menu codes -->
+
+  <div class="offcanvas-body">
+    <div class="btn-group dropend mt-1 d-grid gap-2" style="position: absolute; right: 10px; width: 280px;">
+<button type="button"   class="text-light btn tog btn-secondary dropdown-toggle text-start" data-bs-toggle="dropdown" aria-expanded="false">
+  <span style="font-family: calibri;"><i class="tog1 fa fa-coins " style="margin-left: 20px;padding-right: 32px;"></i>Increment</span>
+
+</button>
+<ul class="dropdown-menu sidposinc" style=" margin-left: 10px;">
+  <li class="dropdown-header text-white" style="background-color: #3d60d2;">Increment</li>
+ <li><a class="dropdown-item dih" href="{% url 'add_increment' %}">Add Increment</a></li>
+ <li><a class="dropdown-item dih" href="{% url 'increament_report' %}">Increment Report</a></li>
+ <!-- <li><a class="dropdown-header text-white" style="background-color: #3d60d2;width: 150px;text-decoration:none">Other</a></li>
+ <li><a class="dropdown-item dih" href="#">Payroll Till</a></li> -->
+</ul>
+</div>
+</div>
+   
+
+<div class="offcanvas-body">
+  <div class="btn-group dropend mt-1 d-grid gap-2" style="position: absolute; right: 10px; width: 280px;">
+<button type="button"   class="text-light btn tog btn-secondary dropdown-toggle text-start" data-bs-toggle="dropdown" aria-expanded="false">
+  <span style="font-family: Calibri;"><i class="fas fa-dollar-sign" style="margin-left: 20px; padding-right: 32px;"></i> Add Loan</span>
+
+</button>
+<ul class="dropdown-menu sidposlon" style=" margin-left: 10px;"> 
+  <li class="dropdown-header text-white" style="background-color: #3d60d2;">Loan</li>
+  <li><a class="dropdown-item " href="{% url 'add_loan_admin' %}">Add Loan</a></li>
+  <li><a class="dropdown-item " href="{% url 'loan_report_admin' %}">View Loan</a></li>
+
+</ul>
+</div>
+</div>
+  
+  <div class="offcanvas-body">
+    <div class="btn-group dropend mt-1 d-grid gap-2" style="position: absolute; right: 10px; width: 280px;">
+     <!-- <a href="{% url 'visiters' %}" style="text-decoration: none;"><button type="button" class="tog btn btn-secondary  dropdown-toggle  text-start" style="width: 280px; ">
+       <p style="font-family: calibri; font-weight: bold;"><i class="tog1 fa fa-money-check text-black"></i> Visitors </p>
+  </button></a> -->
+  <a href="{% url 'visiters' %}" class="btn text-light" id="visiters" style="text-align: start;font-family: calibri;" ><i class="fas fa-users text-black" style="margin-left: 20px;padding-right: 25px;"></i> Visitors</a>
+  
+  </div>
+  </div>
+  
+  <div class="offcanvas-body">
+    <div class="btn-group dropend mt-2 d-grid gap-2" style="position: absolute; right: 10px; width: 280px;">
+     <!-- <a href="{% url 'work_from_home_report' %}" style="text-decoration: none;"><button type="button" class="tog btn btn-secondary  dropdown-toggle  text-start" style="width: 280px; ">
+       <p style="font-family: calibri; font-weight: bold;"><i class="tog1 fa fa-money-check text-black"></i> Work From Home Report </p>
+  </button></a> -->
+  
+  <a href="{% url 'work_from_home_report' %}" class="btn text-light" id="wfh" style="text-align: start;font-family: calibri;" >
+    <i class="fas fa-laptop" style="margin-left: 20px;padding-right: 25px;"></i>
+    <!-- <i class=" tog1 fa-solid fa-house-laptop"style="margin-left: 20px;padding-right: 25px;"></i> -->
+     Work From Home Report</a>
+  </div>
+  </div>
+  </div> 
+  <style>
+  #wfh:hover{
+  background-color: #BABFC4;
+  font-weight: bold;
+  }
+  #visiters:hover{
+    background-color: #BABFC4;
+    font-weight: bold;
+  
+  }
+  </style>
+  
+      
+      </div>
+      <style>
+        .no-hover-background:hover {
+          background-color: transparent !important;
+      }
+      </style>
+      
+  
+      &nbsp;&nbsp;&nbsp;&nbsp;
+      <!--navbar-->
+     &nbsp;
+      <a class="navbar-brand" style="color:#004aad" href="#"><img src="{% static 'img/staffinlogooff.png' %}" class="lo" id="lolita"></a><br>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <img src="{% static 'img/menu.png' %}" alt="logouyt" width="30px" height="30px"> </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+  
+            <li class="nav-item dropdown no-hover-background">
+              <a class="nav-link " href="#" id="navbarDropdown1" role="button">
+                 
+                <span style="color: blue; font-style: oblique;letter-spacing: 0.1em; font-weight: 600;margin-left: 10px;text-transform: uppercase; font-size: 12px;">
+                  {% if request.session.selected_all %}
+                      {{ request.session.selected_all }}
+                  {% elif request.session.selected_branch_id %}
+                      {{ request.session.selected_branch_id }}
+                  {% elif default_branch %}
+                      {{ default_branch }}
+                  {% else %}
+                      <span style="color: rgb(72, 8, 8);">Please select a company</span>
+                  {% endif %}
+              </span>
+              
+             
+              
+              <select class="form-select selectheadadmin" name="selected_branch" id="branchSelect">
+                <option value="" selected disabled>Select Company</option>
+                <option value="All">All Branches</option> 
+                {% for branch in branches %}
+                    <option value="{{ branch.branch_name }}">{{ branch.branch_name }}</option>
+                {% endfor %}
+            </select>
+
+              
+            
+              
+              <script>
+                  // Get reference to the select element
+                  var branchSelect = document.getElementById('branchSelect');
+                  
+                  // Add event listener for change event
+                  branchSelect.addEventListener('change', function() {
+                      // Remove the session storage when a branch is selected
+                      sessionStorage.removeItem('userId','name');
+                  });
+              </script>
+              
+              </a>
+              </li>
+  
+  <!-- Add this script to your HTML template -->
+  <script>
+    document.getElementById('branchSelect').addEventListener('change', function() {
+        var selectedBranchId = this.value;
+        
+        console.log("selectedBranchId", selectedBranchId);
+        
+        // Make an asynchronous request to your Django backend
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', '{% url "process_selected_branch" %}?selected_branch=' + selectedBranchId, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    // Handle the response if needed
+                    location.reload();  // Reload the page after selecting a branch
+                } else {
+                    console.log('Error:', xhr.status);
+                    // Handle errors if needed
+                }
+            }
+        };
+        xhr.send();
+    });
+</script>
+
+                <div class="btn-group dropdown">
+                  {% if request.session.nm %}
+           <button style="color: #121213;font-size: 17px;font-weight: bold;" type="button" class="btn btn-secondary-outline dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            Welcome - {{ request.session.nm | upper }}
+
+              <!-- <script>
+              sessionStorage.setItem('username', '{{ request.session.username }}','nm', '{{ request.session.nm }}');
+            </script> -->
+                {% endif %}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-start">
+              <li><a class="dropdown-item" href="{% url 'changepass' %}">Change Password</a></li>
+<!-- HTML code -->
+            <li><a id="logoutLink" class="dropdown-item" href="{% url 'logout_view' %}">Logout</a></li>
+            </ul>
+          </div>
+    
+
+          <label class="switch">
+            <input id="toggleDarkModeButton" onclick="toggleDarkMode()" type="checkbox">
+            <span class="slider"></span>
+          </label>
+    </nav> 
+<script>
+  // JavaScript code
+document.addEventListener('DOMContentLoaded', function () {
+    // Add event listener to the logout link
+    var logoutLink = document.getElementById('logoutLink');
+    logoutLink.addEventListener('click', function(event) {
+        // Clear the application session
+        sessionStorage.clear();
+    });
+});
+
+</script>

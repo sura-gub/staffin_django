@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        .footer {
+    position: fixed;
+    bottom: 0;
+   
+}
+
+    </style>
+    <body>
+        <div class="footer">
+            <div style="margin-top: 20px">
+                <table style="width: 300px;  margin-top: 20px;" >
+                  <thead >
+                  <tr>
+                  <th colspan="2" class="text-center" style="color: #8f0c0c;">Activity Login</th>
+                </tr>
+                <tr>
+                  <th style="color: #c51c1c;" class="text-center"> Last Login Time</th>
+                  <th style="color: #c51c1c;" class="text-center"> Last Logout Time</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td class="text-center">{{ user_record.log_in_dt_tm }}</td>
+                  <td class="text-center">{{ user_record.log_out_dt_tm }}</td>
+                </tr>
+                
+                </tbody>
+                </table></div>
+              <style>
+                table, th, td {
+                border: 1px solid rgb(255, 255, 255);
+                font-size: 12px;
+              }
+              </style>
+        </div>
+    </body>
+</html>

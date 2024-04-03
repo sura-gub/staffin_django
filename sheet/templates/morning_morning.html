@@ -1,0 +1,782 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_adm.html' %}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+    <style>
+      body {
+        background-image: url('{% static "img/logbg2.png" %}');
+        min-height: 750px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        font-family: Calibri;
+      }
+      /* For buttons */
+.buttonhead {
+    cursor: pointer;
+}
+.ashi {
+        max-height: 300px;
+        width: 500px;
+        overflow-y: auto;
+       
+    }
+/* For table rows */
+#table3 tbody tr {
+    cursor: pointer;
+}
+.close {
+  cursor: pointer; /* Changes cursor to pointer when hovering over */
+}
+
+
+
+      #table4 {
+        border: 1px solid black;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #ffffff;
+    }
+
+    #table4 th, #table3 td {
+        border: 1px solid #a3c9d3;
+        padding: 7px;
+        text-align: center;
+    }
+
+    #table4 th {
+        background-color: #b3d9ff;
+    }
+
+    #table4-body tr:nth-child(even) {
+        background-color: #e6f2ff;
+    }
+
+    #table4-body tr:hover {
+        background-color: #ccebff;
+    }
+      #popup {
+    display: none;
+    position: fixed; /* This ensures the popup is positioned relative to the viewport */
+    top: 50%; /* Adjust as needed */
+    left: 50%; /* Adjust as needed */
+    transform: translate(-50%, -50%); /* Center the popup */
+    background-color: white;
+    padding: 20px;
+    border: 1px solid black;
+    z-index: 999; /* Ensure the popup appears above other elements */
+}
+
+
+
+/* Style the container for the dropdown */
+.dropdown {
+    margin-bottom: 20px; /* Adjust margin as needed */
+}
+
+/* Style the label */
+label {
+    display: block; /* Make the label a block element for proper spacing */
+    margin-bottom: 5px; /* Add some space below the label */
+    font-weight: bold; /* Optionally make the label bold */
+   
+
+}
+
+/* Style the dropdown itself */
+
+
+
+.select-wrapper {
+    flex: 10;
+ padding-right: 20px;
+
+}
+
+/* Additional styling for form control */
+input[type="search"] {
+            padding: 8px;
+            border: 1px solid #35acb4;
+            border-radius: 7px;
+            outline: none;
+            width: 25%; /* Set the width as needed */
+            box-sizing: border-box;
+            margin-left: 3%;
+           
+        }
+
+        #table3 {
+        border: 1px solid black;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #ffffff;
+    }
+
+    #table3 th, #table3 td {
+        border: 1px solid #a3c9d3;
+        padding: 7px;
+        text-align: center;
+    }
+
+    #table3 th {
+        background-color: #b3d9ff;
+    }
+
+    #mydata tr:nth-child(even) {
+        background-color: #e6f2ff;
+    }
+
+    #mydata tr:hover {
+        background-color: #ccebff;
+    }
+      /* for heading */
+  .buttonhead {
+ margin: 5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  --fs-size: 1.8em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-weight: 800;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+</style>
+
+<body  class="w-100 container-fluid">
+    <div  style="zoom:0.9;margin-top: 40px;" class="row">
+        <button class="buttonhead col-4" data-text="Awesome">
+            <span class="actual-text">&nbsp;Morning Late Report&nbsp;</span>
+        </button>
+      <div class="col-lg-5" style="margin-top: 20px;">
+        <p class="ff text-center" style="color: rgb(228, 31, 31); float: left; font-size: 17px; font-weight: 600;"  id="leaveStatusHeader">
+            <!-- <i class="fa fa-paw" style="margin-right: 10px;"></i> -->
+            Morning Late Report - <span id="selectedMonthYear">Month : Year</span>
+        </p>
+        
+       
+                   
+        <input type="search" id="searchInput"  placeholder="Search" aria-label="Search" aria-describedby="searchIcon" autofocus>
+
+
+    </div>
+    
+          <div class="col-lg-7 text-end">
+           
+             
+
+                <select id="yearDropdown" class="btn btn-primary">
+                    <!-- <option selected disabled>Year</option> -->
+                    <!-- Options will be added dynamically using JavaScript -->
+                </select>&nbsp;&nbsp;&nbsp;
+        
+                <!-- Month dropdown -->
+                <select id="monthDropdown" class="btn btn-primary">
+                    <!-- <option selected disabled>Month</option> -->
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+            </div>
+         
+        </div>
+
+
+        <div class="col-lg-12 mt-4">
+            <table id="table3" class="table">
+                <thead>
+                    <tr>
+                        <th>Sl.No</th>
+                        <th>Emp ID</th>
+                        <th>Name</th>
+                        <th>Count Late</th> 
+                    </tr>
+                </thead>
+                <tbody id="tableBodyId"></tbody>
+            </table>
+        </div>
+        
+        <script>
+        
+          
+
+
+                        // JavaScript to dynamically set the current year and month
+                        var currentYear = new Date().getFullYear();
+var currentMonthString = new Date().toLocaleString('en-US', { month: 'long' });
+
+// Set the current year as selected in the year dropdown
+var yearDropdown = document.getElementById('yearDropdown');
+for (var year = currentYear + 1; year >= currentYear - 10; year--) {
+    var option = document.createElement('option');
+    option.value = year;
+    option.text = year;
+    if (year === currentYear) {
+        option.selected = true;
+    }
+    yearDropdown.add(option);
+}
+
+// Convert the month string to a numeric value
+var monthNumber = getMonthNumber(currentMonthString);
+
+// Set the current month as selected in the month dropdown
+var monthDropdown = document.getElementById('monthDropdown');
+for (var i = 0; i < monthDropdown.options.length; i++) {
+    if (parseInt(monthDropdown.options[i].value, 10) === monthNumber) {
+        monthDropdown.options[i].selected = true;
+         // Add this line for debugging
+        break;
+    }
+}
+// Function to convert month string to numeric value
+function getMonthNumber(monthString) {
+    // Create a Date object with the given month string
+    var date = new Date(Date.parse(monthString + ' 1, ' + currentYear)); // Use the current year
+    // Get the numeric month (0-based, so add 1)
+    var monthNumber = date.getMonth() + 1;
+    return monthNumber;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the current year
+    var currentDate = new Date();
+    var currentYear = currentDate.getFullYear();
+    var currentMonth = currentDate.getMonth() + 1; // Month is zero-based, so add 
+
+    // Fetch all records from PayrollMaathangi model using AJAX
+    $.ajax({
+        type: 'GET',
+        url: '/morning_late_report/',  // Replace with your actual endpoint
+        data: {
+            'selected_year': currentYear,
+            'selected_month': currentMonth
+        },
+        success: function (data) {
+            // Update the table with the received data
+            console.log(data);
+            updateTableWithData(data);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            console.error('Error fetching data:', errorThrown);
+        }
+    });
+
+});
+            // Add event listeners for dropdown changes
+             yearDropdown.addEventListener('change', handleDropdownChange);
+            monthDropdown.addEventListener('change', handleDropdownChange);
+
+            function handleDropdownChange() {
+                // Handle dropdown changes here
+                var selectedYear = document.getElementById('yearDropdown').value;
+                var selectedMonth = document.getElementById('monthDropdown').value;
+
+                $.ajax({
+        type: 'GET',
+        url: '/morning_late_report/',  // Replace with your actual endpoint
+        data: {
+            'selected_year': selectedYear,
+            'selected_month': selectedMonth
+        },
+        success: function (data) {
+            // Update the table with the received data
+            console.log(data);
+            updateTableWithData(data);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            console.error('Error fetching data:', errorThrown);
+        }
+    });
+                            }
+
+
+                            var tableBody1 = $('#tableBodyId');
+
+// Event delegation for dynamically generated rows
+tableBody1.on('click', 'tr', function () {
+    // Retrieve data attributes from the clicked row
+    var userId = $(this).data('user-id');
+    var month = $(this).data('mnth');
+
+    // Log the data to the console
+    console.log('User ID:', userId);
+    console.log('Month:', month);
+
+                 fetch(`/get_late_days/?user_id=${userId}&month=${month}`)   
+                .then(response => response.json())
+                .then(data => {
+                    var attendanceData = data.attendance_data;
+                    var table4Body = document.getElementById('table4-body');
+                    table4Body.innerHTML = ''; // Clear previous content
+
+                    if (attendanceData && attendanceData.length > 0) {
+
+                        attendanceData.forEach(function (entry, index) {
+                            var newRow = document.createElement('tr');
+                            var workFrom = new Date(entry.date + 'T' + entry.work_frm);
+                            var clockIn = new Date(entry.date + 'T' + entry.clk_in_tm);
+                            var timeDiff = clockIn - workFrom;
+                            var lateHours, lateMinutes;
+
+                            if (timeDiff < 0) {
+                                lateHours = 0;
+                                lateMinutes = 0;
+                            } else {
+                                lateHours = Math.floor(timeDiff / (1000 * 60 * 60));
+                                lateMinutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                            }
+
+                            // Convert clock in time to 12-hour format
+                            var clkInTime = formatTimeTo12Hour(entry.clk_in_tm);
+
+                            newRow.innerHTML = `
+                                <td>${index + 1}</td>
+                                <td>${formatDate(entry.date)}</td>
+                                <td>${clkInTime}</td>
+                                <td>${lateHours} hrs ${lateMinutes} min</td> 
+                            `;
+                            table4Body.appendChild(newRow);
+                        });
+
+                        document.getElementById('popup').style.display = 'block';
+
+                        var closeButton = document.getElementById('closeButton');
+                        closeButton.addEventListener('click', function () {
+                            document.getElementById('popup').style.display = 'none';
+                        });
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+});
+
+
+function updateTableWithData(data) {
+    var tableBody = $('#table3 tbody');
+    tableBody.empty(); // Clear existing rows
+
+    $.each(data.details, function (index, detail) {
+        var row = $('<tr>');
+        row.attr('data-user-id', detail.user_id);
+        row.attr('data-mnth', detail.mnth);
+        // row.attr('data-late-days', detail.count);
+
+        row.append('<td>' + (index + 1) + '</td>');
+        row.append('<td>' + detail.user_id + '</td>');
+        row.append('<td>' + detail.nm + '</td>');
+        row.append('<td class="count-cell">' + detail.record_count + '</td>');
+
+        tableBody.append(row);
+    });
+}
+
+
+
+        </script>
+        
+        <!-- </div> -->
+        <!-- <div class="col-lg-12 mt-4">
+            <table id="table3" class="table">
+                <thead>
+                    <tr>
+                        <th>Sl.No</th>
+                        <th>Emp ID</th>
+                        <th>Name</th>
+                        <th>Count Late</th> 
+                    </tr>
+                </thead>
+                <tbody id="tableBodyId">
+                    
+                </tbody>
+            </table>
+        </div> -->
+        
+        
+        <div id="popup" class="ashi" style="display: none; width: 450px; border-radius: 5px; box-shadow: 0 6px 12px rgb(189, 174, 174); border-color: #51c9d1;">
+            <!-- Popup content -->
+            <div class="popup-content">
+                <span class="close" id="closeButton" style="margin-left: 400px;">&times;</span>
+                <h2 style="color: #38696d;margin-top: -20px;">Report</h2>
+                <div class="col-lg-8" >
+                    <table id="table4" class="table table" style="width: 400px; border-color: #51c9d1;;">
+                        <thead>
+                            <tr>
+                                <th>Sl.No</th>
+                                <th>Date</th>
+                                <th>Clock In Time</th> 
+                                <th>Late Hours</I></th>
+                            </tr>
+                        </thead>
+                        <tbody id="table4-body" style="border-bottom: #51c9d1;">
+                            
+                        </tbody>
+                    </table>
+                </div>
+        <script>
+            // document.addEventListener("DOMContentLoaded", function () {
+            //     var countCells = document.querySelectorAll('.count-cell');
+        
+            //     countCells.forEach(function (cell) {
+            //         cell.addEventListener('click', function (event) {
+            //             // Prevent the default behavior (page reload) of the click event
+            //             event.preventDefault();
+                        
+            //             var lateDays = this.parentElement.getAttribute('data-late-days');
+            //             var date = this.parentElement.getAttribute('data-date');
+            //             var userId = this.parentElement.getAttribute('data-user-id');
+        
+            //             // Populate table 4 with data
+            //             var table4Body = document.getElementById('table4-body');
+        
+            //             // Create table row
+            //             var newRow = document.createElement('tr');
+        
+            //             // Create table cells
+            //             var counterCell = document.createElement('td');
+            //             var userIdCell = document.createElement('td');
+            //             var dateCell = document.createElement('td');
+        
+            //             // Set content for table cells
+            //             counterCell.textContent = lateDays ? lateDays : '0'; // Display '0' if lateDays is null or undefined
+            //             userIdCell.textContent = userId;
+            //             dateCell.textContent = date;
+        
+            //             // Append cells to row
+            //             newRow.appendChild(counterCell);
+            //             newRow.appendChild(userIdCell);
+            //             newRow.appendChild(dateCell);
+        
+            //             // Append row to table body
+            //             table4Body.appendChild(newRow);
+        
+            //             // Show popup
+            //             // You can implement your preferred popup mechanism here
+            //             // For example, using Bootstrap modal or a custom popup
+            //         });
+            //     });
+            // });
+        </script>
+        
+        <script>
+            // document.addEventListener("DOMContentLoaded", function () {
+            //     var table3Rows = document.querySelectorAll('#table3 tbody tr');
+            
+            //     table3Rows.forEach(function (row) {
+            //         var sameTime = row.getAttribute('data-same-time');
+            //         if (sameTime === '0') {
+            //             var countCell = row.querySelector('.count-cell');
+            //             countCell.textContent = '0';
+            //         }
+            //     });
+            // });
+            </script>
+            
+        
+            <script>
+
+            // fetch(`/get_late_days/?user_id=${userId}`)
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         var attendanceData = data.attendance_data;
+            //         var table4Body = document.getElementById('table4-body');
+            //         table4Body.innerHTML = ''; // Clear previous content
+
+            //         if (attendanceData && attendanceData.length > 0) {
+
+            //             attendanceData.forEach(function (entry, index) {
+            //                 var newRow = document.createElement('tr');
+            //                 var workFrom = new Date(entry.date + 'T' + entry.work_frm);
+            //                 var clockIn = new Date(entry.date + 'T' + entry.clk_in_tm);
+            //                 var timeDiff = clockIn - workFrom;
+            //                 var lateHours, lateMinutes;
+
+            //                 if (timeDiff < 0) {
+            //                     lateHours = 0;
+            //                     lateMinutes = 0;
+            //                 } else {
+            //                     lateHours = Math.floor(timeDiff / (1000 * 60 * 60));
+            //                     lateMinutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            //                 }
+
+            //                 // Convert clock in time to 12-hour format
+            //                 var clkInTime = formatTimeTo12Hour(entry.clk_in_tm);
+
+            //                 newRow.innerHTML = `
+            //                     <td>${index + 1}</td>
+            //                     <td>${formatDate(entry.date)}</td>
+            //                     <td>${clkInTime}</td>
+            //                     <td>${lateHours} hrs ${lateMinutes} min</td> 
+            //                 `;
+            //                 table4Body.appendChild(newRow);
+            //             });
+
+            //             document.getElementById('popup').style.display = 'block';
+
+            //             var closeButton = document.getElementById('closeButton');
+            //             closeButton.addEventListener('click', function () {
+            //                 document.getElementById('popup').style.display = 'none';
+            //             });
+            //         }
+            //     })
+            //     .catch(error => console.error('Error:', error));
+
+
+function formatDate(dateString) {
+    var dateParts = dateString.split('-');
+    var day = dateParts[2];
+    var monthIndex = parseInt(dateParts[1]) - 1;
+    var year = dateParts[0];
+    var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var monthName = monthNames[monthIndex];
+    return `${day} ${monthName} ${year}`;
+}
+
+function formatTimeTo12Hour(timeString) {
+    var timeParts = timeString.split(':');
+    var hours = parseInt(timeParts[0]);
+    var minutes = timeParts[1];
+    var period = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // Handle midnight (0 hours)
+    return `${hours}:${minutes} ${period}`;
+}
+
+                </script>
+                
+            
+        <script>
+            // document.addEventListener('DOMContentLoaded', async function () {
+            //     const yearDropdown = document.getElementById('yearDropdown');
+            //     const monthDropdown = document.getElementById('monthDropdown');
+            //     const tableBody = document.querySelector('#mydata tbody');
+        
+                // Update the fetchData function to handle errors and parse JSON response
+// async function fetchData(url) {
+//     try {
+//         const response = await fetch(url);
+//         if (!response.ok) {
+//             throw new Error('Network response was not ok');
+//         }
+//         const data = await response.json();
+//         return data;
+//     } catch (error) {
+//         console.error('Error fetching data:', error);
+//         return [];
+//     }
+// }
+// // Update the updateTable function to handle null or undefined tableBody
+// const updateTable = (data) => {
+//     const tableBody = document.querySelector('#table3 tbody');
+//     if (!tableBody) {
+//         console.error('Table body not found');
+//         return;
+//     }
+//     tableBody.innerHTML = '';
+//     data.forEach((entry, index) => {
+//         const row = document.createElement('tr');
+//         row.innerHTML = `<td>${index + 1}</td><td>${entry.user_id}</td>`; // Displaying user_id
+//         tableBody.appendChild(row);
+//     });
+// };
+// Update the event listeners to call the fetchData function with the correct URL
+// yearDropdown.addEventListener('change', async function () {
+//     const selectedYear = this.value;
+//     const selectedMonth = monthDropdown.value;
+//     const url = `/morning_morning?year=${selectedYear}&month=${selectedMonth}`;
+//     const data = await fetchData(url);
+//     updateTable(data);
+// });
+// monthDropdown.addEventListener('change', async function () {
+//     const selectedYear = yearDropdown.value;
+//     const selectedMonth = this.value;
+//     const url = `/morning_morning?year=${selectedYear}&month=${selectedMonth}`;
+//     updateTable(data);
+// });
+            // });
+        </script>
+        <script>
+            $(document).ready(function() {
+                $('#searchInput').keyup(function() {
+                    var value = $(this).val().toLowerCase();
+                    $("#table3 tbody tr").filter(function() { // Update the selector here
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                    });
+                });
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Function to fetch data based on selected month and year
+                async function fetchData() {
+                    const selectedYear = document.getElementById('yearDropdown').value;
+                    const selectedMonth = document.getElementById('monthDropdown').value;
+                    console.log('Selected Year:', selectedYear);
+                    console.log('Selected Month:', selectedMonth);
+            
+                    // Update the leaveStatusHeader with the selected month and year
+                    const monthName = document.getElementById('monthDropdown').options[selectedMonth - 1].text;
+                    document.getElementById('leaveStatusHeader').textContent = `Morning Late Report - ${monthName} : ${selectedYear}`;
+            
+                    // Fetch data based on selected month and year
+                    const response = await fetch(`/morning_morning/?yr=${selectedYear}&mnth=${selectedMonth}`);
+                    return response.json();
+                }
+            
+                // Event listener for dropdown changes
+                document.getElementById('yearDropdown').addEventListener('change', async function () {
+                    const data = await fetchData();
+                    updateTable(data);
+                });
+            
+                document.getElementById('monthDropdown').addEventListener('change', async function () {
+                    const data = await fetchData();
+                    updateTable(data);
+                });
+            
+                // Fetch data initially on page load
+                fetchData().then(data => updateTable(data));
+            });
+            </script>
+            <script>
+                var lilota = document.getElementById("lolita");
+              var lilotaoff = document.getElementById("lolitaoff");
+              var offcanvas = document.getElementById("offcanvasExample");
+              var navigation1 = document.getElementById("navigation");
+              var branchSelect = document.getElementById("branchSelect");
+              
+              // Function to set dark mode based on the value stored in localStorage
+              function setDarkModeFromStorage() {
+              var element = document.body;
+              var storedDarkMode = localStorage.getItem('darkMode');
+              var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+              
+              if (storedDarkMode === 'true') {
+                element.classList.add('dark-mode');
+                toggleDarkModeButton.checked = true;
+                applyDarkModeStyles();
+              } else {
+                element.classList.remove('dark-mode');
+                toggleDarkModeButton.checked = false;
+                removeDarkModeStyles();
+              }
+              }
+              
+              // Function to apply dark mode styles
+              function applyDarkModeStyles() {
+              lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+              lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+              offcanvas.classList.add("offcanvasdrk");
+              navigation1.classList.add("navbardrk");
+              branchSelect.classList.add("selectheadadmindark");
+              }
+              
+              // Function to remove dark mode styles
+              function removeDarkModeStyles() {
+              lolita.src = "{% static 'img/staffinlogooff.png' %}";
+              lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+              offcanvas.classList.remove("offcanvasdrk");
+              navigation1.classList.remove("navbardrk");
+              
+              branchSelect.classList.remove("selectheadadmindark");
+              }
+              
+              // Function to toggle dark mode and store the state in localStorage
+              function toggleDarkMode() {
+              var element = document.body;
+              element.classList.toggle('dark-mode');
+                
+              if (element.classList.contains("dark-mode")) {
+                applyDarkModeStyles();
+              } else {
+                removeDarkModeStyles();
+              }
+              
+              // Store the current dark mode state in localStorage
+              var isDarkMode = element.classList.contains('dark-mode');
+              localStorage.setItem('darkMode', isDarkMode.toString());
+              }
+              
+              // Call the function to set dark mode on page load
+              setDarkModeFromStorage();
+              </script>
+  </body>
+{% endblock %}

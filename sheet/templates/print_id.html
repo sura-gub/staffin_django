@@ -1,0 +1,606 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_adm.html' %}
+<style>
+    .bteds{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 90px;
+  height: 30px;
+  border: none;
+  padding: 0px 20px;
+  background-color: rgb(4, 128, 35);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 4px 4px 0px rgb(4, 128, 35);
+  transition-duration: .3s;
+}
+
+.bted{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 90px;
+  height: 30px;
+  border: none;
+  padding: 0px 20px;
+  background-color: rgb(27, 83, 250);
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 4px 4px 0px rgb(27, 83, 250);
+  transition-duration: .3s;
+}
+
+.svg {
+  width: 13px;
+  position: absolute;
+  right: 0;
+  margin-right: 20px;
+  fill: white;
+  transition-duration: .3s;
+}
+
+.bted:hover {
+  color: transparent;
+}
+
+.bted:hover svg {
+  right: 43%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  transition-duration: .3s;
+}
+
+.bted:active {
+  transform: translate(3px , 3px);
+  transition-duration: .3s;
+  box-shadow: 2px 2px 0px rgb(27, 83, 250);
+}
+    .table-container {
+      max-height: 400px; /* Set the maximum height of the table */
+      overflow-y: auto; /* Add a vertical scrollbar if needed */
+    }
+      body {
+        background-image: url('{% static "img/logbg2.png" %}');
+        min-height: 750px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        font-family: Calibri;
+        overflow-y: hidden;
+      }
+      
+</style>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 col-12 mb-3" style="margin-top: 30px;">
+            <button class="buttonhead col-4" data-text="Awesome">
+                <span class="actual-text">&nbsp;Print ID&nbsp;</span>
+            </button>
+        </div>
+    </div>
+    <div class="row align-items-start">
+        <div class="col-lg-4">
+            <div class="box">
+                <input type="search" class="form-control" placeholder="Search..." name="search" id="searchInput" style="border-color: #9ac9f8; width: 45%;" autofocus>
+                <div class="table-container mt-3">
+                <table class="table table-bordered tab " id="ash" style="background-color: rgb(206, 244, 255);" >
+                    <thead style="background-color: #0f6a94; color: white;">
+                        <tr>
+                            <th>S.No</th>
+                            <th>Emp id</th>
+                            <th>Name</th>
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody" style="cursor: pointer; border-color: #b5d9fc;">
+                        {% for leave_request in leave_requests|dictsort:"user_id" %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ leave_request.user_id }}</td>
+                            <td>{{ leave_request.nm }}</td>
+                            <td><button style="color: #1b7ddf;" class="btn iconicon view-icon" data-user-id="{{ leave_request.user_id }}" data-nm="{{ leave_request.nm }}" onclick="getadmin(event)">
+                                View
+                            </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+        
+        <div id="detailsCard" class="col-md-4 profile-card" style="margin-bottom: 550px; height: 200px;">
+            <button class="btn download-button" style=" zoom: 0.8; width: 100px; margin-left: 140px; background-color: #0f3994; color: white;margin-top: 20px;" onclick="detailsCard('detailsCard1')">Download</button>
+            
+
+            <div class="card" id="detailsCard1" style="width: 60%; border-radius: 10px; margin-top: 5px; box-shadow: 0 6px 12px rgb(189, 174, 174); height: 400px; background-image: url('/static/img/idd.png'); background-size: cover; margin-left: 100px;">
+                <div class="card-body text-center" style="margin-top: 35px;">
+                    <div class="profile-picture">
+                        {% if user_details.pic %}
+                        <img src="/static/upload/{{ user_details.pic }}" alt="{{ user_details.pic }} Profile Picture" class="rounded-circle " style="height: 20%; width: 30%; margin-top: 10px;" >
+                        {% else %}
+                        <img src="/static/upload/images.png" alt="Default Profile Picture" class="rounded-circle " style="height: 25%; width: 35%; margin-top: 10px;">
+                        {% endif %}
+                    </div>
+                    <h2 contenteditable="true" style="font-family: 'calibri'; color: rgb(202, 71, 23); font-weight: bolder; margin-top: 20px;" name="nm" id="nm">{{ user_details.nm }}</h2>
+
+                    <h3 style="font-family: 'calibri'; font-size: 20px;" name="dsig" id="dsig">{{ user_details.dsig }}</h3>
+                    <h5 id="user_id" style="font-family: 'calibri';" name="user_id">{{ user_details.user_id }}</h5>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+        <script>
+            function detailsCard(cardId) {
+                if (viewIconClicked) {
+                    var cardElement = document.getElementById(cardId);
+                    // console.log(cardElement);
+                    // Retrieve the background image URL
+                    var backgroundImageURL = cardElement.style.backgroundImage.replace('url("', '').replace('")', '');
+        
+                    html2canvas(cardElement, {
+                        onrendered: function (canvas) {
+                            var context = canvas.getContext('2d');
+        
+                            // Draw the background image
+                            var backgroundImage = new Image();
+                            backgroundImage.onload = function () {
+                                context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+        
+                                // Exclude profile picture drawing for card with ID detailsCard2
+                                if (cardId !== 'detailsCard2') {
+                                    var profilePicElement = document.querySelector('#' + cardId + ' .profile-picture img');
+                                    if (profilePicElement) {
+                                        var radius = (Math.min(profilePicElement.width, profilePicElement.height) / 2) + 20;
+                                        var centerX = canvas.width / 2;
+                                        var centerY = canvas.height / 2 - 95;
+                                        context.save();
+                                        context.beginPath();
+                                        context.arc(centerX, centerY, radius, 0, Math.PI * 2, true);
+                                        context.closePath();
+                                        context.clip();
+                                        var newWidth = profilePicElement.width + 50;
+                                        var newHeight = profilePicElement.height + 50;
+                                        var imageX = centerX - newWidth / 2;
+                                        var imageY = centerY - newHeight / 2;
+                                        context.drawImage(profilePicElement, imageX, imageY, newWidth, newHeight);
+                                        context.restore();
+                                    }
+                                }
+        
+                                // Create a new canvas with desired dimensions
+                                var resizedCanvas = document.createElement('canvas');
+                                var resizedContext = resizedCanvas.getContext('2d');
+                                resizedCanvas.width = 650; // Desired width
+                                resizedCanvas.height = 1016; // Desired height
+        
+                                // Draw the captured screenshot onto the resized canvas
+                                resizedContext.drawImage(canvas, 0, 0, resizedCanvas.width, resizedCanvas.height);
+                                var cardName = sessionStorage.getItem('nm');
+                                // console.log("cardName",cardName);
+                                // Convert to data URL and download
+                                var image = resizedCanvas.toDataURL('image/jpeg');
+                                var link = document.createElement('a');
+                                link.href = image;
+                                link.download = cardName + '.jpeg';
+                                link.click();
+                            };
+        
+                            backgroundImage.src = backgroundImageURL;
+                        },
+                        allowTaint: true,
+                        useCORS: true,
+                        ignoreElements: function (element) {
+                            return element.tagName === 'BUTTON';
+                        }
+                    });
+                } else {
+                    alert('Please click on the view icon first.');
+                }
+            }
+        </script>
+        
+        
+
+<div id="detailsCard" class="col-md-4 profile-card" style="margin-bottom: 550px; height: 400px;">
+    <div class="d-flex">
+    <button class="btn download-button" style=" zoom: 0.8;width: 100px; margin-left: 10px; background-color: #0f3994; color: white;margin-top: 20px;" onclick="detailsCard('detailsCard2')">Download</button>
+
+    <button id="editSaveButton" class="bted" style="margin-left: 85px;margin-top: 14px;zoom: 0.9;"><svg class="svg" viewBox="0 0 512 512">
+        <path d="M410.3 231l11.3-11.3-33.9-33.9-62.1-62.1L291.7 89.8l-11.3 11.3-22.6 22.6L58.6 322.9c-10.4 10.4-18 23.3-22.2 37.4L1 480.7c-2.5 8.4-.2 17.5 6.1 23.7s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L387.7 253.7 410.3 231zM160 399.4l-9.1 22.7c-4 3.1-8.5 5.4-13.3 6.9L59.4 452l23-78.1c1.4-4.9 3.8-9.4 6.9-13.3l22.7-9.1v32c0 8.8 7.2 16 16 16h32zM362.7 18.7L348.3 33.2 325.7 55.8 314.3 67.1l33.9 33.9 62.1 62.1 33.9 33.9 11.3-11.3 22.6-22.6 14.5-14.5c25-25 25-65.5 0-90.5L453.3 18.7c-25-25-65.5-25-90.5 0zm-47.4 168l-144 144c-6.2 6.2-16.4 6.2-22.6 0s-6.2-16.4 0-22.6l144-144c6.2-6.2 16.4-6.2 22.6 0s6.2 16.4 0 22.6z"></path></svg> Edit</button>
+    </div>
+<div class="card" id="detailsCard2" style="width: 60%; border-radius: 10px; margin-top: 5px; box-shadow: 0 6px 12px rgb(189, 174, 174); height: 400px; background-image: url('/static/img/idd.png'); background-size: cover; ">
+<div class="card-body text-center" style="margin-top: 11px;white-space: nowrap">
+    <!-- Add ellipsis to long text and limit display size -->
+    <div class="form-group row" style="margin-top: 75px;">
+        <label for="fath_nm" class="" style="margin-left: -53px; font-size: 14px;font-weight: 600;">Father Name <span style="margin-left: 9px;">:</span></label>
+        <div class="col-sm-6 " style="margin-left: 100px; margin-top: -25px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: justify; font-size: 14px;font-weight: 600;">
+            <p id="fatherName" class="form-control-static" contenteditable="true"></p>
+        </div>
+    </div>
+    
+    <div class="form-group row">
+        <label for="addr" class="" style="margin-left: -53px; font-size: 14px;font-weight: 600;">Address<span style="margin-left: 40px;">:</span></label>
+        <div class="col-sm-6 d-flex" style="margin-left: 100px; margin-top: -25px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: justify; font-size: 14px;font-weight: 600;">
+            <p id="address" class="form-control-static" contenteditable="true" style="width: 100%;"></p>
+        </div>
+    </div>
+    
+
+            <div class="form-group row" style="color: red; font-family: 'calibri'; font-weight: bolder">
+                <label for="blood" class="" style="margin-left: -53px; font-size: 14px;font-weight: 600;" >Blood Group <span style="margin-left: 10px;">:</span></label>
+                <div class="col-sm-6" style="margin-left: 103px; margin-top: -25px; text-align: justify; font-size: 14px;font-weight: 600;">
+                    <p id="bloodGroup" class="form-control-static" contenteditable="true"></p>
+                </div>
+            </div>
+            <div class="form-group row" style="color: red; font-family: 'calibri'; font-weight: bolder">
+                <label for="hm_mob" class="" style="margin-left: -52px; font-size: 14px;font-weight: 600;">Home No <span style="margin-left: 28px;">:</span></label>
+                <div class="col-sm-6" style="margin-left: 100px; margin-top: -25px; text-align: justify; font-size: 14px;font-weight: 600;">
+                    <p id="homeNumber" class="form-control-static" contenteditable="true"></p>
+                </div>
+            </div>
+            <div class="form-group row" style="color: red; font-family: 'calibri'; font-weight: bolder">
+                <label for="offc_mob" class="" style="margin-left: -52px; font-size: 14px;font-weight: 600;">Office No <span style="margin-left: 29px;">:</span></label>
+                <div class="col-sm-6" style="margin-left: 100px; margin-top: -25px; text-align: justify; font-size: 14px;font-weight: 600;">
+                    <p id="officeNumber" class="form-control-static" readonly></p>
+                </div>
+            </div>
+            
+            
+            
+        </div>
+    </div>
+</div>
+   </div>
+   <script>
+    
+    $("document").ready(function(){
+            $('#searchInput').keyup(function(){
+               var value=$(this).val().toLowerCase()
+               $("#userTableBody tr").filter(function(){
+                $(this).toggle($(this).text().toLocaleLowerCase().indexOf(value)>-1)
+               });
+    
+            });
+        });
+
+</script>
+<script>
+    var viewIconClicked = false;
+  
+    function getadmin(event) {
+      viewIconClicked = true;
+      var userId = event.target.getAttribute('data-user-id');
+      var nm = event.target.getAttribute('data-nm');  // Add this line to get the name
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+              if (xhr.status === 200) {
+                  var user_details = JSON.parse(xhr.responseText);
+                  sessionStorage.setItem("nm",nm);
+                  document.getElementById('nm').textContent = capitalizeFirstLetter(nm);  // Set the name
+                  document.getElementById('dsig').textContent = capitalizeFirstLetter(user_details.dsig);
+                  document.getElementById('user_id').textContent = capitalizeFirstLetter(user_details.user_id);
+                  document.getElementById('fatherName').textContent = capitalizeFirstLetter(user_details.fath_nm);
+                  document.getElementById('bloodGroup').textContent = capitalizeFirstLetter(user_details.blood);
+                  document.getElementById('address').textContent = capitalizeFirstLetter(user_details.addr);
+                  document.getElementById('homeNumber').textContent = capitalizeFirstLetter(user_details.hm_mob);
+                  document.getElementById('officeNumber').textContent = capitalizeFirstLetter(user_details.offc_mob);
+                  var profilePicture = document.querySelector('.profile-picture img');
+                  if (user_details.pic) {
+                      profilePicture.src = "/static/upload/" + user_details.pic;
+                      profilePicture.alt = user_details.pic + " Profile Picture";
+                  } else {
+                      profilePicture.src = "/static/img/avathar.webp";
+                      profilePicture.alt = "Default Profile Picture";
+                  }
+              } else {
+                  console.error('Error fetching user details');
+              }
+          }
+      };
+      xhr.open('GET', '/fetch_user_details?user_id=' + userId, true);
+      xhr.send();
+  }
+  
+  // Function to capitalize first letter
+  function capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+  </script>
+  
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var editSaveButton = document.getElementById('editSaveButton');
+    var pTags = document.querySelectorAll('.form-control-static');
+    var isEditMode = false;
+    editSaveButton.addEventListener('click', function() {
+        if (viewIconClicked) { // Check if the view icon is clicked
+            if (!isEditMode) {
+                toggleEditMode();
+            } else {
+                saveChanges();
+            }
+        } else {
+            alert('Please click on the view icon first.'); // Display an alert if the view icon is not clicked
+        }
+    });
+
+    function toggleEditMode() {
+    var nmField = document.getElementById('nm');
+    nmField.contentEditable = true;
+    nmField.style.border = '1px solid #ced4da';
+
+    // Similarly, enable editing for other fields if needed
+ 
+    editSaveButton.innerText = 'Save';
+    editSaveButton.classList.remove('btn-primary');
+    editSaveButton.classList.remove('bted');
+    editSaveButton.classList.add('btn-success');
+    editSaveButton.classList.add('bteds');
+    isEditMode = true;
+}
+
+
+
+    function saveChanges() {
+        var updatedData = {
+            user_id: document.getElementById('user_id').innerText,
+            nm: document.getElementById('nm').innerText,
+            fath_nm: document.getElementById('fatherName').innerText,
+            blood: document.getElementById('bloodGroup').innerText,
+            addr: document.getElementById('address').innerText,
+            hm_mob: document.getElementById('homeNumber').innerText,
+            offc_mob: document.getElementById('officeNumber').innerText,
+        };
+        
+        // Validate mobile numbers
+        var homeNumber = document.getElementById('homeNumber').innerText;
+        var officeNumber = document.getElementById('officeNumber').innerText;
+        
+        if (!isValidMobileNumber(homeNumber) || !isValidMobileNumber(officeNumber)) {
+            Swal.fire('Error', 'Please enter a valid 10-digit mobile number.', 'error');
+            return;
+        }
+
+        var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                Swal.fire('Success', 'Data updated successfully', 'success').then(function() {
+                    location.reload();
+                });
+            } else {
+                Swal.fire('Error', 'Error updating data', 'error');
+            }
+        }
+    };
+    xhr.open('POST', '{% url "update_data" %}', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(updatedData));
+    toggleEditMode();
+}
+
+    function isValidMobileNumber(number) {
+        // Regular expression to match 10-digit numbers
+        var mobileNumberPattern = /^\d{10}$/;
+        return mobileNumberPattern.test(number);
+    }
+});
+
+</script>
+
+<style>
+    .card::before {
+        content: 'Height:1016 - Width:650';
+    text-align: center;
+    font-size: 13px;
+    color:rgb(68, 68, 68);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 2px; /* Height of the line */
+    animation: fadeInOut 4s infinite alternate;
+}
+@keyframes fadeInOut {
+    0% {
+        opacity: 0; /* Start opacity */
+    }
+    50% {
+        opacity: 1; /* Middle opacity */
+    }
+    100% {
+        opacity: 0; /* End opacity */
+    }
+}
+.card-body {
+    margin-top: 35px;
+}
+    .ddada {
+    display: flex;
+    justify-content: flex-end; /* Align content to the right */
+ 
+    margin-right: 250px; /* Adjust margin as needed */
+}
+
+
+
+     .form-group.row {
+        margin-bottom: 20px; /* Add some margin between form groups */
+    }
+
+    .form-group.row label {
+        margin-left: -70px; /* Adjust the label margin */
+    }
+
+    .form-group.row .col-sm-6 {
+        margin-left: 80px; /* Adjust the column margin */
+        margin-top: -25px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .form-group.row p {
+        margin: 0; /* Remove any default margin */
+        white-space: normal; /* Allow text to wrap */
+        word-wrap: break-word; /* Ensure long words break */
+    }
+  .buttonhead {
+    margin: 5.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+@media screen and (max-width:699px) {
+.buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+.buttonhead {
+  --border-right: 2px;
+  font-weight: 800;
+  --fs-size: 1.8em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+@media screen and (max-width:950px) {
+    .t3{
+        zoom: 0.7;
+    }
+}
+</style>
+<script>
+    var lilota = document.getElementById("lolita");
+var lilotaoff = document.getElementById("lolitaoff");
+var offcanvas = document.getElementById("offcanvasExample");
+var navigation1 = document.getElementById("navigation");
+var branchSelect = document.getElementById("branchSelect");
+
+// Function to set dark mode based on the value stored in localStorage
+function setDarkModeFromStorage() {
+  var element = document.body;
+  var storedDarkMode = localStorage.getItem('darkMode');
+  var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+
+  if (storedDarkMode === 'true') {
+    element.classList.add('dark-mode');
+    toggleDarkModeButton.checked = true;
+    applyDarkModeStyles();
+  } else {
+    element.classList.remove('dark-mode');
+    toggleDarkModeButton.checked = false;
+    removeDarkModeStyles();
+  }
+}
+
+// Function to apply dark mode styles
+function applyDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  offcanvas.classList.add("offcanvasdrk");
+  navigation1.classList.add("navbardrk");
+  branchSelect.classList.add("selectheadadmindark");
+}
+
+// Function to remove dark mode styles
+function removeDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+  offcanvas.classList.remove("offcanvasdrk");
+  navigation1.classList.remove("navbardrk");
+
+  branchSelect.classList.remove("selectheadadmindark");
+}
+
+// Function to toggle dark mode and store the state in localStorage
+function toggleDarkMode() {
+  var element = document.body;
+  element.classList.toggle('dark-mode');
+    
+  if (element.classList.contains("dark-mode")) {
+    applyDarkModeStyles();
+  } else {
+    removeDarkModeStyles();
+  }
+
+  // Store the current dark mode state in localStorage
+  var isDarkMode = element.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', isDarkMode.toString());
+}
+
+// Call the function to set dark mode on page load
+setDarkModeFromStorage();
+  </script>
+</div>
+</body>
+{% endblock %}

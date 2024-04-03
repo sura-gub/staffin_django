@@ -1,0 +1,2453 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_emp.html' %}
+
+<style>
+    body {
+          background-image: url('{% static "img/logbg2.png" %}');
+          min-height: 750px;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+        .ttable {
+    border: 1px solid #b9b7b7; /* Add a border to the table */
+    border-collapse: collapse; /* Collapse borders into a single border */
+    width: 100%; /* Make the table take up the full width of its container */
+    background-color: #ecf8ec;
+}
+
+.ttable thead, .ttable td {
+    border: 1px solid #949191; /* Add a border to table header and cells */
+    padding: 6px;
+    
+}
+
+/* Optional: Add some styling to table header cells */
+.ttable thead {
+    background-color:#0d3f57; /* Add a background color to the header */
+    color: #fff7f7; /* Set the text color for header cells */
+    text-align: center;
+    
+}
+h5{
+    color: #0c5c7c;
+    font-weight: bold;
+    font-family: 'calibri';
+
+}
+
+.sele{
+         padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            /* width: 200px; Set the width as needed */
+            box-sizing: border-box;
+            background-color: #38696d;
+            color: white;
+            
+}
+.sunday {
+        
+        color: rgb(177, 2, 2);
+        /* Add any other styles you want for Sundays */
+    }
+
+    .aaa{
+        padding: 8px;
+    }
+    h3{
+        font-weight: bolder;
+        color: #0a157a;
+    }
+    hr{
+        width: 15%;
+    }
+
+ /* Styles for the modal */
+ .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            /* Corrected box-shadow code */
+            box-shadow: 0 0 10px 2px #0B5362;
+
+        }
+
+        .modal-content {
+            background-color: #f7f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            width: 50%;
+            height: 40%;
+        }
+
+        /* Styles for the button */
+        .custom-button {
+            border: none;
+            background-color: rgb(255, 77, 77);
+            height: 18%;
+            width: 15%;
+            color: white;
+            margin-left: 53%;
+        }
+       ::placeholder{
+        color: white;
+       }
+
+        textarea{
+            height: 40%;
+            border-color: #326a72;
+            background-color: #326a72;
+            color: #e8f0f1;
+            
+            font-size: 16px;
+           
+        }
+
+
+        .buttonhead {
+  margin: 5.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 250px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+ font-weight: 800;
+ --fs-size: 1.8em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+
+</style>
+
+
+
+<script>
+    // Function to get the current year
+    function getCurrentYear() {
+        return new Date().getFullYear();
+    }
+
+    // Function to get the total days in a month
+    function getTotalDaysInMonth(year, month) {
+        return new Date(year, month, 0).getDate();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Populate the year dropdown dynamically using JavaScript
+        var yearDropdown = document.getElementById('yearDropdown');
+        var startYear = 2015;
+        var currentYear = getCurrentYear();
+
+        for (var year = startYear; year <= currentYear; year++) {
+            var option = document.createElement('option');
+            option.value = year;
+            option.text = year;
+            yearDropdown.appendChild(option);
+        }
+
+        // Populate the month dropdown as you did in your original code
+        var monthDropdown = document.getElementById('monthDropdown');
+        var months = [
+            'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
+            'JULY', 'AUGEST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'
+        ];
+
+       
+
+        for (var i = 0; i < months.length; i++) {
+            var option = document.createElement('option');
+            option.value = i + 1;
+            option.text = months[i];
+            monthDropdown.appendChild(option);
+            
+        }
+
+        // Set default values for the month and year dropdowns
+        var currentDate = new Date();
+
+        // Set default values for the month dropdown
+        monthDropdown.value = (currentDate.getMonth() + 1).toString(); // Months are 0-indexed, so add 1
+
+        // Set default values for the year dropdown
+        yearDropdown.value = currentDate.getFullYear().toString();
+
+        // Fetch userId from sessionStorage
+        var userId = sessionStorage.getItem('userId');
+
+        // Update content function
+        var currentMonthYear = document.getElementById('currentMonthYear');
+        var totalDaysTh = document.getElementById('totalDays');
+
+        function updateContent() {
+            var selectedMonthIndex = monthDropdown.value - 1;
+            var selectedMonthName = months[selectedMonthIndex];
+            sessionStorage.setItem('selectedMonthName', selectedMonthName);
+
+            var selectedYear = yearDropdown.value;
+            var totalDays = getTotalDaysInMonth(selectedYear, monthDropdown.value);
+
+            currentMonthYear.textContent = `Total Days ${selectedMonthName} : ${selectedYear}`;
+            totalDaysTh.textContent = `${totalDays} Days`;
+            sessionStorage.setItem('totalDays', totalDays);
+
+
+            
+        }
+        
+        // Initial update
+        updateContent();
+        
+        // Add event listeners to the dropdowns to update the content on change
+        yearDropdown.addEventListener('change', updateContent );
+        monthDropdown.addEventListener('change', updateContent);
+
+        
+    });
+</script>
+
+
+<script>
+    
+    // Function to get the number of days in a month
+function getDaysInMonth(year, month) {
+    return new Date(year, month + 1, 0).getDate();
+}
+
+
+     document.addEventListener('DOMContentLoaded', function () {
+        var yearDropdown = document.getElementById('yearDropdown');
+        var monthDropdown = document.getElementById('monthDropdown');
+
+       
+
+        var tableBody = document.getElementById('tableBody');
+        var monthYearHeading = document.getElementById('monthYearHeading');
+
+
+        var currentDate = new Date();
+        monthDropdown.value = (currentDate.getMonth() + 1).toString();
+        yearDropdown.value = currentDate.getFullYear().toString();
+
+        
+        
+        
+        // Update table based on selected month and year
+     // Update table based on selected month and year
+// Update table based on selected month and year
+function updateTable(attendanceDetailsArray , matchingDetails ,lopDetailsArray , matchingLeaves , clDetailsArray ,matchingCl , halflopDetailsArray ,matchingHalflop , odDetailsArray,matchingod , halfclDetailsArray , matchinhalfcl,halfodDetailsArray ,matchinhalfod ,holidayDetailsArray ,holidayDate,storeMonth ,storeYear,storeMonthname) {
+    
+   
+    // Fetch attendance details using AJAX
+   
+    function fetchAttendanceDetails(storedUserId) {
+        
+        return $.ajax({
+            url: `/fetch_attendance/?user_id=${storedUserId}`,
+            method: 'GET',
+            dataType: 'json'
+        });
+    }
+    function fetchlopdata(storedUserId ,storeMonth ,storeYear) {
+    return $.ajax({
+        url: `/fetch_user_data/?user_id=${storedUserId},mnth=${storeMonth},yr=${storeYear}`,
+        method: 'GET',
+        dataType: 'json'
+    });
+}
+
+function fetchcldata(storedUserId,storeMonth ,storeYear) {
+    return $.ajax({
+        url: `/fetch_cl/?user_id=${storedUserId},mnth=${storeMonth},yr=${storeYear}`,
+        method: 'GET',
+        dataType: 'json'
+    });
+}
+
+function fetchhalflop(storedUserId) {
+    return $.ajax({
+        url: `/fetch_halflop/?user_id=${storedUserId}`,
+        method: 'GET',
+        dataType: 'json'
+    });
+}
+
+function fetchod(storedUserId,storeMonth ,storeYear) {
+    return $.ajax({
+        url: `/fetch_od/?user_id=${storedUserId},mnth=${storeMonth},yr=${storeYear}`,
+        method: 'GET',
+        dataType: 'json'
+    });
+}
+
+function fetchHalfcl(storedUserId) {
+    return $.ajax({
+        url: `/fetch_halfcl/?user_id=${storedUserId}`,
+        method: 'GET',
+        dataType: 'json'
+    });
+}
+
+function fetchHalfod(storedUserId) {
+    return $.ajax({
+        url: `/fetch_halfod/?user_id=${storedUserId}`,
+        method: 'GET',
+        dataType: 'json'
+    });
+}
+
+function fetch_holiday(storeMonthname, storeYear)  {
+    return $.ajax({
+        url: `/fetch_holiday/?mnth=${storeMonthname}`,
+        method: 'GET',
+        dataType: 'json'
+    });
+}
+
+ updateMonthYearHeading();
+
+
+
+    tableBody.innerHTML = '';
+    var selectedYear = parseInt(yearDropdown.value);
+    var selectedMonth = parseInt(monthDropdown.value) - 1; // Months are 0-indexed
+
+    
+   
+    // Get the number of days in the selected month
+    var daysInMonth = getDaysInMonth(selectedYear, selectedMonth);
+
+    var selectedYear = parseInt($('#yearDropdown').val());
+    var selectedMonth = parseInt($('#monthDropdown').val()) - 1; // Months are 0-indexed
+     var selectedMonthh = selectedMonth + 1;
+console.log("ygft6yfrtfyfgfvghfcgrgtf",selectedMonthh)
+console.log("ygft6yfrtfyfgfvghfcgrgtf",selectedYear)
+
+// Check if totalPunchedDays is stored in the session storage
+var totalPunchedDays = sessionStorage.getItem('totalPunchedDays');
+
+// If totalPunchedDays is already set, clear it
+if (totalPunchedDays) {
+    sessionStorage.removeItem('totalPunchedDays');
+}
+
+// Set totalPunchedDays to 0 for the new month and year
+totalPunchedDays = 0;
+
+// Update the displayed total punched days
+document.getElementById('totalPunchedDays').textContent = ` ${totalPunchedDays}`;
+
+// Similarly, you can apply the same logic for halfdaymissed
+var halfdaymissed = sessionStorage.getItem('halfdaymissed');
+
+// If halfdaymissed is already set, clear it
+if (halfdaymissed) {
+    sessionStorage.removeItem('halfdaymissed');
+}
+
+// Set halfdaymissed to 0 for the new month and year (or whatever initial value you prefer)
+halfdaymissed = 0;
+
+// Update the displayed halfdaymissed value
+document.getElementById("halfdaymissed").textContent = ` ${halfdaymissed}`;
+
+// Similarly, apply the same logic for holiday
+var holiday = sessionStorage.getItem('holiday');
+
+// If holiday is already set, clear it
+if (holiday) {
+    sessionStorage.removeItem('holiday');
+}
+
+// Set holiday to 0 for the new month and year (or whatever initial value you prefer)
+holiday = 0;
+
+// Update the displayed holiday value
+document.getElementById('holiday').textContent = ` ${holiday}`;
+
+
+
+var halfmissed = sessionStorage.getItem('halfmissed');
+
+// If halfdaycl is already set, clear it
+if (halfmissed) {
+    sessionStorage.removeItem('halfmissed');
+}
+
+// Set halfdaycl to 0 for the new month and year (or whatever initial value you prefer)
+halfmissed = 0;
+
+// Update the displayed halfdaycl value
+document.getElementById('halfdaycl').textContent = ` ${halfdaycl}`;
+
+
+var halfodmissed  = sessionStorage.getItem('halfodmissed');
+
+// If halfdaycl is already set, clear it
+if (halfodmissed ) {
+    sessionStorage.removeItem('halfodmissed');
+}
+
+// Set halfdaycl to 0 for the new month and year (or whatever initial value you prefer)
+halfodmissed  = 0;
+
+// Update the displayed halfdaycl value
+document.getElementById('halfdaycl').textContent = ` ${halfdaycl}`;
+
+var halflopmissed  = sessionStorage.getItem('halflopmissed');
+
+// If halfdaycl is already set, clear it
+if (halflopmissed ) {
+    sessionStorage.removeItem('halflopmissed');
+}
+
+// Set halfdaycl to 0 for the new month and year (or whatever initial value you prefer)
+halflopmissed  = 0;
+
+
+
+
+
+// Similarly, apply the same logic for halfdayod
+var halfdayod = sessionStorage.getItem('halfdayod');
+
+// If halfdayod is already set, clear it
+if (halfdayod) {
+    sessionStorage.removeItem('halfdayod');
+}
+
+// // Set halfdayod to 0 for the new month and year (or whatever initial value you prefer)
+totalMissedClockInDays = 0;
+
+// Update the displayed halfdayod value
+document.getElementById('totalMissedClockInDays').textContent = ` ${totalMissedClockInDays}`;
+
+var totalMissedClockInDays = sessionStorage.getItem('totalMissedClockInDays');
+
+// If halfdayod is already set, clear it
+if (totalMissedClockInDays) {
+    sessionStorage.removeItem('totalMissedClockInDays');
+}
+
+// Set halfdayod to 0 for the new month and year (or whatever initial value you prefer)
+halfdayod = 0;
+
+// Update the displayed halfdayod value
+document.getElementById('halfdayod').textContent = ` ${halfdayod}`;
+
+
+
+
+// Similarly, apply the same logic for halfdaycl
+var halfdaycl = sessionStorage.getItem('halfdaycl');
+
+// If halfdaycl is already set, clear it
+if (halfdaycl) {
+    sessionStorage.removeItem('halfdaycl');
+}
+
+
+
+// Set halfdaycl to 0 for the new month and year (or whatever initial value you prefer)
+halfdaycl = 0;
+
+// Update the displayed halfdaycl value
+document.getElementById('halfdaycl').textContent = ` ${halfdaycl}`;
+
+// Similarly, apply the same logic for od
+var od = sessionStorage.getItem('od');
+
+// If od is already set, clear it
+if (od) {
+    sessionStorage.removeItem('od');
+}
+
+// Set od to 0 for the new month and year (or whatever initial value you prefer)
+od = 0;
+
+// Update the displayed od value
+document.getElementById('od').textContent = ` ${od}`;
+
+var matchingLeavesCount = sessionStorage.getItem('matchingLeavesCount');
+
+// If od is already set, clear it
+if (matchingLeavesCount) {
+    sessionStorage.removeItem('matchingLeavesCount');
+}
+// Set matchingLeavesCount to 0 for the new month and year (or whatever initial value you prefer)
+matchingLeavesCount = 0;
+
+// Update the displayed matchingLeavesCount value
+document.getElementById('matchingLeavesCount').textContent = ` ${matchingLeavesCount}`;
+
+
+
+
+
+// Similarly, apply the same logic for clCount
+var clCount = sessionStorage.getItem('clCount');
+
+// If clCount is already set, clear it
+if (clCount) {
+    sessionStorage.removeItem('clCount');
+}
+
+// Set clCount to 0 for the new month and year (or whatever initial value you prefer)
+clCount = 0;
+
+// Update the displayed clCount value
+document.getElementById('clCount').textContent = ` ${clCount}`;
+
+// Similarly, apply the same logic for Halflop
+var Halflop = sessionStorage.getItem('Halflop');
+
+// If Halflop is already set, clear it
+if (Halflop) {
+    sessionStorage.removeItem('Halflop');
+}
+
+// Set Halflop to 0 for the new month and year (or whatever initial value you prefer)
+Halflop = 0;
+
+// Update the displayed Halflop value
+document.getElementById('Halflop').textContent = ` ${Halflop}`;
+
+
+
+
+// Remove existing values from sessionStorage
+sessionStorage.removeItem('selectedYear');
+sessionStorage.removeItem('selectedMonthh');
+
+// Store new values in sessionStorage
+sessionStorage.setItem('selectedYear', selectedYear);
+sessionStorage.setItem('selectedMonthh', selectedMonthh);
+
+    
+
+    // Rest of your code for generating rows (unchanged)
+    var daysInMonth = getDaysInMonth(selectedYear, selectedMonth);
+    var dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+   
+    
+    var attendanceDetails;
+var totalMissedClockInDays = 0;
+ var totalLateDifferenceHours = 0;
+var totalLateDifferenceMinutes = 0;
+
+var totalEarlyDifferenceHours = 0;
+var totalEarlyDifferenceMinutes = 0;
+    //var totalPunchedDays = 0;
+    
+    //var   matchingLeavesCount = 0;
+    //var   clCount = 0;
+    //var Halflop = 0;
+    //var od = 0;
+   // var halfdaycl = 0;
+    //var halfdayod = 0;
+    //var holiday = 0;
+   
+
+var tally = 0;
+//var halfdaymissed = 0;
+
+
+    for (var day = 1; day <= daysInMonth; day++) {
+        var date = new Date(selectedYear, selectedMonth, day);
+        var dayName = dayNames[date.getDay()];
+        var formattedDate = `${selectedYear}-${('0' + (selectedMonth + 1)).slice(-2)}-${('0' + day).slice(-2)}`;
+        var aligndate = `${('0' + day).slice(-2)}-${('0' + (selectedMonth + 1)).slice(-2)}-${selectedYear}`;
+
+        var row = document.createElement('tr');
+        
+
+        // Add a class 'sunday' to rows corresponding to Sundays
+        if (dayName === 'Sun') {
+            row.classList.add('sunday');
+        }
+
+        
+
+// Update the table to display the total count in the "Tally" column
+document.getElementById('tally').textContent = ` ${tally}`;
+
+        // Check if attendance details are available for the current day
+        var matchingDetails = attendanceDetailsArray && attendanceDetailsArray.find(details => details.date === formattedDate);
+     console.log("matchingDetails",matchingDetails)
+
+     var matchingLeave = lopDetailsArray && lopDetailsArray.find(details => {
+    var fromDt = new Date(details.from_dt);
+    var toDt = new Date(details.to_dt);
+    var formattedDateObj = new Date(formattedDate);
+    // Check if formattedDate is within the range of from_dt and to_dt and it's not a Sunday
+    if (formattedDateObj >= fromDt && formattedDateObj <= toDt && formattedDateObj.getDay() !== 0) {
+        var dateDifference = Math.ceil((formattedDateObj - fromDt) / (1000 * 60 * 60 * 24));
+        details.date_difference = dateDifference;
+        return true;
+    }
+    return false;
+});
+   
+
+
+console.log("matchingLeaves", matchingLeaves);
+
+     var matchingCl = clDetailsArray && clDetailsArray.find(details => details.from_dt === formattedDate);
+     console.log("matchingCl",matchingCl)
+    
+     var matchingHalflop = halflopDetailsArray && halflopDetailsArray.find(details => details.from_dt === formattedDate);
+     console.log("matchingHalflop",matchingHalflop)
+
+     var matchingod = odDetailsArray && odDetailsArray.find(details => details.from_dt === formattedDate);
+     console.log("odDetailsArray",odDetailsArray)
+
+
+     var matchinhalfcl = halfclDetailsArray&& halfclDetailsArray.find(details => details.from_dt === formattedDate);
+
+     var matchinhalfod = halfodDetailsArray&& halfodDetailsArray.find(details => details.from_dt === formattedDate);
+     
+     var holidayDate = holidayDetailsArray && holidayDetailsArray.find(details => details.holiday_date === formattedDate);
+console.log("holidayDate", holidayDate);
+
+
+       
+     var dailyTally = 0;
+
+     if (matchinhalfod ) {
+        
+        row.innerHTML = `
+            
+            <td colspan="10" class="text-center" style="background-color: #cc6699; color: white;">${matchinhalfod.lev_typ} : ${matchinhalfod.reason}</td>
+           
+        `;
+      
+        // Create a new row for the second part
+        var row1 = document.createElement('tr');
+        var recordId = matchingDetails ? matchingDetails.id : null;
+      // Check if matchingDetails exists
+    if (!matchingDetails) {
+        // If matchingDetails doesn't exist, show the missed clock-in message
+        row1.innerHTML = `
+        <td rowspan="2" style="background-color: #cc6699;color:white;" class="text-center">${day}</td>
+        <td rowspan="2" style="background-color: #cc6699; color:white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+            ${aligndate} - ${dayName}
+        </td>
+            <td colspan="9" class="text-center" style="background-color: #cc6699; color: white;">missed to clockin</td>
+            <td class="text-center" style="background-color:#cc6699;"><button  onclick="openPopup(${selectedYear}, ${selectedMonth + 1}, ${day})" style="border:none; background-color:#cc6699;"><img src="{% static "img/not.png" %}" alt="Printer" height="20px;" class="a3" width="20px;"></button></td>
+        `;
+        halfodmissed++;
+        sessionStorage.setItem('halfodmissed', halfodmissed);
+    } else {
+
+        var totalHours = matchingDetails.tot_hr;
+console.log("totalHours", totalHours);
+
+var timeComponents1 = totalHours.split(':'); // Splitting the formatted time string by ':'
+
+console.log("timeComponents", timeComponents1);
+
+var hours = parseInt(timeComponents1[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents1[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime);
+        // Append each cell individually to row1
+        row1.innerHTML += `
+
+        
+        
+        <td rowspan="2" style="background-color: #cc6699; color: white;" class="text-center">${day}</td>
+            <td rowspan="2" style="background-color: #cc6699; color: white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+                ${aligndate} - ${dayName}
+            </td>
+
+
+
+            <td class="text-center" style="background-color:#cc6699;">${matchingDetails.clk_in_tm}</td>
+    <td class="text-center" style="background-color:#cc6699;">${matchingDetails.clk_out_tm}</td>
+    <td class="text-center" style="background-color:#cc6699;">${formattedTime}</td>
+    <td class="text-center" style="background-color:#cc6699;">${matchingDetails.clkin_ip}</td>
+    <td class="text-center" style="background-color:#cc6699;">${matchingDetails.clkout_ip}</td>
+    <td class="text-center" style="background-color:#cc6699;">--</td>
+    <td class="text-center" style="background-color:#cc6699;">--</td>
+    <td class="text-center" style="background-color:#cc6699;">--</td>
+    <td class="text-center" style="background-color:#cc6699;">--</td>
+    
+    <td class="text-center" style="background-color: #cc6699;"><button  onclick="openPopup(${selectedYear}, ${selectedMonth + 1}, ${day})" style="border:none; background-color: #cc6699;"><img src="{% static "img/not.png" %}" alt="Printer" height="20px;" class="a3" width="20px;"></button></td>
+
+        `;
+    }
+        // Append the second row to the table body
+        $('#tableBody').append(row1);
+        // Add the row to your table (assuming you have a table with id 'tableBody')
+        halfdayod++;
+        dailyTally++;
+  
+// Set the total punched days in the th element  totallop
+document.getElementById('halfdayod').textContent = ` ${halfdayod}`; 
+sessionStorage.setItem('halfdayod', halfdayod);
+
+}
+
+
+    else if (matchinhalfcl ) {
+        
+        row.innerHTML = `
+            
+            <td colspan="10" class="text-center" style="background-color: #009973; color: white;">${matchinhalfcl.lev_typ} : ${matchinhalfcl.reason}</td>
+           
+        `;
+
+      
+        // Create a new row for the second part
+        var row1 = document.createElement('tr');
+        var recordId = matchingDetails ? matchingDetails.id : null;
+
+if (!matchingDetails) {
+// If matchingDetails doesn't exist, show the missed clock-in message
+row1.innerHTML = `
+<td rowspan="2" style="background-color: #009973;color:white;" class="text-center">${day}</td>
+<td rowspan="2" style="background-color: #009973; color:white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+    ${aligndate} - ${dayName}
+</td>
+    <td colspan="9" class="text-center" style="background-color: #009973; color: white;">missed to clockin</td>
+    <td class="text-center" style="background-color:#009973;"><button  onclick="openPopup(${selectedYear}, ${selectedMonth + 1}, ${day})" style="border:none; background-color:#009973;"><img src="{% static "img/not.png" %}" alt="Printer" height="20px;" class="a3" width="20px;"></button></td>
+`;
+halfmissed++;
+        sessionStorage.setItem('halfmissed', halfmissed);
+}
+else {
+    var totalHours = matchingDetails.tot_hr;
+console.log("totalHours", totalHours);
+
+var timeComponents1 = totalHours.split(':'); // Splitting the formatted time string by ':'
+
+console.log("timeComponents", timeComponents1);
+
+var hours = parseInt(timeComponents1[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents1[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime);
+
+
+
+// Append each cell individually to row1
+row1.innerHTML += `
+
+
+        
+        
+        <td rowspan="2" style="background-color: #009973; color: white;" class="text-center">${day}</td>
+            <td rowspan="2" style="background-color: #009973; color: white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+                ${aligndate} - ${dayName}
+            </td>
+
+            <td class="text-center" style="background-color:#009973; color: white;">${matchingDetails.clk_in_tm}</td>
+    <td class="text-center" style="background-color:#009973; color: white;">${matchingDetails.clk_out_tm}</td>
+    <td class="text-center" style="background-color:#009973; color: white;">${formattedTime}</td>
+    <td class="text-center" style="background-color:#009973; color: white;">${matchingDetails.clkin_ip}</td>
+    <td class="text-center" style="background-color:#009973; color: white;">${matchingDetails.clkout_ip}</td>
+    <td class="text-center" style="background-color:#009973; color: white;">--</td>
+    <td class="text-center" style="background-color:#009973; color: white;">--</td>
+    <td class="text-center" style="background-color:#009973; color: white;">--</td>
+    <td class="text-center" style="background-color:#009973; color: white;">--</td>
+    
+    <td class="text-center" style="background-color:#009973;"><button  onclick="openPopup(${selectedYear}, ${selectedMonth + 1}, ${day})" style="border:none; background-color:#009973;"><img src="{% static "img/not.png" %}" alt="Printer" height="20px;" class="a3" width="20px;"></button></td>
+
+        `;
+        }
+        // Append the second row to the table body
+        $('#tableBody').append(row1);
+        // Add the row to your table (assuming you have a table with id 'tableBody')
+        halfdaycl++;
+        dailyTally++;
+  
+// Set the total punched days in the th element  totallop
+document.getElementById('halfdaycl').textContent = ` ${halfdaycl}`; 
+sessionStorage.setItem('halfdaycl', halfdaycl);
+
+}
+
+
+
+    else if (matchingod ) {
+        
+        row.innerHTML = `
+        <td style="background-color: #75b1bd;color:white;" class="text-center">${day}</td>
+        <td style="background-color: #75b1bd; color:white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+            ${aligndate} - ${dayName}
+        </td>
+            <td colspan="10" class="text-center" style="background-color: #85ADAD; color: white;">${matchingod.lev_typ} : ${matchingod.reason}</td>
+
+        `;
+
+      
+       
+        // Add the row to your table (assuming you have a table with id 'tableBody')
+        od++;
+        dailyTally++;
+  
+// Set the total punched days in the th element  totallop
+document.getElementById('od').textContent = ` ${od}`; 
+sessionStorage.setItem('od', od);
+
+   
+}
+
+
+    else if (matchingHalflop ) {
+        
+        row.innerHTML = `
+            
+            <td colspan="10" class="text-center" style="background-color:  #666699; color: white;">${matchingHalflop.lev_typ} : ${matchingHalflop.reason}</td>
+
+        `;
+
+      
+        // Create a new row for the second part
+        var row1 = document.createElement('tr');
+        var recordId = matchingDetails ? matchingDetails.id : null;
+
+    // Check if matchingDetails exists
+    if (!matchingDetails) {
+        // If matchingDetails doesn't exist, show the missed clock-in message
+        row1.innerHTML = `
+        <td rowspan="2" style="background-color: #666699;color:white;" class="text-center">${day}</td>
+        <td rowspan="2" style="background-color: #666699; color:white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+            ${aligndate} - ${dayName}
+        </td>
+            <td colspan="9" class="text-center" style="background-color: #666699; color: white;">missed to clockin</td>
+            <td class="text-center" style="background-color:#666699;"><button  onclick="openPopup(${selectedYear}, ${selectedMonth + 1}, ${day})" style="border:none; background-color:#666699;"><img src="{% static "img/not.png" %}" alt="Printer" height="20px;" class="a3" width="20px;"></button></td>
+        `;
+        halflopmissed++;
+        sessionStorage.setItem('halflopmissed', halflopmissed);
+    } else {
+
+        var totalHours = matchingDetails.tot_hr;
+console.log("totalHours", totalHours);
+
+var timeComponents1 = totalHours.split(':'); // Splitting the formatted time string by ':'
+
+console.log("timeComponents", timeComponents1);
+
+var hours = parseInt(timeComponents1[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents1[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime);
+
+
+        // Append each cell individually to row1
+        row1.innerHTML += `
+
+        
+        
+        <td rowspan="2" style="background-color:  #666699; color: white;" class="text-center">${day}</td>
+            <td rowspan="2" style="background-color:  #666699; color: white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+                ${aligndate} - ${dayName}
+            </td>
+
+
+
+            <td class="text-center" style="background-color:#666699; color: white;">${matchingDetails.clk_in_tm}</td>
+    <td class="text-center" style="background-color:#666699; color: white;">${matchingDetails.clk_out_tm}</td>
+    <td class="text-center" style="background-color:#666699; color: white;">${formattedTime}</td>
+    <td class="text-center" style="background-color:#666699; color: white;">${matchingDetails.clkin_ip}</td>
+    <td class="text-center" style="background-color:#666699; color: white;">${matchingDetails.clkout_ip}</td>
+    <td class="text-center" style="background-color:#666699; color: white;">--</td>
+    <td class="text-center" style="background-color:#666699; color: white;">--</td>
+    <td class="text-center" style="background-color:#666699; color: white;">--</td>
+    <td class="text-center" style="background-color:#666699; color: white;">--</td>
+    
+    <td class="text-center" style="background-color:  #666699;"><button  onclick="openPopup(${selectedYear}, ${selectedMonth + 1}, ${day})" style="border:none; background-color:  #666699;"><img src="{% static "img/not.png" %}" alt="Printer" height="20px;" class="a3" width="20px;"></button></td>
+
+        `;
+        }
+        // Append the second row to the table body
+        $('#tableBody').append(row1);
+        // Add the row to your table (assuming you have a table with id 'tableBody')
+        Halflop++;
+        dailyTally++;
+  
+// Set the total punched days in the th element  totallop
+ document.getElementById('matchingHalflop').textContent = ` ${Halflop}`; 
+ document.getElementById('Halflop').textContent = ` ${Halflop}`; 
+ sessionStorage.setItem('Halflop', Halflop);
+
+}
+
+else if (matchingCl) {
+        row.innerHTML = `
+        <td style="background-color: #75b1bd;color:white;" class="text-center">${day}</td>
+        <td style="background-color: #75b1bd; color:white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+            ${aligndate} - ${dayName}
+        </td>
+            <td colspan="10" class="text-center" style="background-color:   #75b1bd; color: white;">${matchingCl.lev_typ} : ${matchingCl.reason}</td>
+           
+        `;
+
+      
+      
+        // Increment the clCount
+        clCount++;
+        dailyTally++;
+
+        // Set the total punched days in the th element totallop
+        document.getElementById('clCount').textContent = ` ${clCount}`;
+        sessionStorage.setItem('clCount', clCount);
+
+    }
+
+    else if (matchingLeave) {
+    row.innerHTML = `
+        <!-- Your HTML structure for a matching leave -->
+        <td style="background-color: #ff9999;" class="text-center">${day}</td>
+        <td style="background-color: #ff9999; " class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+            ${aligndate} - ${dayName}
+        </td>
+        <td colspan="9" class="text-center" style="background-color: #ff9999;  ">${matchingLeave.lev_typ} : ${matchingLeave.reason}</td>
+        <td class="text-center" style="background-color:   #ff9999;"><button  onclick="openPopup(${selectedYear}, ${selectedMonth + 1}, ${day})" style="border:none; background-color:   #ff9999;"><img src="{% static "img/not.png" %}" alt="Printer" height="20px;" class="a3" width="20px;"></button></td>
+    `;
+    // Add the row to your table (assuming you have a table with id 'tableBody')
+    matchingLeavesCount++;
+    dailyTally++;
+    // Set the total punched days in the th element 'matchingLeavesCount'
+    document.getElementById('matchingLeavesCount').textContent = `${matchingLeavesCount}`;
+    sessionStorage.setItem('matchingLeavesCount', matchingLeavesCount);
+
+}
+
+
+else if (holidayDate) {
+        
+        row.innerHTML = `
+            <!-- Your HTML structure for a matching leave -->
+           
+            <td style="background-color: #ff4d4d; color:white; font-weight:bolder;" class="text-center">${day}</td>
+            <td style=" background-color:  #ff4d4d; color:white; font-weight:bolder;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+                ${aligndate} - ${dayName}
+            </td>
+            <td colspan="9" class="text-center" style="background-color: #ff4d4d; color: white; font-weight: bolder;">Holiday: ${holidayDate.reason}</td>
+<td class="text-center" style="background-color: #ff4d4d;"><button  onclick="openPopup(${selectedYear}, ${selectedMonth + 1}, ${day})" onclick="openPopup(${selectedYear}, ${selectedMonth + 1}, ${day})" style="border: none; background-color: #ff4d4d;"><img src="{% static 'img/not.png' %}" alt="Printer" height="20px" class="a3" width="20px;"></button></td>
+        `;
+        // Add the row to your table (assuming you have a table with id 'tableBody')
+        holiday++;
+        dailyTally++;
+// Set the total punched days in the th element  totallop
+document.getElementById('holiday').textContent = ` ${holiday}`; 
+sessionStorage.setItem('holiday', holiday);
+
+   
+}
+
+   
+else if (matchingDetails) {
+
+var workFromTime = new Date();
+var workFromTimeComponents = matchingDetails.work_frm.split(':');
+
+// Set hours, minutes, and seconds
+workFromTime.setHours(Number(workFromTimeComponents[0]));
+workFromTime.setMinutes(Number(workFromTimeComponents[1]));
+workFromTime.setSeconds(Number(workFromTimeComponents[2]));
+
+// Check if the date is valid
+if (isNaN(workFromTime)) {
+console.error('Invalid date format');
+// Handle the error or return from the function
+}
+
+// Now you can use workFromTime as needed
+console.log('Work From Time:', workFromTime);
+
+
+var clockinTime = new Date();
+var clockinTimeComponents = matchingDetails.clk_in_tm.split(':');
+
+// Set hours, minutes, and seconds
+clockinTime.setHours(Number(clockinTimeComponents[0]));
+clockinTime.setMinutes(Number(clockinTimeComponents[1]));
+clockinTime.setSeconds(Number(clockinTimeComponents[2]));
+
+// Check if the date is valid
+if (isNaN(clockinTime)) {
+console.error('Invalid date format');
+// Handle the error or return from the function            
+}
+
+// Now you can use workFromTime as needed
+console.log('clockin Time:', clockinTime);
+
+// Calculate the late difference in milliseconds
+var lateDifferenceMilliseconds = clockinTime - workFromTime;
+lateDifferenceMilliseconds = Math.max(lateDifferenceMilliseconds, 0);
+
+// Ensure the difference is positive (i.e., clockinTime is later than workFromTime)
+if (lateDifferenceMilliseconds < 0) {
+console.error('Invalid time difference');
+// Handle the error or return from the function
+}
+
+// Convert the difference to hours, minutes, and seconds
+var lateDifferenceSeconds = Math.floor(lateDifferenceMilliseconds / 1000);
+var lateDifferenceHours = Math.floor(lateDifferenceSeconds / 3600);
+var lateDifferenceMinutes = Math.floor((lateDifferenceSeconds % 3600) / 60);
+
+// Format the late difference
+var formattedLateDifference = `${('0' + lateDifferenceHours).slice(-2)}:${('0' + lateDifferenceMinutes).slice(-2)}:00`;
+
+// Now you can use formattedLateDifference as needed
+console.log('Late hjgkjukigy Difference:', lateDifferenceHours);
+// Update total late difference
+totalLateDifferenceHours += lateDifferenceHours;
+totalLateDifferenceMinutes += lateDifferenceMinutes;
+
+// Display the formattedLateDifference for each day
+console.log(`Late Difference for ${formattedDate}: ${formattedLateDifference}`);
+
+//calculate the early by...
+
+var worktoTime = new Date();
+var worktoTimeComponents = matchingDetails.work_to.split(':');
+
+// Set hours, minutes, and seconds
+worktoTime.setHours(Number(worktoTimeComponents[0]));
+worktoTime.setMinutes(Number(worktoTimeComponents[1]));
+worktoTime.setSeconds(Number(worktoTimeComponents[2]));
+
+// Check if the date is valid
+if (isNaN(worktoTime)) {
+console.error('Invalid date format');
+// Handle the error or return from the function
+}
+
+// Now you can use workFromTime as needed
+console.log('Work to Time:', worktoTime);
+
+
+var clockoutTime = new Date();
+var clockoutTimeComponents = matchingDetails.clk_out_tm.split(':');
+
+// Set hours, minutes, and seconds
+clockoutTime.setHours(Number(clockoutTimeComponents[0]));
+clockoutTime.setMinutes(Number(clockoutTimeComponents[1]));
+clockoutTime.setSeconds(Number(clockoutTimeComponents[2]));
+
+// Check if the date is valid
+if (isNaN(clockoutTime)) {
+console.error('Invalid date format');
+// Handle the error or return from the function
+}
+
+// Now you can use workFromTime as needed
+console.log('clock out Time:', clockoutTime);
+
+// Calculate the late difference in milliseconds
+var earlyDifferenceMilliseconds = worktoTime - clockoutTime;
+earlyDifferenceMilliseconds = Math.max(earlyDifferenceMilliseconds, 0);
+
+
+
+// Ensure the difference is positive (i.e., clockinTime is later than workFromTime)
+if (earlyDifferenceMilliseconds < 0) {
+console.error('Invalid time difference');
+// Handle the error or return from the function
+}
+
+// Convert the difference to hours, minutes, and seconds
+var earlyDifferenceSeconds = Math.floor(earlyDifferenceMilliseconds / 1000);
+var earlyDifferenceHours = Math.floor(earlyDifferenceSeconds / 3600);
+var earlyDifferenceMinutes = Math.floor((earlyDifferenceSeconds % 3600) / 60);
+
+// Format the late difference
+var formattedEarlyDifference = `${('0' + earlyDifferenceHours).slice(-2)}:${('0' + earlyDifferenceMinutes).slice(-2)}:00`;
+
+// Now you can use formattedLateDifference as needed
+console.log('Early hgjuhgjkhu Difference:', earlyDifferenceHours);
+
+totalEarlyDifferenceHours += earlyDifferenceHours;
+totalEarlyDifferenceMinutes += earlyDifferenceMinutes;
+
+// Display the formattedLateDifference for each day
+console.log(`Early Difference for ${formattedDate}: ${formattedEarlyDifference}`);
+
+
+if ( earlyDifferenceHours >= 4) {
+
+
+
+    var totalHours = matchingDetails.tot_hr;
+console.log("totalHours", totalHours);
+
+var timeComponents1 = totalHours.split(':'); // Splitting the formatted time string by ':'
+
+console.log("timeComponents", timeComponents1);
+
+var hours = parseInt(timeComponents1[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents1[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime);
+
+
+ // Assuming formattedLateDifference contains time difference in minutes
+ var timeComponents = formattedLateDifference.split(':'); // Splitting the formatted time string by ':'
+console.log("timeComponents", timeComponents);
+
+var hours = parseInt(timeComponents[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime1 = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime1);
+
+
+
+var timeComponents1 = formattedEarlyDifference.split(':'); // Splitting the formatted time string by ':'
+console.log("timeComponents", timeComponents1);
+
+var hours = parseInt(timeComponents1[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents1[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime2 = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime2);
+
+
+var late = formattedLateDifference; // Assuming you have a variable named formattedLateDifference containing the formatted late difference
+
+var fetchStatus = sessionStorage.getItem('status');
+console.log("frfergfrg", fetchStatus);
+
+
+
+var late = formattedTime1; // Assuming you have a variable named formattedLateDifference containing the formatted late difference
+
+var fetchStatus = sessionStorage.getItem('status');
+console.log("frfergfrg", fetchStatus);
+
+
+
+// Check if the sessionStorage variable 'status' is enabled
+if (fetchStatus == 'enabled') {
+    displayValue = late; // If enabled, display the 'late' value
+}
+else{
+    displayValue = 0; 
+}
+
+
+var early= formattedTime2; // Assuming you have a variable named formattedLateDifference containing the formatted late difference
+
+var fetchStatus = sessionStorage.getItem('status');
+console.log("frfergfrg", fetchStatus);
+
+
+
+// Check if the sessionStorage variable 'status' is enabled
+if (fetchStatus == 'enabled') {
+    display_earlyValue = early; // If enabled, display the 'late' value
+}
+else{
+    display_earlyValue = 0; 
+}
+
+row.innerHTML = `
+
+<td colspan="10" class="text-center" style="background-color:  #ff6600; color: white;">Missed-to-clock-in</td>
+
+`;
+
+
+// Create a new row for the second part
+var row1 = document.createElement('tr');
+row1.innerHTML = `
+
+
+
+<td rowspan="2" style="background-color:  #ff6600; color: white;" class="text-center">${day}</td>
+<td rowspan="2" style="background-color:  #ff6600; color: white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+    ${aligndate} - ${dayName}
+</td>
+
+
+
+<td class="text-center" style="background-color:#ff6600;">${convertTo12HourFormat(matchingDetails.clk_in_tm)}</td>
+<td class="text-center" style="background-color:#ff6600;">${convertTo12HourFormat(matchingDetails.clk_out_tm)}</td>
+<td class="text-center" style="background-color:#ff6600;">${formattedTime}</td>
+<td class="text-center" style="background-color:#ff6600;">${matchingDetails.clkin_ip}</td>
+<td class="text-center" style="background-color:#ff6600;">${matchingDetails.clkout_ip}</td>
+<td class="text-center" style="background-color:#ff6600;">${displayValue}</td>
+<td class="text-center" style="background-color:#ff6600;">${display_earlyValue}</td>
+<td class="text-center" style="background-color:#ff6600;">--</td>
+<td class="text-center" style="background-color:#ff6600;">--</td>
+<td class="text-center" style="background-color:#ff6600;"><button  onclick="openPopup(${selectedYear}, ${selectedMonth + 1}, ${day})" style="border:none; background-color:#ff6600;"><img src="{% static "img/not.png" %}" alt="Printer" height="20px;" class="a3" width="20px;"></button></td>
+
+
+
+`;
+halfdaymissed++;
+dailyTally++;
+
+// Append the second row to the table body
+$('#tableBody').append(row1);
+
+
+// Display information about missed clock-in
+console.log(`Missed Clock-in for ${formattedDate}: ${matchingDetails}`);
+// document.getElementById("halfdaymissed").textContent = ` ${halfdaymissed}`;
+document.getElementById("halfdaymissed").textContent = ` ${halfdaymissed + halflopmissed + halfmissed +halfodmissed}`;
+
+sessionStorage.setItem('halfdaymissed', halfdaymissed);
+
+// You can add additional code to display this information in your HTML or handle it as needed
+}
+
+else if ( lateDifferenceHours >= 4) {
+
+
+    var totalHours = matchingDetails.tot_hr;
+console.log("totalHours", totalHours);
+
+var timeComponents1 = totalHours.split(':'); // Splitting the formatted time string by ':'
+
+console.log("timeComponents", timeComponents1);
+
+var hours = parseInt(timeComponents1[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents1[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime);
+
+
+ // Assuming formattedLateDifference contains time difference in minutes
+ var timeComponents = formattedLateDifference.split(':'); // Splitting the formatted time string by ':'
+console.log("timeComponents", timeComponents);
+
+var hours = parseInt(timeComponents[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime1 = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime1);
+
+
+
+var timeComponents1 = formattedEarlyDifference.split(':'); // Splitting the formatted time string by ':'
+console.log("timeComponents", timeComponents1);
+
+var hours = parseInt(timeComponents1[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents1[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime2 = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime2);
+
+
+var late = formattedTime1; // Assuming you have a variable named formattedLateDifference containing the formatted late difference
+
+var fetchStatus = sessionStorage.getItem('status');
+console.log("frfergfrg", fetchStatus);
+
+
+
+var late = formattedTime1; // Assuming you have a variable named formattedLateDifference containing the formatted late difference
+
+var fetchStatus = sessionStorage.getItem('status');
+console.log("frfergfrg", fetchStatus);
+
+
+
+// Check if the sessionStorage variable 'status' is enabled
+if (fetchStatus == 'enabled') {
+    displayValue = late; // If enabled, display the 'late' value
+}
+else{
+    displayValue = 0; 
+}
+
+
+var early= formattedTime2; // Assuming you have a variable named formattedLateDifference containing the formatted late difference
+
+var fetchStatus = sessionStorage.getItem('status');
+console.log("frfergfrg", fetchStatus);
+
+
+
+// Check if the sessionStorage variable 'status' is enabled
+if (fetchStatus == 'enabled') {
+    display_earlyValue = early; // If enabled, display the 'late' value
+}
+else{
+    display_earlyValue = 0; 
+}
+
+
+row.innerHTML = `
+
+<td colspan="10" class="text-center" style="background-color:  #ff6600; color: white;">Missed-to-clock-in</td>
+
+`;
+
+
+// Create a new row for the second part
+var row1 = document.createElement('tr');
+
+
+
+
+row1.innerHTML = `
+
+
+
+<td rowspan="2" style="background-color:  #ff6600; color: white;" class="text-center">${day}</td>
+<td rowspan="2" style="background-color:  #ff6600; color: white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+${aligndate} - ${dayName}
+</td>
+
+
+
+<td class="text-center" style="background-color:#ff6600;">${convertTo12HourFormat(matchingDetails.clk_in_tm)}</td>
+<td class="text-center" style="background-color:#ff6600;">${matchingDetails.clk_out_tm}</td>
+<td class="text-center" style="background-color:#ff6600;">${formattedTime}</td>
+<td class="text-center" style="background-color:#ff6600;">${matchingDetails.clkin_ip}</td>
+<td class="text-center" style="background-color:#ff6600;">${matchingDetails.clkout_ip}</td>
+<td class="text-center" style="background-color:#ff6600;">${displayValue}</td>
+<td class="text-center" style="background-color:#ff6600;">${display_earlyValue}</td>
+<td class="text-center" style="background-color:#ff6600;">--</td>
+<td class="text-center" style="background-color:#ff6600;">--</td>
+<td class="text-center" style="background-color:#ff6600;"><button  onclick="openPopup(${selectedYear}, ${selectedMonth + 1}, ${day})" style="border:none;background-color:#ff6600; "><img src="{% static "img/not.png" %}" alt="Printer" height="20px;" class="a3" width="20px;"></button></td>
+
+
+`;
+halfdaymissed++;
+dailyTally++;
+
+// Append the second row to the table body
+$('#tableBody').append(row1);
+
+
+// Display information about missed clock-in
+console.log(`Missed Clock-in for ${formattedDate}: ${matchingDetails}`);
+// You can add additional code to display this information in your HTML or handle it as needed
+document.getElementById("halfdaymissed").textContent = ` ${halfdaymissed}`;
+sessionStorage.setItem('halfdaymissed', halfdaymissed);
+
+}
+
+
+
+else {
+
+
+
+
+var recordId = matchingDetails.id;
+var userid = matchingDetails.clk_in_tm;
+var user_Id = matchingDetails.user_id;
+var mnth = matchingDetails.mnth;
+var yr = matchingDetails.yr;
+
+
+var timeComponents = formattedLateDifference.split(':'); // Splitting the formatted time string by ':'
+console.log("timeComponents", timeComponents);
+
+var hours = parseInt(timeComponents[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime1 = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime1);
+
+
+var late = formattedTime1; // Assuming you have a variable named formattedLateDifference containing the formatted late difference
+
+var fetchStatus = sessionStorage.getItem('status');
+console.log("frfergfrg", fetchStatus);
+
+
+
+var late = formattedTime1; // Assuming you have a variable named formattedLateDifference containing the formatted late difference
+
+var fetchStatus = sessionStorage.getItem('status');
+console.log("frfergfrg", fetchStatus);
+
+
+
+// Check if the sessionStorage variable 'status' is enabled
+if (fetchStatus == 'enabled') {
+    displayValue = late; // If enabled, display the 'late' value
+}
+else{
+    displayValue = 0; 
+}
+
+
+
+var timeComponents1 = formattedEarlyDifference.split(':'); // Splitting the formatted time string by ':'
+console.log("timeComponents", timeComponents1);
+
+var hours = parseInt(timeComponents1[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents1[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime2 = hours + "h " + minutes + "min";
+
+
+
+var early= formattedTime2; // Assuming you have a variable named formattedLateDifference containing the formatted late difference
+
+var fetchStatus = sessionStorage.getItem('status');
+console.log("frfergfrg", fetchStatus);
+
+
+
+// Check if the sessionStorage variable 'status' is enabled
+if (fetchStatus == 'enabled') {
+    display_earlyValue = early; // If enabled, display the 'late' value
+}
+else{
+    display_earlyValue = 0; 
+}
+
+
+var totalHours = matchingDetails.tot_hr;
+console.log("totalHours", totalHours);
+
+var timeComponents1 = totalHours.split(':'); // Splitting the formatted time string by ':'
+
+console.log("timeComponents", timeComponents1);
+
+var hours = parseInt(timeComponents1[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents1[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime);
+
+// Populate attendance details in the row
+row.innerHTML = `
+
+<td class="text-center" style="background-color:white;">${day}</td>
+<td class="text-center ${dayName === 'Sun' ? 'sunday' : ''}" style="background-color:white;">
+${aligndate} - ${dayName}
+</td>
+<td class="text-center" style="background-color:white;">${convertTo12HourFormat(matchingDetails.clk_in_tm)}</td>
+<td class="text-center" style="background-color:white;">${convertTo12HourFormat(matchingDetails.clk_out_tm)}</td>
+<td class="text-center" style="background-color:white;">${formattedTime}</td>
+<td class="text-center" style="background-color:white;">${matchingDetails.clkin_ip}</td>
+<td class="text-center" style="background-color:white;">${matchingDetails.clkout_ip}</td>
+<td class="text-center" style="background-color:white;">${displayValue}</td>
+<td class="text-center" style="background-color:white;">${display_earlyValue}</td>
+<td class="text-center" style="background-color:white;">--</td>
+<td class="text-center" style="background-color:white;">--</td>
+<td class="text-center" style="background-color:white;"><button  onclick="openPopup(${selectedYear}, ${selectedMonth + 1}, ${day})" style="border:none; background-color:white;"><img src="{% static "img/not.png" %}" alt="Printer" height="20px;" class="a3" width="20px;"></button></td>
+
+`;
+
+totalPunchedDays++;
+dailyTally++;
+// Set the total punched days in the th element  totallop
+document.getElementById('totalPunchedDays').textContent = ` ${totalPunchedDays}`;
+sessionStorage.setItem('totalPunchedDays', totalPunchedDays);
+
+
+}
+
+} 
+
+
+
+   
+    else {
+        // If no attendance details are available for the day, display empty cells
+        row.innerHTML = `
+        
+            <td class="text-center">${day}</td>
+            <td class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+                ${aligndate} - ${dayName}
+            </td>
+            <td colspan="9" class="text-center">Missed-to-clock-in</td>
+            <td class="text-center" style="background-color: #ecf8ec;"><button  onclick="openPopup(${selectedYear}, ${selectedMonth + 1}, ${day})" style="border:none;background-color: #ecf8ec;"><img src="{% static "img/not.png" %}" alt="Printer" height="20px;" class="a3" width="20px;"></button></td>
+            
+            
+        `;
+        // totalMissedClockInDays++;
+        dailyTally++;
+        // Set the total missed clock-in days in the th element
+        // document.getElementById('totalMissedClockInDays').textContent = ` ${totalMissedClockInDays}`;
+    }
+
+    var totalPunchedDays = sessionStorage.getItem('totalPunchedDays');
+var holiday = sessionStorage.getItem('holiday');
+var matchingLeavesCount = sessionStorage.getItem('matchingLeavesCount');
+var halfdaymissed = sessionStorage.getItem('halfdaymissed');
+var Halflop = sessionStorage.getItem('Halflop');
+
+var totalDays = sessionStorage.getItem('totalDays');
+
+var od = sessionStorage.getItem('od');
+ var clCount = sessionStorage.getItem('clCount');
+
+ var halfdayod = sessionStorage.getItem('halfdayod');
+
+var halfdaycl = sessionStorage.getItem('halfdaycl');
+
+console.log("totalPunchedDays",totalPunchedDays)
+// // Convert retrieved values to numbers
+totalPunchedDays = parseInt(totalPunchedDays) || 0;
+console.log("totalPunchedDays",totalPunchedDays)
+holiday = parseInt(holiday) || 0;
+matchingLeavesCount = parseInt(matchingLeavesCount) || 0;
+halfdaymissed = parseInt(halfdaymissed) || 0;
+Halflop = parseInt(Halflop) || 0;
+totalDays = parseInt(totalDays) || 0;
+
+od = parseInt(od) || 0;
+clCount = parseInt(clCount) || 0;
+
+halfdayod = parseInt(halfdayod) || 0;
+console.log("halfdayod",halfdayod)
+
+halfdaycl = parseInt(halfdaycl) || 0;
+console.log("halfdaycl",halfdaycl)
+
+console.log("od",od)
+console.log("clCount",clCount)
+
+var total= totalPunchedDays + holiday + matchingLeavesCount + halfdaymissed + Halflop + clCount + od + halfdayod + halfdaycl;
+console.log("total",total)
+// Calculate the total of all values
+var totalMissedClockInDays =  totalDays - total;
+console.log("totalMissedClockInDays",totalMissedClockInDays)
+
+// Display the total in the desired format
+document.getElementById('totalMissedClockInDays').textContent = ` ${totalMissedClockInDays}`;
+    
+    tally += dailyTally;
+    document.getElementById('tally').textContent = ` ${tally}`;
+
+    function convertTo12HourFormat(timeString) {
+    // Create a new Date object with a fixed date (e.g., '1970-01-01') and the time string
+    var dateObject = new Date('1970-01-01 ' + timeString);
+
+    // Format the time in 12-hour format
+    var formattedTime = dateObject.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+
+    return formattedTime;
+}
+
+
+$('#tableBody').append(row);
+
+
+
+
+
+
+   
+    // Convert totalLateDifferenceMinutes to hours and add to totalLateDifferenceHours
+totalLateDifferenceHours += Math.floor(totalLateDifferenceMinutes / 60);
+totalLateDifferenceMinutes %= 60;
+
+// Format the total late difference
+var totalFormattedLateDifference = `${('0' + totalLateDifferenceHours).slice(-2)} hr : ${('0' + totalLateDifferenceMinutes).slice(-2)} min`;
+
+
+var late = totalFormattedLateDifference; // Assuming you have a variable named formattedLateDifference containing the formatted late difference
+
+var fetchStatus = sessionStorage.getItem('status');
+console.log("frfergfrg", fetchStatus);
+
+
+
+// Check if the sessionStorage variable 'status' is enabled
+if (fetchStatus == 'enabled') {
+    total_late_format = late; // If enabled, display the 'late' value
+}
+else{
+    total_late_format = 0; 
+}
+
+
+// Display the total late difference
+console.log(`Total Late Difference for the Month: ${totalFormattedLateDifference}`);
+document.getElementById("tot_late").innerHTML = total_late_format;
+
+
+
+totalEarlyDifferenceHours += Math.floor(totalEarlyDifferenceMinutes / 60);
+totalEarlyDifferenceMinutes %= 60;
+
+// Format the total late difference
+var totalFormattedEarlyDifference = `${('0' + totalEarlyDifferenceHours).slice(-2)} hr :${('0' + totalEarlyDifferenceMinutes).slice(-2)} min`;
+
+
+var earlyy = totalFormattedEarlyDifference; // Assuming you have a variable named formattedLateDifference containing the formatted late difference
+
+var fetchStatus = sessionStorage.getItem('status');
+console.log("frfergfrg", fetchStatus);
+
+
+
+// Check if the sessionStorage variable 'status' is enabled
+if (fetchStatus == 'enabled') {
+    total_early_by = earlyy; // If enabled, display the 'late' value
+}
+else{
+    total_early_by = 0; 
+}
+
+
+
+
+
+
+
+// Display the total late difference
+console.log(`Total Early Difference for the Month: ${totalFormattedEarlyDifference}`);
+document.getElementById("tot_Early").innerHTML = total_early_by;
+document.getElementById("earlyclockout").innerHTML = total_early_by;
+
+var totalDifferenceHours = totalLateDifferenceHours + totalEarlyDifferenceHours;
+var totalDifferenceMinutes = totalLateDifferenceMinutes + totalEarlyDifferenceMinutes;
+
+// Convert minutes to hours if necessary
+totalDifferenceHours += Math.floor(totalDifferenceMinutes / 60);
+totalDifferenceMinutes %= 60;
+
+// Format the total difference
+var totalFormattedDifference = `${('0' + totalDifferenceHours).slice(-2)} hr : ${('0' + totalDifferenceMinutes).slice(-2)} min`;
+
+
+
+
+
+var total = totalFormattedDifference; // Assuming you have a variable named formattedLateDifference containing the formatted late difference
+
+var fetchStatus = sessionStorage.getItem('status');
+console.log("frfergfrg", fetchStatus);
+
+
+
+// Check if the sessionStorage variable 'status' is enabled
+if (fetchStatus == 'enabled') {
+    total_late = total; // If enabled, display the 'late' value
+}
+else{
+    total_late = 0; 
+}
+
+
+// Display the total difference
+console.log(`Total Difference between Late and Early for the Month: ${total_late}`);
+document.getElementById("totalFormattedDifference").innerHTML = total_late;
+}
+
+}
+
+
+// Assuming you have the userId stored in sessionStorage beforehand
+
+// Get stored userId from sessionStorage
+async function fetchData() {
+    // Assuming you have the userId stored in sessionStorage beforehand
+    // Get stored userId from sessionStorage
+    var storedUserId = sessionStorage.getItem('username');
+    var storeMonth = sessionStorage.getItem('selectedMonthh'); // Corrected to 'selectedMonthh'
+    var storeYear = sessionStorage.getItem('selectedYear');
+    var storeMonthname = sessionStorage.getItem('selectedMonthName');
+
+    // Check if userId is present
+    if (storedUserId && storeMonthname && storeYear && storeMonth) {
+        try {
+            // Fetch attendance and lop data asynchronously using the stored userId
+            var attendanceDetailsArray = await fetchAttendanceDetails(storedUserId, storeMonth, storeYear);
+            var lopDetailsArray = await fetchlopdata(storedUserId, storeMonth, storeYear);
+            var clDetailsArray = await fetchcldata(storedUserId, storeMonth, storeYear);
+            var halflopDetailsArray = await fetchhalflop(storedUserId);
+            var odDetailsArray = await fetchod(storedUserId, storeMonth, storeYear);
+            var halfclDetailsArray = await fetchHalfcl(storedUserId);
+            var halfodDetailsArray = await fetchHalfod(storedUserId);
+
+            var holidayDetailsArray = await fetchHoliday(storeMonthname, storeYear);
+
+            console.log("Fetched Data:");
+            console.log("Attendance Details:", attendanceDetailsArray);
+            console.log("LOP Details:", lopDetailsArray);
+            console.log("CL Details:", clDetailsArray);
+            console.log("Half LOP Details:", halflopDetailsArray);
+            console.log("OD Details:", odDetailsArray);
+            console.log("Half CL Details:", halfclDetailsArray);
+            console.log("Half OD Details:", halfodDetailsArray);
+            console.log("Holiday Details:", holidayDetailsArray);
+
+            // Update the table with attendance and lop details
+            updateTable(
+                attendanceDetailsArray, null, lopDetailsArray, null,
+                clDetailsArray, null, halflopDetailsArray, null,
+                odDetailsArray, null, halfclDetailsArray, null,
+                halfodDetailsArray, null, holidayDetailsArray, null
+            );
+            
+            updateMonthYearHeading();
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    } else {
+        console.log('Incomplete or missing data in sessionStorage.');
+    }
+}
+
+
+// Call the async function to start the process
+fetchData();
+
+
+
+
+
+// Define a function to fetch attendance details
+function fetchAttendanceDetails(storedUserId) {
+    return new Promise(function (resolve, reject) {
+        // Make an AJAX request to fetch additional data from bkattendance
+        $.ajax({
+            url: '/fetch_attendance/',  // Update to your actual endpoint
+            method: 'GET',  // Use GET method
+            data: { user_id: storedUserId },
+
+            success: function (attendanceResponse) {
+                // Check if the response contains an error
+                if (attendanceResponse && attendanceResponse.error) {
+                    reject(new Error('Error fetching attendance data: ' + attendanceResponse.error));
+                } else {
+                    resolve(attendanceResponse.attendance_details);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                reject(new Error('Error fetching attendance data:' + errorThrown));
+            }
+        });
+    });
+
+
+}
+
+
+function fetchlopdata(storedUserId , storeMonth  ,storeYear ) {
+    return new Promise(function (resolve, reject) {
+        // Make an AJAX request to fetch additional data from bkattendance
+        $.ajax({
+            url: '/fetch_user_data/',  // Update to your actual endpoint
+            method: 'GET',  // Use GET method
+            data: { user_id: storedUserId, mnth: storeMonth  , yr: storeYear },
+
+            success: function (leaveResponse) {
+                // Check if the response contains an error
+                if (leaveResponse && leaveResponse.error) {
+                    reject(new Error('Error fetching leaveResponse data: ' + leaveResponse.error));
+                } else {
+                    resolve(leaveResponse.lop_details);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                reject(new Error('Error fetching leaveResponse data:' + errorThrown));
+            }
+        });
+    });
+
+
+}
+
+function fetchcldata(storedUserId, storeMonth  ,storeYear) {
+    return new Promise(function (resolve, reject) {
+        // Make an AJAX request to fetch additional data from bkattendance
+        $.ajax({
+            url: '/fetch_cl/',  // Update to your actual endpoint
+            method: 'GET',  // Use GET method
+            data: { user_id: storedUserId , mnth: storeMonth  , yr: storeYear},
+
+            success: function (clResponse) {
+                // Check if the response contains an error
+                if (clResponse && clResponse.error) {
+                    reject(new Error('Error fetching clResponse data: ' + clResponse.error));
+                } else {
+                    resolve(clResponse.lop_details);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                reject(new Error('Error fetching clResponse data:' + errorThrown));
+            }
+        });
+    });
+
+
+}
+
+
+
+
+
+function fetchhalflop(storedUserId) {
+    return new Promise(function (resolve, reject) {
+        // Make an AJAX request to fetch additional data from bkattendance
+        $.ajax({
+            url: '/fetch_halflop/',  // Update to your actual endpoint
+            method: 'GET',  // Use GET method
+            data: { user_id: storedUserId },
+
+            success: function (halflopResponse) {
+                // Check if the response contains an error
+                if (halflopResponse && halflopResponse.error) {
+                    reject(new Error('Error fetching halflopResponse data: ' + halflopResponse.error));
+                } else {
+                    resolve(halflopResponse.halflop_details);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                reject(new Error('Error fetching clResponse data:' + errorThrown));
+            }
+        });
+    });
+
+
+}
+
+function fetchod(storedUserId, storeMonth  ,storeYear) {
+    return new Promise(function (resolve, reject) {
+        // Make an AJAX request to fetch additional data from bkattendance
+        $.ajax({
+            url: '/fetch_od/',  // Update to your actual endpoint
+            method: 'GET',  // Use GET method
+            data: { user_id: storedUserId  , mnth: storeMonth  , yr: storeYear },
+
+            success: function (odResponse) {
+                // Check if the response contains an error
+                if (odResponse && odResponse.error) {
+                    reject(new Error('Error fetching odResponse data: ' + odResponse.error));
+                } else {
+                    resolve(odResponse.od_details);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                reject(new Error('Error fetching clResponse data:' + errorThrown));
+            }
+        });
+    });
+
+
+}
+
+function fetchHalfcl(storedUserId) {
+    return new Promise(function (resolve, reject) {
+        // Make an AJAX request to fetch additional data from bkattendance
+        $.ajax({
+            url: '/fetch_halfcl/',  // Update to your actual endpoint
+            method: 'GET',  // Use GET method
+            data: { user_id: storedUserId },
+
+            success: function (halfclResponse) {
+                // Check if the response contains an error
+                if (halfclResponse && halfclResponse.error) {
+                    reject(new Error('Error fetching halfclResponse data: ' + halfclResponse.error));
+                } else {
+                    resolve(halfclResponse.halfcl_details);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                reject(new Error('Error fetching clResponse data:' + errorThrown));
+            }
+        });
+    });
+
+
+}
+
+
+function fetchHalfod(storedUserId) {
+    return new Promise(function (resolve, reject) {
+        // Make an AJAX request to fetch additional data from bkattendance
+        $.ajax({
+            url: '/fetch_halfod/',  // Update to your actual endpoint
+            method: 'GET',  // Use GET method
+            data: { user_id: storedUserId },
+
+            success: function (halfodResponse) {
+                // Check if the response contains an error
+                if (halfodResponse && halfodResponse.error) {
+                    reject(new Error('Error fetching halfodResponse data: ' + halfodResponse.error));
+                } else {
+                    resolve(halfodResponse.halfod_details);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                reject(new Error('Error fetching halfodResponse data:' + errorThrown));
+            }
+        });
+    });
+
+
+}
+
+function fetchHoliday(storeMonthname , storeYear) {
+   
+    return new Promise(function (resolve, reject) {
+        // Make an AJAX request to fetch additional data from bkattendance
+        $.ajax({
+            url: '/fetch_holiday/',  // Update to your actual endpoint
+            method: 'GET',  // Use GET method
+            data: { mnth :  storeMonthname  ,yr: storeYear},
+
+            success: function (haolidayResponse) {
+                // Check if the response contains an error
+                if (haolidayResponse && haolidayResponse.error) {
+                    reject(new Error('Error fetching haolidayResponse data: ' + haolidayResponse.error));
+                } else {
+                    resolve(haolidayResponse.holiday_details);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                reject(new Error('Error fetching haolidayResponse data:' + errorThrown));
+            }
+        });
+    });
+
+
+}
+
+function fetchStatusAndUpdateTable() {
+   $.ajax({
+        url: '/fetch_status/',
+        method: 'GET',
+        success: function(response) {
+            var status = response.status;
+            sessionStorage.setItem("status",status)
+            console.log("statushhedght",status);
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+}
+fetchStatusAndUpdateTable();
+
+// Helper function to get the number of days in a month
+function getDaysInMonth(year, month) {
+    return new Date(year, month + 1, 0).getDate();
+}
+
+// Example functions for edit and add attendance
+
+
+
+
+// Helper function to get the number of days in a month
+function getDaysInMonth(year, month) {
+    return new Date(year, month + 1, 0).getDate();
+}
+
+
+
+       // Attach event listeners to the dropdowns
+yearDropdown.addEventListener('change', function () {
+    // Update selected year when the dropdown changes
+    selectedYear = parseInt($('#yearDropdown').val());
+
+    sessionStorage.setItem('selectedYear', selectedYear);
+    updateTable();
+    updateMonthYearHeading();
+    fetchData();
+
+   
+});
+
+monthDropdown.addEventListener('change', function () {
+    // Update selected month when the dropdown changes
+    selectedMonth = parseInt($('#monthDropdown').val()) - 1;
+    var selectedMonthh = selectedMonth + 1;
+
+    fetchData();
+    
+    updateMonthYearHeading();
+
+    
+});
+
+        // Initial table update and heading update
+        updateTable();
+        updateMonthYearHeading();
+
+function updateMonthYearHeading() {
+        var selectedMonth = monthDropdown.options[monthDropdown.selectedIndex].text;
+        var selectedYear = yearDropdown.options[yearDropdown.selectedIndex].text;
+
+        monthYearHeading.textContent = ` ${selectedMonth} : ${selectedYear}`;
+
+        
+    }
+
+
+    
+
+
+    });
+
+     // Add an event listener for when the document is fully loaded
+     document.addEventListener("DOMContentLoaded", function() {
+            // Call the updateTable function when the document is loaded
+            updateTable();
+            // Call the async function to start the process
+fetchData();
+        });
+    
+</script>
+
+
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <!-- Content for your popup goes here -->
+        <h5 style="display: none;">Notes on: <span id="popupDate" style="color: rgb(136, 12, 49);"></span></h5>
+        <h5 >Notes on: <span id="popupDate1" style="color: rgb(136, 12, 49);"></span></h5>
+        <textarea placeholder="Enter Your Notes Here..." required></textarea>
+
+        <button class="btn custom-button mt-4" onclick="closePopup()">Close</button>
+
+        <button class="btn btn-primary" style="width: 15%; height: 18%; align-items: center; margin-left: 35%; margin-top: -6%;" onclick="addNotes()">Add</button>
+    </div>
+</div>
+
+<script>
+    function openPopup(year, month, day) {
+    var selectdate = `${('0' + day).slice(-2)}-${('0' + month).slice(-2)}-${year}`;
+    document.getElementById('popupDate').innerText = selectdate;
+
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+var monthAbbreviation = months[month - 1]; // month is assumed to be 1-indexed
+
+var selectdate1 = `${('0' + day).slice(-2)} ${monthAbbreviation} ${year}`;
+document.getElementById('popupDate1').innerText = selectdate1;
+
+
+
+    var modal = document.getElementById('myModal');
+    modal.style.display = 'flex'; // Display the modal
+
+    var storedUserId = sessionStorage.getItem('username');
+    var formattedDate = `${year}-${('0' + month).slice(-2)}-${('0' + day).slice(-2)}`;
+   
+
+    $.ajax({
+        url: '/retrieve_notes/',
+        type: 'GET',
+        data: {
+            'user_id': storedUserId,
+            'dt': formattedDate
+        },
+        success: function(data) {
+            // Handle success
+            console.log('Notes retrieved successfully.' ,data);
+            // Populate the textarea with the retrieved notes
+            var textarea = document.querySelector("#myModal textarea");
+            if (data && data.note) {
+                textarea.value = data.note;
+            } else {
+                textarea.value = ''; // Clear textarea if no notes are retrieved
+                
+            }
+        },
+        error: function(error) {
+            // Handle error (if needed)
+            console.error('Error retrieving notes:', error);
+            var textarea = document.querySelector("#myModal textarea");
+            textarea.value = ''; // Clear textarea on error
+        }
+    });
+}
+
+
+
+    function closePopup() {
+        var modal = document.getElementById('myModal');
+        modal.style.display = 'none'; // Hide the modal
+        
+    }
+
+    function addNotes() {
+    var storedUserId = sessionStorage.getItem('username');
+    var notes = document.querySelector("#myModal textarea").value;
+    var popupDate = document.getElementById('popupDate').innerText;
+
+    // Convert the date to the 'YYYY-MM-DD' format
+    var formattedDate = popupDate.split('-').reverse().join('-');
+
+    // Make an AJAX request to save the notes
+    $.ajax({
+        url: '/save_notes/',  // Ensure this matches the URL pattern you defined in your urls.py
+        type: 'POST',
+        data: {
+            'user_id': storedUserId,
+            'note': notes,
+            'dt': formattedDate
+        },
+        success: function (data) {
+            // Handle success
+            console.log('Notes added successfully.');
+            closePopup();  // Close the popup after successful submission
+            
+
+            // Show success message using Swal
+            Swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: 'Notes added successfully.',
+            });
+        },
+        error: function (error) {
+            // Handle error (if needed)
+            console.error('Error adding notes:', error);
+
+            // Show error message using Swal
+            Swal.fire({
+                icon: 'error',
+                title: 'Error!',
+                text: 'Failed to add notes. Please try again.',
+            });
+        }
+    });
+}
+
+
+</script>
+
+
+
+
+
+<body  class="w-100 container-fluid">
+    <div class="col-lg-12"  style="margin-top: 30px; ">
+        <button class="buttonhead col-4" data-text="Awesome">
+            <img src="{% static 'img/leave_status.png'  %}" style="height: 36px;
+            margin-bottom: 8px;
+            margin-right: 3px;" alt=""><span class="actual-text">ATTENDANCE PAGE&nbsp;</span>
+        </button>
+        <div class="container">
+        <div class="col-lg-6">
+            <div class="row ">
+                {% if request.session.username and request.session.nm %}
+    <script>
+        // Remove the existing username from sessionStorage
+        sessionStorage.removeItem('username');
+        
+        // Store the new username in sessionStorage
+        sessionStorage.setItem('username', '{{ request.session.username }}');
+    </script>
+    
+    <h5>{{ request.session.nm|upper }} : {{ request.session.username|upper }}</h5>
+
+    <h5 id="monthYearHeading">Month : Year</h5>
+{% endif %}
+            
+              
+
+               
+            </div>
+        </div>
+<div class="col-lg-6 text-end">
+   
+           <select id="monthDropdown" class="sele" >
+                <option value="" selected disabled>Month</option>
+            </select>
+      <select id="yearDropdown" class="sele">
+        <option value="" selected disabled>Year</option>
+    </select>
+   
+</div>
+</div>
+</div>
+
+<div class="container mt-1">
+<div class="col-lg-12">
+<table class="ttable ">
+    <thead >
+        <td class="aaa">SL.No</td>
+        <td >Date</td>
+        <td> In </td>
+        <td>Out</td>
+        <td>Hour</td>
+        <td>In Ip</td>
+        <td>Out Ip</td>
+        <td>Late</td>
+        <td>Early By</td>
+        <td>Permi.Mng</td>
+        <td>Permi.Evg</td>
+        <td>Add Notes</td>
+        </thead>
+        
+    
+        <tbody id="tableBody"></tbody>
+
+</table>
+
+<table  id="example" width="100%"  class="newtable table-bordered border="2" style="background-color:#7393b5; border: 2px solid rgb(195, 200, 242);" >
+   
+    <thead>
+     <tr style="background-color:#C1E0FF;color:#000" align="center">
+       <th  colspan="4" style="background-color:#0520a6;color:#FFF"><center><b>Summary</b></center></th>
+     </tr>
+     <tr>
+     <th style="background-color:#506480;color:#FFF"><b>Punched</b></th><th  id="totalPunchedDays"><b>0</b></th>
+     <th style="background-color:#506480;color:#FFF"><b>Missed to ClockIn</b></th><th id="totalMissedClockInDays"><b>0</b></th></tr>
+     <tr><th style="background-color:#506480;color:#FFF"><b>CL</b></th><th id="clCount"><b>0</b></th>
+     <th style="background-color:#506480;color:#FFF"><b>LOP</b></th><th id="matchingLeavesCount"><b>0</b></th></tr>
+     <tr><th style="background-color:#506480;color:#FFF"><b>Halfday CL (0.5)</b></th><th id="halfdaycl"><b>0</b></th>
+     <th style="background-color:#506480;color:#FFF"><b>Halfday LOP (0.5)</b></th><th id="matchingHalflop"><b>0</b></th></tr>
+     <tr><th style="background-color:#506480;color:#FFF"><b>OD </b></th><th id="od"><b>0</b></th>
+     <th style="background-color:#506480;color:#FFF"><b>Halfday Missed to ClockIn (0.5)</b></th><th id="halfdaymissed"><b>0</b></th></tr>
+     <tr><th style="background-color:#506480;color:#FFF"><b>Halfday OD (0.5)</b></th><th id="halfdayod"><b>0</b></th>
+     <th style="background-color:#506480;color:#FFF"><b>Halfday Punched (0.5)</b></th><th id="Halflop"><b>0</b></th></tr>
+     <tr><th style="background-color:#506480;color:#FFF"><b>Early Clock Out </b></th><th id="earlyclockout"><b>0 hr : 0 min</b></th>
+
+     <th style="background-color:#506480;color:#FFF"><b>Holiday</b></th><th id="holiday"><b>4</b></th></tr>
+     <tr><th id="currentMonthYear" style="background-color:#0520a6;color:#FFF"><b>Total Days Month : Yaer</b></th>
+     <th style="background-color:#1752b8a4;color:#222121" id="totalDays"><b>30 Days</b></th>
+                             <th style="background-color:#0520a6;color:#FFF"><b>Tally </b></th><th style="background-color:#1752b8a4;color:#302e2e" id="tally"><b>0 Days</b></th></tr>
+     
+     
+                 
+<tr><th  style="background-color:#00004d;color:#FFF"><b>Mng.Late</b></th><th style="background-color:#00004d;color:#FFF" id="tot_late"><b>0 hr : 0 min</b></th>
+    
+                 <th style="background-color:#00004d;color:#FFF"><b>Earlyby </b></th><th style="background-color:#00004d;color:#FFF" id="tot_Early"><b>0 hr : 0 min</b></th></tr>
+     
+ <tr><th  style="background-color:#00004d; color:#FFF"><b>Total.Late</b></th><th style="background-color:#00004d;color:#FFF" id="totalFormattedDifference"><b>0</b></th><th  style="background-color:#fadb61;color:#000" colspan="2"><b>Permissioned Hour : 03 hr:00 min</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Permission Reached : 4 hr:0 min</b></th></tr>
+
+ </thead>
+ </table>
+
+</div>
+</div>
+<div style="height: 50px;">
+
+</div>
+<!-- 
+<div style="margin-top: -30px;">
+    <table style="width: 20%; " >
+      <thead >
+      <tr>
+      <th colspan="2" class="text-center" style="color: #8f0c0c;">Activity Login</th>
+    </tr>
+    <tr>
+      <th style="color: #c51c1c;"> Last Login Time</th>
+      <th style="color: #c51c1c;"> Last Logout Time</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>{{ user_record.log_in_dt_tm }}</td>
+      <td>{{ user_record.log_out_dt_tm }}</td>
+    </tr>
+    
+    </tbody>
+    </table></div>
+  <style>
+    table, th, td {
+    border: 1px solid rgb(255, 255, 255);
+    font-size: 12px;
+  }
+  </style>  -->
+  <script>
+    var lilota = document.getElementById("lolita");
+var lilotaoff = document.getElementById("lolitaoff");
+var offcanvas = document.getElementById("offcanvasExample");
+var navigation1 = document.getElementById("navigation");
+
+// Function to set dark mode based on the value stored in localStorage
+function setDarkModeFromStorage() {
+  var element = document.body;
+  var storedDarkMode = localStorage.getItem('darkMode');
+  var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+
+  if (storedDarkMode === 'true') {
+    element.classList.add('dark-mode');
+    toggleDarkModeButton.checked = true;
+    applyDarkModeStyles();
+  } else {
+    element.classList.remove('dark-mode');
+    toggleDarkModeButton.checked = false;
+    removeDarkModeStyles();
+  }
+}
+
+// Function to apply dark mode styles
+function applyDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  offcanvas.classList.add("offcanvasdrk");
+  navigation1.classList.add("navbardrk");
+}
+
+// Function to remove dark mode styles
+function removeDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+  offcanvas.classList.remove("offcanvasdrk");
+  navigation1.classList.remove("navbardrk");
+
+}
+
+// Function to toggle dark mode and store the state in localStorage
+function toggleDarkMode() {
+  var element = document.body;
+  element.classList.toggle('dark-mode');
+    
+  if (element.classList.contains("dark-mode")) {
+    applyDarkModeStyles();
+  } else {
+    removeDarkModeStyles();
+  }
+
+  // Store the current dark mode state in localStorage
+  var isDarkMode = element.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', isDarkMode.toString());
+}
+
+// Call the function to set dark mode on page load
+setDarkModeFromStorage();
+  </script>
+
+</body>
+
+<!-- {% include 'footer.html' %} -->
+{% endblock %}
+

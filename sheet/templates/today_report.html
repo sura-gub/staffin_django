@@ -1,0 +1,461 @@
+{% include 'header_link.html'%}
+{% load static %}
+
+{% block content %}
+    {% include 'header_adm.html' %}
+
+    <style>
+        body {
+          background-image: url('{% static "img/logbg2.png" %}');
+          min-height: 600px;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+    
+    
+                          /* for heading */
+      .buttonhead {
+        margin: 5% 0 0% 35%;
+      height: auto;
+      background: transparent;
+      padding: 0;
+      border: none;
+      cursor: pointer;
+    }
+    @media screen and (max-width:999px) {
+        .buttonhead {
+      margin: 100px 0 20px 350px;
+      height: auto;
+      background: transparent;
+      padding: 0;
+      border: none;
+      cursor: pointer;
+    }
+    .buttonhead {
+      --border-right: 2px;
+      --text-stroke-color: #38696d;
+      --animation-color: #38696d;
+      --fs-size: 1em;
+      letter-spacing: 1.5px;
+      text-decoration: none;
+      font-size: 10px;
+      font-family: "calibri";
+      position: relative;
+      text-transform: uppercase;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--text-stroke-color);
+    }
+    }
+    
+    @media screen and (max-width:699px) {
+        .buttonhead {
+      margin: 100px 0 20px 100px;
+      height: auto;
+      background: transparent;
+      padding: 0;
+      border: none;
+      cursor: pointer;
+    }
+    .buttonhead {
+      --border-right: 2px;
+      --text-stroke-color: #38696d;
+      --animation-color: #38696d;
+      --fs-size: 1em;
+      letter-spacing: 1.5px;
+      text-decoration: none;
+      font-size: 10px;
+      font-family: "calibri";
+      position: relative;
+      text-transform: uppercase;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--text-stroke-color);
+    }
+    }
+    /* button styling */
+    .buttonhead {
+      --border-right: 2px;
+      --fs-size: 1.8em;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-decoration: none;
+      font-size: var(--fs-size);
+      font-family: "calibri";
+      position: relative;
+      text-transform: uppercase;
+      color: #1a49a1;
+      -webkit-text-stroke: 1px var(--text-stroke-color);
+    }
+    .buttonhead:hover .hover-text {
+      width: 100%;
+      filter: drop-shadow(0 0 23px var(--animation-color))
+    }
+    
+    .box{
+        height: 50%;
+        width: 50%;
+      
+        border: 1px solid rgb(125, 153, 160);
+        padding: 5%;
+        margin-left: 29%;
+    
+        box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2); 
+    }
+    
+    #preview {
+        max-height: 40%;
+        max-width: 90%;
+        margin-top: 5px;
+      }
+    /* CSS styles for the table */
+  .text-center {
+    text-align: center;
+  }
+  th, td {
+    padding: 8px; /* Adjust padding as needed */
+  }
+  th {
+    background-color: #c9eef3; /* Background color for header cells */
+  }
+  tr:nth-child(even) {
+    background-color: #ffffff; /* Alternate row background color */
+  }
+
+  .present {
+    color: rgb(5, 119, 5);
+    font-weight: bold;
+}
+
+.absent {
+    color: red;
+    font-weight: bold;
+}
+
+input[type="search"] {
+            padding: 8px;
+            border: 1px solid #97dbe5;
+            border-radius: 5px;
+            outline: none;
+            width: 200px; /* Set the width as needed */
+            box-sizing: border-box;
+            /* margin-left: 20%; */
+            /* margin-bottom: -30%; */
+            
+        }
+      
+    </style>
+
+
+    <body  class="w-100 container-fluid">
+
+      <div class="w-100 container-fluid" >
+        <div class="row align-items-start" >
+            <div class="col-md-12 col-12 mb-3" style="margin-top: 30px;">
+                <button class="buttonhead col-4" data-text="Awesome">
+                    <span class="actual-text">&nbsp;Today's Report&nbsp;</span>
+                </button>
+            </div>
+
+            <div class="col-lg-12" style="display: flex;">
+                <h3 style="color:#0000ff; font-weight: 600;font-size: 20px;">
+                    {% if 'selected_branch_id' in request.session %}
+                        {{ request.session.selected_branch_id }}
+                    {% else %}
+                        {% if default_branch %}
+                            {{ default_branch }}
+                        {% else %}
+                            <span style="color: rgb(110, 11, 11);">Please select a company</span>
+                        {% endif %}
+                    {% endif %}
+                </h3>
+
+                <h3 id="selectedDateHeader" style="margin-left: 60%; color: rgb(72, 8, 8); font-weight: 600;font-size: 20px;">Selected date</h3>
+
+               
+                
+                
+              
+            </div>
+ <input type="search" placeholder="Search..." name="search" id="searchInput" autofocus>
+
+<script>
+    $('#searchInput').on('input', function () {
+                        var searchTerm = $(this).val().toLowerCase();
+
+                        $('#dataTable tbody  tr').filter(function () {
+                            $(this).toggle($(this).text().toLowerCase().indexOf(searchTerm) > -1);
+                        });
+                    });
+</script>
+
+            <div>
+                <p id="selectedDate"></p>
+                <input type="date" class="form-control" id="selected_date" name="selected_date" style="border-color: rgb(214, 212, 212); width: 15%; margin-left: 75%; margin-top: -4%;" >
+            </div>
+
+            <div class="col-lg-12">
+              <table id="dataTable" class="table table-bordered bg-light text-center mt-3">
+                <thead style="background-color: #1a6394; color: aliceblue;">
+                    <tr>
+                        <th>SL.NO</th>
+                        <th>Emp Id</th>
+                        <th>Name</th>
+                        
+                        <th>In Time</th>
+                        <th>Out Time</th>
+                        
+                        <th>Late</th>
+                        <th>Early By</th>
+                        <th>Present / Absent</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+    <script>
+ $(document).ready(function() {
+  function getCurrentDate() {
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+        const day = String(currentDate.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    // Function to update selected date header
+    function updateSelectedDateHeader(dateString) {
+        $('#selectedDateHeader').text(dateString);
+    }
+
+    // Function to store selected date in session storage
+    function storeSelectedDate(selectedDate) {
+        sessionStorage.setItem('selectedDate', selectedDate);
+    }
+
+    // Function to retrieve selected date from session storage
+    function getStoredSelectedDate() {
+        return sessionStorage.getItem('selectedDate');
+    }
+
+    // Function to format date as "Day Month Year"
+    function formatDate(dateString) {
+        const dateObj = new Date(dateString);
+        const options = { day: 'numeric', month: 'short', year: 'numeric' };
+        return dateObj.toLocaleDateString('en-US', options);
+    }
+
+    // Get and display the stored selected date
+    var storedSelectedDate = getStoredSelectedDate();
+    if (storedSelectedDate) {
+        updateSelectedDateHeader('Selected date: ' + formatDate(storedSelectedDate));
+    }
+
+    // Get and display the current date
+    var currentDate = getCurrentDate();
+    updateSelectedDateHeader('Current date: ' + formatDate(currentDate));
+    // AJAX request to fetch present/absent data for the current date
+    $.ajax({
+        url: '/get_today_present_data/',
+        type: 'GET',
+        data: { selected_date: getCurrentDate() }, // Use current date
+        success: function(response) {
+            populateTable(response.data);
+             // Update header with current date
+            storeCurrentDate(); // Store current date in session storage
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
+        }
+    });
+
+    // Function to populate the table with data
+    function populateTable(data) {
+    const tableBody = $('#dataTable tbody');
+    tableBody.empty(); // Clear previous data
+    data.forEach((row, index) => {
+        const newRow = $('<tr>');
+        newRow.append(`<td>${index + 1}</td>`);
+        newRow.append(`<td>${row.user_id}</td>`);
+        newRow.append(`<td>${row.nm}</td>`);
+
+        function formatTime(time) {
+    if (!time) return '-';
+    
+    // Splitting the time string into hours and minutes
+    const [hours, minutes] = time.split(':');
+    
+    // Padding hours and minutes with leading zeros if needed
+    const formattedHours = hours.padStart(2, '0');
+    const formattedMinutes = minutes.padStart(2, '0');
+    
+    // Constructing the formatted time string
+    return `${formattedHours} hr ${formattedMinutes} min`;
+}
+
+// Assuming newRow is a jQuery object, based on the backticks usage
+newRow.append(`<td>${formatTime(row.clk_in_tm)}</td>`);
+        // newRow.append(`<td>${row.clk_in_tm || '-'}</td>`); // Display clock in time or '-' if not available
+        // newRow.append(`<td>${row.clk_out_tm || '-'}</td>`); // Display clock out time or '-' if not available
+        // newRow.append(`<td>${row.work_frm || '-'}</td>`); 
+        // newRow.append(`<td>${row.work_to || '-'}</td>`); 
+
+// Function to convert time to 12-hour format and then "00 hours 00 minutes" format
+function formatTime12Hours(time) {
+    if (!time) return '-';
+    
+    // Splitting the time string into hours and minutes
+    const [hours, minutes] = time.split(':');
+    
+    // Converting hours to 12-hour format
+    let formattedHours = parseInt(hours, 10);
+    const amPm = formattedHours >= 12 ? 'PM' : 'AM';
+    formattedHours = formattedHours % 12 || 12; // Handle 0 or 12
+    formattedHours = formattedHours.toString().padStart(2, '0');
+    
+    // Padding minutes with leading zeros if needed
+    const formattedMinutes = minutes.padStart(2, '0');
+    
+    // Constructing the formatted time string
+    return `${formattedHours} hr ${formattedMinutes} min `;
+}
+
+// Assuming newRow is a jQuery object, based on the backticks usage
+newRow.append(`<td>${formatTime12Hours(row.clk_out_tm)}</td>`);
+
+        
+
+
+        const workFrom = row.work_frm ? new Date(`2024-01-01T${row.work_frm}`) : null;
+const clockIn = row.clk_in_tm ? new Date(`2024-01-01T${row.clk_in_tm}`) : null;
+
+// Calculate the difference if both times are valid
+let difference = '-';
+if (workFrom && clockIn) {
+    const timeDiff = Math.abs(clockIn - workFrom); // Difference in milliseconds
+    const hours = Math.floor(timeDiff / (1000 * 60 * 60)); // Convert milliseconds to hours
+    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60)); // Convert remaining milliseconds to minutes
+    difference = `${hours}h ${minutes}m`; // Format the difference
+}
+
+newRow.append(`<td>${difference}</td>`);
+
+
+const workTo = row.work_to ? new Date(`2024-01-01T${row.work_to}`) : null;
+const clockOut = row.clk_out_tm ? new Date(`2024-01-01T${row.clk_out_tm}`) : null;
+
+// Calculate the difference if both times are valid
+let difference1 = '-';
+if (workTo && clockOut) {
+    const timeDiff = Math.abs(clockOut - workTo); // Difference in milliseconds
+    const hours = Math.floor(timeDiff / (1000 * 60 * 60)); // Convert milliseconds to hours
+    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60)); // Convert remaining milliseconds to minutes
+    difference1 = `${hours}h ${minutes}m`; // Format the difference
+}
+newRow.append(`<td>${difference1}</td>`);
+
+        // var work_frm =row.work_frm;
+        // var clk_in_tm = row.clk_in_tm;
+        // console.log("work_frm",work_frm)
+        // console.log("clk_in_tm",clk_in_tm)
+        
+        
+        // Apply color based on present/absent status
+        const presentAbsentCell = $('<td>').text(row.present_absent).addClass(row.present_absent === 'Present' ? 'present' : 'absent');
+        newRow.append(presentAbsentCell);
+        
+        tableBody.append(newRow);
+    });
+}
+
+
+        // Event handler for when the selected date changes
+        $('#selected_date').change(function() {
+        var selectedDate = $(this).val();
+        $.ajax({
+            url: '/get_today_present_data/',
+            type: 'GET',
+            data: { selected_date: selectedDate },
+            success: function(response) {
+                populateTable(response.data);
+                updateSelectedDateHeader('Selected date: ' + formatDate(selectedDate)); // Update header with selected date
+                storeSelectedDate(selectedDate); // Store selected date in session storage
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
+});
+
+
+
+  </script>
+  <script>
+    var lilota = document.getElementById("lolita");
+  var lilotaoff = document.getElementById("lolitaoff");
+  var offcanvas = document.getElementById("offcanvasExample");
+  var navigation1 = document.getElementById("navigation");
+  var branchSelect = document.getElementById("branchSelect");
+  
+  // Function to set dark mode based on the value stored in localStorage
+  function setDarkModeFromStorage() {
+  var element = document.body;
+  var storedDarkMode = localStorage.getItem('darkMode');
+  var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+  
+  if (storedDarkMode === 'true') {
+    element.classList.add('dark-mode');
+    toggleDarkModeButton.checked = true;
+    applyDarkModeStyles();
+  } else {
+    element.classList.remove('dark-mode');
+    toggleDarkModeButton.checked = false;
+    removeDarkModeStyles();
+  }
+  }
+  
+  // Function to apply dark mode styles
+  function applyDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  offcanvas.classList.add("offcanvasdrk");
+  navigation1.classList.add("navbardrk");
+  branchSelect.classList.add("selectheadadmindark");
+  }
+  
+  // Function to remove dark mode styles
+  function removeDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+  offcanvas.classList.remove("offcanvasdrk");
+  navigation1.classList.remove("navbardrk");
+  
+  branchSelect.classList.remove("selectheadadmindark");
+  }
+  
+  // Function to toggle dark mode and store the state in localStorage
+  function toggleDarkMode() {
+  var element = document.body;
+  element.classList.toggle('dark-mode');
+    
+  if (element.classList.contains("dark-mode")) {
+    applyDarkModeStyles();
+  } else {
+    removeDarkModeStyles();
+  }
+  
+  // Store the current dark mode state in localStorage
+  var isDarkMode = element.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', isDarkMode.toString());
+  }
+  
+  // Call the function to set dark mode on page load
+  setDarkModeFromStorage();
+  </script>
+  
+   
+        </body>
+
+    {% endblock %}

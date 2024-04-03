@@ -1,0 +1,952 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_emp.html' %}
+<!-- <script src="{% static 'jquery/jquery-3.6.4.min.js' %}"></script> -->
+<!-- <script src="{% static 'js/popper.js' %}"></script> -->
+
+<style>
+    body {
+      background-image: url('{% static "img/logbg2.png" %}');
+      min-height: 100vh;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      font-family:  Calibri;
+    }
+    .searchbox{
+        width: 300px;
+        height: 35px;
+        border: 1px solid rgb(136, 131, 130);
+        outline: none;
+        /* border: none; */
+        border-radius: 5px;
+    }
+    .align-center{
+        align-items: center;
+    }
+    #search{
+      padding: 7px;
+      box-shadow: 1px 1px 1px rgb(103, 104, 104);
+    }
+    #payrollTable th {
+            background-color: #38696d; /* Bootstrap primary color */
+            color: white;
+            font-size: 24px;
+            text-shadow: 1px 1px 2px #2b2b2b;
+            /* border-radius: 5px; */
+        }
+        #payrollTable td {
+color: rgb(0, 0, 0);
+        }
+        #payrollTable tbody tr:hover {
+            background-color: #ececec; /* Bootstrap background color */
+            /* font-size: 15px; */
+            color: rgb(35, 35, 36);
+            font-weight: bolder;
+        }
+        #payrollTable{
+          background-color: rgb(223, 209, 217);
+        }
+
+        .first-table-tr{
+            background-color:#497B96;
+        }
+        .first-table-td{
+            color: white;
+        }
+        .first-table-second-td{
+            text-align: end;
+            color: white;
+        }
+        .first-tb-blue{
+            background-color: #C1E0FF;
+            border: none;         
+        }
+        .first-tb-green{
+background-color: #0B5362;
+border: none;
+color: white;
+        }
+        .red{
+            background-color: #540110;
+            color: white;
+            text-align: end; 
+            border: none;
+        }
+
+        .second-table-td{
+            color: white;
+        }
+        .second-table-input{
+            background-color: #C1E0FF;
+            width: 200px;
+            border: none;
+        }
+
+        @media only screen and (max-width: 600px) {
+    /* Adjust width for mobile view */
+    .second-table-input {
+        width: 100px;
+    }
+    .four{
+        border: 1px solid black;
+         text-align: left;
+          padding: 5px;
+          width: 350px;
+    }
+}
+
+        .final-table-td{
+            border: 1px solid black;
+            font-weight: bold;
+        }
+
+   
+        
+    .buttonhead {
+  margin: 100px 0 40px 500px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+
+/* for heading */
+.buttonhead {
+  margin: 5.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  --fs-size: 1.8em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  font-weight: 800;
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+</style>
+<body class="w-100 container-fluid">
+    <div class="row" >
+      <div class="col-md-12  col-12 mb-1 " style="margin-top: 30px;">
+        <button class="buttonhead col-4" data-text="Awesome">
+            <img src="{% static 'img/salary_slip.png'  %}" style="height: 36px;
+            margin-bottom: 8px;
+            margin-right: 3px;" alt=""><span class="actual-text">Salary Status&nbsp;</span>
+        </button>
+    </div>
+        <div style="zoom:0.8" class="col-md-12 d-flex align-center rounded">
+            <div class="col-md-11 ">
+                <input type="text" class="searchbox" id="search" name="search" placeholder="Search Table">
+                <!-- <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"> -->
+
+
+            </div>
+            <div class="col-md-1 ">
+                 <!-- Year dropdown -->
+                 <select id="yearDropdown" class="btn" style="background-color: #38696d;box-shadow: 1px 1px 1px rgb(103, 104, 104); color: white; font-weight: bold;">
+                    <!-- <option selected disabled>Year</option> -->
+                    <!-- Options will be added dynamically using JavaScript -->
+                </select>&nbsp;&nbsp;&nbsp;
+        
+            </div>
+        </div>
+        <div style="zoom:0.8" class="col-md-12 ">
+            <!-- <center><h5><b>Print</b></h5></center> -->
+            <table id="payrollTable" class="table table-bordered  col-md-6 mt-1" >
+                <thead>
+                <tr style="height: 40px;">
+                    <th>SL.NO</th>
+                    <!-- <th>Name</th>
+                    <th>EMP.ID</th> -->
+                    <th>Sal.Month</th>
+                    <th>Sal.Year</th>
+                    <th>Actual.Sal</th>
+                    <th>Proceed.Sal</th>
+                    <th>Status</th>
+                    <th>Slip</th>
+                </tr>
+            </thead>
+            <tbody>
+               
+            </tbody>
+                </table>
+    </div>
+
+    <script>
+        
+            // JavaScript to dynamically set the current year and month
+            function populateYearDropdown() {
+    var currentYear = new Date().getFullYear();
+    var yearDropdown = document.getElementById('yearDropdown');
+
+    // Clear existing options
+    yearDropdown.innerHTML = '';
+
+    // Add options from the current year to 2013
+    for (var year = currentYear; year >= 2013; year--) {
+        var option = document.createElement('option');
+        option.value = year;
+        option.text = year;
+        yearDropdown.add(option);
+    }
+}
+
+// Call the function to populate the dropdown initially
+populateYearDropdown();
+
+// Check for a change in the year and update the dropdown accordingly
+setInterval(function() {
+    var newYear = new Date().getFullYear();
+
+    if (newYear !== currentYear) {
+        currentYear = newYear;
+        populateYearDropdown();
+    }
+}, 1000 * 60 * 60); // Check every hour for a new year (adjust interval as needed)
+  
+
+var employeeDetails;
+var employeeRecord;
+$(document).ready(function () {
+        // Fetch data when the page loads
+        salaryApproval();
+
+        // Add event listeners for dropdown changes
+        yearDropdown.addEventListener('change', salaryApproval);
+        // monthDropdown.addEventListener('change', salaryApproval);
+    });
+
+    var emp_id='{{current_user}}';
+function salaryApproval() {
+    // Set the current year and month as selected in the dropdowns
+    var selectedYear = $('#yearDropdown').val();
+    // var selectedMonth = $('#monthDropdown').val();
+
+
+    // Fetch all records from PayrollMaathangi model using AJAX
+    $.ajax({
+        type: 'GET',
+        url: '/salary_status_fetch/',  // Replace with your actual endpoint
+        data: {
+            'selected_year': selectedYear,
+            'emp_id':emp_id,
+            // 'selected_month': selectedMonth,
+        },
+        success: function (data) {
+            // Update the table with the received data
+            console.log(data);
+
+            updateTableWithData1(data);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+
+
+
+function updateTableWithData1(data) {
+// Get a reference to the table body
+var tableBody = $('#payrollTable tbody');
+
+// Clear existing rows
+tableBody.empty();
+
+// Initialize total PF amount
+var totalPF = 0;
+var totalIns = 0;
+var totalEsi = 0;
+var totalProceedSal = 0;
+// Ensure that data is not empty and has the expected structure
+if (data && data.length > 0) {
+// Create and append the header row
+// var headerRow = $('<tr style="height: 40px;">');
+// headerRow.append('<th>SL.NO</th>');
+// headerRow.append('<th>Sal.Month</th>');
+// headerRow.append('<th>Sal.Year</th>');
+// headerRow.append('<th>Actual.Sal</th>');
+// headerRow.append('<th>Proceed.Sal</th>');
+// headerRow.append('<th>Status</th>');
+// headerRow.append('<th>Slip</th>');
+// tableBody.append(headerRow);
+
+// Loop through each record in the data array
+for (var i = 0; i < data.length; i++) {
+    // Increment total PF amount
+    totalPF += data[i].pf_amt;
+    totalIns += data[i].insu_amt;
+    totalEsi += data[i].esi_amt;
+    totalProceedSal += data[i].salary;
+
+    // Create a new row element
+    var newRow = $('<tr style="height: 40px; background-color: whitesmoke;">');
+
+    // Append cells to the row
+    newRow.append('<td>' + (i + 1) + '</td>');
+    var salaryMonth = formatDate(data[i].salary_month);
+    newRow.append('<td>' + salaryMonth.month + '</td>');
+    newRow.append('<td>' + salaryMonth.year + '</td>');
+    newRow.append('<td>' + data[i].actual_sal + '</td>');
+    newRow.append('<td>' + data[i].salary + '</td>');
+    newRow.append('<td style="color:#323333;font-weight:bold">'+createStatusDisplay(data[i].sts) + '</td>');
+
+
+    // Update the 'Slip' column with a printer icon
+    // Update the 'Slip' column with a printer icon
+newRow.append('<td class="slip-cell" data-month="' + salaryMonth.month + '" data-year="' + salaryMonth.year + '" style="color: #323333; cursor: pointer;">Slip <br><img src="{% static "img/printer.png" %}" alt="Printer" height="20px;" class="a3" width="20px;"></td>');
+
+    // newRow.append('<td>' +  + '</td>');
+
+//     // Append the row to the table body
+    tableBody.append(newRow);
+    
+}
+tableBody.on('click', 'td.slip-cell', function () {
+    // Get the row index
+    var rowIndex = $(this).closest('tr').index();
+
+    // Retrieve data for the clicked row
+    var rowData = data[rowIndex];
+
+    var month = $(this).data('month');
+    var year = $(this).data('year');
+
+    // Call Employee_details to update employeeDetails
+    commonfunction(month,year, function () {
+        // Create and populate the modal table
+        // var modalTable = $('<table class="modal-table">');
+        // var modalHeader = $('<tr><th>Property</th><th>Value</th></tr>'); // Update table header columns
+        // for (var property in rowData) {
+        //     var modalRow = $('<tr><td>' + property + '</td><td>' + rowData[property] + '</td></tr>');
+        //     modalTable.append(modalRow);
+        // }
+
+        // Additional table content
+        var additionalTableContent = $(
+        '<div><h4>' + employeeDetails.nm + '  :  ' + employeeDetails.user_id + '</h4></div>'+
+'<table class="col-md-12" style="border-collapse: separate; background-color:#C1E0FF;">' +
+        '<tr>' +
+    '<td class="four" colspan="2" style="background-color:#497B96;color:white;"><center>Earning Days</center></td>' +
+    
+    '<td class="four" colspan="2" style="background-color:#497B96;color:white;"><center>Deduction Days</center></td>' +
+    
+    '</tr>' +
+    '<tr class="first-table-tr">' +
+    '<td class="first-table-td"  style="color:white;width:475px;">Punched</td>' +
+    '<td style="text-align: right;width:170px;"><input  readonly type="text"  value="' + employeeRecord.punch + '" placeholder="0" class="first-tb-blue" ></td>'+
+
+    '<td class="first-table-td" >Missed Punch & Early Clockout</td>' +
+    '<td  class="first-table-second-td" style="width:170px;"><input  readonly type="text" value="' + (employeeRecord.missed_clkin + employeeRecord.early_clkout) + '" placeholder="0" class="first-tb-blue"></td>' +
+    '</tr>' +
+    '<tr class="first-table-tr">' +
+    '<td class="first-table-td" >Total.CL+OD</td>' +
+    '<td  class="first-table-second-td"><input  readonly type="text" value="' + (employeeRecord.cl +employeeRecord.od)+ '" placeholder="0" class="first-tb-blue"></td>' +
+    '<td class="first-table-td" >Total.LOP</td>' +
+    '<td  class="first-table-second-td"><input  readonly type="text" value="' + employeeRecord.lop + '"  placeholder="0" class="first-tb-blue"></td>' +
+    '</tr>' +
+    '<tr class="first-table-tr">' +
+    '<td class="first-table-td" >Holiday</td>' +
+    '<td  class="first-table-second-td"><input  readonly type="text" value="' + employeeRecord.holiday + '" placeholder="0" class="first-tb-blue"></td>' +
+    '<td class="first-table-td" ></td>' +
+    '<td  class="first-table-second-td"><input  readonly type="text" placeholder="0" class="first-tb-blue"></td>' +
+    '</tr>' +
+    '<tr class="first-table-tr">' +
+    '<td class="first-table-td" >Total Earnings</td>' +
+    '<td  class="first-table-second-td"><input  readonly type="text" value="' + (employeeRecord.punch + employeeRecord.cl+ employeeRecord.od+ employeeRecord.holiday) + '" placeholder="0" class="first-tb-green"></td>' +
+    '<td class="first-table-td" >Total Deduction</td>' +
+    '<td  class="first-table-second-td"><input  readonly type="text"  value="' + (employeeRecord.missed_clkin + employeeRecord.early_clkout+ employeeRecord.lop ) + '"  placeholder="0" class="first-tb-green"></td>' +
+    '</tr>' +
+    '<tr class="first-table-tr">' +
+    '<td class="first-table-td"  >Total Days: </td>' +
+    '<td  class="first-table-second-td"><input  readonly type="text" value="' + employeeRecord.tot_month_days + '" placeholder="0"  class="first-tb-green"></td>' +
+    '<td class="first-table-td" >Tally(Earnings+Deduction)</td>' +
+    '<td  class="first-table-second-td"><input  readonly type="text" value="' + (employeeRecord.punch + employeeRecord.cl+ employeeRecord.od+ employeeRecord.holiday+employeeRecord.missed_clkin + employeeRecord.early_clkout+ employeeRecord.lop) + '" placeholder="0" class="first-tb-green"></td>' +
+    '</tr>' +
+    '<tr class="first-table-tr">' +
+    '<td class="first-table-second-td red" colspan="3">Permission+Late Deduction Day\'s</td>' +
+    '<td  class="red"><input  readonly type="text" value="' + (employeeRecord.tot_late_deduct_days + 0 ) + '" placeholder="0" class="red"></td>' +
+    '</tr>' +
+    '<tr class="first-table-tr">' +
+    '<td class="first-table-td red">Min.Attendance.Need</td>' +
+    '<td  class="red"><input  readonly type="text" value="' + employeeRecord.min_attnd_need + '" placeholder="0" class="red"></td>' +
+    '<td class="first-table-td red">Salary Eligible Day\'s</td>' +
+    '<td  class="red"><input  readonly type="text" value="' + employeeRecord.sal_elig_days + '" placeholder="0" class="red"></td>' +
+    
+    '</tr>' +
+
+    '</table>'+
+    '<table class="col-md-12" style="background-color:#497B96;">'+
+   
+    '<tr>' +  
+        '<td style="color:white;"><h5>Deduction</h5></td>' +
+    '</tr>' +  
+    '<tr>' +  
+    '<td class="second-table-td">Adv.Amount</td>' +
+    '<td class="second-table-td">Arrear.Amount</td>' +
+    '<td class="second-table-td">SD.Amount</td>' +
+    '<td class="second-table-td">PF.Amount</td>' +
+    '<td class="second-table-td">Deduction Days</td>' +
+    '</tr>' +  
+    '<tr>' +  
+    '<td><input  readonly class="second-table-input" type="text" value="' + employeeRecord.adv_deduct + '" placeholder="0"></td>' +
+    '<td><input  readonly class="second-table-input" type="text" value="' + employeeRecord.arr_deduct + '" placeholder="0"></td>' +
+    '<td><input  readonly class="second-table-input" type="text" value="' + employeeRecord.sd_deduct + '" placeholder="0"></td>' +
+    '<td><input  readonly class="second-table-input" type="text" value="' + employeeRecord.pf_amt + '" placeholder="0"></td>' +
+    '<td><input  readonly class="second-table-input" type="text" value="' + employeeRecord.tot_late_deduct_days + '" placeholder="0"></td>' +
+    '</tr>' +
+    '<tr>' +  
+        '<td  style="color:white;"><h5>Earnings</h5></td>' +
+    '</tr>' +
+    '<tr>' +
+
+    '<td class="second-table-td">Previous Arrear.Amount</td>' +
+    '<td class="second-table-td">Bonus.Amount</td>' +
+   
+    '</tr>' +  
+    '<tr>' +  
+
+    '<td><input  readonly class="second-table-input" type="text" value="' + employeeRecord.prv_arr_earn + '" placeholder="0" ></td>' +
+    '<td><input  readonly class="second-table-input" type="text" value="' + employeeRecord.bonus_earn + '" placeholder="0" ></td>' +
+    
+    '</tr>' +
+'</table>'+
+
+
+'<table class="col-md-12 mt-3" style="border-collapse: collapse; border: 1px solid black;">' +
+    '<tr>' +
+    '<td class="four" style="border: 1px solid black; text-align: left; padding: 5px;" colspan="2">' +
+    ' <b>Emp Code    : </b>' + employeeDetails.user_id + '<br>' +
+    ' <b>Emp Name    : </b>' + employeeDetails.nm + '<br>' +
+    ' <b>Designation : </b>' + employeeDetails.dsig + '<br>' +
+    ' <b>Department  : </b>' + employeeDetails.depart + '<br>' +
+    ' <b>Bank Name   : </b>' + employeeDetails.bank +
+    '</td>' +
+    '<td class="four" style="border: 1px solid black; text-align: left; padding: 5px;" colspan="2">' +
+    ' <b>A/C Number  : </b>' + employeeDetails.acc_no + '<br>' +
+    ' <b>PF Code     : </b>' + employeeDetails.pf_cd + '<br>' +
+    ' <b>Month/Year  : </b>' + month + '/' + year + '<br>' +
+    ' <b>Location    : </b>' + employeeDetails.locca + '<br>' +
+    ' <b>DOJ         : </b>' + employeeDetails.doj +
+    '</td>' +
+    '</tr>' +
+    '</table>'+
+
+
+    '<table class="col-md-12 mt-2" >'+
+        '<tr>' +
+            '<td class="final-table-td">Total Days</td>'+
+            '<td colspan="" class="final-table-td" style="text-align: right; padding:3px;width:200px;"><input  readonly  type="text" value="' + employeeRecord.tot_month_days + '" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td" style="width:250px;">Paid Days</td>'+
+            '<td colspan="4" class="final-table-td" style="text-align: right; padding:3px; "><input  readonly  type="text" value="' + (employeeRecord.punch + employeeRecord.cl+ employeeRecord.od+ employeeRecord.holiday) + '" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td">LOP Days</td>'+
+            '<td colspan="2" class="final-table-td" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + employeeRecord.lop + '" placeholder="0" class="fourr"></td>' +
+        '</tr>' +
+        '<tr style="height:35px;">' +
+        '<td colspan="2" class="final-table-td"><center>Actual (Rs)</center></td>'+
+        '<td colspan="5" class="final-table-td"><center>Earnings (Rs)</center></td>'+
+        '<td colspan="2" class="final-table-td"><center>Deductions (Rs)</center></td>'+
+        '</tr>' +
+        '<tr>' +
+            '<td class="final-table-td">Basic</td>'+
+            '<td class="final-table-td" colspan="1" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + (employeeRecord.actual_sal * 55/ 100) + '" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td">Basic</td>'+
+            '<td class="final-table-td" colspan="4" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + Number(((employeeRecord.actual_sal / employeeRecord.tot_month_days) * (employeeRecord.punch + employeeRecord.cl + employeeRecord.od + employeeRecord.holiday)) * 55 / 100).toFixed(2) + '" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td">P.F</td>'+
+            '<td class="final-table-td" colspan="2" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + employeeRecord.pf_amt + '"  placeholder="0" class="fourr"></td>' +
+        '</tr>' +
+        '<tr>' +
+            '<td class="final-table-td">HRA</td>'+
+            '<td class="final-table-td" colspan="1" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + ((employeeRecord.actual_sal * 55/ 100)*40/100) + '" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td">HRA</td>'+
+            '<td class="final-table-td" colspan="4" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + Number((((employeeRecord.actual_sal / employeeRecord.tot_month_days) * (employeeRecord.punch + employeeRecord.cl + employeeRecord.od + employeeRecord.holiday)) * 55 / 100)*40/100).toFixed(2) + '" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td">E.S.I</td>'+
+            '<td class="final-table-td" colspan="2" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + employeeRecord.esi_amt + '" placeholder="0" class="fourr"></td>' +
+        '</tr>' +
+        '<tr>' +
+            '<td class="final-table-td">Conv.All</td>'+
+            '<td class="final-table-td" colspan="1" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + getAdjustedValue(employeeRecord.actual_sal) + '" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td">Conv.All</td>'+
+            '<td class="final-table-td" colspan="4" style="text-align: right; padding:3px;"><input  readonly  type="text"  value="' + getAdjustedValue(employeeRecord.actual_sal) + '" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td">Adv</td>'+
+            '<td class="final-table-td" colspan="2" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + employeeRecord.adv_deduct + '" placeholder="0" class="fourr"></td>' +
+        '</tr>' +
+        '<tr>' +
+            '<td class="final-table-td">Medical.All</td>'+
+            '<td class="final-table-td" colspan="1" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + (employeeRecord.actual_sal - ((employeeRecord.actual_sal * 55/ 100) + ((employeeRecord.actual_sal * 55/ 100)*40/100) + getAdjustedValue(employeeRecord.actual_sal)))/2 + '" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td">Medical.All</td>'+
+            '<td class="final-table-td" colspan="4" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + Number((employeeRecord.actual_sal - (((employeeRecord.actual_sal / employeeRecord.tot_month_days) * (employeeRecord.punch + employeeRecord.cl + employeeRecord.od + employeeRecord.holiday)) * 55 / 100  + ((((employeeRecord.actual_sal / employeeRecord.tot_month_days) * (employeeRecord.punch + employeeRecord.cl + employeeRecord.od + employeeRecord.holiday)) * 55 / 100)*40/100) + getAdjustedValue(employeeRecord.actual_sal))) / 2).toFixed(2) + '"  placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td">Arrear</td>'+
+            '<td class="final-table-td" colspan="2" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + employeeRecord.arr_deduct + '"  placeholder="0" class="fourr"></td>' +
+        '</tr>' +
+        '<tr>' +
+            '<td class="final-table-td">LTC</td>'+
+            '<td class="final-table-td" colspan="1" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + Number((employeeRecord.tot_late_deduct_days)*employeeRecord.actual_sal/employeeRecord.tot_month_days).toFixed(2) + '" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td">Prv.Arrear</td>'+
+            '<td class="final-table-td" colspan="4" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + employeeRecord.prv_arr_earn + '" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td">LTE</td>'+
+            '<td class="final-table-td" colspan="2" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + Number((employeeRecord.tot_late_deduct_days)*employeeRecord.actual_sal/employeeRecord.tot_month_days).toFixed(2) + '" placeholder="0" class="fourr"></td>' +
+        '</tr>' +
+        '<tr>' +
+            '<td class="final-table-td">Helper.All</td>'+
+            '<td class="final-table-td" colspan="1" style="text-align: right; padding:3px;"><input  readonly  type="text" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td">Helper.All</td>'+
+            '<td class="final-table-td" colspan="4" style="text-align: right; padding:3px;"><input  readonly  type="text" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td">LOP</td>'+
+            '<td class="final-table-td" colspan="2" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + Number(employeeRecord.lop * employeeRecord.actual_sal / employeeRecord.tot_month_days).toFixed(2) + '" placeholder="0" class="fourr"></td>' +
+        '</tr>' +
+        '<tr>' +
+            '<td class="final-table-td">Cca.All</td>'+
+            '<td class="final-table-td" colspan="1" style="text-align: right; padding:3px;"><input  readonly  type="text" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td">Cca.All</td>'+
+            '<td class="final-table-td" colspan="4" style="text-align: right; padding:3px;"><input  readonly  type="text" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td">SD</td>'+
+            '<td class="final-table-td" colspan="2" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + employeeRecord.sd_deduct + '" placeholder="0" class="fourr"></td>' +
+        '</tr>' +
+        '<tr>' +
+            '<td class="final-table-td">Special All</td>'+
+            '<td class="final-table-td" colspan="1" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + (employeeRecord.actual_sal - ((employeeRecord.actual_sal * 55/ 100) + ((employeeRecord.actual_sal * 55/ 100)*40/100) + getAdjustedValue(employeeRecord.actual_sal)))/2 + '" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td">Special All</td>'+
+            '<td class="final-table-td" colspan="4" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + Number((employeeRecord.actual_sal - (((employeeRecord.actual_sal / employeeRecord.tot_month_days) * (employeeRecord.punch + employeeRecord.cl + employeeRecord.od + employeeRecord.holiday)) * 55 / 100  + ((((employeeRecord.actual_sal / employeeRecord.tot_month_days) * (employeeRecord.punch + employeeRecord.cl + employeeRecord.od + employeeRecord.holiday)) * 55 / 100)*40/100) + getAdjustedValue(employeeRecord.actual_sal))) / 2).toFixed(2) + '" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td"></td>'+
+            '<td class="final-table-td" colspan="2" style="text-align: right; padding:3px;"><input  readonly  type="text"  placeholder="0" class="fourr"></td>' +
+        '</tr>' +
+        '<tr>' +
+            '<td class="final-table-td">Bonus</td>'+
+            '<td class="final-table-td" colspan="1" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + employeeRecord.bonus_earn + '" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td">Bonus + Incentive</td>'+
+            '<td class="final-table-td" colspan="4" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + employeeRecord.bonus_earn + '" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td"></td>'+
+            '<td class="final-table-td" colspan="2" style="text-align: right; padding:3px;"><input  readonly  type="text" placeholder="0" class="fourr"></td>' +
+        '</tr>' +
+        '<tr>' +
+            '<td class="final-table-td">Net Gross(Rs)</td>'+
+            '<td class="final-table-td" colspan="1" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + employeeRecord.actual_sal + '" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td">Net Gross(Rs)</td>'+
+            '<td class="final-table-td" colspan="4" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + employeeRecord.salary + '" placeholder="0" class="fourr"></td>' +
+            '<td class="final-table-td">Net Deduct(Rs)</td>'+
+            '<td class="final-table-td" colspan="2" style="text-align: right; padding:3px;"><input  readonly  type="text" value="' + Number(employeeRecord.pf_amt + (employeeRecord.lop * employeeRecord.actual_sal / employeeRecord.tot_month_days) + employeeRecord.sd_deduct + ((employeeRecord.tot_late_deduct_days)*employeeRecord.actual_sal/employeeRecord.tot_month_days)).toFixed(2) + '" placeholder="0" class="fourr"></td>' +
+        '</tr>' +
+        '<tr>' +
+            '<td class="final-table-td" style="text-align: right;width: 603px;padding:10px;" colspan="5">Net Salary(Rs)</td>' +
+           
+            '<td class="final-table-td" colspan="5">'+Number(employeeRecord.salary).toFixed(2) +'</td>'+
+            
+        '</tr>' +
+    '</table>'+
+
+
+    '<div class="mt-1" style="height:70px; border:1px solid black;"><h3 style="margin-top: 15px;margin-left: 5px;font-weight: bold;">' +convertIntoText(employeeRecord.salary) +'</h3></div>'
+    +
+    '<div class="" style="height:70px;"></div>'
+
+    
+);
+        // Create and show the modal with additional table content
+        var modalContent = $('<div>').append( additionalTableContent);
+        showModal('Employee Salary Slip', modalContent);
+    });
+});
+
+// Show the table
+$('#payrollTable').show();
+} else {
+// Hide the table if there is no data
+$('#payrollTable tbody').hide();
+}
+
+}
+
+function getAdjustedValue(actualSal) {
+    if (actualSal >= 10000) {
+        return 1600;
+    } else {
+        return 800;
+    }
+}
+
+function convertIntoText(number) {
+    // Function to convert a number into words
+    const convertNumberToWords = (num) => {
+        const units = ["", "Thousand", "Million", "Billion", "Trillion"];
+        const belowTen = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+        const belowTwenty = ["", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+        const tens = ["", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+
+        const convertBelowThousand = (num) => {
+            if (num === 0) return "";
+            else if (num < 10) return belowTen[num];
+            else if (num < 20) return belowTwenty[num - 10];
+            else {
+                const digit = num % 10;
+                const ten = Math.floor(num / 10);
+                return tens[ten] + (digit !== 0 ? " " + belowTen[digit] : "");
+            }
+        };
+
+        const convert = (num, level) => {
+            if (num === 0) return "";
+            const hundred = Math.floor(num / 100);
+            const belowThousand = num % 100;
+            let result = "";
+
+            if (hundred !== 0) {
+                result += belowTen[hundred] + " Hundred";
+            }
+
+            if (belowThousand !== 0) {
+                if (result !== "") result += " ";
+                result += convertBelowThousand(belowThousand);
+            }
+
+            if (level > 0 && result !== "") {
+                result += " " + units[level];
+            }
+
+            return result;
+        };
+
+        if (number === 0) return "Zero";
+
+        let result = "";
+        let level = 0;
+
+        while (number > 0) {
+            const chunk = number % 1000;
+            if (chunk !== 0) {
+                const chunkText = convert(chunk, level);
+                result = chunkText + (result !== "" ? " " + result : "");
+            }
+            number = Math.floor(number / 1000);
+            level++;
+        }
+
+        return result;
+    };
+
+    // Convert the number into words and format accordingly
+    const numberInWords = convertNumberToWords(number);
+    return numberInWords.charAt(0).toUpperCase() + numberInWords.slice(1).toLowerCase();
+}
+
+
+
+function commonfunction(month, year, callback){
+    Employee_details(callback);
+    Employee_slip_record(month, year, callback);
+}
+function Employee_details(callback) {
+    // Fetch all records from PayrollMaathangi model using AJAX
+    $.ajax({
+        type: 'GET',
+        url: '/employee_detail_fetch/',  // Replace with your actual endpoint
+        data: {
+            'emp_id': emp_id,
+        },
+        success: function (data) {
+            // Update the table with the received data
+            console.log(data);
+
+            if (data.employee_data && data.employee_data.length > 0) {
+                employeeDetails = data.employee_data[0]; // Update employeeDetails if data is available
+                console.log(employeeDetails);
+            } else {
+                console.error('Employee data is empty or undefined');
+            }
+
+            // Call the callback function after successfully fetching data
+            if (callback && typeof callback === 'function') {
+                callback();
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+function Employee_slip_record(month, year, callback) {
+    
+    const numericMonth = getNumericMonth(month);
+    // Fetch all records from PayrollMaathangi model using AJAX
+    $.ajax({
+        type: 'GET',
+        url: '/employee_salary_record_fetch/',  // Replace with your actual endpoint
+        data: {
+            'emp_id': emp_id,
+            'month': numericMonth,
+            'year': year
+        },
+        success: function (data) {
+            // Update the table with the received data
+            console.log(data);
+
+            if (data.employee_salary_record && data.employee_salary_record.length > 0) {
+                employeeRecord = data.employee_salary_record[0]; // Update emploeeDetails if data is available
+                console.log(employeeRecord);
+            } else {
+                console.error('Record empty or undefined');
+            }
+
+            // Call the callback function after successfully fetching data
+            if (callback && typeof callback === 'function') {
+                callback();
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+
+function getNumericMonth(monthText) {
+    // Define a mapping of month names to their numeric representation
+    const monthMapping = {
+        'January': 1,
+        'February': 2,
+        'March': 3,
+        'April': 4,
+        'May': 5,
+        'June': 6,
+        'July': 7,
+        'August': 8,
+        'September': 9,
+        'October': 10,
+        'November': 11,
+        'December': 12
+    };
+
+    // Convert the month text to numeric representation
+    const numericMonth = monthMapping[monthText];
+    return numericMonth || 0; // Return 0 if the month is not found
+}
+
+// Function to show the modal
+function showModal(title, content) {
+    // Create the modal structure
+    var modal = $('<div class="modal col-md-10 ">');
+    var modalContent = $('<center style="margin-top:110px; "><div class="modal-content  " style="width:90%; background-color:white;border:none;"></center>');
+    var modalHeader = $('<div class="modal-header" style="background-color:white;margin-left:110px;margin-right:110px; "><h2>' + title + '</h2><span class="close" style="cursor:pointer;font-size:40px;">&times;</span></div>');
+    var modalBody = $('<div class="modal-body col-md-10 " style="background-color:white;width: 1122px;">').append(content);
+
+    // Append modal components
+    modalContent.append(modalHeader, modalBody);
+    modal.append(modalContent);
+
+    // Append the modal to the document body
+    $('body').append(modal);
+
+    // Show the modal
+    modal.show();
+
+    // Add a click event handler to close the modal
+    modal.find('.close').click(function() {
+        modal.remove();
+    });
+}
+// Function to format the month
+function formatDate(dateString) {
+var date = new Date(dateString);
+var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+return {
+month: monthNames[date.getMonth()],
+year: date.getFullYear()
+};
+}
+
+$("document").ready(function(){
+    $('#search').keyup(function(){
+        var value = $(this).val().toLowerCase();
+        $("#payrollTable tbody tr:gt(0)").each(function() {
+            // ':gt(0)' is used to exclude the header row (assuming it's the first row)
+            // Toggle the row based on whether the value is found in any of its cells
+            var isVisible = $(this).text().toLowerCase().indexOf(value) > -1;
+            $(this).toggle(isVisible);
+
+        });
+    });
+});
+
+function createStatusDisplay(currentStatus) {
+    // Define status options with their corresponding display values
+    var statusOptions = [
+        { value: '0', display: 'Pending' },
+        { value: '1', display: 'Approved' },
+        { value: '2', display: 'Hold' }
+    ];
+
+    // Find the display value for the current status
+    var displayValue = '';
+    for (var i = 0; i < statusOptions.length; i++) {
+        if (currentStatus == statusOptions[i].value) {
+            displayValue = statusOptions[i].display;
+            break;
+        }
+    }
+
+    // Create the display HTML
+    var displayHtml = '<span class="statusDisplay">' + displayValue + '</span>';
+
+    return displayHtml;
+}
+
+
+
+
+    </script>
+<!-- 
+<div style="margin-top: -20px;">
+    <table style="width: 20%; " >
+      <thead >
+      <tr>
+      <th colspan="2" class="text-center" style="color: #8f0c0c;">Activity Login</th>
+    </tr>
+    <tr>
+      <th style="color: #c51c1c;"> Last Login Time</th>
+      <th style="color: #c51c1c;"> Last Logout Time</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>{{ user_record.log_in_dt_tm }}</td>
+      <td>{{ user_record.log_out_dt_tm }}</td>
+    </tr>
+    
+    </tbody>
+    </table></div>
+  <style>
+    table, th, td {
+    border: 1px solid rgb(255, 255, 255);
+    font-size: 12px;
+  }
+  </style> -->
+
+<!-- {% include 'footer.html' %} -->
+<script>
+    var lilota = document.getElementById("lolita");
+var lilotaoff = document.getElementById("lolitaoff");
+var offcanvas = document.getElementById("offcanvasExample");
+var navigation1 = document.getElementById("navigation");
+
+// Function to set dark mode based on the value stored in localStorage
+function setDarkModeFromStorage() {
+  var element = document.body;
+  var storedDarkMode = localStorage.getItem('darkMode');
+  var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+
+  if (storedDarkMode === 'true') {
+    element.classList.add('dark-mode');
+    toggleDarkModeButton.checked = true;
+    applyDarkModeStyles();
+  } else {
+    element.classList.remove('dark-mode');
+    toggleDarkModeButton.checked = false;
+    removeDarkModeStyles();
+  }
+}
+
+// Function to apply dark mode styles
+function applyDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  offcanvas.classList.add("offcanvasdrk");
+  navigation1.classList.add("navbardrk");
+}
+
+// Function to remove dark mode styles
+function removeDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+  offcanvas.classList.remove("offcanvasdrk");
+  navigation1.classList.remove("navbardrk");
+
+}
+
+// Function to toggle dark mode and store the state in localStorage
+function toggleDarkMode() {
+  var element = document.body;
+  element.classList.toggle('dark-mode');
+    
+  if (element.classList.contains("dark-mode")) {
+    applyDarkModeStyles();
+  } else {
+    removeDarkModeStyles();
+  }
+
+  // Store the current dark mode state in localStorage
+  var isDarkMode = element.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', isDarkMode.toString());
+}
+
+// Call the function to set dark mode on page load
+setDarkModeFromStorage();
+  </script>
+</body>
+
+{% endblock %}

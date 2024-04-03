@@ -1,0 +1,87 @@
+<script>
+    var lilota = document.getElementById("lolita");
+    var lilotaoff = document.getElementById("lolitaoff");
+    var offcanvas = document.getElementById("offcanvasExample");
+    var navigation1 = document.getElementById("navigation");
+    var findex = document.getElementById("findex");
+    var findex1 = document.getElementById("findex1");
+    var branchSelect = document.getElementById("branchSelect");
+    var tableindex = document.getElementById("tableindex");
+    var tableindex1 = document.getElementById("tableindex1");
+    var tableindex11 = document.getElementById("tableindex11");
+    var tableindex12 = document.getElementById("tableindex12");
+    var tableindex13 = document.getElementById("tableindex13");
+  
+    // Function to set dark mode based on the value stored in localStorage
+    function setDarkModeFromStorage() {
+      var element = document.body;
+      var storedDarkMode = localStorage.getItem('darkMode');
+      var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+  
+      if (storedDarkMode === 'true') {
+        element.classList.add('dark-mode');
+        applyDarkModeStyles();
+        toggleDarkModeButton.checked = true;
+      } else {
+        element.classList.remove('dark-mode');
+        removeDarkModeStyles();
+        toggleDarkModeButton.checked = false;
+      }
+    }
+  
+    // Call the function to set dark mode on page load
+    setDarkModeFromStorage();
+  
+    // Function to apply dark mode styles
+    function applyDarkModeStyles() {
+      lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+      lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+      offcanvas.classList.add("offcanvasdrk");
+      navigation1.classList.add("navbardrk");
+      findex.classList.add("fdrk");
+      findex1.classList.add("f1drk");
+      branchSelect.classList.add("selectheadadmindark");
+      tablebr.classList.add("tablebdrk");
+      tableindex.classList.add("tablehdrk");
+      tableindex11.classList.add("tablehdrk");
+      tableindex12.classList.add("tablehdrk");
+      tableindex13.classList.add("tablehdrk");
+    }
+  
+    // Function to remove dark mode styles
+    function removeDarkModeStyles() {
+      lolita.src = "{% static 'img/staffinlogooff.png' %}";
+      lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+      offcanvas.classList.remove("offcanvasdrk");
+      navigation1.classList.remove("navbardrk");
+      findex.classList.remove("fdrk");
+      findex1.classList.remove("f1drk");
+      branchSelect.classList.remove("selectheadadmindark");
+      tableindex1.classList.remove("tablebdrk");
+      tableindex.classList.remove("tablehdrk");
+      tableindex11.classList.remove("tablehdrk");
+      tableindex12.classList.remove("tablehdrk");
+      tableindex13.classList.remove("tablehdrk");
+    }
+  
+    // Function to toggle dark mode and store the state in localStorage
+    function toggleDarkMode() {
+      var element = document.body;
+      element.classList.toggle('dark-mode');
+  
+      if (element.classList.contains("dark-mode")) {
+        applyDarkModeStyles();
+      } else {
+        removeDarkModeStyles();
+      }
+  
+      // Store the current dark mode state in localStorage
+      var isDarkMode = element.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDarkMode.toString());
+    }
+  
+    // Call the function to apply dark mode styles without button trigger
+    // You can call this function at any point in your code to apply dark mode styles
+    // For example, after an asynchronous operation or based on some condition
+    // applyDarkModeStyles();
+  </script>

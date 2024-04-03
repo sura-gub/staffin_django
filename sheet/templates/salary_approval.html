@@ -1,0 +1,516 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_adm.html' %}
+<!-- <script src="{% static 'jquery/jquery-3.6.4.min.js' %}"></script>
+<script src="{% static 'js/popper.js' %}"></script> -->
+
+<style>
+    body {
+      background-image: url('{% static "img/logbg2.png" %}');
+      min-height: 600px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+    .searchbox{
+        width: 300px;
+        height: 35px;
+        border: 1px solid rgb(136, 131, 130);
+        outline: none;
+        /* border: none; */
+        border-radius: 5px;
+    }
+    .align-center{
+        align-items: center;
+    }
+    /* for heading */
+    .buttonhead {
+  margin: 5.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  font-weight: 800;
+  --fs-size: 1.8em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+@media screen and (max-width:950px) {
+    .t3{
+        zoom: 0.7;
+    }
+}
+
+.t3{
+    background-color: #38686d80;
+    zoom: 0.9;
+    padding: 5px;
+}
+
+@media screen and (max-width:950px) {
+    .ym{
+    margin-left: -50px;
+}
+}
+@media screen and (max-width:650px) {
+    .ym{
+    margin-left: 140px;
+}
+}
+</style>
+<body class="w-100 container-fluid">
+    <div class="row" >
+        <div class="col-md-12 col-12 mb-3" style="margin-top: 30px;">
+            <button class="buttonhead col-4" data-text="Awesome">
+                <span class="actual-text">&nbsp;Salary Approval&nbsp;</span>
+            </button>
+        </div>
+        <div class="col-md-12 d-flex align-center" style="margin-bottom: 20px;zoom: 0.9;">
+            <div class="col-md-9 ">
+                <input type="text" class="searchbox" id="search" name="search" placeholder="Search Table" autofocus>
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+
+            </div>
+            <div class="col-md-3 ym">
+                 <!-- Year dropdown -->
+                 <select id="yearDropdown" class="btn btn-primary">
+                    <!-- <option selected disabled>Year</option> -->
+                    <!-- Options will be added dynamically using JavaScript -->
+                </select>&nbsp;&nbsp;&nbsp;
+        
+                <!-- Month dropdown -->
+                <select id="monthDropdown" class="btn btn-primary">
+                    <!-- <option selected disabled>Month</option> -->
+                    <option value="1">January</option>
+                    <option value="2">February</option>
+                    <option value="3">March</option>
+                    <option value="4">April</option>
+                    <option value="5">May</option>
+                    <option value="6">June</option>
+                    <option value="7">July</option>
+                    <option value="8">August</option>
+                    <option value="9">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+
+            </div>
+        </div>
+        <div class="col-md-12 ">
+            <!-- <center><h5><b>Print</b></h5></center> -->
+            <table id="payrollTable" class="table table-bordered t3 col-md-12 mt-1" >
+                <thead>
+                <tr style="height: 40px;background-color: #1A49A1;color: white;">
+                    <th>SL.NO</th>
+                    <th>Name</th>
+                    <th>EMP.ID</th>
+                    <th>Sal.Month</th>
+                    <th>Sal.Year</th>
+                    <th>Actual.Sal</th>
+                    <th>Proceed.Sal</th>
+                    <th>Status</th>
+                    <!-- <th>Slip</th> -->
+                </tr>
+            </thead>
+            <tbody style="background-color: whitesmoke;">
+                <!-- <tr style="height: 40px;" >
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td style="color: rgb(26, 137, 228); cursor: pointer;"></td>
+                </tr> -->
+            </tbody>
+                </table>
+    </div>
+
+    <script>    
+var currentYear = new Date().getFullYear();
+var currentMonthString = new Date().toLocaleString('en-US', { month: 'long' });
+
+// Set the current year as selected in the year dropdown
+var yearDropdown = document.getElementById('yearDropdown');
+for (var year = currentYear + 1; year >= currentYear - 10; year--) {
+    var option = document.createElement('option');
+    option.value = year;
+    option.text = year;
+    if (year === currentYear) {
+        option.selected = true;
+    }
+    yearDropdown.add(option);
+}
+
+// Convert the month string to a numeric value
+var monthNumber = getMonthNumber(currentMonthString);
+
+// Set the current month as selected in the month dropdown
+var monthDropdown = document.getElementById('monthDropdown');
+for (var i = 0; i < monthDropdown.options.length; i++) {
+    if (parseInt(monthDropdown.options[i].value, 10) === monthNumber) {
+        monthDropdown.options[i].selected = true;
+        console.log('Selected Month:', monthDropdown.value); // Add this line for debugging
+        break;
+    }
+}
+
+// Function to convert month string to numeric value
+function getMonthNumber(monthString) {
+    // Create a Date object with the given month string
+    var date = new Date(Date.parse(monthString + ' 1, ' + currentYear)); // Use the current year
+
+    // Get the numeric month (0-based, so add 1)
+    var monthNumber = date.getMonth() + 1;
+
+    return monthNumber;
+}
+
+
+$(document).ready(function () {
+        // Fetch data when the page loads
+        salaryApproval();
+
+        // Add event listeners for dropdown changes
+        yearDropdown.addEventListener('change', salaryApproval);
+        monthDropdown.addEventListener('change', salaryApproval);
+    });
+
+    var selectedYear;
+    var selectedMonth;
+
+
+function salaryApproval() {
+    // Set the current year and month as selected in the dropdowns
+   selectedYear = $('#yearDropdown').val();
+selectedMonth = $('#monthDropdown').val();
+
+    // Fetch all records from PayrollMaathangi model using AJAX
+    $.ajax({
+        type: 'GET',
+        url: '/salary_approval_fetch/',  // Replace with your actual endpoint
+        data: {
+            'selected_year': selectedYear,
+            'selected_month': selectedMonth,
+        },
+        success: function (data) {
+            // Update the table with the received data
+            console.log(data);
+
+            updateTableWithData1(data);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+
+function updateTableWithData1(data) {
+// Get a reference to the table body
+var tableBody = $('#payrollTable tbody');
+
+// Clear existing rows
+tableBody.empty();
+
+// Initialize total PF amount
+var totalPF = 0;
+var totalIns = 0;
+var totalEsi = 0;
+var totalProceedSal = 0;
+// Ensure that data is not empty and has the expected structure
+if (data && data.length > 0) {
+// Create and append the header row
+// var headerRow = $('<tr style="height: 40px;">');
+// headerRow.append('<th>SL.NO</th>');
+// headerRow.append('<th>Name</th>');
+// headerRow.append('<th>EMP.ID</th>');
+// headerRow.append('<th>Sal.Month</th>');
+// headerRow.append('<th>Sal.Year</th>');
+// headerRow.append('<th>Actual.Sal</th>');
+// headerRow.append('<th>Proceed.Sal</th>');
+// headerRow.append('<th>Status</th>');
+// // headerRow.append('<th>Slip</th>');
+// // headerRow.append('<th>##**</th>');
+// tableBody.append(headerRow);
+
+// Loop through each record in the data array
+for (var i = 0; i < data.length; i++) {
+    // Increment total PF amount
+    totalPF += data[i].pf_amt;
+    totalIns += data[i].insu_amt;
+    totalEsi += data[i].esi_amt;
+    totalProceedSal += data[i].salary;
+
+    // Create a new row element
+    var newRow = $('<tr style="height: 40px;">');
+
+    // Append cells to the row
+    newRow.append('<td>' + (i + 1) + '</td>');
+    newRow.append('<td>' + data[i].emp_nm + '</td>');
+    newRow.append('<td>' + data[i].emp_id + '</td>');
+
+    // Extract and format the month from the date string
+    var salaryMonth = formatDate(data[i].salary_month);
+    newRow.append('<td>' + salaryMonth.month + '</td>');
+    newRow.append('<td>' + salaryMonth.year + '</td>');
+    newRow.append('<td>' + data[i].actual_sal + '</td>');
+    newRow.append('<td>' + data[i].salary + '</td>');
+    newRow.append('<td>'+createStatusDropdown(data[i].sts) + '</td>');
+
+
+    // Update the 'Slip' column with a printer icon
+    // newRow.append('<td style="color: rgb(26, 137, 228); cursor: pointer;">Slip <br><img src="{% static "img/printer.png" %}" alt="Printer" height="20px;" class="a3" width="20px;"></td>');
+    // newRow.append('<td>' +  + '</td>');
+
+    // Append the row to the table body
+    tableBody.append(newRow);
+}
+
+
+// Show the table
+$('#payrollTable').show();
+} else {
+// Hide the table if there is no data
+// $('#payrollTable').hide();
+}
+
+}
+// Function to format the month
+function formatDate(dateString) {
+var date = new Date(dateString);
+var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+return {
+month: monthNames[date.getMonth()],
+year: date.getFullYear()
+};
+}
+
+$("document").ready(function(){
+    $('#search').keyup(function(){
+        var value = $(this).val().toLowerCase();
+        $("#payrollTable tr:gt(0)").each(function() {
+            // ':gt(0)' is used to exclude the header row (assuming it's the first row)
+            // Toggle the row based on whether the value is found in any of its cells
+            var isVisible = $(this).text().toLowerCase().indexOf(value) > -1;
+            $(this).toggle(isVisible);
+
+        });
+    });
+    
+});
+
+function createStatusDropdown(currentStatus) {
+    // Define status options with their corresponding display values
+    var statusOptions = [
+        { value: '0', display: 'Pending' },
+        { value: '1', display: 'Approved' },
+        { value: '2', display: 'Hold' }
+    ];
+
+    // Create the dropdown HTML
+    var dropdownHtml = '<select class="statusDropdown">';
+
+    // Loop through each status option
+    for (var i = 0; i < statusOptions.length; i++) {
+        // Use strict comparison (===) to ensure types match
+        var selected = currentStatus == statusOptions[i].value ? 'selected' : '';
+
+        // Append the option to the dropdown
+        dropdownHtml += '<option value="' + statusOptions[i].value + '" ' + selected + '>' + statusOptions[i].display + '</option>';
+    }
+
+    // Close the dropdown tag
+    dropdownHtml += '</select>';
+
+    return dropdownHtml;
+}
+$(document).on('change', '.statusDropdown', function() {
+    // Get the selected value from the dropdown
+    var selectedStatus = $(this).val();
+
+    // Get the corresponding row index
+    var rowIndex = $(this).closest('tr').index();
+
+    // Assuming you have a unique identifier like 'emp_id' in each row
+    var empId = $('#payrollTable tr').eq(rowIndex ).find('td:eq(2)').text();
+    // alert(empId)
+
+  // Get the CSRF token from the cookie
+const csrftoken = getCookie('csrftoken');
+
+// Send AJAX request to update the sts field in the PayrollMaathangi model
+$.ajax({
+    type: 'POST',
+    url: '/update_sts/',
+    headers: {
+        'X-CSRFToken': csrftoken,
+    },
+    data: {
+        'emp_id': empId,
+        'status': selectedStatus,
+        'selected_year': selectedYear,
+        'selected_month': selectedMonth,
+    },
+    success: function(response) {
+        console.log('Status updated successfully:', response);
+    },
+    error: function(error) {
+        console.log('Error updating status:', error);
+    }
+});
+
+});
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Check if the cookie name matches the request header expected format
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+    </script>
+ <script>
+    var lilota = document.getElementById("lolita");
+var lilotaoff = document.getElementById("lolitaoff");
+var offcanvas = document.getElementById("offcanvasExample");
+var navigation1 = document.getElementById("navigation");
+var branchSelect = document.getElementById("branchSelect");
+
+// Function to set dark mode based on the value stored in localStorage
+function setDarkModeFromStorage() {
+  var element = document.body;
+  var storedDarkMode = localStorage.getItem('darkMode');
+  var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+
+  if (storedDarkMode === 'true') {
+    element.classList.add('dark-mode');
+    toggleDarkModeButton.checked = true;
+    applyDarkModeStyles();
+  } else {
+    element.classList.remove('dark-mode');
+    toggleDarkModeButton.checked = false;
+    removeDarkModeStyles();
+  }
+}
+
+// Function to apply dark mode styles
+function applyDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  offcanvas.classList.add("offcanvasdrk");
+  navigation1.classList.add("navbardrk");
+  branchSelect.classList.add("selectheadadmindark");
+}
+
+// Function to remove dark mode styles
+function removeDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+  offcanvas.classList.remove("offcanvasdrk");
+  navigation1.classList.remove("navbardrk");
+
+  branchSelect.classList.remove("selectheadadmindark");
+}
+
+// Function to toggle dark mode and store the state in localStorage
+function toggleDarkMode() {
+  var element = document.body;
+  element.classList.toggle('dark-mode');
+    
+  if (element.classList.contains("dark-mode")) {
+    applyDarkModeStyles();
+  } else {
+    removeDarkModeStyles();
+  }
+
+  // Store the current dark mode state in localStorage
+  var isDarkMode = element.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', isDarkMode.toString());
+}
+
+// Call the function to set dark mode on page load
+setDarkModeFromStorage();
+  </script>
+</body>
+{% endblock %}

@@ -1,0 +1,648 @@
+
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_adm.html' %}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+    <body  class="w-100 container-fluid">
+
+        <div class="row align-items-start">
+            <div class="col-md-12  col-12 mb-3 " style="margin-top: 30px;">
+                <button class="buttonhead col-4" data-text="Awesome">
+                    <span class="actual-text">&nbsp;Add Branch&nbsp;</span>
+                </button>
+            </div>
+            <div class="col-md-4  p-3 "  style="border: 1px solid #abc6dd; border-radius: 10px;">
+    <center>
+        <h3 class="pb-2">Add Branch Here</h3>
+    </center>
+
+
+    <style>
+        input, select {
+            margin-bottom: 10px;
+            outline: none;  
+            border: 1px solid rgb(99, 97, 97);
+            border-radius: 5px;
+            height: 37px;
+        }
+        th{
+            padding: 15px;
+        }
+        td{
+            padding: 8px;
+        }
+        body {
+          background-image: url('{% static "img/logbg2.png" %}');
+          min-height: 100vh;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+        /* .ff{
+    color: #004aad;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 20px;
+    font-weight: bolder;
+   }
+   .ff1{
+    color: #4cd9f1;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 17px;
+    font-weight: bolder;
+   }   */
+   /* .col-1::after{
+   content:'';
+   width: 5px;
+   height: 66%;
+   background-color: #004aad ;
+   position: absolute;
+   left: -10px;
+   top: 40px;
+  } */
+       .form-control{
+        background-color: #d0d9e1;
+       }
+       body, html {
+    overflow-x: hidden;
+}
+
+#table2 {
+        border: 1px solid black;
+        width: 100%;
+        border-collapse: collapse;
+        /* margin-top: 20px; */
+        background-color: #ffffff;
+
+    }
+
+    #table2 th, #table2 td {
+        border: 1px solid #a3c9d3;
+        padding: 5px;
+        text-align: center;
+    }
+
+    #table2 th {
+        background-color: #648386;
+        padding: 3px;
+    }
+
+    #mydata tr:nth-child(even) {
+        background-color: #e6f2ff;
+    }
+
+    #mydata tr:hover {
+        background-color: #ccebff;
+    }
+
+       /* for heading */
+  .buttonhead {
+    margin: 5.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  --fs-size: 1.8em;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+    </style>
+    
+    <center>
+        <form action="{% url 'add_branch' %}"  style="zoom:0.9" method="POST" class="col-md-11">
+            {% csrf_token %}
+            <div class="row">
+                <label for="officename" class="col-md-6"> <span style="color: red;">*</span>Office Name</label>
+                <input type="text" class="col-md-6" name="office_name" placeholder="Type Here....." oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '').toUpperCase()" required autofocus>
+
+                <label for="officename" class="col-md-6"><span style="color: red;">*</span>Office Number</label>
+                <input type="text" class="col-md-6" name="office_number" placeholder="Type Here....." maxlength="11" oninput="validateMobileNumber(this)" required>
+                <script>
+                    function validateMobileNumber(input) {
+                        // Remove non-numeric characters from the input
+                        input.value = input.value.replace(/\D/g, '');
+                
+                        // Check if the length is 11 or more digits
+                        if (input.value.length >= 11) {
+                            alert("Mobile number should not exceed 10 digits.");
+                            // Truncate the input value to 10 characters
+                            input.value = input.value.slice(0, 10);
+                        }
+                    }
+                </script>
+
+                <label for="branchname" class="col-md-6"><span style="color: red;">*</span>Branch Name</label>
+                          
+                <input type="text" class="col-md-6" name="branch_name" placeholder="Type Here....." required oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '').toUpperCase()">
+
+                <label for="" class="col-md-6"><span style="color: red;">*</span>Location</label>
+                <input type="text" name="location" class="col-md-6" placeholder="Type Here....." required oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '').toUpperCase()">
+
+                <label for="" class="col-md-6"><span style="color: red;">*</span>Admin Id - Code </label>
+<input type="text" name="adminid" class="col-md-6" placeholder="MTA"  required  oninput="validateAdminCode(this)" >
+
+<script>
+    function validateAdminCode(input) {
+        // Remove non-numeric characters from the input
+        input.value = input.value.replace(/[^A-Za-z]/g, '').toUpperCase();
+
+        // Check if the length is more than 3 digits
+        // if (input.value.length > 3) {
+        //     alert("Admin code should not exceed 3 digits.");
+        //     // Truncate the input value to 3 characters
+        //     input.value = input.value.slice(0, 3);
+        // }
+    }
+</script>
+
+
+<label for="" class="col-md-6"><span style="color: red;">*</span>Employee Id - Code </label>
+<input type="text" name="employeeid" class="col-md-6" placeholder="MT" oninput="validateEmpCode(this)" required>
+
+<script>
+    function validateEmpCode(input) {
+        // Remove non-numeric characters from the input
+        input.value = input.value.replace(/[^A-Za-z]/g, '').toUpperCase();
+
+        // Check if the length is more than 3 digits
+        // if (input.value.length > 2) {
+        //     alert("Admin code should not exceed 3 digits.");
+        //     // Truncate the input value to 3 characters
+        //     input.value = input.value.slice(0, 1);
+        // }
+    }
+</script>
+
+<label for="" class="col-md-6"><span style="color: red;">*</span>Trainee Id - Code </label>
+<input type="text" name="traineeid" class="col-md-6" placeholder="MTTRN" oninput="validateTraineeCode(this)"   required>
+
+<script>
+    function validateTraineeCode(input) {
+        // Remove non-numeric characters from the input
+        input.value = input.value.replace(/[^A-Za-z]/g, '').toUpperCase();
+
+        // Check if the length is more than 3 digits
+        // if (input.value.length > 5) {
+        //     alert("Admin code should not exceed 3 digits.");
+        //     // Truncate the input value to 3 characters
+        //     input.value = input.value.slice(0, 4);
+        // }
+    }
+</script>
+<script>
+    function validateForm() {
+        var officeNumber = document.getElementsByName("office_number")[0].value;
+        // Check if the length of the office number is exactly 10 digits
+        if (officeNumber.length !== 10) {
+            alert("Please enter a valid 10-digit mobile number.");
+            return false; // Prevent form submission
+        }
+        return true; // Allow form submission
+    }
+</script>
+                <center><input type="submit" value="Submit" class='col-md-4 btn ' style="background-color: #38696d; color: aliceblue;" onclick="return validateForm()"></center>
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}" >
+
+            </div>
+        </form>
+
+        
+    </center>
+    <center>
+        {% if messages %}
+            
+                {% for message in messages %}
+                {% if message.tags == 'error'%}
+                <center><div class="alert alert-danger col-md-10">{{message}}</div></center>
+                <script>
+                    // JavaScript code to refresh the page after displaying the alert
+                    setTimeout(function () {
+                        location.reload();
+                    }, 3000);  // Adjust the time delay (in milliseconds) as needed
+                </script>
+                {% else %}
+                <center><div class="alert alert-{{message.tags}} col-md-10">{{message}}</div></center>
+                <script>
+                    // JavaScript code to refresh the page after displaying the alert
+                    setTimeout(function () {
+                        location.reload();
+                    }, 3000);  // Adjust the time delay (in milliseconds) as needed
+                </script>
+                    
+                    {% endif %}
+                {% endfor %}
+                
+        {% endif %}
+            </div>
+            <div class="col-md-8 " >
+        <table  style="zoom:0.9" class="" id="table2">
+            <thead>
+                <tr >
+                    <th class="col-md-2 border" style="width: 2%;"><center><h5>SL.No</h5></center></th>
+                    <th class="col-md-2 border"><center><h5>Off Name</h5></center></th>
+                    <th class="col-md-2 border"><center><h5>Off Number</h5></center></th>
+                    <th class="col-md-2 border"><center><h5>Branch</h5></center></th>
+                    <th class="col-md-2 border"><center><h5>Location</h5></center></th>
+                    <th class="col-md-2 border"><center><h5>Admin Code </h5></center></th>
+                    <th class="col-md-2 border"><center><h5>Employee Code </h5></center></th>
+                    <th class="col-md-2 border"><center><h5>Trainee Code </h5></center></th>
+                    <th class="col-md-2 border"><center><h5>Edit</h5></center></th>
+                    <th class="col-md-2"><center><h5>Delete</h5></center></th>
+                </tr>
+            </thead>
+            {% for mybranch in add_branch %}
+            <tbody id="mydata">
+                <tr >
+                    <td ><center>{{forloop.counter}}</center></td>
+                    <td ><center>{{mybranch.office_name}}</center></td>
+                    <td ><center>{{mybranch.office_number}}</center></td>
+                    <td ><center>{{mybranch.branch_name}}</center></td>
+                    <td ><center>{{mybranch.addr}}</center></td>
+                    <td ><center>{{mybranch.admin_code}}</center></td>
+                    <td ><center>{{mybranch.employee_code}}</center></td>
+                    <td ><center>{{mybranch.trainee_code}}</center></td>
+                    <td >
+                        <center>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#editModal"
+                               onclick="openEditModal('{{ mybranch.id }}', '{{ mybranch.office_name }}', '{{ mybranch.office_number }}', '{{ mybranch.branch_name }}', '{{ mybranch.addr }}', '{{ mybranch.admin_code }}', '{{ mybranch.employee_code }}', '{{ mybranch.trainee_code }}')">
+                                <button class="btn"><img src="{% static 'img/edit.png' %}" height="20px" width="20px" alt=""></button>
+                            </a>
+                        </center>
+                    </td>
+                    <td><center>
+                        <a href="#" onclick="confirmDelete('{{ mybranch.id }}')">
+                            <button class="btn"><img src="{% static 'img/delete.png' %}" height="20px" width="20px" alt=""></button>
+                          </a>
+                    </center>
+                </td>
+                </tr>
+            </tbody>
+            {% endfor%}
+        </table>
+    </center>
+</div>
+    </div>
+
+     <!-- Add this modal structure at the end of your body -->
+     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Branch</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label for="officename" class="form-label">Office Name</label>
+                    <input type="text" id="officename" class="form-control" oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '').toUpperCase()">
+
+                    
+
+                    <label for="officenumber" class="form-label">Office Number</label>
+                    <input type="number" id="officenumber" class="form-control" >
+
+                    <label for="branchname" class="form-label">Branch Name</label>
+                    <input type="text" id="branchname" class="form-control"  oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '').toUpperCase()">
+                    <input type="text" id="branchname1" class="form-control"style='display:none;' oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '').toUpperCase()">
+                    
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" id="location" class="form-control" oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '').toUpperCase()">
+
+                    <label for="adminid" class="form-label">Admin Id - Code </label>
+                    <input type="text" id="adminid" class="form-control"  oninput="validateAdminCode(this)" >
+
+                    <script>
+                        function validateAdminCode(input) {
+                            // Remove non-numeric characters from the input
+                            input.value = input.value.replace(/[^A-Za-z]/g, '').toUpperCase();
+                    
+                            // Check if the length is more than 3 digits
+                            // if (input.value.length > 3) {
+                            //     alert("Admin code should not exceed 3 digits.");
+                            //     // Truncate the input value to 3 characters
+                            //     input.value = input.value.slice(0, 3);
+                            // }
+                        }
+                    </script>
+
+
+
+                    <label for="employee_code" class="form-label">Employee Id - Code </label>
+                    <input type="text" id="employee_code" class="form-control"oninput="validateEmpCode(this)"  required>
+
+                    <script>
+                        function validateEmpCode(input) {
+                            // Remove non-numeric characters from the input
+                            input.value = input.value.replace(/[^A-Za-z]/g, '').toUpperCase();
+                    
+                            // Check if the length is more than 3 digits
+                            // if (input.value.length > 2) {
+                            //     alert("Admin code should not exceed 3 digits.");
+                            //     // Truncate the input value to 3 characters
+                            //     input.value = input.value.slice(0, 1);
+                            // }
+                        }
+                    </script>
+
+                    <label for="trainee_code" class="form-label">Trainee Id - Code </label>
+                    <input type="text" id="trainee_code" class="form-control"oninput="validateTraineeCode(this)"   required>
+
+                    <script>
+                        function validateTraineeCode(input) {
+                            // Remove non-numeric characters from the input
+                            input.value = input.value.replace(/[^A-Za-z]/g, '').toUpperCase();
+                    
+                            // Check if the length is more than 3 digits
+                            // if (input.value.length > 5) {
+                            //     alert("Admin code should not exceed 3 digits.");
+                            //     // Truncate the input value to 3 characters
+                            //     input.value = input.value.slice(0, 4);
+                            // }
+                        }
+                    </script>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="saveChanges()" id="saveChangesBtn">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+    <!-- Update the URL in the fetch function in your HTML template -->
+    <script>
+        function saveChanges() {
+// Get input field values
+// Get input field values
+var officeName = document.getElementById('officename').value.trim();
+        var officeNumber = document.getElementById('officenumber').value.trim();
+        var branchName = document.getElementById('branchname').value.trim();
+        var location = document.getElementById('location').value.trim();
+        var adminId = document.getElementById('adminid').value.trim();
+        var employeeCode = document.getElementById('employee_code').value.trim();
+        var traineeCode = document.getElementById('trainee_code').value.trim();
+
+        // Check if any field is empty
+        if (officeName === '' || officeNumber === '' || branchName === '' || location === '' || adminId === '' || employeeCode === '' || traineeCode === '') {
+            alert('Please fill all the fields.');
+            return; // Exit function if any field is empty
+        }
+
+        // Check if Office Number has exactly 10 digits
+        if (officeNumber.length !== 10 || !/^\d+$/.test(officeNumber)) {
+            alert('Office Number should be exactly 10 digits.');
+            return; // Exit function if Office Number is invalid
+        }
+
+
+
+
+
+    var updatedOfficeName = $('#officename').val();
+    var officeNumber = $('#officenumber').val();
+    var branchName = $('#branchname').val();
+    var branchName1 = $('#branchname1').val();
+    var location = $('#location').val();
+    var adminId = $('#adminid').val();
+    var employeeCode = $('#employee_code').val();
+    var traineeCode = $('#trainee_code').val();
+    var id = document.getElementById('saveChangesBtn').getAttribute('data-id');
+    // alert(updatedOfficeName+'+'+officeNumber+'+'+id)
+// alert(branchName1)
+    const csrftoken = getCookie('csrftoken');
+
+    // Send AJAX request to update the record
+    $.ajax({
+    url: '/update_branch/' + id + '/',
+    headers: {
+        'X-CSRFToken': csrftoken,
+    },
+    method: 'POST',
+    data: {
+        'updatedOfficeName': updatedOfficeName,
+        'officeNumber': officeNumber,
+        'branchName': branchName,
+        'branchName1': branchName1,
+        'location': location,
+        'adminId': adminId,
+        'employeeCode': employeeCode,
+        'traineeCode': traineeCode,
+    },
+
+    success: function (data) {
+        if (data.success) {
+            // Close the modal or perform other actions
+            $('#editModal').modal('hide');
+            console.log('Before reload',data);
+            alert("Your data is updated successfully...!")
+            window.location.reload();
+            // Optionally, you can reload the page or update the table with the new data
+        } else {
+            // Display error message
+            alert('Enter unique details..! ');
+        }
+    },
+    error: function (xhr, status, error) {
+        // Handle AJAX errors if needed
+        alert('Failed to update record. Error: ' + xhr.responseJSON.error);
+    }
+});
+
+}
+
+function openEditModal(id, officeName, officeNumber, branchName, location, adminId, employeeCode, traineeCode) {
+    // Set the id to the Save changes button inside the modal
+    document.getElementById('saveChangesBtn').setAttribute('data-id', id);
+
+    // Populate the input fields with the selected record's values
+    $('#officename').val(officeName);
+    $('#officenumber').val(officeNumber);
+    $('#branchname').val(branchName);
+    $('#branchname1').val(branchName);
+    $('#location').val(location);
+    $('#adminid').val(adminId);
+    $('#employee_code').val(employeeCode);
+    $('#trainee_code').val(traineeCode);
+}
+
+
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Check if the cookie name matches the request header expected format
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+function confirmDelete(itemId) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You won\'t be able to revert this!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // If the user confirms, redirect to the delete URL
+        window.location.href = "{% url 'delete_branch' 0 %}".replace('0', itemId);
+      }
+    });
+  }
+
+
+  function convertToUppercase(inputField) {
+        // Get the current value of the input field
+        let inputValue = inputField.value;
+
+        // Convert the value to uppercase
+        let uppercaseValue = inputValue.toUpperCase();
+
+        // Set the uppercase value back to the input field
+        inputField.value = uppercaseValue;
+    }
+    </script>
+    <script>
+        var lilota = document.getElementById("lolita");
+    var lilotaoff = document.getElementById("lolitaoff");
+    var offcanvas = document.getElementById("offcanvasExample");
+    var navigation1 = document.getElementById("navigation");
+    var branchSelect = document.getElementById("branchSelect");
+    
+    // Function to set dark mode based on the value stored in localStorage
+    function setDarkModeFromStorage() {
+      var element = document.body;
+      var storedDarkMode = localStorage.getItem('darkMode');
+      var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+    
+      if (storedDarkMode === 'true') {
+        element.classList.add('dark-mode');
+        toggleDarkModeButton.checked = true;
+        applyDarkModeStyles();
+      } else {
+        element.classList.remove('dark-mode');
+        toggleDarkModeButton.checked = false;
+        removeDarkModeStyles();
+      }
+    }
+    
+    // Function to apply dark mode styles
+    function applyDarkModeStyles() {
+      lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+      lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+      offcanvas.classList.add("offcanvasdrk");
+      navigation1.classList.add("navbardrk");
+      branchSelect.classList.add("selectheadadmindark");
+    }
+    
+    // Function to remove dark mode styles
+    function removeDarkModeStyles() {
+      lolita.src = "{% static 'img/staffinlogooff.png' %}";
+      lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+      offcanvas.classList.remove("offcanvasdrk");
+      navigation1.classList.remove("navbardrk");
+    
+      branchSelect.classList.remove("selectheadadmindark");
+    }
+    
+    // Function to toggle dark mode and store the state in localStorage
+    function toggleDarkMode() {
+      var element = document.body;
+      element.classList.toggle('dark-mode');
+        
+      if (element.classList.contains("dark-mode")) {
+        applyDarkModeStyles();
+      } else {
+        removeDarkModeStyles();
+      }
+    
+      // Store the current dark mode state in localStorage
+      var isDarkMode = element.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDarkMode.toString());
+    }
+    
+    // Call the function to set dark mode on page load
+    setDarkModeFromStorage();
+      </script>
+    
+{% endblock %}
+

@@ -1,0 +1,483 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_adm.html' %}
+
+<style>
+    body {
+          background-image: url('{% static "img/logbg2.png" %}');
+          min-height: 750px;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+
+        input[type="search"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            width: 200px; /* Set the width as needed */
+            box-sizing: border-box;
+        }
+
+.sele{
+         padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            /* width: 200px; Set the width as needed */
+            box-sizing: border-box;
+            background-color: #5c5859;
+            color: white;
+            
+}
+        
+
+.a{
+            height:1850px;
+            background-color: white;
+            border:1px solid darkgray;
+        }
+        
+    
+    .a1{
+            background-color:#FFC5C5;
+            height:1850px;
+            border:1px solid darkgray;
+        }
+.bb{
+border:1px solid black;
+}
+.bbb{
+width:170px;
+
+}
+.nj{
+margin-top:10px;
+}
+
+@media screen and (min-width:750px) {
+.a{
+        height:1050px;
+        background-color: white;
+        border:1px solid darkgray;
+       
+    }
+    .bh{
+margin-left:700px;
+margin-top:-10px;
+
+}
+.col-4{
+flex-basis: 40%;
+position: relative;
+margin-left: 500px;
+margin-top: 120px;
+color: #004aad;
+font-family:calibri;
+
+}
+}
+@media screen and (max-width:750px) {
+.col-4{
+
+position: relative;
+margin-left: 60px;
+margin-top: 100px;
+color: #004aad;
+font-family:calibri;
+
+}
+    .a{
+      
+        background-color: white;
+        border:1px solid darkgray;
+    }
+    .bh{
+margin-left:100px;
+margin-top:-10px;
+}
+
+}
+
+
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+<script>
+    $(document).ready(function () {
+        // Function to fetch and display user details based on radio button
+        function fetchUserDetails() {
+            var role = $('input[name="role"]:checked').val();
+            
+            // Make an AJAX request to fetch data from the server
+            $.ajax({
+                url: '/fetch_data_radio/',  // Update to your actual endpoint
+                method: 'POST',
+                data: { role: role },
+                
+                success: function (response) {
+                    // Check if the response contains an error
+                    if (response.error) {
+                        console.error('Error fetching data:', response.error);
+                        return;
+                    }
+
+                    // Clear existing table rows
+                    $('#userTableBody').empty();
+
+                    // Use the response directly without JSON.parse
+                    var responseData = response;
+                    var counter = 1;
+                    // Append new rows based on fetched data
+                    responseData.data.forEach(function (user) {
+                        $('#userTableBody').append('<tr><td>' +counter++ + '</td><td>' + user.user_id + '</td><td>' + user.nm + '</td></tr>');
+                    });
+
+                    
+//                     $('#userTableBody').on('click', 'tr', function () {
+//     var rowIndex = $(this).index();
+//     var selectedUser = responseData.data[rowIndex];
+
+//     // Display user info in the #userInfo div
+//     $('#userInfo').html(' <h3 class="nj">' + selectedUser.nm + ':' + selectedUser.user_id + '</h3><div class="d-flex">' );
+// });
+
+                },
+                error: function (error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+        }
+
+        // Call fetchUserDetails on page load and whenever the radio buttons change
+        $(document).on('change', '.roleRadio', fetchUserDetails);
+        fetchUserDetails(); // Initial call
+    });
+</script>
+
+
+
+<body  class="w-100 container-fluid">
+    <div class="col-lg-12" style="margin-top: 110px; ">
+        <h2 style="color: rgb(28, 26, 143);">Employee Wise Attendance</h2>
+        <div class="text-success ">
+            <hr style="width: 27%;">
+        </div>
+    </div>
+    <div class="container-fluid">
+        
+        
+            <div class="row">
+                
+                <div class="col-md-3  a">
+
+                    <p style="margin-top: -4%;" class="text-center mt-4">
+                        <label for="staff" style="font-weight: bold; font-size: 20px; color: #004aad;">Emp</label>
+                        <input type="radio" class="roleRadio" name="role" value="staff" checked>&nbsp;&nbsp;
+                        <label for="admin" style="font-weight: bold; font-size: 20px; color: #004aad;">Admin</label>
+                        <input type="radio" class="roleRadio" name="role" value="admin">&nbsp;&nbsp;
+                        <label for="admin" style="font-weight: bold; font-size: 20px; color: #004aad;">All</label>
+                        <input type="radio" class="roleRadio" name="role" value="all">&nbsp;&nbsp;
+                                            
+                    
+                    </p>
+
+                    <div class="mt-4">
+                    <input type="search" placeholder="Search..." name="search">
+                </div>
+            <hr>
+            <table class="table table-bordered">
+                <thead>
+                   <tr>
+            <th class="col-2">SL.NO</th>
+                <th class="col-2 text-center">EMP.ID</th>
+                <th class="text-center">NAME</th>
+            </tr> 
+                </thead>
+                <tbody id="userTableBody">
+            
+           
+                </tbody>
+        </table>
+        
+                </div>
+
+    
+                
+
+
+                <div class="col-md-9 a1" id="userInfo">
+                
+        
+        <h5  class="nj" id="userTableBody">Priya:565 </h5>
+
+        <div class="d-flex">
+        <h5>Mar:2002</h5>
+        
+        <div class=" col-md-9 text-end">
+        
+               <select id="monthDropdown" class="sele" >
+                    <option value="">Month</option>
+                </select>
+         
+            <select id="yearDropdown" class="sele">
+                <option value="">Year</option>
+            </select>
+      
+         
+        
+           </div>
+
+           <script>
+            // Function to get the current year
+            function getCurrentYear() {
+                return new Date().getFullYear();
+            }
+        
+            document.addEventListener('DOMContentLoaded', function () {
+                // Populate the year dropdown dynamically using JavaScript
+                var yearDropdown = document.getElementById('yearDropdown');
+                var startYear = 2015;
+                var currentYear = getCurrentYear();
+        
+                for (var year = startYear; year <= currentYear; year++) {
+                    var option = document.createElement('option');
+                    option.value = year;
+                    option.text = year;
+                    yearDropdown.appendChild(option);
+                }
+        
+                // Populate the month dropdown as you did in your original code
+                var monthDropdown = document.getElementById('monthDropdown');
+                var months = [
+                    'January', 'February', 'March', 'April', 'May', 'June',
+                    'July', 'August', 'September', 'October', 'November', 'December'
+                ];
+        
+                for (var i = 0; i < months.length; i++) {
+                    var option = document.createElement('option');
+                    option.value = i + 1;
+                    option.text = months[i];
+                    monthDropdown.appendChild(option);
+                }
+        
+                // Set default values for the month and year dropdowns
+                var currentDate = new Date();
+        
+                // Set default values for the month dropdown
+                monthDropdown.value = (currentDate.getMonth() + 1).toString(); // Months are 0-indexed, so add 1
+        
+                // Set default values for the year dropdown
+                yearDropdown.value = currentDate.getFullYear().toString();
+            });
+        </script>
+        <script>
+            // Function to get the number of days in a month
+            function getDaysInMonth(year, month) {
+                return new Date(year, month + 1, 0).getDate();
+            }
+        
+            document.addEventListener('DOMContentLoaded', function () {
+                var yearDropdown = document.getElementById('yearDropdown');
+                var monthDropdown = document.getElementById('monthDropdown');
+                var tableBody = document.getElementById('tableBody');
+        
+                // Populate the year dropdown as in your original code
+        
+                // Populate the month dropdown as in your original code
+        
+                // Set default values for the month and year dropdowns
+                var currentDate = new Date();
+                monthDropdown.value = (currentDate.getMonth() + 1).toString();
+                yearDropdown.value = currentDate.getFullYear().toString();
+        
+                // Update table based on selected month and year
+                function updateTable() {
+                    // Clear existing rows
+                    tableBody.innerHTML = '';
+
+                    // Get the selected year and month
+                    var selectedYear = parseInt(yearDropdown.value);
+                    var selectedMonth = parseInt(monthDropdown.value) - 1; // Months are 0-indexed
+                   
+                    // Get the number of days in the selected month
+                    var daysInMonth = getDaysInMonth(selectedYear, selectedMonth);
+        
+                    // Generate rows for each day
+                    for (var day = 1; day <= daysInMonth; day++) {
+                        var row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td class="text-center">${day}</td>
+                            <td class="text-center">${('0' + day).slice(-2)}-${('0' + (selectedMonth + 1)).slice(-2)}-${selectedYear}</td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center">00</td>
+                            <td class="text-center">00</td>
+                            <td class="text-center"></td>
+                            <td class="text-center"></td>
+                            <td class="text-center">Edit</td>
+                            <td class="text-center"><button class="btn btn-success">Add</button></td>
+                        `;
+                        tableBody.appendChild(row);
+                    }
+                }
+        
+                // Attach event listeners to the dropdowns
+                yearDropdown.addEventListener('change', updateTable);
+                monthDropdown.addEventListener('change', updateTable);
+        
+                // Initial table update
+                updateTable();
+            });
+        </script>
+        
+        </div>
+        
+            <table class="table table-sm table-bordered bb">
+                <thead>
+            <tr>
+                <th class="text-center">SL.NO</th>
+                <th class="text-center">Date</th>
+                <th class="text-center">In</th>
+                <th class="text-center">Out</th>
+                <th class="text-center">Hour</th>
+                <th class="text-center">In Ip</th>
+                <th class="text-center">Out Ip</th>
+                <th class="text-center">Late</th>
+                <th class="text-center">Early By</th>
+                <th class="text-center">Permi.mng</th>
+                <th class="text-center">Permi.evg</th>
+                <th class="text-center">Edit</th>
+                <th class="text-center">Delete</th>
+    </tr>
+</thead>
+
+
+
+        <tbody id="tableBody">
+
+        </tbody>
+           
+            
+        </table>
+        <table  id="example" width="100%"  class="newtable" border="2" style="background-color:#C1E0FF;" >
+           
+                               <thead>
+                                <tr style="background-color:#C1E0FF;color:#000" align="center">
+                                  <th  colspan="4" style="background-color:#0D2451;color:#FFF"><center><b>Summary</b></center></th>
+                                </tr>
+                                <tr>
+                                <th style="background-color:#003264;color:#FFF"><b>Punched</b></th><th><b>7</b></th>
+                                <th style="background-color:#003264;color:#FFF"><b>Missed to ClockIn</b></th><th><b>19</b></th></tr>
+                                <tr><th style="background-color:#003264;color:#FFF"><b>CL</b></th><th><b>0</b></th>
+                                <th style="background-color:#003264;color:#FFF"><b>LOP</b></th><th><b>0</b></th></tr>
+                                <tr><th style="background-color:#003264;color:#FFF"><b>Halfday CL (0.5)</b></th><th><b>0</b></th>
+                                <th style="background-color:#003264;color:#FFF"><b>Halfday LOP (0.5)</b></th><th><b>0</b></th></tr>
+                                <tr><th style="background-color:#003264;color:#FFF"><b>OD </b></th><th><b>0</b></th>
+                                <th style="background-color:#003264;color:#FFF"><b>Halfday Missed to ClockIn (0.5)</b></th><th><b>0</b></th></tr>
+                                <tr><th style="background-color:#003264;color:#FFF"><b>Halfday OD (0.5)</b></th><th><b>0</b></th>
+                                <th style="background-color:#003264;color:#FFF"><b>Halfday Punched (0.5)</b></th><th><b>0</b></th></tr>
+                                <tr><th style="background-color:#003264;color:#FFF"><b>Early Clock Out </b></th><th><b>0</b></th>
+                                <th style="background-color:#003264;color:#FFF"><b>Holiday</b></th><th><b>4</b></th></tr>
+                                <tr><th  style="background-color:#0D2451;color:#FFF"><b>Total Days <b>NOVEMBER : 2023</b></b></th><th style="background-color:#0B5362;color:#FFF"><b>30 Days</b></th>
+                                                        <th style="background-color:#0D2451;color:#FFF"><b>Tally </b></th><th style="background-color:#0B5362;color:#FFF"><b>30 Days</b></th></tr>
+                                
+                                
+                                            
+                    <tr><th  style="background-color:#540110;color:#FFF"><b>Mng.Late</b></th><th style="background-color:#540110;color:#FFF"><b>2 hr : 14 min</b></th>
+                               
+                                            <th style="background-color:#540110;color:#FFF"><b>Earlyby </b></th><th style="background-color:#540110;color:#FFF"><b>0 hr : 0 min</b></th></tr>
+                                
+                                                        <tr><th  style="background-color:#540110; color:#FFF"><b>Total.Late</b></th><th style="background-color:#540110;color:#FFF"><b>2 hr : 14 min</b></th><th  style="background-color:#FFCC00;color:#000" colspan="2"><b>Permissioned Hour : 03 hr:00 min</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Permission Reached : 4 hr:0 min</b></th></tr>
+                            </thead>
+                            </table>
+                </div>
+            </div>
+        </div>
+
+        
+             <!--footer-->   
+            <footer class="footer text-center text-lg-start">
+                <div class="text-center p-3">
+                  © 2023 Copyright:
+                  <a class="text-blue" href="#"> mindtekattendanceportal.com</a>
+                </div>
+              </footer>
+              <script>
+            // Enable dropdown functionality
+            $(document).ready(function(){
+                $('.dropdown-toggle').dropdown();
+            });
+        </script>
+         <script>
+            var lilota = document.getElementById("lolita");
+        var lilotaoff = document.getElementById("lolitaoff");
+        var offcanvas = document.getElementById("offcanvasExample");
+        var navigation1 = document.getElementById("navigation");
+        var branchSelect = document.getElementById("branchSelect");
+        
+        // Function to set dark mode based on the value stored in localStorage
+        function setDarkModeFromStorage() {
+          var element = document.body;
+          var storedDarkMode = localStorage.getItem('darkMode');
+          var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+        
+          if (storedDarkMode === 'true') {
+            element.classList.add('dark-mode');
+            toggleDarkModeButton.checked = true;
+            applyDarkModeStyles();
+          } else {
+            element.classList.remove('dark-mode');
+            toggleDarkModeButton.checked = false;
+            removeDarkModeStyles();
+          }
+        }
+        
+        // Function to apply dark mode styles
+        function applyDarkModeStyles() {
+          lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+          lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+          offcanvas.classList.add("offcanvasdrk");
+          navigation1.classList.add("navbardrk");
+          branchSelect.classList.add("selectheadadmindark");
+        }
+        
+        // Function to remove dark mode styles
+        function removeDarkModeStyles() {
+          lolita.src = "{% static 'img/staffinlogooff.png' %}";
+          lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+          offcanvas.classList.remove("offcanvasdrk");
+          navigation1.classList.remove("navbardrk");
+        
+          branchSelect.classList.remove("selectheadadmindark");
+        }
+        
+        // Function to toggle dark mode and store the state in localStorage
+        function toggleDarkMode() {
+          var element = document.body;
+          element.classList.toggle('dark-mode');
+            
+          if (element.classList.contains("dark-mode")) {
+            applyDarkModeStyles();
+          } else {
+            removeDarkModeStyles();
+          }
+        
+          // Store the current dark mode state in localStorage
+          var isDarkMode = element.classList.contains('dark-mode');
+          localStorage.setItem('darkMode', isDarkMode.toString());
+        }
+        
+        // Call the function to set dark mode on page load
+        setDarkModeFromStorage();
+          </script>
+
+</body>
+{% endblock %}

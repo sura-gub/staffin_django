@@ -1,0 +1,383 @@
+{% extends 'common_header.html' %}
+{% load static %}
+
+{% block content %}
+    {% include 'header_adm.html' %}
+    
+    <style>
+         input{
+    height: 40px;
+    width: 370px;
+    border-radius: 10px;
+    outline: none;
+    border: 1px solid rgb(124, 121, 121);
+} 
+td,th{
+    padding: 4px;
+}
+body {
+          background-image: url('{% static "img/logbg2.png" %}');
+          min-height: 600px;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+         
+        }
+        .form-control{
+        background-color: #d0d9e1;
+       }
+
+       #table2 {
+        border: 1px solid black;
+        width: 100%;
+        border-collapse: collapse;
+        /* margin-top: 20px; */
+        background-color: #ffffff;
+    }
+
+    #table2 th, #table2 td {
+        border: 1px solid #a3c9d3;
+        padding: 5px;
+        text-align: center;
+    }
+
+    #table2 th {
+        background-color: #648386;
+        padding: 10px;
+    }
+
+    #mydata tr:nth-child(even) {
+        background-color: #e6f2ff;
+    }
+
+    #mydata tr:hover {
+        background-color: #ccebff;
+    }
+
+
+  @media screen and (max-width:950px){
+    input{
+    height: 40px;
+    width: 270px;
+    border-radius: 10px;
+    outline: none;
+    border: 1px solid rgb(124, 121, 121);
+} 
+  }
+
+  /* for heading */
+  .buttonhead {
+   margin: 5.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  --fs-size: 1.8em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  font-weight: 800;
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+    </style>
+    <body  class="w-100 container-fluid">
+
+        
+
+    <div class="row align-items-start">
+        <div class="col-md-12  col-12 mb-3 " style="margin-top: 30px;">
+            <button class="buttonhead col-4" data-text="Awesome">
+                <span class="actual-text">&nbsp;Add Location&nbsp;</span>
+            </button>
+        </div>
+    
+        <div class="col-md-4 p-3 rounded" style="border: 1px solid #abc6dd; border-radius: 10px;zoom:0.9;
+        ">
+   
+        <h5 class="mb-2">Location</h5>
+    <form action="{% url 'location' %}" method="POST">
+        {% csrf_token %}
+       
+        <input type="text" id="location" style="border: 1px solid #88b2d6; border-radius: 10px;" class="mb-3" name="location" placeholder="Type Here....." oninput="this.value = this.value.replace(/[^a-zA-Z]/g, '').toUpperCase()" required>
+
+
+       
+        <center>
+            <input type="submit" value="Submit" class="btn  mt-1 " style="height: 40px;width:180px;border-radius: 20px;margin-bottom: -10px; background-color: #38696d; color: aliceblue;">
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+        </center>
+    </form>
+
+    <center>
+
+        {% if messages %}
+            
+                {% for message in messages %}
+                {% if message.tags == 'error'%}
+                <center><div class="alert alert-danger col-md-8">{{message}}</div></center>
+                <script>
+                    // JavaScript code to refresh the page after displaying the alert
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);  // Adjust the time delay (in milliseconds) as needed
+                </script>
+                {% else %}
+                <center><div class="alert alert-{{message.tags}} col-md-8">{{message}}</div></center>
+                <script>
+                    // JavaScript code to refresh the page after displaying the alert
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);  // Adjust the time delay (in milliseconds) as needed
+                </script>
+                    
+                    {% endif %}
+                {% endfor %}
+                
+        {% endif %}
+    </div>
+
+    <div class="col-md-8">
+        <table class="col-md-12" style="background-color: white;zoom:0.9;" id="table2">
+            <thead style="background-color: #4F81BD;">
+                <tr class="border">
+                    <th class="col-md-3 border"><center><h4>SL.No</h4></center></th>
+                    <th class="col-md-3 border"><center><h4>Location</h4></center></th>
+                    <!-- <th class="col-md-3 border"><center><h4>Edit</h4></center></th> -->
+                    <th class="col-md-3 border"><center><h4>Delete</h4></center></th>
+                </tr>
+            </thead>
+            {% for mydata in data %}
+            <tbody id="mydata">
+                
+                    <td ><center>{{ forloop.counter }}</center></td>
+                    <td >
+                        <center>
+                          {{ mydata.location }}
+                          <button class="btn" data-bs-toggle="modal" data-bs-target="#editModal" onclick="setEditModalValue('{{ mydata.location }}')">
+                            <!-- Your button content -->
+                          </button>
+                        </center>
+                      </td>                  
+                      <!-- <td >
+                        <center>
+                          <a href="#" data-bs-toggle="modal" data-bs-target="#editModal" onclick="openEditModal('{{ mydata.id }}','{{ mydata.location }}')">
+                              <button class="btn" ><img src="{% static 'img/edit.png' %}" height="20px" width="20px" alt="" ></button>
+                          </a>
+                          
+                            
+                        </center>
+                      </td> -->
+                  
+                    <td >
+                      <center>
+                        <a href="#" onclick="confirmDelete('{{ mydata.id }}')">
+                            <button class="btn"><img src="{% static 'img/delete.png' %}" height="20px" width="20px" alt=""></button>
+                          </a>
+                      </center>
+                    </td>
+                  
+                  
+            </tbody>
+            {% endfor%}
+        </table>
+    </center>
+    
+    </div>
+    </div>
+
+    <script>
+      function openEditModal(id, location) {
+          $('#location').val(location);
+          // Set the id to the Save changes button inside the modal
+          document.getElementById('saveChangesBtn').setAttribute('data-id', id);
+          // Show the modal
+          $('#editModal').show();
+      }
+  
+      function confirmDelete(itemId) {
+          Swal.fire({
+              title: 'Are you sure?',
+              text: 'You won\'t be able to revert this!',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#d33',
+              cancelButtonColor: '#3085d6',
+              confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  // If the user confirms, send AJAX request to delete location
+                  deleteLocation(itemId);
+              }
+              
+          });
+      }
+  
+      function deleteLocation(itemId) {
+          // Send an AJAX request to delete the location
+          const csrftoken = getCookie('csrftoken');
+          $.ajax({
+              url: '/delete_location/' + itemId + '/', // Endpoint for deleting location
+              type: 'POST',
+              headers: {'X-CSRFToken': csrftoken},
+              success: function (response) {
+                  // Remove the row from the table upon successful deletion
+                  $('#locationsTable tr[data-id="' + itemId + '"]').remove();
+                  // Optionally, show a success message to the user
+                  Swal.fire('Deleted!', 'The location has been deleted.', 'success');
+                  
+              },
+              
+              error: function (xhr, status, error) {
+                  // Handle errors if any
+                  console.error(error);
+                  // Optionally, you can show an error message to the user
+              }
+          });
+      }
+  
+      // Function to get CSRF token from cookies
+      function getCookie(name) {
+          let cookieValue = null;
+          if (document.cookie && document.cookie !== '') {
+              const cookies = document.cookie.split(';');
+              for (let i = 0; i < cookies.length; i++) {
+                  const cookie = cookies[i].trim();
+                  // Search for the cookie with the given name
+                  if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                      cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                      break;
+                  }
+              }
+          }
+          return cookieValue;
+      }
+  </script>
+      <script>
+        var lilota = document.getElementById("lolita");
+    var lilotaoff = document.getElementById("lolitaoff");
+    var offcanvas = document.getElementById("offcanvasExample");
+    var navigation1 = document.getElementById("navigation");
+    var branchSelect = document.getElementById("branchSelect");
+    
+    // Function to set dark mode based on the value stored in localStorage
+    function setDarkModeFromStorage() {
+      var element = document.body;
+      var storedDarkMode = localStorage.getItem('darkMode');
+      var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+    
+      if (storedDarkMode === 'true') {
+        element.classList.add('dark-mode');
+        toggleDarkModeButton.checked = true;
+        applyDarkModeStyles();
+      } else {
+        element.classList.remove('dark-mode');
+        toggleDarkModeButton.checked = false;
+        removeDarkModeStyles();
+      }
+    }
+    
+    // Function to apply dark mode styles
+    function applyDarkModeStyles() {
+      lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+      lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+      offcanvas.classList.add("offcanvasdrk");
+      navigation1.classList.add("navbardrk");
+      branchSelect.classList.add("selectheadadmindark");
+    }
+    
+    // Function to remove dark mode styles
+    function removeDarkModeStyles() {
+      lolita.src = "{% static 'img/staffinlogooff.png' %}";
+      lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+      offcanvas.classList.remove("offcanvasdrk");
+      navigation1.classList.remove("navbardrk");
+    
+      branchSelect.classList.remove("selectheadadmindark");
+    }
+    
+    // Function to toggle dark mode and store the state in localStorage
+    function toggleDarkMode() {
+      var element = document.body;
+      element.classList.toggle('dark-mode');
+        
+      if (element.classList.contains("dark-mode")) {
+        applyDarkModeStyles();
+      } else {
+        removeDarkModeStyles();
+      }
+    
+      // Store the current dark mode state in localStorage
+      var isDarkMode = element.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDarkMode.toString());
+    }
+    
+    // Call the function to set dark mode on page load
+    setDarkModeFromStorage();
+      </script>
+     
+</body>
+{% endblock %}

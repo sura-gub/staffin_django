@@ -1,0 +1,708 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_adm.html' %}
+
+    <style>
+      body {
+        background-image: url('{% static "img/logbg2.png" %}');
+        min-height: 750px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        font-family: Calibri;
+      }
+      
+    
+
+
+
+/* Style the container for the dropdown */
+.dropdown {
+    margin-bottom: 20px; /* Adjust margin as needed */
+}
+
+/* Style the label */
+label {
+    display: block; /* Make the label a block element for proper spacing */
+    margin-bottom: 5px; /* Add some space below the label */
+    font-weight: bold; /* Optionally make the label bold */
+   
+
+}
+
+/* Style the dropdown itself */
+
+
+
+.select-wrapper {
+    flex: 10;
+ padding-right: 20px;
+
+}
+
+/* Additional styling for form control */
+input[type="search"] {
+            padding: 8px;
+            border: 1px solid #35acb4;
+            border-radius: 7px;
+            outline: none;
+            width: 25%; /* Set the width as needed */
+            box-sizing: border-box;
+            margin-left: 3%;
+           
+        }
+
+        #table3 {
+        border: 1px solid black;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #ffffff;
+    }
+
+    #table3 th, #table3 td {
+        border: 1px solid #a3c9d3;
+        padding: 7px;
+        text-align: center;
+    }
+
+    #table3 th {
+        background-color: #b3d9ff;
+    }
+
+    #mydata tr:nth-child(even) {
+        background-color: #e6f2ff;
+    }
+
+    #mydata tr:hover {
+        background-color: #ccebff;
+    }
+      /* for heading */
+  .buttonhead {
+  margin: 6.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  --fs-size: 1.8em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-weight: 800;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+</style>
+
+<body  class="w-100 container-fluid">
+    <div  style="zoom:0.9;margin-top: 40px;" class="row">
+        <button class="buttonhead col-4" data-text="Awesome">
+            <span class="actual-text">&nbsp;Leave Status&nbsp;</span>
+        </button>
+      <div class="col-lg-5" style="margin-top: 20px;">
+        <p class="ff text-center" style="color: rgb(228, 31, 31); float: left;"  id="leaveStatusHeader">
+            <!-- <i class="fa fa-paw" style="margin-right: 10px;"></i> -->
+            Leave Status - <span id="selectedMonthYear">Month : Year</span>
+        </p>
+        
+       
+                   
+            <input type="search" id="searchInput"  placeholder="Search" aria-label="Search" aria-describedby="searchIcon">
+
+    </div>
+    
+          <div class="col-lg-7 text-end">
+           
+              <!-- <p id="selectedMonthYear"></p> -->
+              <select class="select-form " id="yearDropdown" style="background-color: #0059b3; color:white;padding: 7px; width: 10%; border-radius: 5px; height: 15%;">
+            </select>
+            
+                <select  id="monthDropdown" style="background-color: #0059b3; color:white;padding: 7px; width: 10%; border-radius: 5px; height: 15%; border-color: #0059b3; ">
+                    <option value="January">Jan</option>
+                    <option value="February">Feb</option>
+                    <option value="March">Mar</option>
+                    <option value="April">Apr</option>
+                    <option value="May">May</option>
+                    <option value="June">Jun</option>
+                    <option value="July">Jul</option>
+                    <option value="August">Aug</option>
+                    <option value="September">Sep</option>
+                    <option value="October">Oct</option>
+                    <option value="November">Nov</option>
+                    <option value="December">Dec</option>
+                </select>
+            </div>
+         
+        </div>
+        
+        
+        
+        <script>
+            
+            // JavaScript code to set default values on page load
+            document.addEventListener('DOMContentLoaded', function() {
+                var currentDate = new Date();
+                var currentYear = currentDate.getFullYear();
+                var currentMonth = currentDate.toLocaleString('default', { month: 'long' });
+        
+                // Set default values for year and month dropdowns
+                document.getElementById('yearDropdown').value = currentYear;
+                document.getElementById('monthDropdown').value = currentMonth;
+            });
+        </script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Get the current year
+                var currentYear = new Date().getFullYear();
+                // Set the current year as selected in the year dropdown
+                var yearDropdown = document.getElementById('yearDropdown');
+                for (var year = currentYear; year >= currentYear - 10; year--) {
+                    var option = document.createElement('option');
+                    option.value = year;
+                    option.text = year;
+                    yearDropdown.add(option);
+                }
+                // Get the current month
+                var currentMonth = new Date().getMonth() + 1; // Month is zero-based, so add 1
+                // Set the current month as selected in the month dropdown
+                var monthDropdown = document.getElementById('monthDropdown');
+                monthDropdown.selectedIndex = currentMonth - 1; // Month is zero-based
+                // Add event listener for dropdown changes
+                yearDropdown.addEventListener('change', handleDropdownChange);
+                monthDropdown.addEventListener('change', handleDropdownChange);
+            });
+            function handleDropdownChange() {
+                // Handle dropdown changes here
+                // You can access the selected year and month using:
+                var selectedYear = document.getElementById('yearDropdown').value;
+                var selectedMonth = document.getElementById('monthDropdown').value;
+                // Perform any actions or fetch data based on the selected year and month
+                console.log('Selected Year:', selectedYear);
+                console.log('Selected Month:', selectedMonth);
+                // Call your salaryApproval function or any other relevant function here
+            }
+            </script>
+        
+
+        </div>
+<div class="col-lg-12 mt-4">
+    <table id="table3" class="table">
+        <thead>
+            <tr>
+                <th>Sl.No</th>
+                <th>ID</th>
+                <th>Leave From</th>
+                <th>Leave To</th>
+                <th>No.Of.Days</th>
+                <th>Reason</th>
+                <th>Leave Type</th>
+                <th>Apply Date</th>
+                <th>Status</th>
+                <th>Cancel</th>
+            </tr>
+        </thead>
+        <tbody id="mydata">
+            {% for item in data %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.user_id }}</td>
+                    <td>{{ item.from_dt }}</td>
+                    <td>{{ item.to_dt }}</td>
+                    <td>{{ item.tot_days }}</td>
+                    <td>{{ item.reason }}</td>
+                    <td>{{ item.lev_typ }}</td>
+                    <td>{{ item.applay_dt }}</td>
+                    <!-- <td>{{ item.status }}</td> -->
+                    <td><!-- Add content for the Cancel column if needed --></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+      
+
+
+
+
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const yearDropdown = document.getElementById('yearDropdown');
+    const monthDropdown = document.getElementById('monthDropdown');
+
+    async function fetchData(url) {
+        try {
+            const selectedYear = yearDropdown.value;
+            const selectedMonth = monthDropdown.value;
+            const response = await fetch(`${url}?year=${selectedYear}&month=${selectedMonth}`);
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            return [];
+        }
+    }
+
+    function createRow(item, index, tableId) {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${index + 1}</td>`;
+
+        if (tableId === 'table3') {
+            row.innerHTML += `<td>${item.user_id}</td>`;
+            row.innerHTML += `<td style="display:none;">${item.from_dt}</td>`;
+            // row.innerHTML += `<td>${item.from_dt}</td>`;
+            var monthAbbreviations = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+var date = new Date(item.from_dt);
+var dayOfMonth = date.getDate(); // Corrected to get the day of the month
+var monthIndex = date.getMonth();
+var year = date.getFullYear(); // Corrected to get the full year
+
+var monthAbbreviation = monthAbbreviations[monthIndex];
+
+// row.insertCell(2).textContent = dayOfMonth + " " + monthAbbreviation + " " + year;
+row.innerHTML += `<td>${dayOfMonth + " " + monthAbbreviation + " " + year}</td>`; 
+
+            // row.innerHTML += `<td>${item.to_dt}</td>`;
+            var monthAbbreviations = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+var date = new Date(item.to_dt);
+var dayOfMonth = date.getDate(); // Corrected to get the day of the month
+var monthIndex = date.getMonth();
+var year = date.getFullYear(); // Corrected to get the full year
+
+var monthAbbreviation = monthAbbreviations[monthIndex];
+
+// row.insertCell(2).textContent = dayOfMonth + " " + monthAbbreviation + " " + year;
+row.innerHTML += `<td>${dayOfMonth + " " + monthAbbreviation + " " + year}</td>`;
+
+            row.innerHTML += `<td>${item.tot_days}</td>`;
+            row.innerHTML += `<td>${item.reason}</td>`;
+            row.innerHTML += `<td>${item.lev_typ}</td>`;
+            // row.innerHTML += `<td>${item.applay_dt}</td>`;
+            var monthAbbreviations = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+var date = new Date(item.applay_dt);
+var dayOfMonth = date.getDate(); // Corrected to get the day of the month
+var monthIndex = date.getMonth();
+var year = date.getFullYear(); // Corrected to get the full year
+
+var monthAbbreviation = monthAbbreviations[monthIndex];
+
+// row.insertCell(2).textContent = dayOfMonth + " " + monthAbbreviation + " " + year;
+row.innerHTML += `<td>${dayOfMonth + " " + monthAbbreviation + " " + year}</td>`;
+
+            let statusText;
+let statusColor;
+if (item.status === 0) {
+    statusText = 'Pending';
+    statusColor = 'red';
+} else if (item.status === 1) {
+    statusText = 'Approved';
+    statusColor = 'green';
+} else if (item.status === 2) {
+    statusText = 'Hold';
+    statusColor = 'blue';
+} else {
+    // Handle other cases if needed
+    statusText = 'Unknown';
+    statusColor = 'black'; // Default color for other cases
+}
+row.innerHTML += `<td>${createStatusDropdown(item.status)}<br><p style="color:${statusColor}; font-weight:bolder;">${statusText}</p></td>`;
+
+            
+            // Add the delete button
+            if (item.id) {
+                row.innerHTML += `
+                    <td>
+                        <center>
+                            <button class="btn delete-button" data-id="${item.id}">
+                                <img src="{% static 'img/delete.png' %}" height="50%" width="50%">
+                            </button>
+                        </center>
+                    </td>
+                `;
+            } else {
+                row.innerHTML += `<td><p>Invalid or empty item ID</p></td>`;
+            }
+        }
+        return row;
+    }
+
+    function createStatusDropdown(currentStatus) {
+        var statusOptions = [
+            { value: '0', display: 'Pending' },
+            { value: '1', display: 'Approved' },
+            { value: '2', display: 'Hold' }
+        ];
+
+        var dropdownHtml = '<select class="statusDropdown" style=" padding: 2px; border-radius:5px; border-color:#b3d9ff">';
+
+        for (var i = 0; i < statusOptions.length; i++) {
+            var selected = currentStatus == statusOptions[i].value ? 'selected' : '';
+            dropdownHtml += `<option value="${statusOptions[i].value}" ${selected}>${statusOptions[i].display}</option>`;
+        }
+
+        dropdownHtml += '</select>';
+
+        return dropdownHtml;
+    }
+
+    $(document).on('change', '.statusDropdown', function () {
+        var selectedStatus = $(this).val();
+        var rowIndex = $(this).closest('tr').index();
+        var empId = $('#mydata tr').eq(rowIndex).find('td:eq(2)').text();
+        console.log("empId",empId)
+        var userId = $('#mydata tr').eq(rowIndex).find('td:eq(1)').text();
+        console.log("userId",userId)
+        const csrftoken = getCookie('csrftoken');
+
+        $.ajax({
+            type: 'POST',
+            url: '/update_stss/',
+            headers: {
+                'X-CSRFToken': csrftoken,
+            },
+            data: {
+                'emp_id': empId,
+                'status': selectedStatus,
+                'userId':userId,
+            },
+            success: function (response) {
+                console.log('Status updated successfully:', response);
+                location.reload();
+            },
+            error: function (error) {
+                console.log('Error updating status:', error);
+            }
+        });
+    });
+
+
+// Function to get CSRF token from the cookie
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+
+
+
+
+        function updateTable(tableId, data) {
+            const tableBody = document.querySelector(`#${tableId} tbody`);
+            tableBody.innerHTML = '';
+            const fragment = document.createDocumentFragment();
+            data.forEach((item, index) => {
+                const row = createRow(item, index, tableId);
+                fragment.appendChild(row);
+            });
+            tableBody.appendChild(fragment);
+            // Attach event listeners to delete buttons
+            const deleteButtons = document.querySelectorAll('.delete-button');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const itemId = this.getAttribute('data-id');
+                    deleteItem(itemId, tableId);
+                });
+            });
+        }
+        // Function to handle deletion
+        async function deleteItem(itemId, tableId) {
+    const result = await Swal.fire({
+        title: 'Are you sure?',
+        text: 'Your row will be permanently deleted!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085D6',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+    });
+    if (result.isConfirmed) {
+        try {
+            const csrfToken = getCSRFToken();
+            if (!csrfToken) {
+                console.error('CSRF token is missing.');
+                return;
+            }
+            const response = await fetch(`/leavedelete/${itemId}/`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken,
+                },
+            });
+            if (response.ok) {
+                const deletedRow = document.querySelector(`#${tableId} tbody [data-id="${itemId}"]`).closest('tr');
+                Swal.fire({
+                    title: 'Deleted!',
+                    text: 'Your row has been deleted.',
+                    icon: 'success',
+                });
+                deletedRow.remove();
+            } else {
+                console.error('Error deleting item:', response.statusText);
+                Swal.fire({
+                    title: 'Error!',
+                    text: `Failed to delete the row. Server response: ${response.status} - ${response.statusText}`,
+                    icon: 'error',
+                });
+            }
+        } catch (error) {
+            console.error('Error deleting item:', error);
+            Swal.fire({
+                title: 'Error!',
+                text: 'An error occurred while deleting the row.',
+                icon: 'error',
+            });
+        }
+    }
+}
+
+        // Function to get the CSRF token from cookies
+        function getCSRFToken() {
+            const csrfCookie = document.cookie.split('; ').find(cookie => cookie.startsWith('csrftoken='));
+            if (csrfCookie) {
+                return csrfCookie.split('=')[1];
+            }
+            return null;
+        }
+        // Fetch and update data for the second table
+        fetchData('/leavefetch/').then(data => {
+            updateTable('table3', data);
+        });
+        // Attach change event listeners to the year and month dropdowns
+        yearDropdown.addEventListener('change', filterTable);
+      monthDropdown.addEventListener('change', filterTable);
+      searchInput.addEventListener('input', filterTable);
+      const selectedMonthYearElement = document.getElementById('selectedMonthYear');
+      yearDropdown.addEventListener('change', filterTable);
+      monthDropdown.addEventListener('change', filterTable);
+      searchInput.addEventListener('input', filterTable);
+      function filterTable() {
+          const selectedYear = yearDropdown.value;
+          const selectedMonth = monthDropdown.value;
+          const filter = searchInput.value.toUpperCase();
+          const table = document.getElementById('table3');
+          const rows = table.getElementsByTagName('tr');
+      for (let i = 1; i < rows.length; i++) {
+          const cells = rows[i].getElementsByTagName('td');
+          const rowMonth = cells[2].textContent.toUpperCase(); // Assuming the month is in the third column
+          const rowYear = cells[3].textContent; // Assuming the year is in the fourth column
+          // Check if the row matches the selected month and year
+          const monthYearMatch = (selectedMonth === 'ALL' || rowMonth === selectedMonth) &&
+              (selectedYear === 'ALL' || rowYear === selectedYear);
+          // Check if the row contains the search input
+          const searchMatch = Array.from(cells).some(cell => cell.textContent.toUpperCase().includes(filter));
+          if (monthYearMatch && searchMatch) {
+              rows[i].style.display = '';
+          } else {
+              rows[i].style.display = 'none';
+          }
+      }
+      // Update the content of the selectedMonthYear element
+      selectedMonthYearElement.textContent = `${selectedMonth} ${selectedYear}`;
+      // Fetch and update data for the table based on the selected month and year
+      fetchData(`/leavefetch/?year=${selectedYear}&month=${selectedMonth}`).then(data => {
+              updateTable('table3', data);
+          });
+      }
+  });
+  </script>
+    <script>
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     // ... Your existing code
+    
+        //     function filterTable() {
+        //         const input = document.getElementById('searchInput');
+        //         const filter = input.value.toUpperCase();
+        //         const table = document.getElementById('table3');
+        //         const rows = table.getElementsByTagName('tr');
+    
+        //         for (let i = 0; i < rows.length; i++) {
+        //             const cells = rows[i].getElementsByTagName('td');
+        //             let shouldHide = true;
+    
+        //             for (let j = 0; j < cells.length; j++) {
+        //                 const cellText = cells[j].textContent || cells[j].innerText;
+    
+        //                 if (cellText.toUpperCase().indexOf(filter) > -1) {
+        //                     shouldHide = false;
+        //                     break;
+        //                 }
+        //             }
+    
+        //             rows[i].style.display = shouldHide ? 'none' : '';
+        //         }
+        //     }
+    
+        //     // Attach an event listener to the search input
+        //     const searchInput = document.getElementById('searchInput');
+        //     searchInput.addEventListener('input', filterTable);
+    
+        //     // ... Your existing code
+        // });
+
+
+        $("document").ready(function(){
+        $('#searchInput').keyup(function(){
+           var value=$(this).val().toLowerCase()
+           $("#mydata tr").filter(function(){
+            $(this).toggle($(this).text().toLocaleLowerCase().indexOf(value)>-1)
+           });
+
+        });
+    });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get current date
+            var currentDate = new Date();
+            // Get month and year
+            var currentMonth = currentDate.toLocaleString('default', { month: 'long' });
+            var currentYear = currentDate.getFullYear();
+            // Update the content of the span with the id "selectedMonthYear"
+            var selectedMonthYear = document.getElementById("selectedMonthYear");
+            selectedMonthYear.textContent = ` ${currentMonth} ${currentYear}`;
+        });
+      </script>
+    
+    
+    
+    <script>
+        var lilota = document.getElementById("lolita");
+    var lilotaoff = document.getElementById("lolitaoff");
+    var offcanvas = document.getElementById("offcanvasExample");
+    var navigation1 = document.getElementById("navigation");
+    var branchSelect = document.getElementById("branchSelect");
+    
+    // Function to set dark mode based on the value stored in localStorage
+    function setDarkModeFromStorage() {
+      var element = document.body;
+      var storedDarkMode = localStorage.getItem('darkMode');
+      var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+    
+      if (storedDarkMode === 'true') {
+        element.classList.add('dark-mode');
+        toggleDarkModeButton.checked = true;
+        applyDarkModeStyles();
+      } else {
+        element.classList.remove('dark-mode');
+        toggleDarkModeButton.checked = false;
+        removeDarkModeStyles();
+      }
+    }
+    
+    // Function to apply dark mode styles
+    function applyDarkModeStyles() {
+      lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+      lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+      offcanvas.classList.add("offcanvasdrk");
+      navigation1.classList.add("navbardrk");
+      branchSelect.classList.add("selectheadadmindark");
+    }
+    
+    // Function to remove dark mode styles
+    function removeDarkModeStyles() {
+      lolita.src = "{% static 'img/staffinlogooff.png' %}";
+      lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+      offcanvas.classList.remove("offcanvasdrk");
+      navigation1.classList.remove("navbardrk");
+    
+      branchSelect.classList.remove("selectheadadmindark");
+    }
+    
+    // Function to toggle dark mode and store the state in localStorage
+    function toggleDarkMode() {
+      var element = document.body;
+      element.classList.toggle('dark-mode');
+        
+      if (element.classList.contains("dark-mode")) {
+        applyDarkModeStyles();
+      } else {
+        removeDarkModeStyles();
+      }
+    
+      // Store the current dark mode state in localStorage
+      var isDarkMode = element.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDarkMode.toString());
+    }
+    
+    // Call the function to set dark mode on page load
+    setDarkModeFromStorage();
+      </script>
+  </body>
+{% endblock %}

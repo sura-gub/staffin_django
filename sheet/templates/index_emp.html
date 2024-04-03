@@ -1,0 +1,316 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <Link  href="{% static 'img/icon.png' %}" alt="Attendance" rel="icon" >
+    <title>Attendance</title>
+    <link href="{% static 'css/data3.css' %}" rel="stylesheet" >
+    <script src="{% static 'js/new.js' %}"></script>
+    <script src="{% static 'jquery/jquery.js' %}"></script>
+<script src="{% static 'popper/popper.js' %}"></script>
+<!-- <link rel="stylesheet" href="{% static 'css/style.css' %}"> -->
+<!--fontawsm-->
+<link href="{% static 'font/css/all.css' %}" rel="stylesheet">
+<link href="{% static 'style.css' %}" rel="stylesheet">
+
+</head>
+<!--Navbar/offcanvas-->
+    <header>
+    </header>
+
+    <style>
+        /* Your existing CSS rules */
+      
+        body {
+          background-image: url('{% static "img/logbg2.png" %}');
+          min-height: 650px;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+      
+        /* Other CSS rules if you have */
+
+         /* tip anime */
+
+         .item-hints {
+  --purple: #720c8f;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  padding-right: 170px;
+}
+.item-hints .hint {
+  margin: 105px auto;
+  margin-left: 50px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.item-hints .hint-dot {
+  z-index: 3;
+  border: 1px solid #9bc1e4;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  -webkit-transform: translate(-0%, -0%) scale(0.95);
+  transform: translate(-0%, -0%) scale(0.95);
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9bc1e4;
+}
+.item-hints .hint-radius {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -125px 0 0 -125px;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transform: scale(0);
+  transform: scale(0);
+}
+.item-hints .hint[data-position="1"] .hint-content {
+  top: 85px;
+  left: 50%;
+  margin-left: 56px;
+}
+.item-hints .hint-content {
+  width: 300px;
+  position: absolute;
+  z-index: 5;
+  padding: 35px 0;
+  opacity: 0;
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+  color: #9bc1e4;
+  visibility: hidden;
+  pointer-events: none;
+}
+.item-hints .hint:hover .hint-content {
+  position: absolute;
+  z-index: 5;
+  padding: 35px 0;
+  opacity: 1;
+  -webkit-transition: opacity 0.7s ease, visibility 0.7s ease;
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+  color: #2081dc;
+  visibility: visible;
+  pointer-events: none;
+}
+.item-hints .hint-content::before {
+  width: 0px;
+  bottom: 29px;
+  left: 0;
+  content: "";
+  background-color: #9bc1e4;
+  height: 1px;
+  position: absolute;
+  transition: width 0.4s;
+}
+.item-hints .hint:hover .hint-content::before {
+  width: 180px;
+  transition: width 0.4s;
+}
+.item-hints .hint-content::after {
+  -webkit-transform-origin: 0 50%;
+  transform-origin: 0 50%;
+  -webkit-transform: rotate(-225deg);
+  transform: rotate(-225deg);
+  bottom: 29px;
+  left: 0;
+  width: 80px;
+  content: "";
+  background-color: #9bc1e4;
+  height: 1px;
+  position: absolute;
+  opacity: 1;
+  -webkit-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+  -webkit-transition-delay: 0s;
+  transition-delay: 0s;
+}
+.item-hints .hint:hover .hint-content::after {
+  opacity: 1;
+  visibility: visible;
+}
+.item-hints .hint[data-position="4"] .hint-content {
+  bottom: 85px;
+  left: 50%;
+  margin-left: 56px;
+}
+
+.f3 {
+  color: rgb(240, 111, 111);
+  /* text-shadow: 0px 0px 5px #e9e4e9; */
+  font-family: italic;
+  font-size: large;
+}
+
+
+      </style>
+    <body  class="w-100 container-fluid">
+
+        {% include 'header_emp.html' %}
+ 
+      
+<!--content-->
+
+
+<div class="row">
+  <div class="col-1 d-flex">
+   <div>
+    <h6 class="f3">  {% if request.session.nm %}
+      <img src="{% static 'img/available.png' %}" alt="logouyt" width="80px" height="80px">
+      Welcome - {{ request.session.nm }}!
+      {% endif %}</h6>
+
+
+<h2  id="findex" class="f">EMPLOYEE</h2>
+<h6  id="findex1" class="f1">PORTAL</h6>
+</div>
+<div>
+
+  
+  <div class="item-hints">
+    <div class="hint" data-position="4">
+      <span class="hint-radius"></span>
+      <span class="hint-dot">Tip</span>
+      <div class="hint-content do--split-children">
+        <p>
+          "Empowering Attendance, Fueling Success – Your Gateway to profession Excellence!"</p>
+      </div>
+  
+  </div>
+  </div>
+</div>
+</div>
+
+
+  
+
+
+
+</div>
+<!-- <div style="margin-top: -30px;">
+  <table style="width: 20%; " >
+    <thead >
+    <tr>
+    <th colspan="2" class="text-center" style="color: #8f0c0c;">Activity Login</th>
+  </tr>
+  <tr>
+    <th style="color: #c51c1c;"> Last Login Time</th>
+    <th style="color: #c51c1c;"> Last Logout Time</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td>{{ user_record.log_in_dt_tm }}</td>
+    <td>{{ user_record.log_out_dt_tm }}</td>
+  </tr>
+  
+  </tbody>
+  </table></div>
+<style>
+  table, th, td {
+  border: 1px solid rgb(255, 255, 255);
+  font-size: 12px;
+}
+</style> -->
+
+
+     <!--footer-->   
+    <!-- <footer class="footer text-center text-lg-start">
+        <div class="text-center p-3">
+          © 2023 Copyright:
+          <a class="text-blue" href="#"> mindekattendanceportal.com</a>
+        </div>
+      </footer> -->
+      <script>
+    // Enable dropdown functionality
+    $(document).ready(function(){
+        $('.dropdown-toggle').dropdown();
+    });
+</script>
+<script>
+  var lilota = document.getElementById("lolita");
+  var lilotaoff = document.getElementById("lolitaoff");
+  var offcanvas = document.getElementById("offcanvasExample");
+  var navigation1 = document.getElementById("navigation");
+  var findex = document.getElementById("findex");
+  var findex1 = document.getElementById("findex1");
+  // var branchSelect = document.getElementById("branchSelect");
+
+  // Function to set dark mode based on the value stored in localStorage
+  function setDarkModeFromStorage() {
+    var element = document.body;
+    var storedDarkMode = localStorage.getItem('darkMode');
+    var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+
+    if (storedDarkMode === 'true') {
+      element.classList.add('dark-mode');
+      applyDarkModeStyles();
+      toggleDarkModeButton.checked = true;
+    } else {
+      element.classList.remove('dark-mode');
+      removeDarkModeStyles();
+      toggleDarkModeButton.checked = false;
+    }
+  }
+
+  // Call the function to set dark mode on page load
+  setDarkModeFromStorage();
+
+  // Function to apply dark mode styles
+  function applyDarkModeStyles() {
+    lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+    lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+    offcanvas.classList.add("offcanvasdrk");
+    navigation1.classList.add("navbardrk");
+    findex.classList.add("fdrk");
+    findex1.classList.add("f1drk");
+    // branchSelect.classList.add("selectheadadmindark");  
+  }
+
+  // Function to remove dark mode styles
+  function removeDarkModeStyles() {
+    lolita.src = "{% static 'img/staffinlogooff.png' %}";
+    lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+    offcanvas.classList.remove("offcanvasdrk");
+    navigation1.classList.remove("navbardrk");
+    findex.classList.remove("fdrk");
+    findex1.classList.remove("f1drk");
+    // branchSelect.classList.remove("selectheadadmindark");
+
+  }
+
+  // Function to toggle dark mode and store the state in localStorage
+  function toggleDarkMode() {
+    var element = document.body;
+    element.classList.toggle('dark-mode');
+
+    if (element.classList.contains("dark-mode")) {
+      applyDarkModeStyles();
+    } else {
+      removeDarkModeStyles();
+    }
+
+    // Store the current dark mode state in localStorage
+    var isDarkMode = element.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDarkMode.toString());
+  }
+
+  // Call the function to apply dark mode styles without button trigger
+  // You can call this function at any point in your code to apply dark mode styles
+  // For example, after an asynchronous operation or based on some condition
+  // applyDarkModeStyles();
+</script>
+    </body>
+    <!-- {% include 'footer.html' %} -->
+</html>

@@ -1,0 +1,375 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_adm.html' %}
+<style>
+    body {
+      background-image: url('{% static "img/logbg2.png" %}');
+      min-height: 600px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+
+                      /* for heading */
+  .buttonhead {
+    margin: 5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  --fs-size: 1.8em;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+.box{
+    height: 50%;
+    width: 50%;
+  
+    border: 1px solid rgb(125, 153, 160);
+    padding: 5%;
+    margin-left: 29%;
+
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2); 
+}
+
+#preview {
+    max-height: 40%;
+    max-width: 90%;
+    margin-top: 5px;
+  }
+
+</style>
+
+
+
+<body>
+<div class="col-md-12  col-12 mb-3 " style="margin-top: 30px;">
+    <button class="buttonhead col-4" data-text="Awesome">
+      <span class="actual-text">&nbsp;Change Wallpaper&nbsp;</span>
+  </button>
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <div style="padding: 30px;background-color: rgba(0, 0, 0, 0.1);" class="col-lg-12">
+            <label style="color: black; font-weight: bold; font-size: large;">Choose File</label>
+            
+    
+            <input type="file" id="file" name="file" class="form-control mt-1" onchange="previewFile()">
+            <button type="submit" id="setWallpaperBtn" class="btn btn-danger mt-4" >SET WALLPAPER</button>
+
+            <img id="preview" src="" >
+        </div>
+
+
+        <div class="col-lg-6 empty">
+          <table class="table">
+            <thead>
+              <th>S.No</th>
+              <th style="width: 30%;">Pic</th>
+              <th>Delete</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td><img id="lastImage" src="" width="40%" height="40%" class="rounded"></td>
+                <td><button class="btn bg-danger text-white delete-btn">Delete</button></td>
+              </tr>
+            </tbody>
+          </table>
+          
+        </div>
+
+      </div>
+
+      
+      <script>
+        // Function to get CSRF token from cookies
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    
+        // Add event listener to delete button
+    document.querySelector('.delete-btn').addEventListener('click', function () {
+        // Show confirmation swal alert
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Once deleted, you will not be able to recover this image!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Get CSRF token
+                var csrftoken = getCookie('csrftoken');
+    
+                // Make AJAX request to delete the image
+                fetch('/delete_last_image/', {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        // Remove image element or handle UI update accordingly
+                        document.getElementById('lastImage').src = ''; // Clear the src attribute
+                        // Update the wallpaper table if needed
+                        Swal.fire('Deleted!', 'Your image has been deleted.', 'success')
+                        .then((result) => {
+                    // Reload the page after successful deletion
+                    location.reload();
+                });
+                    }
+                    
+                    else {
+                        // Handle error response
+                        console.error('Delete request failed');
+                        Swal.fire('Error!', 'Failed to delete the image.', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire('Error!', 'An error occurred.', 'error');
+                });
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire('Cancelled', 'Your image is safe :)', 'info');
+            }
+        });
+    });
+    </script>
+      
+        
+
+ 
+      <script>
+        // Function to fetch the last image URL
+        window.addEventListener('DOMContentLoaded', function () {
+    
+            // Make AJAX request to get the last image URL
+            fetch('/display_last_image/')
+                .then(response => response.json())
+                .then(data => {
+                    var imageUrl = data.image_url;
+                    console.log("ghjjb",imageUrl)
+                    if (imageUrl) {
+                        // Set the src attribute of the img element with the fetched image URL
+                        document.getElementById('lastImage').src = imageUrl;
+                    } else {
+                        // Handle case when no image is returned
+                        document.querySelector('.empty').style.display = 'none';
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+      
+
+
+<script>
+    function previewFile() {
+      const preview = document.querySelector('#preview');
+      const file = document.querySelector('input[type=file]').files[0];
+      const reader = new FileReader();
+    
+      reader.addEventListener("load", function () {
+        // convert image file to base64 string
+        preview.src = reader.result;
+      }, false);
+    
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+    </script>
+
+        
+
+   
+
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#setWallpaperBtn').click(function(){
+            var formData = new FormData();
+            formData.append('file', $('#file')[0].files[0]);
+    
+            $.ajax({
+                url: '{% url "upload_wallpaper" %}',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                beforeSend: function(xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
+                success: function(response){
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'File Uploaded Successfully..!',
+                    }).then(function(){
+                    location.reload(); // Reload the page after the success message
+                });
+                },
+                error: function(xhr, errmsg, err){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Choose the file..!',
+                    });
+                }
+            });
+        });
+    });
+    </script>
+     <script>
+      var lilota = document.getElementById("lolita");
+  var lilotaoff = document.getElementById("lolitaoff");
+  var offcanvas = document.getElementById("offcanvasExample");
+  var navigation1 = document.getElementById("navigation");
+  var branchSelect = document.getElementById("branchSelect");
+  
+  // Function to set dark mode based on the value stored in localStorage
+  function setDarkModeFromStorage() {
+    var element = document.body;
+    var storedDarkMode = localStorage.getItem('darkMode');
+    var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+  
+    if (storedDarkMode === 'true') {
+      element.classList.add('dark-mode');
+      toggleDarkModeButton.checked = true;
+      applyDarkModeStyles();
+    } else {
+      element.classList.remove('dark-mode');
+      toggleDarkModeButton.checked = false;
+      removeDarkModeStyles();
+    }
+  }
+  
+  // Function to apply dark mode styles
+  function applyDarkModeStyles() {
+    lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+    lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+    offcanvas.classList.add("offcanvasdrk");
+    navigation1.classList.add("navbardrk");
+    branchSelect.classList.add("selectheadadmindark");
+  }
+  
+  // Function to remove dark mode styles
+  function removeDarkModeStyles() {
+    lolita.src = "{% static 'img/staffinlogooff.png' %}";
+    lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+    offcanvas.classList.remove("offcanvasdrk");
+    navigation1.classList.remove("navbardrk");
+  
+    branchSelect.classList.remove("selectheadadmindark");
+  }
+  
+  // Function to toggle dark mode and store the state in localStorage
+  function toggleDarkMode() {
+    var element = document.body;
+    element.classList.toggle('dark-mode');
+      
+    if (element.classList.contains("dark-mode")) {
+      applyDarkModeStyles();
+    } else {
+      removeDarkModeStyles();
+    }
+  
+    // Store the current dark mode state in localStorage
+    var isDarkMode = element.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDarkMode.toString());
+  }
+  
+  // Call the function to set dark mode on page load
+  setDarkModeFromStorage();
+    </script>
+
+
+</body>
+{% endblock %}

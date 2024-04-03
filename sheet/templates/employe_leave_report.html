@@ -1,0 +1,971 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_adm.html' %}
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      .table-container {
+      max-height: 400px; /* Set the maximum height of the table */
+      overflow-y: auto; /* Add a vertical scrollbar if needed */
+      width: 110%;
+    }
+      body {
+      background-image: url('{% static "img/logbg2.png" %}');
+      min-height: 600px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      font-family: Calibri;
+     
+    }
+    body, html {
+    overflow-x: hidden;
+}
+.deleted-record {
+    display: none;
+}
+
+#datatable {
+        border: 1px solid black;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #ffffff;
+        
+
+    }
+
+    #datatable th, #datatable td {
+        border: 1px solid #a3c9d3;
+        padding: 7px;
+        text-align: center;
+       
+    }
+
+    #datatable th {
+        background-color: #84b7e9;
+        padding: 8px;
+    }
+
+    #mdata tr:nth-child(even) {
+        background-color: #e6f2ff;
+    }
+
+    #mdata tr:hover {
+        background-color: #a3c7df;
+    }
+    #table3 {
+        border: 1px solid black;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #ffffff;
+
+    }
+
+    #table3 th, #table3 td {
+        border: 1px solid #a3c9d3;
+        padding: 5px;
+        text-align: center;
+    }
+
+    #table3 th {
+        background-color: #84b7e9;
+        padding: 10px;
+    }
+
+    #mydata tr:nth-child(even) {
+        background-color: #e6f2ff;
+    }
+
+    #mydata tr:hover {
+        background-color: #ccebff;
+    }
+
+    input[type="search"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            border-color: #1b7ddf;
+            outline: none;
+            width: 200px; /* Set the width as needed */
+            box-sizing: border-box;
+        }
+
+  /* for heading */
+  .buttonhead {
+ margin: 5.5% 0 1% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  font-weight: 800;
+  --fs-size: 1.8em;;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+@media screen and (max-width:750px) {
+  .t3{
+zoom: 0.6;
+  }
+}
+    </style>
+  </head>
+  <body class="w-100 container-fluid">
+    <div style=" zoom:0.9;margin-top: 30px;" class="row align-items-start">
+      <button class="buttonhead col-4" data-text="Awesome">
+        <span class="actual-text">&nbsp; Employee Leave Report&nbsp;</span>
+    </button>
+     <div class="col-md-12" style="margin-top: 20px;">
+         <!-- <h2 class="ff text-center" style="color: rgb(10, 10, 110); float: left;">
+           <i class="fas fa-clipboard-list" style="margin-right: 10px;"></i> Employee Leave Report
+         </h2> -->
+       </div>
+      <div class="col-lg-4" id="firstCol">
+         <form class="form-inline " >
+             <div class="input-group" style="margin-left: 18px; ">
+               <input type="search" id="searchInput"  placeholder="Search..." aria-label="Search" aria-describedby="searchIcon">
+               <!-- <div class="input-group-append">
+                 <span id="searchIcon" class="input-group-text"><i class="fas fa-search"></i></span>
+               </div> -->
+             </div>
+           </form>
+           <div class="container ">
+             <div >
+             
+              <div class="table-container">
+              <table id="dataTable" class="table">
+                <thead>
+                    <tr>
+                        <th>Sl.No</th>
+                        <th>Name</th>
+                        <th>Emp id</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tbody id="mdata">
+                    {% for item in data %}
+                    <tr data-department="{{ item.depart }}">
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ item.nm }}</td>
+                        <td>{{ item.user_id }}</td>
+                        <td>
+                          <button style="color: #1b7ddf;" class="btn iconicon view-icon" data-user-id="${data[i].user_id}" data-nm="${data[i].nm}" onclick="fetchUserData('${data[i].user_id}', '${data[i].nm}')">
+                            View
+                        </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+          </div>
+           </div>
+           </div>
+      </div>
+    <div class="col-md-8" id="secondCol">
+      <div class="col-md-8" style="float: left; font-family: 'Times New Roman', Times, serif; font-size: 30px; color: rgb(10, 10, 110);">
+        <p id="selectedMonthYear" style="zoom:0.9;color: red;">Leave Report : Month Year</p>
+        <h4 id="userDataDisplay" class="nj" style="color: rgb(126, 0, 126);">Name: UserID</h4>
+      </div>
+       <div class="toggle" style="background-color: #09287e; color: white; font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: bold; margin-left: 80%; border-radius: 8px; width: 20%;">
+        <label>
+            &nbsp;&nbsp;&nbsp;<input type="radio" class="roleRadio" name="depart" value="ad" checked> Admin
+        </label>
+        <label>
+            <input type="radio" class="roleRadio" name="depart" value="emp"> View All
+        </label>
+        <!-- <label>
+            <input type="radio" class="roleRadio" name="depart" value="active"> Active
+        </label> -->
+    </div>
+<div class="row align-items-start">
+    <div class="container mt-12">
+      <div class="col-md-12" style="margin-top: 30px; ">
+        <div class="dropdown" onclick="displayYears()" style="width: 200px; margin-left: 55%;">
+          <style>
+            select{
+              background-color: #007399;
+               color: white; 
+               width: 70%;
+               padding: 3%;
+               border-radius: 7px;
+              
+
+            }
+          </style>
+            <select id="yearSelect" class="select-form" >
+            <option selected disabled>Year</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-12" style="margin-top: 35px;">
+            <div class="dropdown" style="width: 200px;margin-left: -290px;">
+                <div class="select-wrapper">
+                  <select id="monthSelect" class="select-form" >
+                    <option selected disabled>Month</option>
+                </select>
+                    <script>
+                      // Function to populate the year and month options
+                    
+    // Function to populate the year and month options
+    function populateOptions() {
+        // Get current year and month
+        var currentYear = new Date().getFullYear();
+        var currentMonth = new Date().getMonth() + 1; // Months are zero-based, so we add 1
+
+        // Set the start year (2015 in this case)
+        var startYear = 2015;
+
+        // Get the year select element
+        var yearSelect = document.getElementById("yearSelect");
+
+        // Populate year options
+        for (var year = currentYear; year >= startYear; year--) {
+            var option = document.createElement("option");
+            option.value = year;
+            option.text = year;
+            yearSelect.add(option);
+        }
+        // Get the month select element
+        var monthSelect = document.getElementById("monthSelect");
+        // Array of month names
+        var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        // Populate month options
+        for (var month = 1; month <= 12; month++) {
+            var option = document.createElement("option");
+            option.value = month;
+            option.text = monthNames[month - 1];
+            monthSelect.add(option);
+        }
+        // Set the default selected values
+        yearSelect.value = currentYear;
+        monthSelect.value = currentMonth;
+        // Store values in session storage
+sessionStorage.setItem('currentYear', currentYear);
+sessionStorage.setItem('currentMonth', currentMonth);
+
+// Retrieve values from session storage
+var storedYear = sessionStorage.getItem('currentYear');
+var storedMonth = sessionStorage.getItem('currentMonth');
+    }
+                      // Call the function to populate options
+                      populateOptions();
+                  </script>
+                 </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table class="table t3 mt-4" id="table3">
+     <thead >
+       <tr>
+         <th>Sl.No</th>
+         <th>ID</th>
+         <th>Leave From</th>
+         <th>Leave To</th>
+         <th>No.Of.Days</th>
+         <th>Reason</th>
+         <th>Leave Type</th>
+         <th>Apply Date</th>
+         <th>Status</th>
+         <th>cancel</th>
+         </tr>
+     </thead>
+     <tbody id="mydata">
+      {% for item in data %}
+      <tr data-id="{{ item.id }}">
+          <td>{{ forloop.counter }}</td>
+          <td>{{ item.user_id }}</td>
+          <td>{{ item.from_dt }}</td>
+          <td>{{ item.to_dt }}</td>
+          <td>{{ item.tot_days }}</td>
+          <td>{{ item.reason }}</td>
+          <td>{{ item.lev_typ }}</td>
+          <td>{{ item.applay_dt }}</td>
+          <td>
+              {% if item.status == 1 %}
+                  Approved
+              {% elif item.status == 0 %}
+                  Pending
+              {% else %}
+                  Unknown
+              {% endif %}
+          </td>
+          <td>
+               <td>
+              <button class="btn btn-primary delete-button" onclick="deleteRecord('{{ item.id }}')">
+                  <i class="fa fa-trash"></i>
+              </button>
+          </td>
+          </td>
+      </tr>
+      {% endfor %}
+  </tbody>
+   </table>
+   <div class="col-md-8" style="margin-bottom: 50px;">
+    <p id="selectedMonthYear"></p>
+</div>
+   <!-- Add this container at the end of your body tag -->
+   <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const yearDropdown = document.getElementById('yearDropdown');
+    const monthDropdown = document.getElementById('monthDropdown');
+    const searchInput = document.getElementById('searchInput');
+    const selectedMonthYearElement = document.getElementById('selectedMonthYear');
+    const table = document.getElementById('table3');
+
+    yearDropdown.addEventListener('change', filterTable);
+    monthDropdown.addEventListener('change', filterTable);
+    searchInput.addEventListener('input', filterTable);
+
+    function filterTable() {
+        const selectedMonth = monthDropdown.value.toUpperCase();
+        const selectedYear = yearDropdown.value;
+        const filter = searchInput.value.toUpperCase();
+        const rows = table.getElementsByTagName('tr');
+
+        for (let i = 1; i < rows.length; i++) {
+            const cells = rows[i].getElementsByTagName('td');
+            const rowMonth = cells[2].textContent.toUpperCase(); // Assuming the month is in the third column
+            const rowYear = cells[3].textContent; // Assuming the year is in the fourth column
+
+            // Check if the row matches the selected month and year
+            const monthYearMatch = (selectedMonth === 'ALL' || rowMonth === selectedMonth) &&
+                (selectedYear === 'ALL' || rowYear === selectedYear);
+            // Check if the row contains the search input
+            const searchMatch = Array.from(cells).some(cell => cell.textContent.toUpperCase().includes(filter));
+
+            if (monthYearMatch && searchMatch) {
+                rows[i].style.display = '';
+            } else {
+                rows[i].style.display = 'none'; 
+            }
+        }
+
+        // Update the content of the selectedMonthYear element
+        selectedMonthYearElement.textContent = `Leave Report: ${selectedMonth} ${selectedYear}`;
+    }
+
+    // Set initial values for month and year dropdowns
+    const today = new Date();
+    const currentMonth = today.toLocaleString('default', { month: 'long' });
+    const currentYear = today.getFullYear();
+
+    monthDropdown.value = currentMonth;
+    yearDropdown.value = currentYear;
+
+    // Trigger the filterTable function to update the data
+    filterTable();
+});
+</script>
+ 
+
+<script>
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Check if the cookie name matches the desired name
+                if (cookie.substring(0, name.length + 1) === name + '=') {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function deleteRecord(recordId) {
+        if (!recordId) {
+            alert('Invalid record ID');
+            return;
+        }
+
+        // Use SweetAlert for confirmation
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Make an AJAX request to the Django view
+                var csrftoken = getCookie('csrftoken');
+                fetch(`/delete_delete/${recordId}/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken,
+                    },
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+    // Handle the response from the server (if needed)
+    console.log(data);
+
+    // Remove the deleted record from the table
+    $(`#table3 tbody tr[data-id="${recordId}"]`).remove();
+
+    // Add a class to hide the deleted record
+    $(`#${recordId}`).addClass('deleted-record');
+
+    // Show success message using SweetAlert
+    Swal.fire(
+        'Deleted!',
+        'Your record has been deleted.',
+        'success'
+    );
+})
+
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            }
+        });
+    }
+    selectedMonthYearElement.textContent = `Leave Report: ${selectedMonth} ${selectedYear}`;
+      // Fetch and update data for the table based on the selected month and year
+      fetchData(`/leavefetch/?year=${selectedYear}&month=${selectedMonth}`).then(data => {
+              updateTable('table3', data);
+          });
+</script>
+<script>
+  $(document).ready(function () {
+    function fetchData(depart) {
+      $.ajax({
+        url: '/empreport_fetch/',
+        method: 'GET',
+        data: { filter: depart },
+        success: function (data) {
+          updateTable(data);
+          highlightActiveRows(data); // Highlight active rows
+        },
+        error: function (error) {
+          console.error('Error fetching data:', error);
+        }
+      });
+    }
+
+    function updateTable(data) {
+      var tableBody = $('#dataTable tbody');
+      tableBody.empty();
+
+      for (var i = 0; i < data.length; i++) {
+        var row = `<tr data-department="${data[i].depart}" class="${data[i].active ? 'active-row' : ''}">
+          <td>${i + 1}</td>
+          <td>${data[i].nm}</td>
+          <td>${data[i].user_id}</td>
+          <td>
+            <button style="color: #1b7ddf;" class="btn iconicon view-icon" data-user-id="${data[i].user_id}" data-nm="${data[i].nm}" onclick="fetchUserData('${data[i].user_id}', '${data[i].nm}')">
+    View
+</button>
+
+
+          </td>
+        </tr>`;
+        tableBody.append(row);
+      }
+    }
+
+    function highlightActiveRows(data) {
+      // Remove existing highlighting
+      $('#dataTable tbody tr').removeClass('active-row');
+
+      // Add highlighting to active rows
+      data.forEach(function (item, index) {
+        if (item.active) {
+          $(`#dataTable tbody tr[data-department="${item.depart}"]`).addClass('active-row');
+        }
+      });
+    }
+
+    // Event listener for Admin button click
+    $('input[name="depart"][value="ad"]').on('click', function () {
+      
+      fetchData('Admin');
+    });
+
+    // Event listener for View All button click
+    $('input[name="depart"][value="emp"]').on('click', function () {
+      fetchData('ViewAll');
+    });
+
+    // Event listener for Active button click
+    $('input[name="depart"][value="active"]').on('click', function () {
+      fetchData('Active');
+    });
+
+    // Initial data fetch on page load (assuming 'Admin' as default)
+    fetchData('Admin');
+  });
+</script>
+<!-- <script>
+  $(document).ready(function(){
+      $('.roleRadio').click(function(){
+          $('.roleRadio').parent().removeClass('active-btn');
+          $(this).parent().addClass('active-btn');
+      });
+  });
+</script> -->
+<script>
+  $(document).ready(function () {
+    function fetchData(acti) {
+      $.ajax({
+        url: '/emort_fetch/',
+        method: 'GET',
+        data: { filter: acti },
+        success: function (data) {
+          highlightActiveRows(data);
+          updateTable(data);
+        },
+        error: function (error) {
+          console.error('Error fetching data:', error);
+        }
+      });
+    }
+    // function updateTable(data) {
+    //   var tableBody = $('#dataTable tbody');
+    //   tableBody.empty();
+
+    //   for (var i = 0; i < data.length; i++) {
+    //     var row = `<tr data-acti="${data[i].acti}" class="${data[i].active ? 'active-row' : ''}">
+    //       <td>${i + 1}</td>
+    //       <td>${data[i].nm}</td>
+    //       <td>${data[i].user_id}</td>
+    //       <td>
+            
+    //       </td>
+    //     </tr>`;
+    //     tableBody.append(row);
+    //   }
+    // }
+
+    function highlightActiveRows(data) {
+  // Remove existing highlighting
+  $('#dataTable tbody tr').removeClass('active-row');
+
+  // Add highlighting to active rows
+  data.forEach(function (item, index) {
+    if (item.active) {
+      // Correct the selector to use data-acti instead of data-department
+      $(`#dataTable tbody tr[data-acti="${item.acti}"]`).addClass('active-row');
+    }
+  });
+}
+
+    // Event listener for Active button click
+    // Event listener for Active button click
+$('input[name="depart"][value="active"]').on('click', function () {
+  fetchData('active');
+});
+
+function fetchData(filter) {
+    $.ajax({
+        url: '/emort_fetch/',
+        method: 'GET',
+        data: { filter: filter },  // Use the correct parameter name (filter)
+        success: function (data) {
+            highlightActiveRows(data);
+            updateTable(data);
+        },
+        error: function (error) {
+            console.error('Error fetching data:', error);
+        }
+    });
+}
+
+$('input[name="depart"][value="disactive"]').on('click', function () {
+    fetchData('disactive');  // Corrected parameter value
+  });
+     // Initial data fetch on page load (assuming 'active' as default)
+    fetchData('active');
+  });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      const yearDropdown = document.getElementById('yearSelect');
+      const monthDropdown = document.getElementById('monthSelect');
+      const selectedMonthYearElement = document.getElementById('selectedMonthYear');
+      const table = document.getElementById('table3');
+      yearDropdown.addEventListener('change', filterTable);
+      monthDropdown.addEventListener('change', filterTable);
+      function filterTable() {
+          const selectedMonth = monthDropdown.options[monthDropdown.selectedIndex].text;
+          const selectedYear = yearDropdown.value;
+          const rows = table.getElementsByTagName('tr');
+
+          // Update the content of the selectedMonthYear element
+          selectedMonthYearElement.textContent = `Leave Report: ${selectedMonth} ${selectedYear}`;
+      }
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      // Get current date
+      var currentDate = new Date();
+      // Get month and year
+      var currentMonth = currentDate.toLocaleString('default', { month: 'long' });
+      var currentYear = currentDate.getFullYear();
+      // Update the content of the span with the id "selectedMonthYear"
+      var selectedMonthYear = document.getElementById("selectedMonthYear");
+      selectedMonthYear.textContent = `Leave Report: ${currentMonth} ${currentYear}`;
+  });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Function to get the CSRF token from cookies
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Check if the cookie name matches the desired name
+                    if (cookie.substring(0, name.length + 1) === name + '=') {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+            async function fetchData(url) {
+            try {
+                const response = await fetch(url, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken'),
+                    },
+                });
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                return [];
+            }
+        }
+        function createRow(item, index, tableId) {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${index + 1}</td>`;
+            if (item.id) {
+                row.innerHTML += `
+                    <td>${item.nm}</td>
+                    <td>${item.user_id}</td>
+                    <td>
+                        <center>
+                          <button style="color: #1b7ddf;" class="btn iconicon view-icon" data-user-id="${data[i].user_id}" data-nm="${data[i].nm}" onclick="fetchUserData('${data[i].user_id}', '${data[i].nm}')">
+                            View
+  </button>
+                        </center>
+                    </td>
+                `;
+            } else {
+                row.innerHTML += `<td colspan="3"><p>Invalid or empty item ID</p></td>`;
+            }
+            return row;
+        }
+        function updateTable(tableId, data) {
+            const tableBody = document.querySelector(`#${tableId} tbody`);
+            tableBody.innerHTML = '';
+            const fragment = document.createDocumentFragment();
+            data.forEach((item, index) => {
+                const row = createRow(item, index, tableId);
+                row.addEventListener('click', function () {
+                    const user_id = item.user_id;
+                    const nm = item.nm;
+                    fetchUserData(user_id,nm);
+                });
+                fragment.appendChild(row);
+            });
+            tableBody.appendChild(fragment);
+        }
+        function filterTable() {
+
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toUpperCase();
+            const table = document.getElementById('dataTable');
+            const rows = table.getElementsByTagName('tr');
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                let shouldHide = true;
+                for (let j = 0; j < cells.length; j++) {
+                    const cellText = cells[j].textContent || cells[j].innerText;
+                    if (cellText.toUpperCase().indexOf(filter) > -1) {
+                        shouldHide = false;
+                        break;
+                    }
+                }
+                rows[i].style.display = shouldHide ? 'none' : '';
+            }
+        }
+        // Call fetchData and updateTable
+        fetchData('/empreport_fetch/').then(data => {
+            updateTable('dataTable', data);
+        });
+        // Attach an event listener to the search input
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', filterTable);
+    });
+    // Function to fetch user data and store user_id in sessionStorage
+    // employe_leave_report.html
+    function fetchUserData(user_id, nm) {
+      var selectedYear = parseInt(document.getElementById("yearSelect").value);
+      var selectedMonth = parseInt(document.getElementById("monthSelect").value);
+      $.ajax({
+          url: `/empport_fetch/${user_id}/`,
+          method: 'GET',
+          data: {
+              selected_year: selectedYear,
+              selected_month: selectedMonth
+          },
+          success: function (data) {
+              // Clear the second table before updating it
+              $('#table3 tbody').empty();
+              if (data.length > 0) {
+                  // Update the #userDataDisplay with the fetched name
+                  const userName = data[0].nm; // Assuming name is in the first element
+                  document.getElementById('userDataDisplay').innerText = 'Name: ' + nm + ' | UserID: ' + user_id;
+                  // Update the second table with the fetched data
+                  updateSecondTable(data);
+              } else {
+                  // Handle case when no data is found (e.g., display a message)
+                  console.log('No data found for the selected month and year.');
+              }
+          },
+          error: function (error) {
+              console.error('Error fetching data:', error);
+          }
+      });
+  }
+  // Add an event listener for the change event on year and month selects
+  document.getElementById("yearSelect").addEventListener("change", handleDateChange);
+  document.getElementById("monthSelect").addEventListener("change", handleDateChange);
+  function handleDateChange() {
+      // Clear the second table when the year or month changes
+      $('#table3 tbody').empty();
+  }
+  function updateSecondTable(data) {
+      // Clear existing rows in the second table
+      $('#table3 tbody').empty();
+      // Update the second table with the fetched data
+      $.each(data, function (index, item) {
+          var recordId = item.id;
+          // Format leave date
+          const leaveDate = new Date(item.from_dt);
+          const formattedLeaveDate = formatDate(leaveDate);
+          // Format to date
+          const toDate = new Date(item.to_dt);
+          const formattedToDate = formatDate(toDate);
+          // Format apply date
+          const applyDate = new Date(item.applay_dt);
+          const formattedApplyDate = formatDate(applyDate);
+          var row = `<tr id="${recordId}">
+              <td>${index + 1}</td>
+              <td>${item.user_id}</td>
+              <td>${formattedLeaveDate}</td>
+              <td>${formattedToDate}</td>
+              <td>${item.tot_days}</td>
+              <td>${item.reason}</td>
+              <td>${item.lev_typ}</td>
+              <td>${formattedApplyDate}</td>`;
+if (item.status === 1) {
+    row += `<td>Approved</td>`;
+} else if (item.status === 0) {
+    row += `<td>Pending</td>`;
+} else {
+    row += `<td>Hold</td>`;
+}
+row += `<td>
+          <center>
+              <button class="btn delete-button" onclick="deleteRecord(${recordId})">
+                  <img src="{% static 'img/delete.png' %}" height="50%" width="50%">
+              </button>
+          </center>
+      </td>
+  </tr>`;
+
+          $('#table3 tbody').append(row);
+      });
+      // Attach event listeners to delete buttons
+      attachDeleteButtonListeners();
+  }
+      function formatDate(date) {
+        const day = date.getDate();
+        const month = date.toLocaleString('en-US', { month: 'short' });
+        const year = date.getFullYear();
+        return `${day} ${month} ${year}`;
+    }
+       function attachDeleteButtonListeners() {
+        // Add event listeners to delete buttons if needed
+    }
+    function rowClick(rowType) {
+    const table = document.getElementById('dataTable');
+    table.addEventListener('click', function (event) {
+      try {
+        const target = event.target;
+        if (target.tagName === 'BUTTON' && target.classList.contains('view-icon')) {
+          // Find the closest row containing the clicked button
+          const clickedRow = target.closest(rowType);
+          // Extract user_id and nm from the clicked row
+          const user_id = clickedRow.cells[2].textContent;
+          const nm = clickedRow.cells[1].textContent;
+          // Update the <h4> tag with the fetched user_id and name
+          const userDataDisplay = document.getElementById('userDataDisplay');
+          userDataDisplay.innerText = `Name: ${nm} | UserID: ${user_id}`;
+          // Call the fetchUserData function with the selected user_id and nm
+          fetchUserData(user_id, nm);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    });
+  }
+  // Attach an event listener to the table rows
+  rowClick('tr', 'button');
+  </script>
+
+<script>
+  var lilota = document.getElementById("lolita");
+var lilotaoff = document.getElementById("lolitaoff");
+var offcanvas = document.getElementById("offcanvasExample");
+var navigation1 = document.getElementById("navigation");
+var branchSelect = document.getElementById("branchSelect");
+
+// Function to set dark mode based on the value stored in localStorage
+function setDarkModeFromStorage() {
+var element = document.body;
+var storedDarkMode = localStorage.getItem('darkMode');
+var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+
+if (storedDarkMode === 'true') {
+  element.classList.add('dark-mode');
+  toggleDarkModeButton.checked = true;
+  applyDarkModeStyles();
+} else {
+  element.classList.remove('dark-mode');
+  toggleDarkModeButton.checked = false;
+  removeDarkModeStyles();
+}
+}
+
+// Function to apply dark mode styles
+function applyDarkModeStyles() {
+lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+offcanvas.classList.add("offcanvasdrk");
+navigation1.classList.add("navbardrk");
+branchSelect.classList.add("selectheadadmindark");
+}
+
+// Function to remove dark mode styles
+function removeDarkModeStyles() {
+lolita.src = "{% static 'img/staffinlogooff.png' %}";
+lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+offcanvas.classList.remove("offcanvasdrk");
+navigation1.classList.remove("navbardrk");
+
+branchSelect.classList.remove("selectheadadmindark");
+}
+
+// Function to toggle dark mode and store the state in localStorage
+function toggleDarkMode() {
+var element = document.body;
+element.classList.toggle('dark-mode');
+  
+if (element.classList.contains("dark-mode")) {
+  applyDarkModeStyles();
+} else {
+  removeDarkModeStyles();
+}
+
+// Store the current dark mode state in localStorage
+var isDarkMode = element.classList.contains('dark-mode');
+localStorage.setItem('darkMode', isDarkMode.toString());
+}
+
+// Call the function to set dark mode on page load
+setDarkModeFromStorage();
+</script>
+</div>
+  </div>
+  </body>
+</html>
+{% endblock %}

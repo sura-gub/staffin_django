@@ -1,0 +1,450 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_adm.html' %}
+
+
+<style>
+    body {
+      background-image: url('{% static "img/logbg2.png" %}');
+      min-height: 600px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      font-family: calibri;
+    }
+    .align-center{
+        align-items: center;
+    }
+.searchbox1{
+    margin-left: 1000px;
+}
+#search{
+    border: none;
+    outline: none;
+    padding: 8px; 
+    /* border-radius: 5px; */
+    box-shadow: 2px 2px 2px rgb(103, 104, 104);
+    cursor: pointer;
+}
+#payrollTable {
+            margin-top: 20px;
+        }
+
+        #payrollTable th,
+        #payrollTable td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        #payrollTable td {
+            color: rgb(47, 47, 48);
+
+        }
+
+        #payrollTable th {
+            background-color: #38696d; /* Bootstrap primary color */
+            color: white;
+            font-size: 24px;
+            text-shadow: 1px 1px 2px #2b2b2b;
+            /* border-radius: 5px; */
+        }
+
+       
+
+@media screen and (max-width: 450px) {
+
+    .searchbox1{
+    margin-left: 300px;
+   
+}
+
+}
+
+/* for heading */
+.buttonhead {
+  margin: 5.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  --fs-size: 1.8em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  font-weight: 800;
+
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+    </style>
+
+<body class="w-100 container-fluid">
+    <div class="row" >
+        <div class="col-md-12  col-12 mb-1 " style="margin-top: 30px;">
+            <button class="buttonhead col-4" data-text="Awesome">
+                <span class="actual-text">&nbsp;Visiters Report&nbsp;</span>
+            </button>
+        </div>
+        <div class="col-md-12 col-12 d-flex align-center" style="height: 50px; margin-top: -10px;">
+
+                <!-- <i style="font-family: calibri;">Show :&nbsp;</i>
+                <select id="showDropdown" class="show-dropdown"> -->
+                    <!-- Add your dropdown options here -->
+                    <!-- <option value="option1">0 - 10</option>
+                    <option value="option2">11 - 20</option>
+                    <option value="option3">21 - 30</option>
+                </select>&nbsp;Entries -->
+                
+                <div><span style="font-family: calibri;  font-weight: bold;font-size: 24px;color: #38696d;" class="searchbox1" >Search&nbsp;</span></div>
+                <div><input type="text" class="searchbox form-control" autofocus  id="search" name="search" placeholder="Search Table"> 
+                
+                  
+                </div>         
+            </div>
+
+            
+                <div style="zoom: 0.9; margin-top: -9px;" class="col-md-12 col-12 col-sm-12 ">
+                    <table id="payrollTable" style="background-color: rgb(255, 255, 255);" class=" col-md-12  col-12 table table-bordered " >
+                      <thead>
+                            <tr>
+                                <th>Sl.No</th>
+                                <th>User</th>
+                                <th>Login Time </th>
+                                <!-- <th>Login Time</th> -->
+                                <th>LogOut Time</th>
+                                <th>IP</th>
+                                <!-- <th>Location</th> -->
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+
+                            </tr>
+                          </tbody>
+                    </table>
+                    <div id="pagination" class="text-center mt-3">
+                      <button class="btn btn-primary me-2" id="prevPage">Previous</button>
+                      <span id="pageInfo"></span>
+                      <button class="btn btn-primary ms-2" id="nextPage">Next</button>
+                  </div>
+
+
+
+
+                </div>
+           
+            
+    </div>
+<script>
+$(document).ready(function () {
+    // Fetch data when the page loads
+    visitors();
+
+    function visitors() {
+        // Fetch all records from visiters_report using AJAX
+        $.ajax({
+            type: 'GET',
+            url: '/visiters_report/', // Replace with your actual endpoint
+            success: function (data) {
+                // Update the table with the received data
+                console.log(data);
+
+                // Call the function to update the table with data
+                updateTableWithData1(data);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+
+    // Function to update the table with data
+    function updateTableWithData1(data) {
+    var tableBody = $('#payrollTable tbody');
+
+    // Clear existing rows
+    tableBody.empty();
+
+    // Ensure that data is not empty and has the expected structure
+    if (data && data.length > 0) {
+        // Loop through each record in the data array
+        for (var i = 0; i < data.length; i++) {
+            var fields = data[i]; // No 'fields' property assumed
+
+            // Create a new row element 
+            var newRow = $('<tr style="height: 40px;">');
+
+            // Append cells to the row
+            newRow.append('<td>' + (i + 1) + '</td>');
+            newRow.append('<td>' + fields.user + '</td>');
+            // newRow.append('<td>' + new Date(fields.log_in_dt_tm).toLocaleDateString('en-GB') + ',' + fields.log_in_tm + '</td>');
+
+// Parse the date string
+var logInDate = new Date(fields.log_in_dt_tm);
+
+// Adjust the time to Indian Standard Time (IST)
+logInDate.setHours(logInDate.getHours() + 6); // Add 5 hours to convert to UTC
+logInDate.setMinutes(logInDate.getMinutes() + 30); // Add 30 minutes to convert to UTC+5:30
+
+// Get day, month, and year in the format you desire
+var formattedDate = logInDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
+// Convert time to 12-hour format with AM/PM
+var hours = logInDate.getHours();
+var minutes = logInDate.getMinutes();
+var ampm = hours >= 12 ? 'AM' : 'PM';
+hours = hours % 12;
+hours = hours ? hours : 12; // Handle midnight (00:00) as 12 AM
+var formattedTime = hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0') + ' ' + ampm;
+
+// Concatenate formatted date and time
+var formattedDateTime = formattedDate + ', ' + formattedTime;
+
+// Append to the table row
+newRow.append('<td>' + formattedDateTime + '</td>');
+
+// Check if fields.log_out_dt_tm is not null
+if (fields.log_out_dt_tm !== null) {
+    var logOutDate = new Date(fields.log_out_dt_tm);
+
+    // Adjust the time to Indian Standard Time (IST)
+    logOutDate.setHours(logOutDate.getHours() + 6); // Add 5 hours to convert to UTC+5
+    logOutDate.setMinutes(logOutDate.getMinutes() + 30); // Add 30 minutes to convert to UTC+5:30
+
+    // Handling cases where time adjustments might cross day boundaries
+    if (logOutDate.getHours() >= 24) {
+        logOutDate.setDate(logOutDate.getDate() + 1); // Increment day
+        logOutDate.setHours(logOutDate.getHours() - 24); // Adjust hours
+    }
+
+    // Get day, month, and year in the format you desire
+    var formattedDate = logOutDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+
+    // Convert time to 12-hour format with AM/PM
+    var hours = logOutDate.getHours();
+    var minutes = logOutDate.getMinutes();
+    var ampm = hours >= 12 ? 'AM' : 'PM'; // Correcting AM/PM designation
+    hours = hours % 12;
+    hours = hours ? hours : 12; // Handle midnight (00:00) as 12 AM
+    var formattedTime = hours.toString().padStart(2, '0') + ':' + minutes.toString().padStart(2, '0') + ' ' + ampm;
+
+    // Concatenate formatted date and time
+    var formattedDateTime = formattedDate + ', ' + formattedTime;
+
+    // Append to the table row
+    newRow.append('<td>' + formattedDateTime + '</td>');
+} else {
+    // If log_out_dt_tm is null, display an empty cell
+    newRow.append('<td></td>');
+}
+
+            newRow.append('<td>' + fields.ip + '</td>');
+
+            // Append the row to the table body
+            tableBody.append(newRow);
+        }
+
+        // Initialize pagination after updating the table with data
+        initializePagination();
+    }
+}
+
+    function initializePagination() {
+            var currentPage = 1; // Default page number
+
+            // Check if there's a stored page number in local storage
+            var storedPage = localStorage.getItem('currentPage');
+            if (storedPage) {
+                currentPage = parseInt(storedPage); // Parse stored page to integer
+            }
+
+            var rowsPerPage = 10;
+
+            // Event listeners for pagination buttons
+            $('#prevPage').on('click', function () {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderTable();
+                }
+            });
+
+            $('#nextPage').on('click', function () {
+                var maxPage = Math.ceil($('#payrollTable tbody tr').length / rowsPerPage);
+                if (currentPage < maxPage) {
+                    currentPage++;
+                    renderTable();
+                }
+            });
+
+            // Function to render the table with pagination
+            function renderTable() {
+                var startIndex = (currentPage - 1) * rowsPerPage;
+                var endIndex = Math.min(startIndex + rowsPerPage, $('#payrollTable tbody tr').length);
+
+                // Hide all rows first
+                $('#payrollTable tbody tr').hide();
+
+                // Show only the rows for the current page
+                $('#payrollTable tbody tr').slice(startIndex, endIndex).show();
+
+                updatePageInfo();
+
+                // Update local storage with the current page number
+                localStorage.setItem('currentPage', currentPage.toString());
+            }
+
+            // Function to update pagination info
+            function updatePageInfo() {
+                var totalRows = $('#payrollTable tbody tr').length;
+                var maxPage = Math.ceil(totalRows / rowsPerPage);
+                $('#pageInfo').text('Page ' + currentPage + ' of ' + maxPage);
+            }
+
+            // Call renderTable function to initially render the table with pagination
+            renderTable();
+        }
+
+    // Function to handle search filtering
+    $('#search').keyup(function () {
+    var value = $(this).val().toLowerCase();
+    $("#payrollTable tbody tr").filter(function () {
+        $(this).toggle($(this).text().toLocaleLowerCase().indexOf(value) > -1);
+    });
+
+    // Check if the search input is empty
+    if (value === '') {
+        // Re-initialize pagination when the search input is empty
+        initializePagination();
+    }
+});
+
+});
+
+
+</script>
+<script>
+    var lilota = document.getElementById("lolita");
+var lilotaoff = document.getElementById("lolitaoff");
+var offcanvas = document.getElementById("offcanvasExample");
+var navigation1 = document.getElementById("navigation");
+var branchSelect = document.getElementById("branchSelect");
+
+// Function to set dark mode based on the value stored in localStorage
+function setDarkModeFromStorage() {
+  var element = document.body;
+  var storedDarkMode = localStorage.getItem('darkMode');
+  var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+
+  if (storedDarkMode === 'true') {
+    element.classList.add('dark-mode');
+    toggleDarkModeButton.checked = true;
+    applyDarkModeStyles();
+  } else {
+    element.classList.remove('dark-mode');
+    toggleDarkModeButton.checked = false;
+    removeDarkModeStyles();
+  }
+}
+
+// Function to apply dark mode styles
+function applyDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  offcanvas.classList.add("offcanvasdrk");
+  navigation1.classList.add("navbardrk");
+  branchSelect.classList.add("selectheadadmindark");
+}
+
+// Function to remove dark mode styles
+function removeDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+  offcanvas.classList.remove("offcanvasdrk");
+  navigation1.classList.remove("navbardrk");
+
+  branchSelect.classList.remove("selectheadadmindark");
+}
+
+// Function to toggle dark mode and store the state in localStorage
+function toggleDarkMode() {
+  var element = document.body;
+  element.classList.toggle('dark-mode');
+    
+  if (element.classList.contains("dark-mode")) {
+    applyDarkModeStyles();
+  } else {
+    removeDarkModeStyles();
+  }
+
+  // Store the current dark mode state in localStorage
+  var isDarkMode = element.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', isDarkMode.toString());
+}
+
+// Call the function to set dark mode on page load
+setDarkModeFromStorage();
+  </script>
+    </body>
+{% endblock %}

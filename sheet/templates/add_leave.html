@@ -1,0 +1,791 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+  {% include 'header_adm.html' %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body {
+      background-image: url('{% static "img/logbg2.png" %}');
+      min-height: 600px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      font-family:  Calibri;
+    }
+    .hidden {
+      display: none;
+    }
+
+    #secondCol{
+      display: block;
+    }
+    #addEventListener {
+      cursor: pointer;
+    }
+    /* Add these styles for clickable label and cursor hand */
+    #dataTable tbody tr:hover {
+      cursor: pointer;
+    }
+    #dataTable tbody tr label {
+      cursor: pointer;
+    }
+    #table2 {
+        border: 1px solid black;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #ffffff;
+    }
+    #table2 th, #table2 td {
+        border: 1px solid #a3c9d3;
+        padding: 5px;
+        text-align: center;
+    }
+    #table2 th {
+        background-color: #84b7e9;
+        padding: 10px;
+    }
+    #mydata tr:nth-child(even) {
+        background-color: #e6f2ff;
+    }
+    #mydata tr:hover {
+        background-color: #ccebff;
+    }
+    #datatable {
+        border: 1px solid black;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        background-color: #ffffff;
+    }
+    #datatable th, #datatable td {
+        border: 1px solid #a3c9d3;
+        padding: 9px;
+        text-align: center;
+    }
+    #datatable th {
+        background-color: #84b7e9;
+        padding: 10px;
+    }
+    #mdata tr:nth-child(even) {
+        background-color: #e6f2ff;
+    }
+    #mdata tr:hover {
+        background-color: #ccebff;
+    }
+    input[type="search"] {
+            padding: 8px;
+            border: 1px solid #35acb4;
+            /* border-radius: 7px; */
+            outline: none;
+            width: 10%; /* Set the width as needed */
+            box-sizing: border-box;
+            margin-left: 50%;
+        }
+
+        .deleted-row {
+  display: none;
+}
+        
+  .buttonhead {
+   margin: 5.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  --fs-size: 1.8em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  font-weight: 800;
+
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+    </style>
+ 
+ <body class="w-100 container-fluid">
+   <div class="row align-items-start">
+    <div class="col-md-12  col-12 mb-3 " style="margin-top: 30px;">
+      <button class="buttonhead col-4" data-text="Awesome">
+        <span class="actual-text">&nbsp;Add Leave&nbsp;</span>
+    </button>
+  </div>
+     <div style="zoom:0.9;" class="col-lg-4" id="firstCol">
+      <form class="form-inline ">
+        <div style="margin-left: -210px;" class="input-group">
+          <input type="search" id="search" class="form-control" placeholder="Search..." aria-label="Search" aria-describedby="searchIcon" autofocus>
+          <div class="input-group-append">
+            <span id="searchIcon" ></span>
+          </div>
+        </div>
+      </form>
+            <div class="table-responsive">
+                <table id="dataTable"class="table ">
+                    <thead >
+                      <tr onclick="rowClick(1, 'th')">
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Emp id</th>
+                        <th style="display: none;">Depart</th>
+                      </tr>
+                    </thead>
+                    <tbody id="mdata">
+                      {% for item in data|dictsort:"user_id" %}
+                      <tr class="data-row" onclick="rowClick(2, 'td')">
+                          <td>{{ forloop.counter }}</td>
+                          <td>{{ item.nm }}</td>
+                          <td>{{ item.user_id }}</td>
+                          <td style="display: none;">{{ item.depart }}</td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+                  </table>
+
+                  
+                  <div id="pagination" class="text-center mt-3">
+                    <button class="btn btn-primary me-2" id="prevPage" onclick="prevPage()">Previous</button>
+                    <span id="pageInfo"></span>
+                    <button class="btn btn-primary ms-2" id="nextPage" onclick="nextPage()">Next</button>
+                </div>
+
+                <script>
+                  var currentPage = localStorage.getItem('currentPage') || 1;
+                  var rowsPerPage = 5;
+                  var rows = document.querySelectorAll('.data-row');
+                  var totalPages = Math.ceil(rows.length / rowsPerPage);
+                  function showPage(page) {
+                      var start = (page - 1) * rowsPerPage;
+                      var end = start + rowsPerPage;
+                      rows.forEach(function (row, index) {
+                          if (index >= start && index < end) {
+                              row.style.display = '';
+                          } else {
+                              row.style.display = 'none';
+                          }
+                      });
+                      document.getElementById('pageInfo').textContent = 'Page ' + page + ' of ' + totalPages;
+                      localStorage.setItem('currentPage', page); // Store current page in local storage
+                  }
+                  function nextPage() {
+                      if (currentPage < totalPages) {
+                          currentPage++;
+                          showPage(currentPage);
+                      }
+                  }
+                  function prevPage() {
+                      if (currentPage > 1) {
+                          currentPage--;
+                          showPage(currentPage);
+                      }
+                  }
+                  showPage(currentPage);
+                  // Function to handle search filtering
+                  $('#search').keyup(function () {
+                      var value = $(this).val().toLowerCase();
+                      $("#dataTable tbody tr").filter(function () {
+                          $(this).toggle($(this).text().toLocaleLowerCase().indexOf(value) > -1);
+                      });
+                      // Check if the search input is empty
+                      if (value === '') {
+                          // Re-initialize pagination when the search input is empty
+                          showPage(currentPage);
+                      }
+                  });
+              </script>
+
+
+{% if messages %}           
+{% for message in messages %}
+{% if message.tags == 'error'%}
+<center><div class="alert alert-danger ">{{message}}</div></center>
+<script>
+    // JavaScript code to refresh the page after displaying the alert
+    setTimeout(function () {
+        location.reload();
+    }, 2000);  // Adjust the time delay (in milliseconds) as needed
+</script>
+{% else %}
+<center><div class="alert alert-{{message.tags}} ">{{message}}</div></center>
+<script>
+    // JavaScript code to refresh the page after displaying the alert
+    setTimeout(function () {
+        location.reload();
+    }, 2000);  // Adjust the time delay (in milliseconds) as needed
+</script>
+    {% endif %}
+{% endfor %}
+
+{% endif %}
+
+            </div>
+          
+         
+        </div>
+
+ 
+      
+      <div style="zoom:0.9;"  class="col-md-2" id="secondCol" style="display: none; background-color: #ffffff;">
+        <div class="container mt-4">
+            <div class="form-group">
+              <form action="{% url 'leave_insert' %}" method="POST" id="leaveForm">
+                {% csrf_token %}
+                    <label for="exampleInput">Application Date</label>
+                    <input type="text" class="form-control" readonly id="applicationdate" placeholder="Enter something" name="applicationdate">
+                    <label for="exampleInput">Employee Name <span style="color: red;">*</span></label>
+                    <input type="text" readonly class="form-control mt-4" id="employeename" placeholder="Enter something" name="employeename">
+
+                    <label for="exampleInput">Employee ID <span style="color: red;">*</span></label>
+                    <input type="text" readonly class="form-control mt-4" id="employeid" placeholder="Enter something" name="employeid">
+                    <label for="exampleInput">Department<span style="color: red;">*</span></label>
+                    <input type="text" readonly class="form-control mt-4" id="department" placeholder="Enter something" name="department">
+                    <label for="exampleDropdown">Leave Type</label>
+                    <select class="form-control" id="exampleDropdown" name="exampleDropdown">
+                        <option value="LOP">LOP</option>
+                        <option value="HALF DAY-LOP">HALF DAY-LOP</option>
+                        <option value="OD">OD</option>
+                        <option value="HALF DAY-OD">HALF DAY-OD</option>
+                        <option value="EL">EL</option>
+                        <option value="ML">ML</option>
+                        <option value="CL">CL</option>
+                        <option value="HALF DAY-CL">HALF DAY-CL</option>
+                        <option value="VACCATION">VACCATION</option>
+                    </select>
+                </div>
+        </div>
+    </div>
+    <div style="zoom:0.9;"  class="col-md-3" id="thirdCol" style="display: none; background-color: #ffffff;">
+        <div class="container mt-4">
+            <div class="col-mt-4">
+                <label for="exampleTextarea">Reason</label>
+                <textarea class="form-control" id="exampleTextarea" rows="4" placeholder="Enter your text here" name="exampleTextarea"required></textarea>
+                <label for="exampleInput">Leave From Date <span style="color: red;">*</span></label>
+                <!-- <input type="date" class="form-control" id="leaveFromDate" placeholder="Enter something" name="leaveFromDate"> -->
+                <input type="date" class="form-control" name="leaveFromDate" id="leaveFromDate" required>
+
+                <label for="exampleInput">Leave To Date <span style="color: red;">*</span></label>
+                <!-- <input type="date" class="form-control mt-4" id="leaveToDate" placeholder="Enter something" name="leaveToDate"> -->
+                <input type="date" class="form-control" name="leaveToDate" id="leaveToDate" required>
+
+                <script>
+                  // Get the references to the input elements
+                  var leaveFromDateInput = document.getElementById("leaveFromDate");
+                  var leaveToDateInput = document.getElementById("leaveToDate");
+                
+                  // Disable the "Leave To Date" initially
+                  leaveToDateInput.disabled = true;
+                
+                  // Add an event listener to the "Leave From Date" input
+                  leaveFromDateInput.addEventListener("input", function() {
+                    // Enable the "Leave To Date" when a date is selected
+                    leaveToDateInput.disabled = false;
+                
+                    // Set the minimum value for "Leave To Date" to be the selected "Leave From Date"
+                    leaveToDateInput.min = leaveFromDateInput.value;
+                  });
+                </script>
+                <label for="exampleInput">Total Day's <span style="color: red;">*</span></label>
+                <!-- <input type="text" class="form-control mt-4" id="totalDays" placeholder="Enter something" readonly name="totalDays"> -->
+                <input type="text" class="form-control" name="totalDays" id="totalDays" readonly>
+<script>
+    // Get references to the input elements
+    var leaveFromDateInput = document.getElementById("leaveFromDate");
+    var leaveToDateInput = document.getElementById("leaveToDate");
+    var totalDaysInput = document.getElementById("totalDays");
+  
+    // Add event listeners to both date inputs
+    leaveFromDateInput.addEventListener("input", updateTotalDays);
+    leaveToDateInput.addEventListener("input", updateTotalDays);
+  
+    // Function to update the total days based on selected dates
+    function updateTotalDays() {
+      // Get the selected dates
+      var fromDate = new Date(leaveFromDateInput.value);
+      var toDate = new Date(leaveToDateInput.value);
+  
+      // Calculate the difference in days
+      var timeDifference = toDate.getTime() - fromDate.getTime();
+      var daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+  
+      // Display the total days in the "Total Days" input
+      totalDaysInput.value = daysDifference >= 0 ? daysDifference + 1 : 0;
+    }
+  </script>
+                <input  type="submit" value="submit" class="btn   col-md-12 mt-3 form-control" style="zoom:0.9;background-color: #008080; color:white">
+
+                <script>
+                  function toggleSecondCol() {
+    var secondCol = document.getElementById('secondCol');
+    if (secondCol.style.display === 'none') {
+        secondCol.style.display = 'block';
+    } else {
+        secondCol.style.display = 'none';
+    }
+}
+
+                </script>
+              </form>
+            </div>
+        </div>
+    </div>
+  </div>
+      <h5  id="idSpan" style="color:red;zoom:0.9;  font-family: calibri;"> User ID :</h5>
+      <table style="zoom:0.9;" class="table mt-2" id="table2">
+        <thead >
+          <tr>
+            <th>S.No</th>
+            <th>Emp Id</th>
+            <th>Leave Date</th>
+            <!-- <th>Leave TO</th> -->
+            <th>Total Days</th>
+            <th>Reason</th>
+            <th>Leave Type</th>
+            <th>Apply Date</th>
+            <th>Status</th>
+            <th>cancel</th>
+          </tr>
+        </thead>
+        <tbody id="mydata" style="background-color: white;">
+        </tbody>
+      </table>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var firstCol = document.getElementById('firstCol');
+      var secondCol = document.getElementById('secondCol');
+  
+      // Initially hide the secondCol
+      secondCol.style.display = 'none';
+  
+      // Get all the rows in the table
+      var rows = document.querySelectorAll('#dataTable tbody tr');
+  
+      // Add click event listener to each row
+      rows.forEach(function(row) {
+        row.addEventListener('click', function() {
+          // Get the data from the clicked row
+          var name = row.querySelector('td:nth-child(2)').textContent;
+          var empId = row.querySelector('td:nth-child(3)').textContent;
+  
+          // Display both col-md-6 elements
+          firstCol.style.display = 'block';
+          secondCol.style.display = 'block';
+  
+          // Populate the form fields with the clicked row data
+          var form = document.getElementById('leaveForm');
+          form.querySelector('#exampleInput').value = name;  // Adjust the ID accordingly
+          form.querySelector('#exampleInput').value = empId;  // Adjust the ID accordingly
+        });
+      });
+  
+      // Your existing toggleTable function
+      function toggleTable() {
+        // Toggle the visibility of both col-md-6 elements
+        firstCol.style.display = (firstCol.style.display === 'none') ? 'block' : 'none';
+        secondCol.style.display = (secondCol.style.display === 'none') ? 'block' : 'none';
+      }
+    });
+  </script>
+  <script>
+    // document.addEventListener('DOMContentLoaded', function () {
+    //   var firstCol = document.getElementById('firstCol');
+    //   var searchInput = document.getElementById('searchInput');
+    //   var searchIcon = document.getElementById('searchIcon');
+    //   var dataTable = document.getElementById('dataTable');
+  
+    //   // Initially hide the search input and the secondCol
+    //   // searchInput.style.display = 'none';
+  
+    //   // Get all the rows in the table
+    //   var rows = document.querySelectorAll('#dataTable tbody tr');
+  
+    //   // Add click event listener to each row
+    //   rows.forEach(function (row) {
+    //     row.addEventListener('click', function () {
+    //       // Your existing row click handling...
+    //     });
+    //   });
+    //   // Add click event listener to the search icon
+    //   searchIcon.addEventListener('click', function () {
+    //     // Toggle the visibility of the search input
+    //     searchInput.style.display = (searchInput.style.display === 'none') ? 'inline-block' : 'none';
+    //     // Clear the search input when toggling
+    //     if (searchInput.style.display === 'none') {
+    //       searchInput.value = '';
+    //       // Reset the visibility of all rows
+    //       rows.forEach(function (row) {
+    //         row.style.display = 'table-row';
+    //       });
+    //     }
+    //   });
+  
+    //   // Add input event listener to the search input for live searching
+    //   searchInput.addEventListener('input', function () {
+    //     // Get the search query
+    //     var query = searchInput.value.toLowerCase();
+  
+    //     // Iterate through rows and hide/show based on the search query
+    //     rows.forEach(function (row) {
+    //       var name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+    //       var empId = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+  
+    //       if (name.includes(query) || empId.includes(query)) {
+    //         row.style.display = 'table-row';
+    //       } else {
+    //         row.style.display = 'none';
+    //       }
+    //     });
+    //   });
+
+
+
+
+    // });
+  </script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  var firstCol = document.getElementById('firstCol');
+  var secondCol = document.getElementById('secondCol');
+  var thirdCol = document.getElementById('thirdCol');
+
+  // Initially hide the secondCol and thirdCol
+  secondCol.style.display = 'none';
+  thirdCol.style.display = 'none';
+
+  var globalEmpId;
+
+  // Get all the rows in the table
+  var rows = document.querySelectorAll('#dataTable tbody tr');
+
+  // Add click event listener to each row
+  rows.forEach(function(row) {
+    row.addEventListener('click', function() {
+      var name = row.querySelector('td:nth-child(2)').textContent;
+      var empId = row.querySelector('td:nth-child(3)').textContent;
+      var department = row.querySelector('td:nth-child(4)').textContent;
+
+      // Assign empId to the global variable
+      var cardName = sessionStorage.getItem('globalEmpId');
+      globalEmpId = empId;
+      sessionStorage.setItem("globalEmpId",globalEmpId);
+      console.log("cardName",cardName);
+
+      // Display the thirdCol
+      thirdCol.style.display = 'block';
+
+      // Populate the form fields with the clicked row data
+      var form = document.getElementById('leaveForm');
+      form.querySelector('#employeename').value = name;
+      form.querySelector('#employeid').value = empId;
+      form.querySelector('#department').value = department;
+
+      // Set the current date in the "Application Date" field
+      var currentDate = new Date().toISOString().split('T')[0];
+      form.querySelector('#applicationdate').value = currentDate;
+
+      var idSpan = document.getElementById('idSpan');
+      idSpan.innerHTML = 'User ID: ' + empId;
+
+      // Add change event listener to "Leave From Date" and "Leave To Date"
+      var fromDateInput = form.querySelector('#leaveFromDate');
+      var toDateInput = form.querySelector('#leaveToDate');
+      var totalDaysInput = form.querySelector('#totalDays');
+      
+      // Call the Ajax function to fetch data based on globalEmpId
+      fetchEmpLeaves(globalEmpId);
+    });
+  });
+
+  // Your existing toggleTable function
+  function toggleTable() {
+    // Toggle the visibility of the secondCol and thirdCol
+    secondCol.style.display = (secondCol.style.display === 'none') ? 'block' : 'none';
+    thirdCol.style.display = (thirdCol.style.display === 'none') ? 'block' : 'none';
+  }
+
+  // Ajax function to fetch data based on globalEmpId
+  // Ajax function to fetch data based on globalEmpId
+  function fetchEmpLeaves(empId) {
+  // Assuming you're using the Fetch API for simplicity
+  fetch('/empployee_leave_fetch/?empId=' + empId, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      // Add any other headers as needed
+    },
+  })
+  .then(response => response.json())
+  .then(data => {
+    // Handle the fetched data here
+    console.log(data);
+
+    // Update the table with the fetched data
+    updateTable('table2', data);
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
+  });
+}
+
+function updateTable(tableId, data) {
+  // Assuming the table body has an id of 'mydata'
+  var tbody = document.getElementById('mydata');
+
+  // Clear existing rows in the table body
+  tbody.innerHTML = '';
+var counter=0;
+  // Loop through the data and add rows to the table
+  data.empLeavesData.forEach(function (leave) {
+    var row = tbody.insertRow();
+counter++;
+// Add id attribute to the row with leave.id as its value
+row.id = leave.id;
+    row.insertCell(0).textContent = counter;  // S.No
+    row.insertCell(1).textContent = leave.user_id;  // User Id
+    var monthAbbreviations = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    
+var date = new Date(leave.from_dt);
+var dayOfMonth = date.getDate(); // Corrected to get the day of the month
+var monthIndex = date.getMonth();
+var year = date.getFullYear(); // Corrected to get the full year
+
+
+var monthAbbreviation = monthAbbreviations[monthIndex];
+
+row.insertCell(2).textContent = dayOfMonth + " " + monthAbbreviation + " " + year;  // Leave Date
+    row.insertCell(3).textContent = leave.tot_days;  // Reason
+    row.insertCell(4).textContent = leave.reason;  // Reason
+    row.insertCell(5).textContent = leave.lev_typ;  // Leave Type
+    var monthAbbreviations = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+var date = new Date(leave.applay_dt);
+var dayOfMonth = date.getDate(); // Corrected to get the day of the month
+var monthIndex = date.getMonth();
+var year = date.getFullYear(); // Corrected to get the full year
+
+var monthAbbreviation = monthAbbreviations[monthIndex];
+
+row.insertCell(6).textContent = dayOfMonth + " " + monthAbbreviation + " " + year;  // Apply Date
+    row.insertCell(7).textContent = getStatusText(leave.status);  // Status
+    // Assuming the order of columns matches the table header
+
+row.insertCell(8).innerHTML = `
+  <td>
+    <center>
+      <button class="btn delete-button" onclick="confirmDelete('${leave.id}')">
+        <img src="{% static 'img/delete.png' %}" height="50%" width="50%">
+      </button>
+    </center>
+  </td>`;
+
+
+  });
+}
+
+// Assuming you have a function to convert status code to status text
+function getStatusText(status) {
+  // You can customize this based on your actual status codes
+  return status === 1 ? 'Approved' : 'Pending';
+}
+
+// Example function to cancel leave (replace it with your actual implementation)
+function cancelLeave(leaveId) {
+  // Implement leave cancellation logic here
+  console.log('Cancel leave with ID:', leaveId);
+}
+});
+
+function confirmDelete(leaveId) {
+  // Use SweetAlert for confirmation
+  Swal.fire({
+    title: 'Are you sure?',
+    text: 'You want to delete this leave entry?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // If the user confirms, make an AJAX request to delete the leave record
+      $.ajax({
+        url: `/delete_add_leave_record/${leaveId}/`,
+        type: 'DELETE',
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+        },
+        success: function(response) {
+          // Show success message after deletion
+          Swal.fire('Deleted!', 'Your record has been deleted.', 'success');
+          // Hide the row with the specified leaveId
+          console.log(leaveId);
+          $(`#${leaveId}`).addClass('deleted-row');
+          // You can access response here and perform any additional actions if needed
+          console.log(response);
+        },
+        error: function(xhr, status, error) {
+          // Show error message if deletion fails
+          Swal.fire('Error!', 'Failed to delete record.', 'error');
+        }
+      });
+    } else {
+      // Show message for cancel action
+      Swal.fire('Cancelled', 'Your data is safe :)', 'info');
+    }
+  });
+}
+</script>
+</script>
+<script>
+  var lilota = document.getElementById("lolita");
+var lilotaoff = document.getElementById("lolitaoff");
+var offcanvas = document.getElementById("offcanvasExample");
+var navigation1 = document.getElementById("navigation");
+var branchSelect = document.getElementById("branchSelect");
+
+// Function to set dark mode based on the value stored in localStorage
+function setDarkModeFromStorage() {
+var element = document.body;
+var storedDarkMode = localStorage.getItem('darkMode');
+var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+
+if (storedDarkMode === 'true') {
+  element.classList.add('dark-mode');
+  toggleDarkModeButton.checked = true;
+  applyDarkModeStyles();
+} else {
+  element.classList.remove('dark-mode');
+  toggleDarkModeButton.checked = false;
+  removeDarkModeStyles();
+}
+}
+// Function to apply dark mode styles
+function applyDarkModeStyles() {
+lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+offcanvas.classList.add("offcanvasdrk");
+navigation1.classList.add("navbardrk");
+branchSelect.classList.add("selectheadadmindark");
+}
+// Function to remove dark mode styles
+function removeDarkModeStyles() {
+lolita.src = "{% static 'img/staffinlogooff.png' %}";
+lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+offcanvas.classList.remove("offcanvasdrk");
+navigation1.classList.remove("navbardrk");
+
+branchSelect.classList.remove("selectheadadmindark");
+}
+// Function to toggle dark mode and store the state in localStorage
+function toggleDarkMode() {
+var element = document.body;
+element.classList.toggle('dark-mode');
+  
+if (element.classList.contains("dark-mode")) {
+  applyDarkModeStyles();
+} else {
+  removeDarkModeStyles();
+}
+var isDarkMode = element.classList.contains('dark-mode');
+localStorage.setItem('darkMode', isDarkMode.toString());
+}
+setDarkModeFromStorage();
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get the cardName from sessionStorage
+    var cardName = sessionStorage.getItem('globalEmpId');
+    
+    // Get all td elements in the #mdata table
+    var tdList = document.querySelectorAll('#mdata td:nth-child(3)');
+
+    // Loop through all td elements and find the one containing cardName
+    var userTd;
+    tdList.forEach(function(td) {
+      if (td.textContent.trim() === cardName) {
+        userTd = td;
+        return;
+      }
+    });
+
+    // Log the selected userTd to the console
+    console.log("userTd:", userTd);
+
+    // Trigger a click event on the selected userTd element
+    if (userTd) {
+      userTd.click();
+    }
+
+    // Retrieve the globalEmpId from sessionStorage
+    var globalEmpId = sessionStorage.getItem('globalEmpId');
+    console.log("globalEmpId from sessionStorage:", globalEmpId);
+  });
+</script>
+
+
+
+  </body>
+{% endblock %}

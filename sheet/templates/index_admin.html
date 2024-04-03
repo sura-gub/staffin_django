@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance</title>
+    <Link  href="{% static 'img/icon.png' %}" alt="Attendance" rel="icon" >
+    <link href="{% static 'css/data3.css' %}" rel="stylesheet" >
+    <script src="{% static 'js/new.js' %}"></script>
+    <script src="{% static 'jquery/jquery.js' %}"></script>
+<script src="{% static 'popper/popper.js' %}"></script>
+<!-- <link rel="stylesheet" href="{% static 'css/style.css' %}"> -->
+
+<!--fontawsm-->
+<link href="{% static 'font/css/all.css' %}" rel="stylesheet">
+<link href="{% static 'style.css' %}" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<!--Navbar/offcanvas-->
+    <header>
+    </header>
+    <style>
+        /* Your existing CSS rules */
+      
+        body {
+          background-image: url('{% static "img/logbg2.png" %}');
+          min-height: 650px;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+        .twr{
+         text-wrap: nowrap;
+        }
+      
+      .ti{
+display: flex;
+zoom: 0.8;
+      }
+      .ti2{
+        margin-right: 50px;
+      
+      }
+      .tb{
+       min-width: 60vh;
+       
+       
+      }
+        /* Other CSS rules if you have */
+                /* Table head styles */
+                table thead {
+          background-color:  rgba(2, 24, 113, 0.684); /* Set your desired color for the table head background */
+          color: #ffffff; /* Set your desired text color for the table head */
+        }
+      
+        /* Table body styles */
+        table tbody {
+          background-color: #ded5d5; /* Set your desired color for the table body background */
+          color: #000000; /* Set your desired text color for the table body */
+          border: #a4a1a1;
+        }
+
+       
+      
+     
+        /* Alternating row colors in the table body */
+        table tbody tr:nth-child(odd) {
+          background-color: #ded5d5; /* Set your desired alternating row color */
+        }
+        .tablebtrdrk{
+          background-color: #ded5d5; /* Set your desired alternating row color */
+        }
+        /* tip anime */
+
+        .item-hints {
+  --purple: #720c8f;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  padding-right: 170px;
+  margin-left: 700px;
+  /* margin-top: -50px; */
+}
+.item-hints .hint {
+  margin: 85px auto;
+  margin-left: 5px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.item-hints .hint-dot {
+  z-index: 3;
+  border: 1px solid #9bc1e4;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  -webkit-transform: translate(-0%, -0%) scale(0.95);
+  transform: translate(-0%, -0%) scale(0.95);
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9bc1e4;
+}
+.item-hints .hint-radius {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -125px 0 0 -125px;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transform: scale(0);
+  transform: scale(0);
+}
+.item-hints .hint[data-position="1"] .hint-content {
+  top: 85px;
+  left: 50%;
+  margin-left: 56px;
+}
+.item-hints .hint-content {
+  width: 300px;
+  position: absolute;
+  z-index: 5;
+  padding: 35px 0;
+  opacity: 0;
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+  color: #9bc1e4;
+  visibility: hidden;
+  pointer-events: none;
+}
+.item-hints .hint:hover .hint-content {
+  position: absolute;
+  z-index: 5;
+  padding: 35px 0;
+  opacity: 1;
+  -webkit-transition: opacity 0.7s ease, visibility 0.7s ease;
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+  color: #2081dc;
+  visibility: visible;
+  pointer-events: none;
+}
+.item-hints .hint-content::before {
+  width: 0px;
+  bottom: 29px;
+  left: 0;
+  content: "";
+  background-color: #9bc1e4;
+  height: 1px;
+  position: absolute;
+  transition: width 0.4s;
+}
+.item-hints .hint:hover .hint-content::before {
+  width: 180px;
+  transition: width 0.4s;
+}
+.item-hints .hint-content::after {
+  -webkit-transform-origin: 0 50%;
+  transform-origin: 0 50%;
+  -webkit-transform: rotate(-225deg);
+  transform: rotate(-225deg);
+  bottom: 29px;
+  left: 0;
+  width: 80px;
+  content: "";
+  background-color: #9bc1e4;
+  height: 1px;
+  position: absolute;
+  opacity: 1;
+  -webkit-transition: opacity 0.5s ease;
+  transition: opacity 0.5s ease;
+  -webkit-transition-delay: 0s;
+  transition-delay: 0s;
+}
+.item-hints .hint:hover .hint-content::after {
+  opacity: 1;
+  visibility: visible;
+}
+.item-hints .hint[data-position="4"] .hint-content {
+  bottom: 85px;
+  left: 50%;
+  margin-left: 56px;
+}
+
+.f3 {
+  color: rgb(240, 111, 111);
+  /* text-shadow: 0px 0px 5px #e9e4e9; */
+  font-family: italic;
+  font-size: large;
+}
+
+
+/* mopile views */
+@media screen and (max-width:900px) {
+  .item-hints {
+    display: none;
+  }
+  
+}
+td,th,tbody,thead,tr,table{
+  border: 1px solid rgb(153, 148, 148);
+}
+      </style>
+ 
+      
+    <body class="w-100 container-fluid">
+
+        {% include 'header_adm.html' %}
+ 
+
+<!--content-->
+
+
+
+<div class="row">
+  <div class="col-1 d-flex" style="margin-top: 160px;">
+
+    <div>
+      <h6 class="f3">  {% if request.session.nm %}
+        <img src="{% static 'img/available.png' %}" alt="logouyt" width="80px" height="80px">
+        Welcome - {{ request.session.nm | upper}}!
+        {% endif %}</h6>     
+        
+    <h4 id="findex" class="f">ATTENDANCE</h4>
+    <h6 id="findex1" class="f1">PORTAL</h6>
+<div class=" ti">
+  <div class="ti2">
+       <h5 class="twr"><b>Branch Employee Details</b></h5> 
+    {% if branch_counts_dict %}
+      <table class="table tb twr">
+        <thead>
+          <tr>
+            <!-- <th>Sl.No</th> -->
+            <th>Branch Name</th>
+            <th>Employee Count</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for branch_name, count in branch_counts_dict.items %}
+              <tr id="tableindex2">
+                  <!-- <td>{{ forloop.counter }}</td> -->
+                  <td>{{ branch_name }}</td>
+                  <td data-branch="{{ branch_name }}" style="font-size: 20px; cursor: pointer;" onclick="processSelectedBranch('{{ branch_name }}')">
+                      <center>
+                          <span style="background-color: rgba(33, 61, 145, 0.66); color: white; padding: 10px; border-radius: 100px;">
+                              {{ count }}
+                          </span>
+                      </center>
+                  </td>
+              </tr>
+          {% endfor %}
+      </tbody>
+      </table>
+    </div>
+<div class="ti2">
+    {% else %}
+      <p class="text-danger">No branch counts available.</p>
+    {% endif %}
+ 
+    <h5 class="twr"><b>100% Attendance {% now "F" %}!!</b></h5>
+
+    {% if users_with_100_percent_attendance %}
+        <table class="table twr">
+            <thead>
+                <tr>
+                    <!-- <th>Sl.NO</th> -->
+                    <th>Emp ID</th>
+                    <!-- <th>Name</th> -->
+                    <th>Attendance</th>
+                </tr>
+            </thead>
+            <tbody>
+              {% for user_id in users_with_100_percent_attendance %}
+              {% if forloop.counter <= 3 %}
+                  <tr>
+                      <!-- <td>{{ forloop.counter }}</td> -->
+                      <td>{{ user_id }}</td>
+                      <!-- <td>{{ users_with_100_percent_attendance_names.user_id }}</td> -->
+                      <td>100%</td>
+                  </tr>
+                  {% endif %} 
+                  
+              {% endfor %}
+          </tbody>
+        </table>
+    {% else %}
+        <p class="text-danger">No Employee's with 100% attendance found in {% now "F" %}.</p>
+    {% endif %}
+  </div>
+  <div class="ti2">
+<h5 class="twr"><b>Birthday {% now "F" %}!!</b></h5>
+    {% if current_month_birthday %}
+    <table class="table twr">
+      <thead>
+          <tr>
+              <!-- <th>Sl.NO</th> -->
+              <th>Emp ID</th>                  
+              <th>Name</th>
+              <th>Date</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for user in current_month_birthday|dictsort:"dob" %}
+              {% if forloop.counter <= 3 %}
+                  <tr>
+                      <!-- <td>{{ forloop.counter }}</td> -->
+                      <td>{{ user.user_id }}</td>
+                      <td>{{ user.nm }}</td>
+                      <td>{{ user.dob|date:"F d" }}, {% now "Y" %}</td>
+                  </tr>
+              {% endif %} 
+          {% endfor %}
+      </tbody>
+  </table>
+  
+    {% else %}
+        <p class="text-danger">No Employee's Birthday found in {% now "F" %}.</p>
+    {% endif %}
+  </div>
+  <div class="ti2">
+<h5 class="twr"><b>Anniversary {% now "F" %}!!</b></h5>
+    {% if current_month_anniversary %}
+        <table class="table twr">
+            <thead>
+                <tr>
+                    <!-- <th>Sl.NO</th> -->
+                    <th>Emp ID</th>                  
+                    <th>Name</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+              {% for user in current_month_anniversary|dictsort:"doj" %}
+              {% if forloop.counter <= 3 %}
+                  <tr>
+                      <!-- <td>{{ forloop.counter }}</td> -->
+                      <td>{{ user.user_id }}</td>
+                      <td>{{ user.nm }}</td>
+                      <td>{{ user.doj|date:"F d" }}, {% now "Y" %}</td>
+                  </tr>
+              {% endif %} 
+          {% endfor %}
+</tbody>
+        </table>
+    {% else %}
+        <p class="text-danger">No Employee's Anniversary found in {% now "F" %}.</p>
+    {% endif %}
+  
+  </div>
+  <div>
+  </div>
+
+
+</div>
+</div>
+</div>
+</div>
+<div style="margin-top: -350px; margin-left: -150px;">
+  <div class="item-hints">
+    <div class="hint" data-position="4">
+      <span class="hint-radius"></span>
+      <span class="hint-dot">Tip</span>
+      <div class="hint-content do--split-children">
+        <p>
+          "Empowering Attendance, Fueling Success – Your Gateway to profession Excellence!"</p>
+      </div>
+    </div>
+  </div>
+  </div>
+      
+  <script>
+    var lilota = document.getElementById("lolita");
+    var lilotaoff = document.getElementById("lolitaoff");
+    var offcanvas = document.getElementById("offcanvasExample");
+    var navigation1 = document.getElementById("navigation");
+    var findex = document.getElementById("findex");
+    var findex1 = document.getElementById("findex1");
+    var branchSelect = document.getElementById("branchSelect");
+  
+    // Function to set dark mode based on the value stored in localStorage
+    function setDarkModeFromStorage() {
+      var element = document.body;
+      var storedDarkMode = localStorage.getItem('darkMode');
+      var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+  
+      if (storedDarkMode === 'true') {
+        element.classList.add('dark-mode');
+        applyDarkModeStyles();
+        toggleDarkModeButton.checked = true;
+      } else {
+        element.classList.remove('dark-mode');
+        removeDarkModeStyles();
+        toggleDarkModeButton.checked = false;
+      }
+    }
+  
+    // Call the function to set dark mode on page load
+    setDarkModeFromStorage();
+  
+    // Function to apply dark mode styles
+    function applyDarkModeStyles() {
+      lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+      lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+      offcanvas.classList.add("offcanvasdrk");
+      navigation1.classList.add("navbardrk");
+      findex.classList.add("fdrk");
+      findex1.classList.add("f1drk");
+      branchSelect.classList.add("selectheadadmindark");  
+    }
+  
+    // Function to remove dark mode styles
+    function removeDarkModeStyles() {
+      lolita.src = "{% static 'img/staffinlogooff.png' %}";
+      lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+      offcanvas.classList.remove("offcanvasdrk");
+      navigation1.classList.remove("navbardrk");
+      findex.classList.remove("fdrk");
+      findex1.classList.remove("f1drk");
+      branchSelect.classList.remove("selectheadadmindark");
+
+    }
+  
+    // Function to toggle dark mode and store the state in localStorage
+    function toggleDarkMode() {
+      var element = document.body;
+      element.classList.toggle('dark-mode');
+  
+      if (element.classList.contains("dark-mode")) {
+        applyDarkModeStyles();
+      } else {
+        removeDarkModeStyles();
+      }
+  
+      // Store the current dark mode state in localStorage
+      var isDarkMode = element.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDarkMode.toString());
+    }
+  
+    // Call the function to apply dark mode styles without button trigger
+    // You can call this function at any point in your code to apply dark mode styles
+    // For example, after an asynchronous operation or based on some condition
+    // applyDarkModeStyles();
+  </script>
+      <script>
+ function processSelectedBranch(branchName) {
+        // Use AJAX to send the selected branch to the server
+        $.ajax({
+            type: 'GET',
+            url: '{% url "process_selected_branch" %}',  // Replace with the actual URL of your process_selected_branch view
+            data: { 'selected_branch': branchName },
+            success: function () {
+                // Redirect to employee_view after processing the selected branch
+                window.location.href = '{% url "employee_view" %}';
+            },
+            error: function (xhr, errmsg, err) {
+                console.log(xhr.status + ': ' + xhr.responseText);  // Handle errors if needed
+            }
+        });
+    }
+
+    // Enable dropdown functionality
+    $(document).ready(function(){
+        $('.dropdown-toggle').dropdown();
+    });
+</script>
+
+    </body>
+</html>

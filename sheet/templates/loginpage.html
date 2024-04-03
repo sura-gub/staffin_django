@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User login system</title>
+    {% load static %}
+    <Link  href="{% static 'img/icon.png' %}" alt="Attendance" rel="icon" >
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- Add this script tag to include the confetti library -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.1"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/bubbly-bg@1.3.2"></script> -->
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- <link rel="stylesheet" href="./css/main.css"> -->
+    <!-- <link rel="shortcut icon" href="./img/loginpp.png" type="image/x-icon"> -->
+    <!-- <script type="text/javascript">
+  function preventBack(){window.history.forward();}
+  setTimeout("preventBack()", 0);
+  window.onunload=function(){null};
+</script> -->
+    <style>
+        
+                body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            /* background-color: #f2f2f2; */
+            margin: 0;
+            
+        }
+
+        h3 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            width: 90%;
+            background-color: #01a049;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+             /* background: linear-gradient(to right, #909ba5 0%, #a5839a 100%) */
+             background-color: #F7F7F7;
+        }
+
+        label {
+            font-weight: bold;
+            width: 100px;
+            font-size: 14px;
+        }
+
+        .box {
+            border: #666666 solid 1px;
+        }
+
+        h1 {
+            color: cadetblue;
+        }
+
+        .bold {
+            font-size: 25px;
+        }
+
+        li {
+            padding: 5px;
+        }
+
+        .nav-link {
+            font-size: 16px;
+            font-weight: bold;
+            border: 2px solid transparent;
+        }
+
+        .nav-link:hover {
+            border-bottom: 2px solid blue;
+        }
+        .login-container {
+            width: 300px;
+            margin: 0 auto;
+            background: #a0daa9;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 100px;
+            align-items: centre;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .login-container label {
+            display: block;
+            margin: 15px 0 5px;
+            color: #333;
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: calc(100% - 20px);
+            padding: 7px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .login-container input[type="submit"] {
+            width: 90%;
+            padding: 10px;
+            border: 0;
+            background: #333;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 80px;
+        }
+
+        .login-container input[type="submit"]:hover {
+            background: #555;
+        }
+          /*--BCKimg--*/
+          body {
+    
+    /* background-image: url('{% static "img/loginn.jpg" %}');  */
+    
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #fff9e6;
+}
+
+        @keyframes fadeIn {
+      0%, 100% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+h5 {
+    animation: fadeIn 2.0s ease-out infinite;
+    font-family: 'Arial', sans-serif;
+    font-size: 19px;
+    margin-top: 2%;
+    margin-left: 20px;
+    text-shadow: 1px 1px 1px #91bac7; /* Dark text shadow */
+    color: #26734d; /* Dodger Blue text color */
+    letter-spacing: 7px;
+    
+
+}
+
+.typewriter {
+    color: #cc0044; /* Purple typewriter text color */
+    font-family: 'Copperplate Gothic', sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+    overflow: hidden;
+    margin-top: 6%;
+    margin-left:10%;
+    white-space: nowrap;
+    border-radius: 2px;
+    padding: 13px;
+    /* margin: 0 auto; */
+    letter-spacing: 3px;
+    text-shadow: 1px 1px 2px #2b2b2b; /* Dark text shadow */
+    text-transform: uppercase;
+    /* background: linear-gradient(to right, #899bac 0%, #9c7790 100%); */
+ /* Dark text shadow */
+    animation: typing 3.5s steps(30, end), blink-caret .5s step-end infinite;
+}
+
+.professional-input {
+        width: 300px;
+        padding: 5px;
+        margin: 5px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        font-size: 16px;
+        outline: none;
+        background-color: #f3f3f3;
+        cursor: pointer;
+    }
+
+    .professional-input:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    .form_main {
+        margin-top: 40px;
+  width: 380px;
+  height: fit-content;
+  min-height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(255, 255, 255);
+  padding: 30px 30px 30px 30px;
+  box-shadow: 0px 0px 40px rgba(0, 0, 0, 0.062);
+  position: relative;
+  overflow: hidden;
+
+}
+
+.form_main::before {
+  position: absolute;
+  content: "";
+  width: 300px;
+  height: 300px;
+  background-color: rgb(153, 163, 252);
+  transform: rotate(45deg);
+  left: -180px;
+  bottom: 30px;
+  z-index: 1;
+  border-radius: 30px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.082);
+}
+
+.heading {
+  font-size: 2em;
+  color: #2e2e2e;
+  font-weight: 700;
+  margin: 5px 0 30px 0;
+  z-index: 2;
+}
+
+.inputContainer {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 3px;
+}
+
+.inputField {
+
+  width: 100%;
+  height: 50px;
+  background-color: rgba(255, 248, 248, 0.5); /* Set your desired background color */
+  backdrop-filter: blur(10px);
+  border: none;
+  border-bottom: 2px solid rgb(173, 173, 173);
+  margin: 10px 5px;
+  color: black;
+  font-size: 1em;
+  font-weight: 700;
+  box-sizing: border-box;
+  padding-left: 30px;
+}
+
+.inputField:focus {
+  outline: none;
+  border-bottom: 2px solid rgb(43, 82, 238);
+}
+
+.inputField::placeholder {
+  color: rgb(80, 80, 80);
+  font-size: 1em;
+  font-weight: 500;
+}
+
+#button {
+    /* margin-top: 100px; */
+  z-index: 2;
+  position: relative;
+  width: 90%;
+  border: none;
+  background-color: rgb(71, 104, 237);
+  height: 50px;
+  color: white;
+  font-size: 1.2em;
+  font-weight: 500;
+  letter-spacing: 1px;
+  margin: 10px 0 0 20px;
+  cursor: pointer;
+}
+
+#button:hover {
+  background-color: rgb(126, 84, 255);
+}
+
+.forgotLink {
+  z-index: 2;
+  font-size: .7em;
+  font-weight: 500;
+  color: rgb(44, 24, 128);
+  text-decoration: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+}
+
+
+/* The blinking caret */
+
+/* contanerbd */
+.containerbd {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(
+    45deg,
+    #3498db,
+    #a66eeb
+  ); /* Gradient background */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+  border-radius: 10px; /* Rounded corners */
+  position: relative;
+  overflow: hidden;
+}
+
+.containerbd::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.1) 1px,
+      transparent 1px
+    ),
+    linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none; /* Allow clicking through the pattern layer */
+}
+.hbd{
+    margin-left: 40px;
+    z-index: 2;
+}
+        
+    </style>
+
+</head>
+
+<body class="col-sm-12 col-md-12 col-lg-12 col-xl-12 container-fluid  containerbd" >
+
+    <form class="form_main" method="post" action="{% url 'login_user' %}" >
+        {% csrf_token %}
+        <!-- <img src="{% static 'img/login.png'%}" height="80px" width="80px" alt="img"> -->
+        <img src="{% static 'img/staffinlogooff.png'%}" height="100%" width="75%" class="mt-5">
+        <!-- <h4 class="heading">Login </h4> -->
+
+         <!-- Display error messages -->
+
+     <div class="inputContainer">
+        
+    <img src="{% static 'img/user.png'%}" height="24px" width="21px" alt="img">
+     
+        <input  type="text" placeholder="Username" id="username" name="username" required autofocus  class="inputField "><br>
+     </div>
+
+     <div class="inputContainer">
+    
+    <img src="{% static 'img/padlock.png'%}" height="21px" width="20px" alt="img">        <input type="password" placeholder="Password" id="password" name="password" required class="inputField " ><br><br>
+
+     </div>
+        
+            <button id="button" class="btn" type="submit" name="submit" value="Login">Login</button>
+            {% if messages %}
+            <div class="alert alert-danger">
+                
+                    {% for message in messages %}
+                       {{ message }}
+                    {% endfor %}
+                
+            </div>
+        {% endif %}
+          
+            <p id="nmSpan" class="mt-5" style="font-size: 15px; font-weight: bold;"></p>
+
+            <!-- <p id="nmSpan" class="mt-3" style="font-size: 20px; font-weight: bold; text-shadow: 2px 2px 2px #c2d4c5; color: #232423;"></p> -->
+
+
+            <div class="hbd">
+            {% if users_with_birthday %}
+            <h5>Happy Birthday</h5>
+    
+        {% for user in users_with_birthday %}
+        <span class="typewriter" >{{ user.nm }}🎂🎉</span>
+        {% endfor %}
+        <script>
+            // Function to trigger the confetti effect
+            function triggerConfetti() {
+                // Configure confetti options
+                const confettiOptions = {
+                    particleCount: 100,
+                    spread: 60,
+                };
+        
+                // Trigger confetti effect from the top
+                confetti({ ...confettiOptions, origin: { y: 0.0 } });
+        
+                // Trigger confetti effect from the bottom
+                confetti({ ...confettiOptions, origin: { y: 0.9 } });
+            }
+        
+            // Interval function to continuously trigger confetti
+            function startConfettiShower() {
+                setInterval(triggerConfetti, 2000); // Adjust the interval (currently set to 2000 milliseconds)
+            }
+        
+            // Call the function to start the confetti shower
+            startConfettiShower();
+        </script>
+    
+{% endif %}
+</div>
+    </form>
+    <script>
+        $(document).ready(function(){
+            $(".alert").delay(3000).fadeOut(500);
+        });
+    </script>
+
+<script>
+// JavaScript code
+document.getElementById('username').addEventListener('input', function() {
+    var username = this.value;
+
+    // Check if the input is empty
+    if (username === '') {
+        // Clear the name and exit
+        document.getElementById('nmSpan').innerText = '';
+        return;
+    }
+
+    // Make an AJAX request to fetch the 'nm' value
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/get_nm/', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                // Handle the response
+                var response = JSON.parse(xhr.responseText);
+                if (response.hasOwnProperty('nm')) {
+                    // Display the name
+                    document.getElementById('nmSpan').innerText =  response.nm ;
+                } else {
+                    // User not found, clear the name
+                    document.getElementById('nmSpan').innerText = 'User not found';
+                }
+            } else {
+                // Clear the name on error
+                document.getElementById('nmSpan').innerText = '';
+            }
+        }
+    };
+    xhr.send('username=' + username);
+});
+
+
+</script>
+<script>
+    // window.addEventListener('DOMContentLoaded', function () {
+    //     // Make AJAX request to get the last image URL
+    //     var containerbd = document.querySelector('.containerbd');
+    //     var xhr = new XMLHttpRequest();
+    //     xhr.open('GET', '/display_last_image/', true);
+    //     xhr.onreadystatechange = function () {
+    //         if (xhr.readyState === 4 && xhr.status === 200) {
+    //             var response = JSON.parse(xhr.responseText);
+    //             var imageUrl = response.image_url;
+               
+    //             console.log(imageUrl);
+    //             if (imageUrl) {
+    //                 // Update the image container with the last image
+    //                 var img = document.createElement('img');
+    //                 img.src = imageUrl;
+    //                 img.alt = "Last Uploaded Image";
+    //                 containerbd.innerHTML = ''; // Clear previous content
+    //                 containerbd.appendChild(img);
+    //                 containerbd.style.backgroundImage = 'none'; // Remove background image
+    //             } else {
+    //                 // If no image is available, display the gradient background
+    //                 containerbd.style.backgroundImage = 'linear-gradient(45deg, #3498db, #a66eeb)'; // Gradient background
+    //             }
+    //         }
+    //     };
+    //     xhr.send();
+    // });
+    window.addEventListener('DOMContentLoaded', function () {
+    var containerbd = document.querySelector('.containerbd');
+console.log("containerbd",containerbd)
+    // Make AJAX request to get the last image URL
+    fetch('/display_last_image/')
+        .then(response => response.json())
+        .then(data => {
+            var imageUrl = data.image_url;
+            console.log(imageUrl);
+            if (imageUrl) {
+                // Set the background image of the container with the fetched image
+                containerbd.style.backgroundImage = 'url("' + imageUrl + '")'; // Adjusted URL construction
+                containerbd.style.backgroundSize = 'cover';
+                containerbd.classList.add('has-image'); // Add class to indicate image presence
+            } else {
+                
+            }
+        })
+        .catch(error => console.error('Error:', error));
+});
+
+
+
+
+</script>
+
+</body>
+</html>

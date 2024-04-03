@@ -1,0 +1,715 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_adm.html' %}
+<style>
+    body {
+      background-image: url('{% static "img/logbg2.png" %}');
+      min-height: 600px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      font-family: Calibri;
+    }
+    .align-center{
+        align-items: center;
+
+    }
+    .searchbox{
+        width: 300px;
+    }
+.a3{
+    align-items: center;
+
+}
+#payrollTable th,
+        #payrollTable td {
+            text-align: center;
+            vertical-align: middle;
+        }
+        #payrollTable td {
+            color: rgb(47, 47, 48);
+
+        }
+
+        #payrollTable th {
+            background-color: #38696d; /* Bootstrap primary color */
+            color: white;
+            font-size: 20px;
+            text-shadow: 1px 1px 2px #2b2b2b;
+            /* border-radius: 5px; */
+        }
+
+        #payrollTable tbody tr:hover {
+            background-color: #ececec; /* Bootstrap background color */
+            font-size: 15px;
+            color: rgb(35, 35, 36);
+            font-weight: bolder;
+
+        }
+        #search{
+    border: none;
+    outline: none;
+    padding: 8px; 
+    /* border-radius: 5px; */
+    box-shadow: 2px 2px 2px rgb(103, 104, 104);
+    cursor: pointer;
+}
+/* for heading */
+.buttonhead {
+  margin: 5.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  --fs-size: 1.8em;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+.ashi {
+        max-height: 370px;
+        width: 360px;
+        overflow-y: auto;
+    }
+</style>
+<body class="w-100 container-fluid">
+    <div class="row">
+        <div class="col-md-12 mb-1" style="margin-top: 30px;">
+            <button class="buttonhead col-5" data-text="Awesome">
+                <span class="actual-text">&nbsp;WFH Request Status&nbsp;</span>
+            </button>
+        </div>
+        
+        <div class="col-md-6 d-flex" style="margin-top: 40px; height: 50px;justify-content: flex-end;">
+            <div ><input type="text" class="searchbox form-control" autofocus id="search" name="search" placeholder="Search..."></div>
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        </div>
+        
+        <div class="col-md-12 d-flex" >
+            <div class="col-md-3  " style="zoom: 0.9;border: 1px solid rgb(128, 192, 209); margin-top: -50px;">
+                <div class="col-md-12 align-center mt-2" style="height:65px;border-bottom:1px solid rgb(128, 192, 209)">
+                    <label>&nbsp;&nbsp;&nbsp;&nbsp;Search:&nbsp;&nbsp;<input type="text" id="search1" style="border: .5px solid rgb(102, 154, 197); border-radius: 5px; padding: 4px;" name="Search..." placeholder="Search..."></label>
+                </div>
+                <div class="col-md-3 ashi" style="margin-top: -8px;">
+                    <table style="height:40px; " class="table " id="mydata">
+                        <thead>
+                            <tr style="background-color: #1b5eca; color: white; text-align: center;">
+                                <th style="width: 40px; text-align: center;">Sl.No</th>
+                                <th style="width: 100px; text-align: center;">EMP.ID</th>
+                                <th>NAME</th>
+                                <th style="white-space: nowrap; " >App Clock-in</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-align: center;">
+                            {% for detail in details %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td class="user-id-cell">{{ detail.user_id }}</td>
+                                <td>{{ detail.nm }}</td>
+                                <td style="display: none;" class="branch">{{ detail.branch_name }}</td>
+
+                               
+                                <td class="tick-symbol symbol" id="tick_{{ detail.user_id }}" style="font-weight: bold; color: green; cursor: pointer;">&#x1F44E;</td>
+                            </tr>
+                            {% endfor %}
+                            
+                        </tbody>
+                        <script>
+    $(document).ready(function() {
+        // Click handler for tick symbol
+        $(document).on('click', '.tick-symbol', function() {
+            var userId = $(this).closest('tr').find('.user-id-cell').text().trim();
+            var branch = $(this).closest('tr').find('.branch').text().trim();
+
+            // Check if the tick symbol has a value
+            var hasValue = $(this).hasClass('your_name');
+
+            // Determine the value to be toggled
+            var value = hasValue ? 0 : 1;
+
+            toggleClockIn(branch, userId, value);
+        });
+
+        // Function to toggle the tick symbol
+        function toggleTickSymbol(tickElement) {
+            if (tickElement.html() === '✓') {
+                tickElement.html('&#x1F44E;').removeClass('your_name');
+            } else {
+                tickElement.html('✓').addClass('your_name');
+            }
+        }
+
+        // Fetch tick symbols and attach click handlers
+        $('.user-id-cell').each(function() {
+            var userId = $(this).text().trim();
+            console.log("userId", userId);
+
+            $.ajax({
+                type: 'GET',
+                url: '/view_tick/',
+                data: {
+                    user_id: userId
+                },
+                success: function(response) {
+                    // Update the tick symbol based on response
+                    var tickElement = $('#tick_' + userId);
+                    if (response.status === 'User not found') {
+                        tickElement.html('');
+                    } else if (response.status) {
+                        toggleTickSymbol(tickElement);
+                    } else {
+                        console.log("Unexpected response:", response);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error occurred:", error);
+                }
+            });
+        });
+    });
+
+    
+</script>
+
+
+<script>
+    // Function to toggle clock in
+    function toggleClockIn(branch, userId, value) {
+        $.ajax({
+            url: '/add-clock-in/',
+            type: 'POST',
+            data: {
+                branch: branch,
+                user_id: userId,
+                value: value,
+                csrfmiddlewaretoken: '{{ csrf_token }}' // Ensure the CSRF token is properly rendered
+            },
+            success: function(response) {
+                // Update the tick symbol based on response
+                var tickElement = $('#tick_' + userId);
+                toggleTickSymbol(tickElement);
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+</script>
+
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                var tickSymbols = document.querySelectorAll('.symbol');
+                                
+                                tickSymbols.forEach(function(symbol) {
+                                    symbol.addEventListener('click', function() {
+                                        var tickId = this.id;
+                                        var tickSpan = document.getElementById(tickId);
+                                        
+                                        if (tickSpan.innerHTML === '✓') {
+                                            tickSpan.innerHTML = '&#x1F44E;';
+                                            tickSpan.style.color = 'red';
+                                        } else {
+                                            tickSpan.innerHTML = '✓';
+                                            tickSpan.style.color = 'green';
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+                        
+                        
+                        
+                        
+                    </table>
+                </div>
+                
+                
+                
+                <!-- <div class="col-md-12">
+                    <div class="table-container">
+                        <table style="zoom: 0.9;width: 100%;" class="table">
+                            <tbody id="mydata">
+                               
+                            </tbody>
+                            
+                            
+                        </table>
+                    </div>
+                </div> -->
+            </div>
+            <div class="col-md-9 ms-3 float-end">
+                <table id="payrollTable" style="background-color: rgb(255, 255, 255);" class="table table-bordered col-md-8 mt-1 ">
+                    <tr style="height: 40px;">
+                        <th>SL.NO</th>
+                        <th>EMP.ID</th>
+                        <th>EMP.Name</th>
+                        <th>WFH From</th>
+                        <th>WFH To</th>
+                        <th>View</th>
+                        <th>Action</th>
+                        <th>Remove</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Define a global variable to store the data
+var workFromHomeData = [];
+        $(document).ready(function () {
+        // Fetch data when the page loads
+        WorkFromHomeReport();
+    });
+
+
+function WorkFromHomeReport() {
+    // Fetch all records from PayrollMaathangi model using AJAX
+    $.ajax({
+        type: 'GET',
+        url: '/work_from_home_report_retrieve/',  // Replace with your actual endpoint
+        success: function (data) {
+            // Update the table with the received data
+            console.log(data);
+                       // Store the data globally
+                       workFromHomeData = data;
+
+            updateTableWithData1(data);
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
+var staticImagePath = "{% static 'img/show.png' %}";
+function updateTableWithData1(data) {
+    var tableBody = $('#payrollTable tbody');
+
+    // Ensure that data is not empty and has the expected structure
+    if (data && data.length > 0) {
+
+        console.log("jkhdug",data[0].pk)
+        // Loop through each record in the data array
+        for (var i = 0; i < data.length; i++) {
+            var fields = data[i].fields; // Extract the 'fields' property
+            var pk = data[i].pk;
+            // console.log(pk);
+
+            // Create a new row element 
+            var newRow = $('<tr style="height: 50px;">');
+
+            // Append cells to the row
+            newRow.append('<td>' + (i + 1) + '</td>');
+            newRow.append('<td>' + fields.emp_id + '</td>');
+            newRow.append('<td style="display:none;">' + fields.req_dt + '</td>');
+            newRow.append('<td>' + fields.emp_nm + '</td>');
+            newRow.append('<td style="display:none;">' + pk + '</td>');
+            
+            newRow.append('<td>' + new Date(fields.wfh_start_dt).toLocaleDateString() + '</td>');
+            newRow.append('<td>' + new Date(fields.wfh_end_dt).toLocaleDateString() + '</td>');
+            newRow.append('<td><img src="' + staticImagePath + '" alt="View" height="20px;" style="cursor: pointer;" class="a3" width="20px;" onclick="openModal(' + i + ')"></td>');
+            newRow.append('<td>' +
+    '<select class="form-select" id="statusDropdown' + i + '" onchange="updateStatus(' + i + ', this.value)">' +
+        '<option value="1" ' + (fields.app_status === '1' ? 'selected' : '') + '>Approved</option>' +
+        '<option value="0" ' + (fields.app_status === '0' ? 'selected' : '') + '>Reject</option>' +
+    '</select>' +
+'</td>');
+
+
+newRow.append('<td><i onclick="deleteRecord(\'' + pk + '\')" class="fa fa-trash text-danger"></i></td>');
+
+
+            // Append the row to the table body
+            tableBody.append(newRow);
+        }
+
+        // Show the table
+        $('#payrollTable').show();
+    } else {
+        // Hide the table if there is no data
+        $('#payrollTable').hide();
+    }
+}
+$("document").ready(function(){
+    $('#search').keyup(function(){
+        var value = $(this).val().toLowerCase();
+        $("#payrollTable tbody tr:gt(0)").each(function() {
+            // ':gt(0)' is used to exclude the header row (assuming it's the first row)
+            // Toggle the row based on whether the value is found in any of its cells
+            var isVisible = $(this).text().toLowerCase().indexOf(value) > -1;
+            $(this).toggle(isVisible);
+
+        });
+    });
+
+    $('#search1').keyup(function(){
+        var value = $(this).val().toLowerCase();
+        $("#mydata tbody tr").each(function() {
+            // ':gt(0)' is used to exclude the header row (assuming it's the first row)
+            // Toggle the row based on whether the value is found in any of its cells
+            var isVisible = $(this).text().toLowerCase().indexOf(value) > -1;
+            $(this).toggle(isVisible);
+
+        });
+    });
+    
+});
+
+function updateStatus(index, newStatus) {
+    // Use index to identify the specific row
+    var selectedRow = workFromHomeData[index];
+
+    // Update the app_status property in the selected row
+    selectedRow.fields.app_status = newStatus;
+    // Get the CSRF token from the cookie
+const csrftoken = getCookie('csrftoken');
+var emp_id=selectedRow.fields.emp_id;
+var pk=selectedRow.pk;
+// alert(emp_id)
+    // Send an AJAX request to update the backend
+    $.ajax({
+        type: 'POST',
+        url: '/update_report/',
+        headers: {
+        'X-CSRFToken': csrftoken,
+    },  // Replace with your actual endpoint for updating status
+        data: {
+            'emp_id': emp_id,  // Assuming pk is the primary key of your model
+            'status': newStatus,
+            'pk': pk
+        },
+        success: function (response) {
+            // Handle the success response (if needed)
+            console.log('Status updated successfully.');
+        },
+        error: function (error) {
+            // Handle the error (if needed)
+            console.error('Error updating status:', error);
+        }
+    });
+
+    // Log the updated status for verification
+    console.log('Updated status for row ' + index + ': ' + newStatus);
+}
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Check if the cookie name matches the request header expected format
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+
+// Function to open the modal with dynamic content
+function openModal(index) {
+    if (workFromHomeData && workFromHomeData.length > 0) {
+        // Get the data for the selected row
+        var selectedRow = workFromHomeData[index].fields;
+        console.log("selectedRow",selectedRow)
+
+        // Build the modal content...
+    }
+    // Build the modal content
+    var modalContent = `
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Work From Home Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <p><strong>Request Date:</strong> ${selectedRow.req_dt}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Department :</strong> ${selectedRow.emp_dept}</p>
+                    </div>
+                    <div>
+                        <p><strong>Employee ID:</strong> ${selectedRow.emp_id}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Employee Name:</strong> ${selectedRow.emp_nm}</p>
+                    </div>
+                    <div>
+                        <p><strong>WFH From:</strong> ${selectedRow.wfh_start_dt}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>WFH To:</strong> ${selectedRow.wfh_end_dt}</p>
+                    </div>
+                    <h3>Proposed Schedule</h3>
+                    <table class="table table-bordered">
+                        <!-- ... Schedule table rows ... -->
+                        <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Add rows for Monday to Sunday here -->
+                        <tr>
+                            <td>Monday</td>
+                            <td> ${selectedRow.monst}</td>
+                            <td>${selectedRow.moned}</td>
+                        </tr>
+                        <tr>
+                            <td>Tuesday</td>
+                            <td>${selectedRow.tuest}</td>
+                            <td>${selectedRow.tueed}</td>
+                        </tr>
+                        <tr>
+                            <td>Wednesday</td>
+                            <td>${selectedRow.wedst}</td>
+                            <td>${selectedRow.weded}</td>
+                        </tr>
+                        <tr>
+                            <td>Thursday</td>
+                            <td>${selectedRow.thust}</td>
+                            <td>${selectedRow.thued}</td>
+                        </tr>
+                        <tr>
+                            <td>Friday</td>
+                            <td>${selectedRow.frist}</td>
+                            <td>${selectedRow.fried}</td>
+                        </tr>
+                        <tr>
+                            <td>Saturday</td>
+                            <td>${selectedRow.satst}</td>
+                            <td>${selectedRow.sated}</td>
+                        </tr>
+                        <tr>
+                            <td>Sunday</td>
+                            <td>${selectedRow.sunst}</td>
+                            <td>${selectedRow.suned}</td>
+                        </tr>
+                        <!-- Add rows for other days similarly -->
+                    </tbody>
+                    </table>
+                    <h4>Purpose/Reason For Working at Home</h4>
+                    <p><b style="color:blue;">${selectedRow.resn}</b></p>
+                    <h4>Supervisor Name</h4>
+                    <p><b style="color:blue;">${selectedRow.sup_nm}</b></p>
+                    <p><input type="checkbox" id="globalCheckbox" checked> I <b>${selectedRow.emp_nm}</b> hereby accept the terms & conditions of Work From Home Policy.</p>
+                    <h6>1. CL Cannot Be Availed During WFH.</h6>
+                    <h6>2. IP Portal Slack Should Be Online.</h6>
+                    <h6>3. Respond to Calls/Emails/Messages. If Not Responded Within 10 Minutes, the Management May Cancel the WFH Without Prior Notice.</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+`;
+// 
+// Append the modal content to the body
+$('body').append(modalContent);
+
+// Display the modal
+$('#myModal').modal('show');
+
+}
+
+// Function to close the modal
+function closeModal() {
+    $('#myModal').remove();
+}
+
+    </script>
+     <script>
+        var lilota = document.getElementById("lolita");
+    var lilotaoff = document.getElementById("lolitaoff");
+    var offcanvas = document.getElementById("offcanvasExample");
+    var navigation1 = document.getElementById("navigation");
+    var branchSelect = document.getElementById("branchSelect");
+    
+    // Function to set dark mode based on the value stored in localStorage
+    function setDarkModeFromStorage() {
+      var element = document.body;
+      var storedDarkMode = localStorage.getItem('darkMode');
+      var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+    
+      if (storedDarkMode === 'true') {
+        element.classList.add('dark-mode');
+        toggleDarkModeButton.checked = true;
+        applyDarkModeStyles();
+      } else {
+        element.classList.remove('dark-mode');
+        toggleDarkModeButton.checked = false;
+        removeDarkModeStyles();
+      }
+    }
+    
+    // Function to apply dark mode styles
+    function applyDarkModeStyles() {
+      lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+      lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+      offcanvas.classList.add("offcanvasdrk");
+      navigation1.classList.add("navbardrk");
+      branchSelect.classList.add("selectheadadmindark");
+    }
+    
+    // Function to remove dark mode styles
+    function removeDarkModeStyles() {
+      lolita.src = "{% static 'img/staffinlogooff.png' %}";
+      lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+      offcanvas.classList.remove("offcanvasdrk");
+      navigation1.classList.remove("navbardrk");
+    
+      branchSelect.classList.remove("selectheadadmindark");
+    }
+    
+    // Function to toggle dark mode and store the state in localStorage
+    function toggleDarkMode() {
+      var element = document.body;
+      element.classList.toggle('dark-mode');
+        
+      if (element.classList.contains("dark-mode")) {
+        applyDarkModeStyles();
+      } else {
+        removeDarkModeStyles();
+      }
+    
+      // Store the current dark mode state in localStorage
+      var isDarkMode = element.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDarkMode.toString());
+    }
+    
+    // Call the function to set dark mode on page load
+    setDarkModeFromStorage();
+      </script>
+
+
+<script>
+    function deleteRecord(pk) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // User clicked Yes, send an AJAX request to delete the item
+            fetch('/delete_wfh_report/' + pk + '/', {  // Corrected URL format
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                },
+            }).then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Failed to delete');
+            }).then(data => {
+                // Handle success, e.g., remove the row from the table
+                Swal.fire('Deleted!', 'Your data has been deleted.', 'success').then(() => {
+                    // redirectTo('/wfh_status/');  // Redirect to the trainee_view page
+                    location.reload();
+                });
+            }).catch(error => {
+                // Handle error
+                console.error(error);
+                Swal.fire('Error', 'Failed to delete the record.', 'error');
+            });
+        } else {
+            // User clicked Cancel or outside the dialog
+            Swal.fire('Cancelled', 'Your data is safe.', 'info');
+            // redirectTo('/wfh_status/');  // Redirect to the trainee_view page
+            // location.reload();
+        }
+    });
+}
+
+
+    const csrfToken = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+
+
+</body>
+{% endblock %}

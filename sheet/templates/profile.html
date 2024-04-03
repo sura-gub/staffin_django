@@ -1,0 +1,696 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_emp.html' %}
+
+    
+    
+    
+    <style>
+        body {
+            background-image: url('{% static "img/logbg2.png" %}');
+            min-height: 750px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            font-family: calibri;
+        }
+        .container-border {
+            border: 2px solid #b3e0ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 110px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add your desired box shadow values here */
+        }
+        @media screen and (max-width:750px) {
+            .container-border {
+            border: 2px solid #b3e0ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 50px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add your desired box shadow values here */
+            width: 350px;
+        }
+            
+        }
+        .profile-card {
+        text-align: center;
+      
+    }
+
+    .profile-picture {
+        margin-bottom: 15px;
+      
+        border-radius: 10px;
+    }
+
+    .profile-picture img {
+        width: 150px; /* Adjust the width as needed */
+        height: 150px; /* Adjust the height as needed */
+        object-fit: cover;
+    }
+    .form-group{
+        font-weight: bolder;
+    }
+
+    [disabled]:hover {
+    cursor: not-allowed;
+}
+ /* for heading */
+ .buttonhead {
+    margin: 7.5% 0 -7% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  /* --text-stroke-color: #38696d; */
+  /* --animation-color: #38696d; */
+  --fs-size: 1.8em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  font-weight: 800;
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  /* -webkit-text-stroke: 1px var(--text-stroke-color); */
+}
+/* this is the text, when you hover on button */
+/* .hover-text {
+  position: absolute;
+  box-sizing: border-box;
+  content: attr(data-text);
+  color: var(--animation-color);
+  width: 0%;
+  inset: 0;
+  border-right: var(--border-right) solid var(--animation-color);
+  overflow: hidden;
+  transition: 0.5s;
+  -webkit-text-stroke: 1px var(--animation-color);
+} */
+
+.password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 70%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+
+/* hover */
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+.fwr{
+    display: flex;
+}
+@media screen and (max-width:750px) {
+    .fwr{
+     display: grid;
+    }
+    
+}
+
+@media screen and (max-width:750px) {
+    .cfw{
+        margin-bottom: 150px !important;
+    }
+    
+}
+    </style>
+
+<body class="w-100 container-fluid">
+    <button class="buttonhead col-4" data-text="Awesome">
+        <img src="{% static 'img/profile_emp.png'  %}" style="height: 32px;margin-bottom: 10px;margin-right: 3px;" alt=""><span class="actual-text">Profile&nbsp;</span>
+        <!-- <span aria-hidden="true" class="hover-text">&nbsp;Profile&nbsp;</span> -->
+    </button>
+    <div class="container-border" style="zoom: 0.9;background-color: white;">
+       
+        <div class="row fwr" style="flex-wrap: nowrap;">
+           
+            <div class="col-md-4 profile-card cfw" style="margin-bottom: 550px; height: 200px;">
+              
+                <div class="card " style="margin-bottom: -100px; width: 90%; background-color: #Fff; box-shadow: 10px 10px lightblue;border-radius: 10px;">
+                   
+                    <div class="card-body text-center">
+                        
+                        <!-- <div class="profile-picture">
+                            {% if user_profile.pic %}
+                                <img src="/static/upload/{{ user_profile.pic }}" alt="{{ user_profile.pic }} Profile Picture" class="rounded-circle img-fluid" width="10%" height="10%">
+                            {% else %}
+                                <img src="/static/img/avathar.webp" alt="Default Profile Picture" class="rounded-circle img-fluid" width="10%" height="10%">
+                            {% endif %}
+                        </div> -->
+
+                        <div class="profile-picture">
+                            {% if pic_url %}
+                            <img src="{{ pic_url }}{{ user_profile.pic }}" alt="{{ user_profile.pic }} Profile Picture" class="rounded-circle img-fluid" width="10%" height="10%">
+                        {% else %}
+                            <img src="{{ pic_url }}" alt="Default Profile Picture" class="rounded-circle img-fluid" width="10%" height="10%">
+                        {% endif %}
+                        
+                        
+                        
+                        </div>
+                        
+                        <!-- <ul class="list-group list-group-flush text-center" style="border-radius: 10px; border-color: #66c2ff; background-color: #c2d6d6;"> -->
+                            <!-- <li class="list-group-item" style="font-size: 30px;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; background-color: #99d6ff;"> -->
+                                <h3 style="font-family: calibri;  margin-top: 10%;"><b>{{ user_profile.nm | upper }}</b></h3>
+                            <!-- </li> -->
+                            <!-- <li class="list-group-item" style="font-size: 20px; color:black;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; background-color: #99d6ff;"> -->
+                                <h4 style="font-family: calibri;">{{ user_profile.dsig }}</h4>
+                            <!-- </li> -->
+                            <!-- <li id="userDetails" class="list-group-item" style="font-size: 20px; color: black; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; background-color: #99d6ff;"> -->
+                                <h6 id="userDetails" style="font-family: calibri; ">{{ user_profile.user_id }}</h6>
+                            <!-- </li> -->
+
+                        <!-- </ul> -->
+                    </div>
+                </div>
+            </div>
+            
+            
+
+            <div class="col-md-4 cfw">
+              
+                <form method="post" action="{% url 'date_profile' user_profile.id %}" enctype="multipart/form-data" id="profileForm">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Father Name</label>
+                        <input type="text"  class="form-control" id="exampleFormControlInput1" value="{{ user_profile.fath_nm }}" disabled>
+                      </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlInput2">Blood Group</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput2" value="{{ user_profile.blood }}" disabled>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="exampleFormControlInput3">Home.Ph No</label>
+                        <input type="text" class="form-control" id="exampleFormControlInput3" value="{{ user_profile.hm_mob }}" disabled>
+                    </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput4">Office.No</label>
+                <input type="text" class="form-control" id="exampleFormControlInput4" value="{{ user_profile.offc_mob }}" disabled>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput5">Contact No<i class="text-danger">*</i></label>
+                <input type="text" class="form-control" id="contact" value="{{ user_profile.mob }}" disabled>
+<script>
+    // Add an event listener to the input field to restrict input to numbers only
+$("#contact").on("input", function() {
+    // Remove any non-numeric characters using regular expression
+    $(this).val($(this).val().replace(/\D/g, ''));
+});
+
+</script>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput6">Address</label>
+                <textarea class="form-control" name="addr" id="address" disabled>{{ user_profile.addr }}</textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="exampleFormControlInput7">Email<i class="text-danger">*</i></label>
+                <input type="email" class="form-control" id="email" value="{{ user_profile.email }}" disabled>
+
+
+                
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput8">Date Of Birth</label>
+                <input type="text" class="form-control" id="exampleFormControlInput8" value="{{ user_profile.dob }}" disabled>
+            </div>
+            
+            
+            <div class="form-group ">
+<div class="password-container">
+                <label for="exampleFormControlInput10">Salary<i class="text-danger">*</i></label>
+                <input type="text" class="form-control" id="exampleFormControlInput10" value="XXXXX" disabled>
+
+
+                <input style="display: none;" type="text" class="form-control" id="exampleFormControlInput10" value="{{ user_profile.dob }}" disabled>
+               
+                <span class="salary-info toggle-password" style="border: none; cursor: pointer;"><img src="{% static 'img/hide.png' %}" width="20px" height="20px"></span>
+
+            </div>
+            </div>
+            
+            <!-- Modal -->
+<div id="myModal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Salary Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label>Enter Your Date Of Birth</label>
+                <input type="date" class="form-control" id="dob">
+                <p id="salaryDisplay"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="checkBtn">Check</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $("#checkBtn").click(function(){
+            var dob = $("#dob").val();
+            
+            var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+            // Assuming you have a function to validate the date of birth
+            if(validateDateOfBirth(dob)) {
+                // Ajax call to send the dob to server and get salary
+                $.ajax({
+                    url: '{% url "check_salary" %}',
+                    method: 'POST',
+                    beforeSend: function(xhr) {
+        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+    },
+                    data: { dob: dob },
+
+                    dataType: 'json',  // Specify the expected data type
+                    success: function(response){
+                        // Check if 'salary' is present in the response
+                        if (response.hasOwnProperty('salary')) {
+                            // Display the salary in a div with id 'salaryDisplay'
+                            $("#salaryDisplay").text("Your salary is: " + response.salary);
+                        } else {
+                            alert("Select the correct Date Of Birth..!");
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                        alert("Select the correct Date Of Birth..!");
+                    }
+                });
+            } else {
+                alert("Please enter a valid date of birth.");
+            }
+        });
+    
+        // Function to validate date of birth
+        function validateDateOfBirth(dob) {
+            // You can implement your validation logic here
+            // For simplicity, assuming a basic validation
+            return dob != '';
+        }
+    });
+</script>
+
+
+
+
+            <script>
+                $(document).ready(function(){
+                    $('.salary-info').click(function(){
+                        // Get the salary information from the input field
+                        var salary = $('#exampleFormControlInput10').val();
+                        
+                        // Set the salary information to the modal body
+                        $('#salaryModalInfo').text('Salary: ' + salary);
+                        
+                        // Display the modal
+                        $('#myModal').modal('show');
+                    });
+                });
+            </script>
+
+
+
+            <div class="form-group">
+                <label for="exampleFormControlInput11">Employee Contribution</label>
+                <input type="text" class="form-control" id="exampleFormControlInput11" value="{{ user_profile.pf_cd }}" disabled>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput12">Employer Contribution</label>
+                <input type="text" class="form-control" id="exampleFormControlInput12" value="{{ user_profile.pf_amt }}" disabled>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput13">Insurence Amount</label>
+                <input type="text" class="form-control" id="exampleFormControlInput13" value="{{ user_profile.insu_amt }}" disabled>
+            </div>
+           
+        </div>
+
+        <div class="col-md-4" style="margin-right: 200px;">
+         
+            <div class="form-group">
+                <label for="exampleFormControlInput14">Location</label>
+                <input type="text" class="form-control" id="exampleFormControlInput14" value="{{ user_profile.locca }}" disabled>
+            </div>
+            
+            <div class="form-group">
+                <label for="exampleFormControlInput15">Company</label>
+                <input type="text" class="form-control" id="exampleFormControlInput15" value="{{ user_profile.company }}" disabled>
+            </div>
+            
+            <div class="form-group">
+                <label for="exampleFormControlInput16">Date Of Joining</label>
+                <input type="text" class="form-control" id="exampleFormControlInput16" value="{{ user_profile.doj }}" disabled>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput17">Bank</label>
+                <input type="text" class="form-control" id="bank" value="{{ user_profile.bank }}" disabled>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput17">Branch</label>
+                <input type="text" class="form-control" id="branch" value="{{ user_profile.branch }}" disabled>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput18">Account No</label>
+                <input type="text" class="form-control" id="accno" value="{{ user_profile.acc_no }}" disabled oninput="acnumber(this)">
+
+                <script>
+                    function acnumber(input) {
+                        // Regular expression to allow alphanumeric characters and whitespace
+                        var regex = /^[0-9\s]+$/;
+                        if (!regex.test(input.value)) {
+                            // If input contains characters other than alphanumeric and whitespace, clear them
+                            input.value = input.value.replace(/[^0-9\s]/g, '');
+                        }
+                    }
+                </script>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput19">IFSC</label>
+                <input type="text" class="form-control" id="ifsc" value="{{ user_profile.ifsc }}" disabled>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput20">Department </label>
+                <input type="text" class="form-control" id="exampleFormControlInput20" value="{{ user_profile.em_depart }}" disabled>
+            </div>
+            
+            <div class="form-group">
+                <label for="exampleFormControlInput21">Department Head</label>
+                <input type="text" class="form-control" id="exampleFormControlInput21" value="{{ user_profile.em_depart_hed }}" disabled>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput9">Team Leader</label>
+                <input type="text" class="form-control" id="exampleFormControlInput9"   value="{{ user_profile.em_depart_tl }}"  disabled>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput22">CL</label>
+                <input type="text" class="form-control" id="exampleFormControlInput22" value="{{ user_profile.no_of_cl }}" disabled>
+            </div>
+            <!-- <div class="form-group">
+                <label for="exampleFormControlInput23">Monthly Permission</label>
+                <input type="text" class="form-control" id="exampleFormControlInput23" value="{{ user_profile.permi }}" disabled>
+            </div> -->
+            <!-- <div class="form-group">
+                <label for="exampleFormControlInput24">Other Deduction</label>
+                <input type="text" class="form-control" id="exampleFormControlInput24" value="{{ user_profile.other_deduct }}" disabled>
+            </div> -->
+            <div class="form-group">
+                <label for="exampleFormControlInput25">Working Time</label>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="inp8"><b>From</b></label>
+                        <input type="text" name="frm_tm" id="inp8" value="09:20 AM" class="form-control" required="required" disabled>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inp9"><b>To</b></label>
+                        <input type="text" name="to_tm" id="inp9" value="05:20 PM" class="form-control" required="required" disabled>
+                    </div>
+                    <!-- Edit and Save buttons -->
+                    <button type="button" class="btn mt-4" id="editButton" style="background-color: #007acc; color:white" onclick="enableEdit()">Edit</button>
+                    <button type="button" class="btn btn-success mt-4" id="saveButton" style="display: none; background-color: #ff4d4d; color: white;" onclick="saveChanges()">Save Changes</button>
+                </form>
+                <script>
+                    function enableEdit() {
+                        // Enable all input fields
+                        document.getElementById("contact").disabled = false;
+                        document.getElementById("address").disabled = false;
+                        document.getElementById("email").disabled = false;
+                        document.getElementById("accno").disabled = false;
+                        document.getElementById("bank").disabled = false;
+                        document.getElementById("ifsc").disabled = false;
+                        document.getElementById("branch").disabled = false;
+                        // Enable other input fields in a similar manner
+            
+                        // Show the "Save Changes" button and hide the "Edit" button
+                        document.getElementById("saveButton").style.display = "block";
+                        document.getElementById("editButton").style.display = "none";
+                    }
+            
+                    
+                </script>
+
+<script>
+function saveChanges() {
+    // Get user ID from the HTML (assuming it's stored in a data attribute)
+    var userId = $("#userDetails").text();
+
+    // Get values from the form elements
+    var contact = $("#contact").val();
+    var address = $("#address").val();
+    var email = $("#email").val();
+    var bank = $("#bank").val();
+    var accno = $("#accno").val();
+    var ifsc = $("#ifsc").val();
+
+    // Validate email format
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert("Please enter a valid email address.");
+        return;
+    }
+
+    // Validate mobile number length
+    if (contact.length !== 10 || isNaN(contact)) {
+        alert("Please enter a valid 10-digit mobile number.");
+        return;
+    }
+
+    // Prepare data to be sent to the server, including the user ID
+    var data = {
+        userId: userId,
+        contact: contact,
+        address: address,
+        email: email,
+        bank: bank,
+        accno: accno,
+        ifsc: ifsc
+    };
+
+    // Disable all input fields
+    $("#contact, #address, #email, #accno, #bank, #ifsc").prop("disabled", true);
+
+    // Use AJAX to send data to the server for updating the database
+    $.ajax({
+        type: "POST",
+        url: "update_user_details",
+        data: data,
+        success: function(response) {
+            // Handle success
+            Swal.fire({
+                title: 'Details updated successfully...!',
+                icon: 'success',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.reload();
+                }
+            });
+        },
+        error: function(error) {
+            // Handle error
+            alert("Error updating details. Please try again.");
+        }
+    });
+
+    // Hide the "Save Changes" button and show the "Edit" button
+    $("#saveButton").hide();
+    $("#editButton").show();
+}
+
+</script>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+
+
+
+    
+    </div>
+
+    <!-- <table style="width: 13%; " >
+        <thead >
+        <tr>
+        <th colspan="2" class="text-center" style="color: #8f0c0c;">Activity Login</th>
+      </tr>
+      <tr>
+        <th style="color: #c51c1c;"> Last Login Time</th>
+        <th style="color: #c51c1c;"> Last Logout Time</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>{{ user_record.log_in_tm }}</td>
+        <td>{{ user_record.log_out_tm }}</td>
+      </tr>
+      
+      </tbody>
+      </table>
+      <style>
+        table, th, td {
+        border: 1px solid rgb(255, 255, 255);
+        font-size: 12px;
+      }
+      </style> -->
+
+    
+    <script>
+        $(document).ready(function () {
+            $("#editButton").click(function () {
+                // Enable all form fields for editing
+                $("#profileForm input").prop("readonly", false);
+                // Show the Save button and hide the Edit button
+                $("#editButton").hide();
+                $("#saveButton").show();
+            });
+        });
+    </script>
+
+
+
+<script>
+    var lilota = document.getElementById("lolita");
+var lilotaoff = document.getElementById("lolitaoff");
+var offcanvas = document.getElementById("offcanvasExample");
+var navigation1 = document.getElementById("navigation");
+
+
+// Function to set dark mode based on the value stored in localStorage
+function setDarkModeFromStorage() {
+  var element = document.body;
+  var storedDarkMode = localStorage.getItem('darkMode');
+  var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+
+  if (storedDarkMode === 'true') {
+    element.classList.add('dark-mode');
+    toggleDarkModeButton.checked = true;
+    applyDarkModeStyles();
+  } else {
+    element.classList.remove('dark-mode');
+    toggleDarkModeButton.checked = false;
+    removeDarkModeStyles();
+  }
+}
+
+// Function to apply dark mode styles
+function applyDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  offcanvas.classList.add("offcanvasdrk");
+  navigation1.classList.add("navbardrk");
+
+}
+
+// Function to remove dark mode styles
+function removeDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+  offcanvas.classList.remove("offcanvasdrk");
+  navigation1.classList.remove("navbardrk");
+
+}
+
+// Function to toggle dark mode and store the state in localStorage
+function toggleDarkMode() {
+  var element = document.body;
+  element.classList.toggle('dark-mode');
+    
+  if (element.classList.contains("dark-mode")) {
+    applyDarkModeStyles();
+  } else {
+    removeDarkModeStyles();
+  }
+
+  // Store the current dark mode state in localStorage
+  var isDarkMode = element.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', isDarkMode.toString());
+}
+
+// Call the function to set dark mode on page load
+setDarkModeFromStorage();
+  </script>
+
+
+
+
+
+
+
+</body>
+<!-- {% include 'footer.html' %} -->
+{% endblock %}

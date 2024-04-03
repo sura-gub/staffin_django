@@ -1,0 +1,539 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_emp.html' %}
+<style>
+    body {
+          background-image: url('{% static "img/logbg2.png" %}');
+          min-height: 750px;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+.box{
+    box-shadow: 0 0 10px rgba(31, 32, 32, 0.4);  
+    border: 1px solid #b6afaf; 
+}
+input{
+    box-shadow: 0 0 10px rgba(44, 46, 46, 0.1);
+    padding: 2%;  
+}
+.tab{
+    background-color: #005c99;
+    box-shadow: 0 0 10px rgba(31, 32, 32, 0.3); 
+    text-align: center;
+    color: white;
+}
+.ttbody{
+   background-color: #e6f5ff;
+   box-shadow: 0 0 10px rgba(31, 32, 32, 0.3); 
+   border: 1px solid rgb(207, 207, 207);
+   text-align: center;
+}
+td {
+    box-shadow: 0 0 10px rgba(31, 32, 32, 0.3);     
+}
+.con{
+    border: 1px solid rgb(131, 192, 212);
+    padding: 30px;
+    background-color: #eaf3f5;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(31, 32, 32, 0.3); 
+}
+label{
+    font-weight: bolder;
+}
+.table-bordered tbody tr:hover {
+        background-color: #99ccff;
+    }
+    .status-approved {
+    color: green;
+    text-transform: uppercase;
+}
+.status-pending {
+    color: red;
+    text-transform: uppercase;
+}
+.status-hold {
+    color: rgb(15, 76, 146); 
+    text-transform: uppercase;
+}
+.buttonhead {
+    margin: 5.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+input[type="search"] {
+            padding: 8px;
+            border: 1px solid #35acb4;
+            border-radius: 7px;
+            outline: none;
+            width: 25%; 
+            box-sizing: border-box;
+            margin-left: 3%;
+           
+        }
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 200px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+.buttonhead {
+  --border-right: 2px;
+  font-weight: 800;
+  --fs-size: 1.8em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+.custom-input {
+        border: 1px solid rgb(131, 192, 212);
+    }
+</style>
+<body  class="w-100 container-fluid">
+    <div  style="margin-top: 30px; ">
+        <button class="buttonhead col-4" data-text="Awesome">
+            <img src="{% static 'img/leave_apply.png'  %}" style="height: 36px;
+            margin-bottom: 8px;
+            margin-right: 3px;" alt=""><span class="actual-text">APPLY LEAVE&nbsp;</span>
+        </button>
+        </div>
+       <div class="container con">
+            <div class="col-lg-5">
+                <h4 style="color: #ff0000; font-weight: 400; font-size: x-large;">{{ employee_name | upper }} : {{ employee_id | upper }} </h4>
+
+           <form method="post" enctype="multipart/form-data" id="leaveForm">
+
+            {% csrf_token %}
+
+                <h3 class="mt-4">Application Date</h3>
+                <input type="date " class="form-control custom-input" name="applicationDate" id="applicationDate" readonly>
+                <script>
+                    var currentDate = new Date();
+                    var year = currentDate.getFullYear();
+                    var month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+                    var day = currentDate.getDate().toString().padStart(2, '0');
+                    var formattedDate = year + '-' + month + '-' + day;
+                    document.getElementById("applicationDate").value = formattedDate;
+                    console.log("asefwehui",formattedDate)
+                </script>
+                <label>Employee Name <span style="color: red;">*</span></label>
+<input type="text" class="form-control custom-input" readonly value="{{ employee_name }}">
+<p style="display: none;">{{ employee_depart }}</p>
+<label>Employee Id <span style="color: red;">*</span></label>
+<input type="text" class="form-control custom-input"  name="employee_id" readonly value="{{ employee_id }}">
+
+<label>Leave Type<span style="color: red;">*</span></label>
+<select class="form-control custom-input" name="leaveType" id="leaveType" readonly>
+    <option selected disabled>--SELECT--</option>
+    <option value="LOP">LOP</option>
+    <option value="HALF LOP">HALF LOP</option>
+    <option value="OD">OD</option>
+    <option value="HALF OD">HALF OD</option>
+    <option value="EL">EL</option>
+    <option value="ML">ML</option>
+    {% if is_admin %}
+        <option value="CL">CL</option>
+        <option value="HALF CL">Half Day CL</option>
+    {% endif %}
+    <option value="VACATION">VACATION</option>
+</select>
+<div id="leaveTypeError" style="color: red;"></div>
+            </div>
+            <div class="col-lg-6 "  >
+                <label class="mt-2">Reason<span style="color: red;">*</span></label>
+                <textarea type="text" name="reason" class="form-control custom-input" id="reason"></textarea>
+                <div id="reasonError" style="color: red;"></div>
+                <label class="mt-2">Leave From Date <span style="color: red;" >*</span></label>
+<input type="date" class="form-control custom-input" name="leaveFromDate" id="leaveFromDate" >
+<div id="fromDateError" style="color: red;"></div>
+<label class="mt-2">Leave To Date <span style="color: red;">*</span></label>
+<input type="date" class="form-control custom-input" name="leaveToDate" id="leaveToDate" >
+<div id="toDateError" style="color: red;"></div>
+<script>
+  var leaveFromDateInput = document.getElementById("leaveFromDate");
+  var leaveToDateInput = document.getElementById("leaveToDate");
+  leaveToDateInput.disabled = true;
+  leaveFromDateInput.addEventListener("input", function() {
+    leaveToDateInput.disabled = false;
+    leaveToDateInput.min = leaveFromDateInput.value;
+  });
+</script>
+<label class="mt-2">Total Days <span style="color: red;">*</span></label>
+<input type="text" class="form-control custom-input" name="totalDays" id="totalDays" readonly>
+<script>
+    var leaveFromDateInput = document.getElementById("leaveFromDate");
+    var leaveToDateInput = document.getElementById("leaveToDate");
+    var totalDaysInput = document.getElementById("totalDays");
+    leaveFromDateInput.addEventListener("input", updateTotalDays);
+    leaveToDateInput.addEventListener("input", updateTotalDays);
+    function updateTotalDays() {
+      var fromDate = new Date(leaveFromDateInput.value);
+      var toDate = new Date(leaveToDateInput.value);
+      var timeDifference = toDate.getTime() - fromDate.getTime();
+      var daysDifference = timeDifference / (1000 * 60 * 60 * 24);
+      totalDaysInput.value = daysDifference >= 0 ? daysDifference + 1 : 0;
+    }
+  </script>
+                <center>
+                <button class="btn text-center mt-4" onclick="validateForm()" style="background-color:   #0052cc; color: aliceblue;">Submit</button></center>
+            </form>
+<script>
+    function validateInputs() {
+        var fromDate = document.getElementById("leaveFromDate").value;
+        var toDate = document.getElementById("leaveToDate").value;
+        var leaveType = document.getElementById("leaveType").value;
+        var reason = document.getElementById("reason").value;
+        var fromDateError = document.getElementById("fromDateError");
+        var toDateError = document.getElementById("toDateError");
+        var leaveTypeError = document.getElementById("leaveTypeError");
+        console.log("From Date:", fromDate);
+        console.log("To Date:", toDate);
+        console.log("Leave Type:", leaveType);
+        if (leaveType === '--SELECT--') {
+            leaveTypeError.innerHTML = 'Please select a Leave Type.';
+            return false;
+        } else {
+            leaveTypeError.innerHTML = ''; 
+        }
+        if (reason === '') {
+            reasonError.innerHTML = 'Enter the Reason.';
+            return false;
+        } else {
+            reasonError.innerHTML = '';
+        }
+        if (fromDate === '') {
+            fromDateError.innerHTML = 'Please select the Leave From Date.';
+            return false;
+        } else {
+            fromDateError.innerHTML = '';
+        }
+        if (toDate === '') {
+            toDateError.innerHTML = 'Please select the Leave To Date.';
+            return false;
+        } else {
+            toDateError.innerHTML = '';
+        }
+        return true;
+    }
+    document.getElementById("leaveForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        if (validateInputs()) {
+            submitForm();
+        } else {
+            console.log("Form validation failed. Please check the input fields.");
+        }
+    });
+    function submitForm() {
+        var formData = new FormData(document.getElementById('leaveForm'));
+        console.log(formData); 
+        fetch('/submit_leave/', {
+            method: 'POST',
+            body: formData,
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(data => {
+                console.log('Server response:', data);
+                Swal.fire({
+        title: 'Apply Leave Successfully!',
+        icon: 'success',
+        showCancelButton: false,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.reload();
+        }
+    });
+            })
+            .catch(error => {
+                console.error('Error:', error.message);
+            });
+    }
+</script>
+            </div>
+        </div>
+        <div class="container mt-4">
+                <div class="col-lg-12">
+                    <input type="search" id="searchInput"  placeholder="Search" aria-label="Search" aria-describedby="searchIcon" style="margin-left: 820px; margin-bottom: 20px;">
+                    <table class="table table-bordered">
+                        <thead class="tab">
+                            <tr>
+                                <th>S.No</th>
+                                <th>Leave Date</th>
+                                <th>Reason</th>
+                                <th>Leave Type</th>
+                                <th>Apply Date</th>
+                                <th>Status</th>
+                                <th>Cancel</th>
+                            </tr>
+                        </thead>
+                        <tbody class="ttbody">
+                            {% for leave_entry in all_leave_entries reversed %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>
+                                <script>
+                                    var monthAbbreviations = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                                    var date = new Date("{{ leave_entry.to_dt }}");
+                                    var dayOfMonth = date.getDate();
+                                    var monthIndex = date.getMonth();
+                                    var year = date.getFullYear();
+                                    var monthAbbreviation = monthAbbreviations[monthIndex];
+                                    document.write(dayOfMonth + "-" + monthAbbreviation + "-" + year);
+                                </script>
+                                </td>
+                                <td>{{ leave_entry.reason }}</td>
+                                <td>{{ leave_entry.lev_typ }}</td>
+                                <td>
+                                    <script>
+                                        var monthAbbreviations = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                                        var date = new Date("{{ leave_entry.applay_dt }}");
+                                        var dayOfMonth = date.getDate();
+                                        var monthIndex = date.getMonth();
+                                        var year = date.getFullYear();
+                                        var monthAbbreviation = monthAbbreviations[monthIndex];
+                                        document.write(dayOfMonth + "-" + monthAbbreviation + "-" + year);
+                                    </script>
+                                </td>
+                                <td class="{% if leave_entry.status == 1 %}status-approved{% elif leave_entry.status == 0 %}status-pending{% elif leave_entry.status == 2 %}status-hold{% else %}unknown{% endif %}">
+                                    {% if leave_entry.status == 1 %}
+                                        Approved
+                                    {% elif leave_entry.status == 0 %}
+                                        Pending
+                                    {% elif leave_entry.status == 2 %}
+                                        Hold
+                                    {% else %}
+                                        Unknown
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if leave_entry.status != 1 %}
+                                        <button class="btn" onclick="confirmDelete('{{ leave_entry.id }}')">
+                                            <img src="{% static 'img/delete.png' %}" style="width: 20px; height: 20px;">
+                                        </button>
+                                    {% endif %}
+                                    
+                                    <script>
+                                        function confirmDelete(leaveId) {
+                                            Swal.fire({
+                                                title: "Are you sure?",
+                                                text: "You won't be able to revert this!",
+                                                icon: "warning",
+                                                showCancelButton: true,
+                                                confirmButtonColor: "#3085d6",
+                                                cancelButtonColor: "#d33",
+                                                confirmButtonText: "Yes, delete it!",
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    fetch("{% url 'delete_leave' 0 %}".replace("0", leaveId), {
+                                                        method: "DELETE",
+                                                        headers: {
+                                                            "X-CSRFToken": "{{ csrf_token }}"
+                                                        }
+                                                    }).then(response => {
+                                                        if (response.ok) {
+                                                            Swal.fire(
+                                                                'Deleted Successfully',
+                                                                '',
+                                                                'success'
+                                                            ).then(() => {
+                                                                window.location.reload();
+                                                            });
+                                                        } else {
+                                                            Swal.fire(
+                                                                'Error',
+                                                                'Failed to delete the entry.',
+                                                                'error'
+                                                            );
+                                                        }
+                                                    }).catch(error => {
+                                                        console.error('Error:', error);
+                                                        Swal.fire(
+                                                            'Error',
+                                                            'Failed to delete the entry.',
+                                                            'error'
+                                                        );
+                                                    });
+                                                } else {
+                                                    Swal.fire(
+                                                        'Cancelled',
+                                                        'The entry remains safe.',
+                                                        'info'
+                                                    ).then(() => {
+                                                                window.location.reload();
+                                                            });
+                                                }
+                                            });
+                                        }
+                                    </script>
+                                </td> 
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="pagination justify-content-center" style="margin-right: 850px;">
+                        <ul class="pagination">
+                            {% if all_leave_entries.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1">&laquo; first</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ all_leave_entries.previous_page_number }}">previous</a>
+                                </li>
+                            {% endif %}
+                            {% for num in all_leave_entries.paginator.page_range %}
+                                <li class="page-item {% if num == all_leave_entries.number %}active{% endif %}">
+                                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                </li>
+                            {% endfor %}
+                            {% if all_leave_entries.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ all_leave_entries.next_page_number }}">next</a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ all_leave_entries.paginator.num_pages }}">last &raquo;</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+        </div>
+        <script>
+            document.getElementById("searchInput").addEventListener("input", function() {
+                var searchValue = this.value.toLowerCase(); // Convert input to lowercase for case-insensitive search
+                var tableRows = document.querySelectorAll(".ttbody tr"); // Select all table rows
+        
+                // Loop through each table row
+                tableRows.forEach(function(row) {
+                    var rowData = row.textContent.toLowerCase(); // Get text content of the row and convert to lowercase
+                    if (rowData.includes(searchValue)) { // Check if the row data contains the search value
+                        row.style.display = ""; // If yes, show the row
+                    } else {
+                        row.style.display = "none"; // If not, hide the row
+                    }
+                });
+            });
+        </script>
+        <script>
+            var lilota = document.getElementById("lolita");
+          var lilotaoff = document.getElementById("lolitaoff");
+          var offcanvas = document.getElementById("offcanvasExample");
+          var navigation1 = document.getElementById("navigation");
+        
+          
+         
+          function setDarkModeFromStorage() {
+          var element = document.body;
+          var storedDarkMode = localStorage.getItem('darkMode');
+          var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+          
+          if (storedDarkMode === 'true') {
+            element.classList.add('dark-mode');
+            toggleDarkModeButton.checked = true;
+            applyDarkModeStyles();
+          } else {
+            element.classList.remove('dark-mode');
+            toggleDarkModeButton.checked = false;
+            removeDarkModeStyles();
+          }
+          }
+          
+          
+          function applyDarkModeStyles() {
+          lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+          lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+          offcanvas.classList.add("offcanvasdrk");
+          navigation1.classList.add("navbardrk");
+     
+          }
+          
+    
+          function removeDarkModeStyles() {
+          lolita.src = "{% static 'img/staffinlogooff.png' %}";
+          lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+          offcanvas.classList.remove("offcanvasdrk");
+          navigation1.classList.remove("navbardrk");
+          
+
+          }
+          
+          // Function to toggle dark mode and store the state in localStorage
+          function toggleDarkMode() {
+          var element = document.body;
+          element.classList.toggle('dark-mode');
+            
+          if (element.classList.contains("dark-mode")) {
+            applyDarkModeStyles();
+          } else {
+            removeDarkModeStyles();
+          }
+          
+          // Store the current dark mode state in localStorage
+          var isDarkMode = element.classList.contains('dark-mode');
+          localStorage.setItem('darkMode', isDarkMode.toString());
+          }
+          setDarkModeFromStorage();
+          </script>
+</body>
+{% endblock %}

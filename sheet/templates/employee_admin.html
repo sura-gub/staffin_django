@@ -1,0 +1,2094 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+    
+    body {
+      background-image: url('{% static "img/logbg2.png" %}');
+      min-height: 100vh;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      font-family: Calibri;
+
+    }
+    .ff{
+    color: #004aad;
+    font-family: calibri;
+    font-size: 20px;
+    font-weight: bolder;
+   }
+   .ff1{
+    color: #4cd9f1;
+    font-family:calibri;
+    font-size: 17px;
+    font-weight: bolder;
+   }  
+
+
+   .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        label{
+    font-weight: bold;
+   }
+   
+       /* for heading */
+  .buttonhead {
+    margin: 5.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  --fs-size: 1.8em;
+  letter-spacing: 1px;
+  font-weight: 800;
+
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+   
+</style>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <body  class="container-fluid">
+        {% include 'header_adm.html' %}
+
+        <!-- <div class="col-md-12"  style="margin-top: 110px; ">
+     
+            <h5 class="ff">  <img src="{% static 'img/department.png'%}" alt="afadf" width="30px" height="30px">
+           Employee</h5>
+            <h5 class="ff1">Registration</h5>        
+    </div> -->
+    <div class="col-md-12  col-12 mb-3 " style="margin-top: 30px;">
+        <button class="buttonhead col-4" data-text="Awesome">
+            <span class="actual-text">&nbsp;Employee Registration&nbsp;</span>
+        </button>
+    </div>
+
+    <form method="post"  enctype="multipart/form-data" id="myForm" >
+        {% csrf_token %}
+    <div class="container-fluid s1 " style="zoom:0.9;">
+
+        {% if messages %}
+            
+        {% for message in messages %}
+        {% if message.tags == 'error'%}
+        <center><div class="alert alert-danger ">{{message}}</div></center>
+        <script>
+            // JavaScript code to refresh the page after displaying the alert
+            setTimeout(function () {
+                location.reload();
+            }, 2000);  // Adjust the time delay (in milliseconds) as needed
+        </script>
+        {% else %}
+        <center><div class="alert alert-{{message.tags}} ">{{message}}</div></center>
+        <script>
+            // JavaScript code to refresh the page after displaying the alert
+            setTimeout(function () {
+                location.reload();
+            }, 2000);  // Adjust the time delay (in milliseconds) as needed
+        </script>
+            
+            {% endif %}
+        {% endfor %}
+        
+{% endif %}
+
+        <!-- <h4 class="text-primary">Employee REGISTRATION</h4><hr> -->
+    <div class="row">
+        <div class="col-md-6">
+            
+            <label for="userDepartmenttl" class="form-label">Company Name<span class="text-danger ">*</span></label>
+            <!-- <input type="text" name="companyName" id="companyName" class="form-control" readonly  value="{% if 'office_name' in request.session %}{{ request.session.office_name }}{% endif %} " required> -->
+
+            <input type="text" name="companyName" id="companyName" class="form-control" readonly value="{% if 'office_name' in request.session %}{{ request.session.office_name }}{% else %}{{ request.session.default_office_name }}{% endif %}"  required>
+
+            <div id="companyNameError" style="color: red;"></div>
+
+
+            <label class="form-label">Branch<span class="text-danger ">*</span></label> 
+            <!-- <select class="form-select "  id="yourSelectElementId" name="yourSelectElementId">
+                <option selected disabled>Select</option>
+            </select> -->
+            <input type="text" id="branchName" name="branchName" class="form-control" readonly value="{{ branch_name }}" required>
+            <div id="branchNameError" style="color: red;"></div>
+
+            <script>
+                $(document).ready(function () {
+                    var companyNameSelect = $('#companyName').val();
+                    var employeeCodeInput = $('#employeeCode');
+                    var officeNumberInput = $('#officeNumber');
+                    var branchNameInput = $('#branchName');
+       
+                    // Attach an event listener to the company name select for the change event
+    
+                    
+                        var selectedCompany = $('#companyName').val();
+
+    // Fetch employee codes for the selected company
+    $.ajax({
+        url: '{% url "get_employee_codes_by_company" %}',
+        type: 'GET',
+        dataType: 'json',
+        data: { company: selectedCompany },
+        success: function (data) {
+            if (data.employee_codes && data.employee_codes.length > 0 && data.random_code) {
+                // Assuming you want to display the first employee code in the input field
+                employeeCodeInput.val(data.employee_codes[0] + data.random_code);
+            } else {
+                // Handle the case when no employee codes are found for the selected company
+                employeeCodeInput.val(''); // Clear the input field
+                console.log('No employee codes found for the selected company.');
+            }
+        },
+        error: function (error) {
+            console.log('Error fetching employee codes: ', error);
+        }
+    });   
+
+
+
+// Fetch office number for the selected company
+$.ajax({
+    url: '{% url "get_office_number" %}',
+    type: 'GET',
+    dataType: 'json',
+    data: { company: selectedCompany },
+    success: function (data) {
+        if (data.office_numbers && data.office_numbers.length > 0) {
+            // Display the first office number in the input field
+            $('#officeNumber').val(data.office_numbers[0]);
+        } else {
+            // Handle the case when no office numbers are found for the selected company
+            $('#officeNumber').val('');
+            console.log('No office numbers found for the selected company.');
+        }
+    },
+    error: function (error) {
+        console.log('Error fetching office numbers: ', error);
+    }
+});
+                   
+
+$.ajax({
+    url: '{% url "get_branch_name" %}',
+    type: 'GET',
+    dataType: 'json',
+    data: { company: selectedCompany },
+    success: function (data) {
+        if (data.branch_name && data.branch_name.length > 0) {
+            // Display the first branch name in the input field
+            $('#branchName').val(data.branch_name[0]);
+        } else {
+            // Handle the case when no branch name is found for the selected company
+            $('#branchName').val('');
+            console.log('No branch name found for the selected company.');
+        }
+    },
+    error: function (error) {
+        console.log('Error fetching branch name: ', error);
+    }
+});
+
+
+
+
+
+
+
+$.ajax({
+            url: '{% url "fetch_branch" %}',  // Make sure the URL name is correct
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                var branchesNameSelect = $('#yourSelectElementId'); // Replace 'yourSelectElementId' with the actual ID of your <select> element
+
+                branchesNameSelect.empty();
+                branchesNameSelect.append('<option disabled selected>Select</option>'); // Set a default option
+
+                if (data.branch) { // Corrected key to 'branch'
+                    $.each(data.branch, function (index, value) { // Corrected key to 'branch'
+                        branchesNameSelect.append('<option value="' + value + '">' + value + '</option>');
+                    });
+                } else {
+                    console.log('No branches data received.');
+                }
+            },
+            error: function (error) {
+                console.log('Error fetching branches: ', error);
+            }
+        });
+
+                });
+            </script>
+            
+
+
+            <label for="" class="mt-2 form-label">User Profile</label>
+            <input type="file" class="col-md-12 border form-control "  accept="image/*" name="profile" >
+
+            <tr class="col-md-12 form-label">
+                <th class="form-label">Trainee ID (Fetch trainee details)
+                    <input class="col-md-4 mb-2 mt-2" list="datalistOptions" id="traineeIdSelect" placeholder="Type to search..."   style="border-color: rgb(177, 177, 172); border-radius: 5px; width: 30%; padding: 6px;">
+
+
+                    <datalist id="datalistOptions">
+                        
+                      </datalist>
+
+
+                    <!-- <select class="col-md-4 mb-2 mt-2" id="traineeIdSelect" style="border-color: rgb(177, 177, 172); border-radius: 5px; width: 30%; padding: 6px;" >
+                    </select> -->
+                    
+                    <button class="btn btn-success" onclick="fetchTraineeDetails()">Fetch</button>
+                </th>
+            </tr><br>
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    // Call the fetchTraineeUserIds function when the page is loaded
+                    fetchTraineeUserIds();
+                });
+            
+                function fetchTraineeUserIds() {
+            console.log('Fetching trainee user IDs...');
+            fetch('/employee_admin/trainee_userid/')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Received data:', data);
+
+                    const traineeIdSelect = document.getElementById('traineeIdSelect');
+                    const dataListOptions = document.getElementById('datalistOptions');
+                    dataListOptions.innerHTML = ''; // Clear existing options
+
+                    data.forEach(user => {
+                        const option = document.createElement('option');
+                        option.value = user;
+                        dataListOptions.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching trainee user IDs:', error));
+        }
+            
+                function fetchTraineeDetails() {
+    const selectedTraineeId = document.getElementById('traineeIdSelect').value;
+
+
+    if (selectedTraineeId) {
+    console.log('Fetching trainee details for Trainee ID:', selectedTraineeId);
+
+    // Make a request to the Django server with the selectedTraineeId
+    fetch(`/employee_admin/trainee_details/${selectedTraineeId}/`, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(details => {
+        console.log('Received trainee details:', details);
+
+        // Update the input field with the fetched name
+        const nameInput = document.querySelector('input[name="name"]');
+        nameInput.value = details.nm; // Assuming 'nm' is the field name from the JSON response
+console.log("name",details.nm);
+
+const salaryInput = document.querySelector('input[name="salary"]');
+salaryInput.value = details.sala; 
+calculate();
+// console.log("salaryInput",details.sala)
+        // Update the input field with the fetched mobile number
+        const mobileInput = document.querySelector('input[name="mobilenumber"]');
+        mobileInput.value = details.mob; // Assuming 'mob' is the field name from the JSON response
+
+        // Update the input field with the fetched email
+        const emailInput = document.querySelector('input[name="email"]');
+        emailInput.value = details.email; 
+
+        // Update the input field with the fetched father's name
+        const fatherNameInput = document.querySelector('input[name="fathername"]');
+        
+        fatherNameInput.value = details.fath_nm; 
+
+        const hmobInput = document.querySelector('input[name="homemobile"]');
+        hmobInput.value = details.hm_mob; 
+
+        const dobInput = document.querySelector('input[name="dob"]');
+        dobInput.value = details.dob; 
+        const bloodInput = document.querySelector('select[name="blood"]');
+console.log("bloodInput", bloodInput);
+
+// Assuming details is an object containing the blood group value
+if (details && details.blood) {
+    bloodInput.value = details.blood;
+}
+
+
+        const departInput = document.querySelector('select[name="departmentHead"]');
+        console.log("departInput",departInput)
+        departInput.value = details.em_depart; 
+        const headInput = document.querySelector('input[name="userDepartmentHead"]');
+        headInput.value = details.em_depart_hed; 
+
+        const tlInput = document.querySelector('input[name="userDepartmentTL"]');
+        tlInput.value = details.em_depart_tl; 
+
+         // Update the input field with the fetched father's name
+        // Update the textarea with the fetched address
+const addressTextarea = document.querySelector('textarea[name="address"]');
+addressTextarea.value = details.addr; // Assuming 'addr' is the field name from the JSON response
+
+const locaInput = document.querySelector('select[id="locationDropdown"]');
+locaInput.value = details.locca; 
+
+const offnoInput = document.querySelector('input[name="officeNumber"]');
+offnoInput.value = details.offc_mob; 
+
+const nocInput = document.querySelector('input[name="nocl"]');
+nocInput.value = details.no_of_cl; 
+const desigInput = document.querySelector('input[name="designation"]');
+desigInput.value = details.dsig; 
+const permiInput = document.querySelector('input[name="permission"]');
+permiInput.value = details.permi; 
+const workfromInput = document.querySelector('select[name="workfrom"]');
+workfromInput.value = details.work_frm; 
+
+
+
+ const worktoInput = document.querySelector('select[name="workto"]');
+ worktoInput.value = details.work_to; 
+
+
+
+
+
+const dojInput = document.querySelector('input[name="doj"]');
+dojInput.value = details.doj; 
+const bankInput = document.querySelector('input[name="bank"]');
+bankInput.value = details.bank; 
+const accInput = document.querySelector('input[name="account"]');
+accInput.value = details.acc_no; 
+const pfInput = document.querySelector('input[name="pfamount"]');
+pfInput.value = details.pf_amt; 
+const sdInput = document.querySelector('input[name="sdamount"]');
+sdInput.value = details.sd_amt; 
+const ifscInput = document.querySelector('input[name="ifsc"]');
+ifscInput.value = details.ifsc; 
+const deducInput = document.querySelector('input[name="deduction"]');
+deducInput.value = details.other_deduct; 
+// const picInput = document.querySelector('input[name="profile"]');
+// picInput.value = details.pic; 
+
+ 
+
+
+    })
+    .catch(error => console.error('Error fetching trainee details:', error));
+} else {
+    console.log('Please select a Trainee ID before fetching details.');
+}
+
+
+
+
+
+                }
+
+            </script>
+
+
+            <div><div style="font-weight: bold;">Name<span class="text-danger">*</span></div></div>  
+<div style="display: flex;">
+
+
+                    <label for="name" class="form-label"></label>
+            <select style="width: 11%;" class="form-select" name="frontname">
+                <option value="Mr.">Mr</option>
+                <option value="Mrs.">Mrs</option>
+                <option value="Ms.">Ms</option>
+              </select>
+           
+              <input type="text" class="col-md-12 form-control" name="name" id="name" style="width: 89%;" required >
+
+              <script>
+                // Get the input element
+                var input = document.getElementById("name");
+        
+                // Add event listener to the input
+                input.addEventListener("input", function(event) {
+                    // Get the current value of the input
+                    var currentValue = event.target.value;
+        
+                    // Remove any non-letter characters
+                    var sanitizedValue = currentValue.replace(/[^a-zA-Z\s.]/g, '');
+        
+                    // Update the input value
+                    event.target.value = sanitizedValue;
+                });
+            </script>
+            </div>
+                    <div id="nameError" style="color: red;"></div>
+
+        
+
+
+            <label for="employeeCode" class="form-label">Emp ID<span class="text-danger ">*</span></label>
+            <input type="text" id="employeeCode" class="form-control" name="employeeCode" >
+
+
+            <label for="" class="form-label">Password<span class="text-danger">*</span></label>
+<div class="password-container">
+    <input type="password" value="12345" class="col-md-12 form-control" name="password" id="passwordInput" required>
+    <span class="toggle-password" onclick="togglePasswordVisibility()">🔒</span>
+</div>
+
+<script>
+    
+    // Execute generatePassword when DOM content is loaded
+    document.addEventListener("DOMContentLoaded", function() {
+        var length = 6; // Length of the password
+        var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; // Characters to include in the password
+        var password = "";
+        for (var i = 0; i < length; i++) {
+            var charIndex = Math.floor(Math.random() * charset.length);
+            password += charset[charIndex];
+        }
+        document.getElementById("passwordInput").value = password;
+    });
+</script>
+
+<script>
+    function togglePasswordVisibility() {
+        var passwordInput = document.getElementById("passwordInput");
+        var toggleIcon = document.querySelector('.toggle-password');
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            toggleIcon.innerHTML = '👁️';  // Use a different symbol when showing the password
+        } else {
+            passwordInput.type = "password";
+            toggleIcon.innerHTML = '🔒';  // Use the eye symbol when hiding the password
+        }
+    }
+</script>
+
+<div><div style="font-weight: bold;">Gender<span class="text-danger">*</span></div></div>
+<div style="display: flex;">
+<label class="form-label mt-2"></label>
+<div class="form-check">
+  <input class="form-check-input" type="radio" name="gender" id="male" value="male" checked>
+  <label class="form-check-label" for="male" >Male</label>
+</div>&nbsp;&nbsp;&nbsp;
+
+
+<div class="form-check" >
+  <input class="form-check-input" type="radio" name="gender" id="female" value="female">
+  <label class="form-check-label" for="female">Female</label>
+</div>
+
+</div>
+
+<label for="mobilenumber mt-3" class="form-label">Mobile Number<span class="text-danger">*</span></label>
+<input type="text" class="col-md-12 form-control" name="mobilenumber" id="mobilenumber" maxlength="11" oninput="validateMobileNumber(this)" required>
+<div id="mobileNumberError" style="color: red;"></div>
+            
+            <script>
+                function validateMobileNumber(input) {
+                    // Remove non-numeric characters from the input
+                    input.value = input.value.replace(/\D/g, '');
+            
+                    // Check if the length is 11 or more digits
+                    if (input.value.length >= 11) {
+                        alert("Mobile number should not exceed 10 digits.");
+                        // Truncate the input value to 10 characters
+                        input.value = input.value.slice(0, 10);
+                    }
+                }
+            </script>
+
+            <label for="" class="form-label">Email</label>
+            <input type="email" class="col-md-12 form-control" name="email" >
+
+            <label for="">Father/Spouse Name</label>
+            <input type="text" class="col-md-12 form-control" name="fathername" >
+
+            <label for="" class="form-label">Address</label><br>
+            <textarea name="address" id="" cols="20" rows="4" class="col-md-12 form-control" ></textarea><br>
+
+            <label for="" class="form-label">Emergency Contact</label>
+                    <input type="text" class="col-md-12 form-control" name="homemobile" id="homemobile"oninput="validatehomeMobileNumber(this)" maxlength="11">
+                    <div id="emergencyError" style="color: red;"></div>
+
+                    <script>
+                        function validatehomeMobileNumber(input) {
+                            // Remove non-numeric characters from the input
+                            input.value = input.value.replace(/\D/g, '');
+                    
+                            // Check if the length is 11 or more digits
+                            if (input.value.length >= 11) {
+                                alert("Mobile number should not exceed 10 digits.");
+                                // Truncate the input value to 10 characters
+                                input.value = input.value.slice(0, 10);
+                            }
+                        }
+                    </script>
+
+            <label for="" class="form-label">Date Of Birth</label>
+            <input type="date" class="col-md-12 form-control" name="dob" >
+
+            <label for="" class="form-label">Blood Group</label>
+            <select class="col-md-12 form-control" name="blood" id="blood">
+                <option selected disabled>Select</option>
+           
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+            </select>
+
+
+            <label for="" class="form-label">Location</label>
+            <select id="locationDropdown" class="col-md-12 form-select" name="locationDropdown">
+               
+            </select>
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    fetch('/fetch_locations/')  // Replace with the URL of your Django view
+                        .then(response => response.json())
+                        .then(data => {
+                            const locationDropdown = document.getElementById('locationDropdown');
+                            // Clear existing options except the first one
+                            locationDropdown.innerHTML = '<option value="" disabled selected>Select Location</option>';
+                            // Populate options from fetched data
+                            data.forEach(unique_serialized_locations => {
+                                const option = document.createElement('option');
+                                option.value = unique_serialized_locations.addr;
+                                option.textContent = unique_serialized_locations.addr;
+                                locationDropdown.appendChild(option);
+                            });
+                        })
+                        .catch(error => console.error('Error fetching locations:', error));
+                });
+            </script>
+            
+            <label for="departmentHead">Employee Department<span class="text-danger ">*</span></label>
+            
+                    <select id="departmentHead" name="departmentHead" class="col-md-12 form-select" required style="width: 90%;">
+                    </select><small  style="color: #004aad;">Note: If your Department name doesn't exist in the list Add it by clicking the Add button</small><button class="btn bg-primary text-white" style="margin-left:91%; margin-top: -8%;" data-bs-toggle="modal" data-bs-target="#exampleModal">Add</button>
+                    
+
+                    <div id="departmentError" style="color: red;"></div>
+                   
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel" style="color: #38696d; font-weight: bold;">ADD DEPARTMENT</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <label for="departmentName">Department Name</label>
+                                    <input type="text" id="departmentName" class="form-control" oninput="this.value = this.value.replace(/[^A-Za-z\s]/g, '').toUpperCase()"  required>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" id="saveDepartment" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- <script>
+                        $(document).ready(function () {
+                            $('#saveDepartment').on('click', function () {
+                                var departmentName = $('#departmentName').val();
+                    
+                                $.ajax({
+                                    url: '{% url "add_department_again" %}',
+                                    type: 'POST',
+                                    data: {
+                                        'department_name': departmentName,
+                                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                                    },
+                                    success: function (data) {
+                                        if (data.status === 'success') {
+                                            $('#exampleModal').modal('hide');
+                                            alert('Department added successfully!');
+                                            window.location.reload();
+                                        } else {
+                                            alert(' Please fill the field.');
+                                        }
+                                    },
+                                    error: function (xhr, errmsg, err) {
+                                        console.log(xhr.status + ": " + xhr.responseText);
+                                        alert('Please fill the field.');
+                                    }
+                                });
+                            });
+                        });
+                    </script> -->
+
+                    <script>
+                        $(document).ready(function () {
+    $('#saveDepartment').on('click', function () {
+        var departmentName = $('#departmentName').val();
+
+        // Perform a check if the department already exists
+        $.ajax({
+            url: '{% url "check_same_department" %}',
+            type: 'POST',
+            data: {
+                'department_name': departmentName,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (data) {
+                if (data.exists) {
+                    alert('Department already exists!');
+                } else {
+                    // If the department does not exist, proceed with adding it
+                    $.ajax({
+                        url: '{% url "add_department_again" %}',
+                        type: 'POST',
+                        data: {
+                            'department_name': departmentName,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        success: function (data) {
+                            if (data.status === 'success') {
+                                // Store the added department name in session
+                                sessionStorage.setItem('addedDepartment', departmentName);
+
+                                $('#exampleModal').modal('hide');
+                                alert('Department added successfully!');
+                                updateDepartmentDropdown(); // Update dropdown options
+                            } else {
+                                alert('Please fill the field.');
+                            }
+                        },
+                        error: function (xhr, errmsg, err) {
+                            console.log(xhr.status + ": " + xhr.responseText);
+                            // Handle error
+                        }
+                    });
+                }
+            },
+            error: function (xhr, errmsg, err) {
+                console.log(xhr.status + ": " + xhr.responseText);
+                // Handle error
+            }
+        });
+    });
+
+    // Function to update department dropdown options
+    function updateDepartmentDropdown() {
+        var addedDepartment = sessionStorage.getItem('addedDepartment');
+        if (addedDepartment) {
+            $('#departmentHead').append($('<option>', {
+                value: addedDepartment,
+                text: addedDepartment
+            }));
+            // Clear the added department from session
+            sessionStorage.removeItem('addedDepartment');
+        }
+    }
+
+    // Call the function to update dropdown when the page loads
+    updateDepartmentDropdown();
+});
+
+                    </script>
+                    
+
+
+
+<label for="userDepartmentHead">Employee Department Head</label>
+<select id="userDepartmentHead" name="userDepartmentHead" class="col-md-12 form-select" required style="width: 90%;">
+    <option value="No Department Head">No Department Head</option>
+</select>
+&nbsp;&nbsp;<button class="btn bg-primary text-white " style="margin-left:90%; margin-top: -9%;" data-bs-toggle="modal" data-bs-target="#exampleModal1" onclick="displaySelectedValue()">Add</button>
+
+<!-- <script>
+    function displaySelectedValue() {
+
+     
+        var selectedValue = document.getElementById("departmentHead").value;
+        document.getElementById("department").value = selectedValue;
+
+        var branchNameValue = document.getElementById('branchName').value;
+                  console.log("branchNameValue",branchNameValue)
+                    // Set the value of the departmentName input field
+                    document.getElementById('branch2').value = branchNameValue;
+    }
+</script> -->
+<script>
+    function displaySelectedValue() {
+        var selectedValue = document.getElementById("departmentHead").value;
+        var departmentInput = document.getElementById("department");
+        var branchNameInput = document.getElementById('branchName');
+        var branch2Input = document.getElementById('branch2');
+
+        // If the selected value is "select", display a message in red
+        if (selectedValue === "Select") {
+            departmentInput.value = "Please select a department";
+            departmentInput.style.color = "red";
+        } else {
+            departmentInput.value = selectedValue;
+            departmentInput.style.color = "initial"; // Reset color to default
+        }
+
+        // Set the value of the branch2 input field
+        var branchNameValue = branchNameInput.value;
+        branch2Input.value = branchNameValue;
+    }
+</script>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel" style="color: #38696d; font-weight: bold;">ADD DEPARTMENT HEAD NAME</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="departmentName">Department</label>
+                <input type="text" id="department" class="form-control"  readonly  >
+
+                
+ 
+                <label for="departmentName">Department Head</label>
+                <input type="text" id="departmentHead1" class="form-control" value="Head"  readonly required>
+
+                <label for="departmentName">Emp ID</label>
+                <input type="text" id="empid" class="form-control"  required oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s]/g, '').toUpperCase()">
+                <script>
+                    $(document).ready(function(){
+                        $('#empid').on('input', function(){
+                            var empId = $(this).val();
+                            $.ajax({
+                                url: "{% url 'validate_employee_id' %}",
+                                data: {'emp_id': empId},
+                                dataType: 'json',
+                                success: function(data){
+                                    if ('name' in data) {
+                                        $('#Head').val(data.name);
+                                    } else {
+                                        $('#Head').val('');
+                                    }
+                                },
+                                error: function(xhr, status, error){
+                                    $('#Head').val('');
+                                }
+                            });
+                        });
+                    });
+                </script>
+
+                <label for="departmentName">Department Head Name</label>
+                <input type="text" id="Head" name="Head" class="form-control"  required oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').toUpperCase()">
+                <label for="branch">Branch</label>
+                <input type="text" id="branch2" class="form-control"  readonly  required>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="saveHead" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <script>
+    $(document).ready(function () {
+        $('#saveHead').on('click', function () {
+            var department = $('#department').val();
+            var departmentHead = $('#departmentHead1').val();
+            console.log("departmentHead",departmentHead)
+            var empid = $('#empid').val();
+            var headName = $('#Head').val();
+            var branchName = $('#branch2').val();
+
+            $.ajax({
+                url: '{% url "department_head" %}',
+                type: 'POST',
+                data: {
+                    'department':department,
+                    'departmentHead':departmentHead,
+                    'empid':empid,
+                    'head_name': headName,
+                    'branchName': branchName,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    if (data.status === 'success') {
+                        $('#exampleModal1').modal('hide');
+                        alert('Head Added successfully!');
+                        window.location.reload();
+                    } else {
+                        alert(' Please fill the field.');
+                    }
+                },
+                error: function (xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                    alert('Please fill the field.');
+                }
+            });
+        });
+    });
+</script> -->
+
+
+<script>
+    $(document).ready(function () {
+        $('#saveHead').on('click', function (event) {
+            event.preventDefault(); // Prevent default form submission behavior
+
+            // Retrieve values from input fields
+            var department = $('#department').val();
+            var departmentHead = $('#departmentHead1').val();
+            var empid = $('#empid').val();
+            var headName = $('#Head').val();
+            var branchName = $('#branch2').val();
+
+            // Check if any required field is empty
+            // if (!department || !departmentHead || !empid || !headName || !branchName) {
+            //     alert('Please fill all the fields.');
+            //     return; // Prevent AJAX request if any required field is empty
+            // }
+
+            if (department === 'Please select a department' || empid.trim() === '' || headName.trim() === '' || branchName.trim() === '') {
+                alert('Please fill all the required fields.');
+                return; // Prevent AJAX request if any required field is empty
+            }
+
+            // Proceed with AJAX request if all required fields are filled
+            $.ajax({
+                url: '{% url "department_head" %}',
+                type: 'POST',
+                data: {
+                    'department': department,
+                    'departmentHead': departmentHead,
+                    'empid': empid,
+                    'head_name': headName,
+                    'branchName': branchName,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    if (data.status === 'success') {
+                        // Update dropdown list with new department head without page refresh
+                        $('#userDepartmentHead').append($('<option>', {
+                            value: headName,
+                            text: headName
+                        }));
+                        
+                        // Clear input fields
+                        $('#Head').val('');
+                        $('#branch2').val('');
+
+                        $('#exampleModal1').modal('hide');
+                        alert('Department Head Added successfully!');
+                    } else {
+                        alert('Failed to add head. Please try again.');
+                    }
+                },
+                error: function (xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                    alert('An error occurred while processing the request. Please try again.');
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+<label for="userDepartmentTL">Employee Department TL</label>
+<select id="userDepartmentTL" name="userDepartmentTL" class="col-md-12 form-select" style="width: 90%;" >
+    <option value="No Department TL">No Department TL</option>
+</select>
+
+
+&nbsp;&nbsp;<button class="btn bg-primary text-white " style="margin-left:90%; margin-top: -9%;" data-bs-toggle="modal" data-bs-target="#exampleModal11" onclick="displaySelectedValue1()">Add</button>
+
+
+
+
+<!-- <script>
+    function displaySelectedValue1() {
+
+        
+        var selectedValue = document.getElementById("departmentHead").value;
+        document.getElementById("department1").value = selectedValue;
+
+        var branchNameValue = document.getElementById('branchName').value;
+                  console.log("branchNameValue",branchNameValue)
+                    // Set the value of the departmentName input field
+                    document.getElementById('branch1').value = branchNameValue;
+    }
+</script> -->
+<script>
+    function displaySelectedValue1() {
+        var selectedValue1 = document.getElementById("departmentHead").value;
+        var departmentInput = document.getElementById("department1");
+        var branchNameInput = document.getElementById('branchName');
+        var branchInput = document.getElementById('branch1');
+
+        if (selectedValue1 === "Select") {
+            departmentInput.value = "Please select a department";
+            departmentInput.style.color = "red";
+        } else {
+            departmentInput.value = selectedValue1;
+            departmentInput.style.color = "initial"; // Reset color to default
+        }
+
+        // Set the value of the branch1 input field
+        var branchNameValue = branchNameInput.value;
+        branchInput.value = branchNameValue;
+    }
+</script>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal11" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel" style="color: #38696d; font-weight: bold;">ADD DEPARTMENT TL NAME</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="departmentName">Selected Department</label>
+                <input type="text" id="department1" class="form-control" readonly  required>
+ 
+                <label for="departmentName">Department TL</label>
+                <input type="text" id="departmentHead2" class="form-control" readonly value="TL"  required>
+
+                <label for="departmentName">Emp ID</label>
+                <input type="text" id="empid1" class="form-control"  required oninput="this.value = this.value.replace(/[^a-zA-Z0-9\s]/g, '').toUpperCase()">
+
+
+                <script>
+                    $(document).ready(function(){
+                        $('#empid1').on('input', function(){
+                            var empId = $(this).val();
+                            $.ajax({
+                                url: "{% url 'validate_employee_id' %}",
+                                data: {'emp_id': empId},
+                                dataType: 'json',
+                                success: function(data){
+                                    if ('name' in data) {
+                                        $('#tl').val(data.name);
+                                    } else {
+                                        $('#tl').val('');
+                                    }
+                                },
+                                error: function(xhr, status, error){
+                                    $('#tl').val('');
+                                }
+                            });
+                        });
+                    });
+                </script>
+
+                <label for="departmentName">Department TL Name</label>
+                <input type="text" id="tl" name="tl" class="form-control"  required oninput="this.value = this.value.replace(/[^a-zA-Z\s]/g, '').toUpperCase()">
+                <label for="branch">Branch</label>
+                <input type="text" id="branch1" class="form-control" readonly  required>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="saveTL" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+        $('#saveTL').on('click', function () {
+            // Retrieve values from input fields
+            var department1 = $('#department1').val();
+            var departmentHead1 = $('#departmentHead2').val();
+            var empid1 = $('#empid1').val();
+            var tlName1 = $('#tl').val();
+            var branchName1 = $('#branch1').val();
+
+            // Check if any required field is empty
+            if (department1 === 'Please select a department' || empid1.trim() === '' || tlName1.trim() === '' || branchName1.trim() === '') {
+                alert('Please fill all the required fields.');
+                return; // Prevent AJAX request if any required field is empty
+            }
+
+            // Proceed with AJAX request if all required fields are filled
+            $.ajax({
+                url: '{% url "department_head" %}', // Assuming the correct URL for adding department TL
+                type: 'POST',
+                data: {
+                    'department': department1,
+                    'departmentHead': departmentHead1,
+                    'empid': empid1,
+                    'head_name': tlName1,
+                    'branchName': branchName1,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                success: function (data) {
+                    if (data.status === 'success') {
+                        // Update dropdown list with new department TL without page refresh
+                        $('#userDepartmentTL').append($('<option>', {
+                            value: tlName1,
+                            text: tlName1
+                        }));
+
+                        // Clear input fields
+                        $('#tl').val('');
+                        $('#branch1').val('');
+
+                        $('#exampleModal11').modal('hide');
+                        alert('Team Leader added successfully!');
+                    } else {
+                        alert('Failed to add TL. Please try again.');
+                    }
+                },
+                error: function (xhr, errmsg, err) {
+                    console.log(xhr.status + ": " + xhr.responseText);
+                    alert('Failed to add TL. Please try again.');
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            var departmentHeadSelect = document.getElementById('departmentHead');
+                            var userDepartmentHeadInput = document.getElementById('userDepartmentHead');
+                            var userDepartmentTLInput = document.getElementById('userDepartmentTL');
+                            // Fetch department names using AJAX when the page loads
+                            fetchDepartmentNames();
+                            // Attach an event listener to the Department select for the change event
+                            departmentHeadSelect.addEventListener('change', function () {
+                                // Fetch department head and TL when the select value changes
+                                fetchDepartmentHeadAndTL(departmentHeadSelect.value);
+                            });
+                            function fetchDepartmentNames() {
+                                // Use AJAX to fetch department names from your Django view
+                                fetch('/get_department_names/')
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        // Clear existing options
+                                        departmentHeadSelect.innerHTML = '<option disabled selected>Select</option>';
+                                        // Add fetched department names as options
+                                        data.forEach(department => {
+                                            var option = document.createElement('option');
+                                            option.value = department.nm;
+                                            option.text = department.nm;
+                                            departmentHeadSelect.add(option);
+                                        });
+                                    })
+                                    .catch(error => console.error('Error fetching department names:', error));
+                            }
+                            function fetchDepartmentHeadAndTL(selectedDepartment) {
+                                // Use AJAX to fetch department head and TL based on the selected department
+                                fetch('/get_department_info/', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({ department: selectedDepartment }),
+                                })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        // Check if data is not empty
+                                        console.log('Received data:', data);
+                                        if (data.length > 0) {
+                                            if (data.length > 0) {
+                                                if (data.length > 0) {
+    // Reset select options to default
+    document.getElementById('userDepartmentHead').innerHTML = '<option value="No Department Head">No Department Head</option>';
+    document.getElementById('userDepartmentTL').innerHTML = '<option value="No Department TL">No Department TL</option>';
+    data.forEach(employee => {
+        console.log('Processing employee:', employee);
+        // Add options dynamically
+        if (employee.desig === 'Head') {
+            if (userDepartmentHeadInput) {
+                userDepartmentHeadInput.value = employee.name;
+                console.log('Assigning to userDepartmentHead:', employee.name);
+                // Add option to select box
+                document.getElementById('userDepartmentHead').innerHTML += `<option value="${employee.name}">${employee.name}</option>`;
+            }
+        } else if (employee.desig === 'TL') {
+            if (userDepartmentTLInput) {
+                userDepartmentTLInput.value = employee.name;
+                console.log('Assigning to userDepartmentTL:', employee.name);
+                // Add option to select box
+                document.getElementById('userDepartmentTL').innerHTML += `<option value="${employee.name}">${employee.name}</option>`;
+            }
+        }
+    });
+}
+}
+}
+else {
+    // Case when no data is received
+    document.getElementById('userDepartmentHead').innerHTML = '<option value="No Department Head">No Department Head</option>';
+    document.getElementById('userDepartmentTL').innerHTML = '<option value="No Department TL">No Department TL</option>';
+}
+                                    })
+                                    .catch(error => console.error('Error fetching department info:', error));
+                            }
+                        });
+                    </script>
+
+
+
+
+            
+        </div>
+
+
+        <div class="col-md-6 mt-5" style="margin-bottom: 47px;">
+            
+
+            <label for="" class="form-label">Office Number</label>
+            <input type="text" class="col-md-12 form-control" name="officeNumber" id="officeNumber" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+
+            <label for="" class="form-label">Designation</label>
+            <input type="text" class="col-md-12 form-control" name="designation" >
+
+            <label for="">No Of CL</label>
+            <input type="text" class="col-md-12 form-control" name="nocl" placeholder="0" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+
+            <label for="" class="form-label">Permission Hour</label>
+            <input type="text" class="col-md-12 form-control" name="permission" placeholder="hh:mm" oninput="this.value = this.value.replace(/[^0-9:]/g, '')">
+
+            <!-- <label for="" class="form-label">Work From</label>
+            <input type="text" class="col-md-12 form-control" name="workfrom" required>
+
+            <label for="" class="form-label">Work To</label>
+            <input type="text" class="col-md-12 form-control" name="workto" required> -->
+            <h5 class="mt-2" style="font-weight: bold;">Work Timing</h5>
+            <div style="display: flex;"><div style="width: 30%; float: left; font-weight: bold;">From<span class="text-danger ">*</span></div>
+            &nbsp;<div style="width: 50%; float: left; font-weight: bold;">To<span class="text-danger ">*</span></div>
+        </div>
+           <div style="display: flex;">
+            <label for="workfrom" class="form-label"></label><br>
+<!-- <input type="time" class="col-md-8 form-control" name="workfrom" required> -->
+
+
+<select style="width: 10%; padding: 2px; border-radius: 5px;border-color: #b8bdbe" name="workfrom">
+    <option value="" selected disabled>--</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+</select>
+<select id="numberSelect" style="width: 10%; padding: 2px; border-radius: 5px;border-color: #b8bdbe" name="numberSelect">
+    <option value="" selected disabled>--</option>
+</select>
+<script>
+    // Get the select element
+    var selectElement = document.getElementById("numberSelect");
+
+    // Loop to add options from 0 to 59
+    for (var i = 0; i <= 59; i++) {
+        var option = document.createElement("option");
+        
+        // Use a two-digit format for single-digit numbers
+        var text = (i < 10) ? '0' + i : i;
+        
+        option.value = i;
+        option.text = text;
+        
+        selectElement.add(option);
+    }
+</script>
+<select style="width: 10%; padding: 2px; border-radius: 5px; border-color: #b8bdbe;" name="workfrom_period">
+    
+    <option value="AM">AM</option>
+    <option value="PM">PM</option>
+</select>
+
+
+<!-- <input type="radio" name="workfrom_period" value="AM" checked> AM
+<input type="radio" name="workfrom_period" value="PM"> PM<br> -->
+
+
+<label for="workto" class="form-label mt-2"></label><br>
+<!-- <input type="time" class="col-md-8 form-control" name="workto" required> -->
+
+<select style="width: 14%; padding: 2px; border-radius: 5px;border-color: #b8bdbe" name="workto">
+    <option value="" selected disabled>--</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+</select>
+<select id="worktoSelect" style="width: 14%; padding: 2px; border-radius: 5px;border-color: #b8bdbe" name="worktoSelect">
+    <option value="" selected disabled>--</option>
+</select>
+<script>
+    // Get the select element
+    var selectElement = document.getElementById("worktoSelect");
+
+    // Loop to add options from 0 to 59
+    for (var i = 0; i <= 59; i++) {
+        var option = document.createElement("option");
+        
+        // Use a two-digit format for single-digit numbers
+        var text = (i < 10) ? '0' + i : i;
+        
+        option.value = i;
+        option.text = text;
+        
+        selectElement.add(option);
+    }
+</script>
+<select style="width: 14%; padding: 2px; border-radius: 5px; border-color: #b8bdbe;" name="workto_period">
+    
+    <option value="AM">AM</option>
+    <option value="PM" selected>PM</option>
+</select>
+
+
+</div>
+<div id="workFromError" style="color: red;"></div>
+<div id="workToError" style="color: red;"></div>
+
+<!-- <input type="radio" name="workto_period" value="AM" checked> AM
+<input type="radio" name="workto_period" value="PM"> PM<br> -->
+
+
+            
+
+            <label for="" class="form-label mt-1" >Date Of Joining</label>
+            <input type="date" class="col-md-12 form-control" name="doj" >
+
+            <label for="" class="form-label mt-2">Pan Number</label>
+            <input type="text" class="col-md-12 form-control" name="pan"  id="panInput" oninput="validatePan(this)">
+
+            <script>
+                function validatePan(input) {
+                    // Regular expression to allow alphanumeric characters and whitespace
+                    var regex = /^[A-Za-z0-9\s]+$/;
+                    if (!regex.test(input.value)) {
+                        // If input contains characters other than alphanumeric and whitespace, clear them
+                        input.value = input.value.replace(/[^A-Za-z0-9\s]/g, '');
+                    }
+                }
+            </script>
+
+
+            <label for="" class="form-label mt-2">Aadhar Number</label>
+            <input type="text" class="col-md-12 form-control" name="aadhar" oninput="validateAAdhar(this)">
+            <script>
+                function validateAAdhar(input) {
+                    // Regular expression to allow alphanumeric characters and whitespace
+                    var regex = /^[0-9\s]+$/;
+                    if (!regex.test(input.value)) {
+                        // If input contains characters other than alphanumeric and whitespace, clear them
+                        input.value = input.value.replace(/[^0-9\s]/g, '');
+                    }
+                }
+            </script>
+
+<div class="d-flex col-lg-12">
+    <div class="col-lg-6" style="display: grid;margin-right: 3px;">
+            <label for="" class="form-label">Bank Name</label>
+            <input type="text" class="form-control" name="bank" oninput="branch(this)">
+        </div>
+            <script>
+                function branch(input) {
+                    // Regular expression to allow alphanumeric characters and whitespace
+                    var regex = /^[A-Za-z\s]+$/;
+                    if (!regex.test(input.value)) {
+                        // If input contains characters other than alphanumeric and whitespace, clear them
+                        input.value = input.value.replace(/[^A-Za-z\s]/g, '');
+                    }
+                }
+            </script>
+
+    <div class="col-lg-6" style="display: grid;">
+            <label for="" class="form-label mt-2">Branch</label>
+            <input type="text" class="form-control p-2" name="bankbranch" oninput="branch(this)">
+            </div>
+        </div>
+            <script>
+                function branch(input) {
+                    // Regular expression to allow alphanumeric characters and whitespace
+                    var regex = /^[A-Za-z\s]+$/;
+                    if (!regex.test(input.value)) {
+                        // If input contains characters other than alphanumeric and whitespace, clear them
+                        input.value = input.value.replace(/[^A-Za-z\s]/g, '');
+                    }
+                }
+            </script>
+
+            <label for="" class="form-label mt-2">Account Number</label>
+            <input type="text" class="col-md-12 form-control" name="account" oninput="acnumber(this)">
+
+                    <script>
+                        function acnumber(input) {
+                            // Regular expression to allow alphanumeric characters and whitespace
+                            var regex = /^[0-9\s]+$/;
+                            if (!regex.test(input.value)) {
+                                // If input contains characters other than alphanumeric and whitespace, clear them
+                                input.value = input.value.replace(/[^0-9\s]/g, '');
+                            }
+                        }
+                    </script>
+
+            <label for="" class="form-label mt-2">IFSC Number</label>
+            <input type="text" class="col-md-12 form-control" name="ifsc" oninput="validateIFSC(this)">
+            <script>
+                function validateIFSC(input) {
+                    // Regular expression to allow alphanumeric characters
+                    var regex = /^[A-Za-z0-9\s]+$/;
+                    if (!regex.test(input.value)) {
+                        // If input contains characters other than alphanumeric, clear them
+                        input.value = input.value.replace(/[^A-Za-z0-9\s]/g, '');
+                    }
+                }
+            </script>
+
+            <label for="" class="mt-2">UAN</label>
+            <input type="text" class="col-md-12 form-control" name="pfcode" oninput="unavalidate(this)">
+
+                    <script>
+                        function unavalidate(input) {
+                            // Regular expression to allow alphanumeric characters
+                            var regex = /^[A-Za-z0-9\s]+$/;
+                            if (!regex.test(input.value)) {
+                                // If input contains characters other than alphanumeric, clear them
+                                input.value = input.value.replace(/[^A-Za-z0-9\s]/g, '');
+                            }
+                        }
+                    </script>
+
+
+            <h5 style="font-weight: bold;" class="mt-2" >PF Amount</h5>
+            <div style="display: flex;"><div style="width: 50%; float: left; font-weight: bold;">Employee Contribution</div><div style="width: 30%; float: left; font-weight: bold;">Employer Contribution</div></div>
+            <div style="display: flex;">
+  
+
+            <label for="" class="form-label"></label><br>
+            <input type="text" class="col-md-12 form-control" name="employee_contri" style="width: 50%; " oninput="contribution(this)">
+
+            <script>
+                function contribution(input) {
+                    // Regular expression to allow alphanumeric characters and whitespace
+                    var regex = /^[0-9\s]+$/;
+                    if (!regex.test(input.value)) {
+                        // If input contains characters other than alphanumeric and whitespace, clear them
+                        input.value = input.value.replace(/[^0-9\s]/g, '');
+                    }
+                }
+            </script>
+
+            <label for="" class="form-label"></label><br>
+            <input type="text" class="col-md-12 form-control" name="employer_contri" style="width: 50%;" oninput="employee(this)">
+            <script>
+                function employee(input) {
+                    // Regular expression to allow alphanumeric characters and whitespace
+                    var regex = /^[0-9\s]+$/;
+                    if (!regex.test(input.value)) {
+                        // If input contains characters other than alphanumeric and whitespace, clear them
+                        input.value = input.value.replace(/[^0-9\s]/g, '');
+                    }
+                }
+            </script>
+        
+
+    </div>
+
+        <label for="" class="form-label mt-2">Insurance Amount </label>
+        <input type="text" class="col-md-12 form-control" name="insu" oninput="insurance(this)">
+        <script>
+            function insurance(input) {
+                // Regular expression to allow alphanumeric characters and whitespace
+                var regex = /^[0-9\s]+$/;
+                if (!regex.test(input.value)) {
+                    // If input contains characters other than alphanumeric and whitespace, clear them
+                    input.value = input.value.replace(/[^0-9\s]/g, '');
+                }
+            }
+        </script>
+
+
+        <label for="" class="form-label mt-2">Salary</label>
+        <input type="text" class="col-md-12 form-control" name="salary" id="salaryInput"oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        
+        
+        <div style="display: flex;"><div style="width: 20%; float: left; font-weight: bold;">Basic</div><div style="width: 20%; float: left; font-weight: bold;">Hr</div><div style="width: 20%; float: left; font-weight: bold;">Conv.All</div><div style="width: 20%; float: left; font-weight: bold;">Medical.All</div><div style="font-weight: bold;">Special.All</div></div>
+
+        <div style="display: flex;">
+            <label></label>
+            <input type="text" class="form-control" id="basicOutput" disabled>
+       
+
+        <script>
+            // Function to calculate basic amount, hr, and convAll
+            function calculate() {
+                // Get the input value of salary
+                var salary = parseFloat(document.getElementById("salaryInput").value);
+                console.log("salary",salary)
+                // Check if the input is a valid number
+                if (!isNaN(salary) && salary !== "") {
+                    // Calculate basic amount (55% of salary)
+                    var basic = (salary * 55) / 100;
+                    
+                    // Update the basic amount output
+                    document.getElementById("basicOutput").value = basic;
+                    
+                    // Calculate Hr amount (40% of basic)
+                    var hr = (basic * 40) / 100;
+                    document.getElementById("hrOutput").value = hr;
+                    
+                    // Calculate Conv.All amount
+                    var convAll = (salary >= 10000) ? 1600 : 800;
+                    document.getElementById("convAllOutput").value = convAll;
+
+                   var for_medi = basic + hr + convAll;
+                   var result_mini = salary - for_medi;
+                   var medical_all = result_mini / 2;
+                   document.getElementById("medicalOutput").value = medical_all;
+                   document.getElementById("specialOutput").value = medical_all;
+
+                } else {
+                    // If the input is not a valid number, display an error or handle it as needed
+                    // alert("Please enter a valid salary amount.");
+                    document.getElementById("basicOutput").value = ""; // Clear the output fields
+                    document.getElementById("hrOutput").value = "";
+                    document.getElementById("convAllOutput").value = "";
+                    document.getElementById("medicalOutput").value = "";
+                    document.getElementById("specialOutput").value = "";
+                }
+            }
+            
+            // Add an event listener to the salary input to trigger calculation on input change
+            document.getElementById("salaryInput").addEventListener("input", calculate);
+            
+        </script>
+
+
+
+
+        
+            <label></label>
+            <input type="text" class="form-control" id="hrOutput" disabled>
+        
+        
+            <label></label>
+            <input type="text" class="form-control" id="convAllOutput" disabled>
+        
+
+       
+            <label></label>
+            <input type="text" class="form-control" id="medicalOutput" disabled>
+       
+
+       
+            <label></label>
+            <input type="text" class="form-control" id="specialOutput" disabled>
+       </div>
+
+       <div style="display: flex;"><div style="width: 29%; float: left; font-weight: bold;">Increment Date</div><div style="width: 28%; float: left;">Position</div><div style="width: 20%; float: left; font-weight: bold;">Salary</div></div>
+
+        <div style="display: flex;">
+            <label></label>
+            <input type="date" class="form-control" id="increment_dt">
+     
+
+
+        
+            <label></label>
+            <input type="text" id="position" class="form-control" >
+        
+
+
+        <script>
+            // Get the designation input element
+            const designationInput = document.getElementById('designation');
+          
+            // Get the position input element
+            const positionInput = document.getElementById('position');
+          
+            // Add an event listener for input event on designation input
+            designationInput.addEventListener('input', function() {
+              // Set the value of position input to the value of designation input
+              positionInput.value = this.value;
+            });
+          </script>
+
+        
+            <label></label>
+            <input type="text" class="form-control" id="final_salary"oninput="salary1(this)">
+            <script>
+                function salary1(input) {
+                    // Regular expression to allow alphanumeric characters and whitespace
+                    var regex = /^[0-9\s]+$/;
+                    if (!regex.test(input.value)) {
+                        // If input contains characters other than alphanumeric and whitespace, clear them
+                        input.value = input.value.replace(/[^0-9\s]/g, '');
+                    }
+                }
+            </script>
+
+       
+            
+            <button class="btn" style="background-color: #b30047; color: white;" id="submitButton">Add</button>&nbsp;&nbsp;&nbsp;
+            <button id="fetchDetailsButton" style="border: none;"><img src="{% static 'img/down.png' %}" style="width: 30px;height: 30px;cursor: pointer;" alt=""></button>
+
+
+            <script>
+
+
+
+
+                $(document).ready(function(){
+                    var detailsVisible = false; 
+    $('#fetchDetailsButton').click(function(){
+        // Get the value of traineeIdSelect input field
+        var userId = $('#traineeIdSelect').val();
+        console.log("userId",userId)
+
+        // var userId = $('#traineeIdSelect').val();
+        if (!userId) {
+        alert("Please fetch the Trainee.");
+        return;
+    }
+        if (detailsVisible) {
+            // If details are visible, hide them
+            $('.table').hide();
+            detailsVisible = false;
+        } else {
+            // If details are hidden, show them
+            $('.table').show();
+            detailsVisible = true;
+        }
+        
+       
+        // Get CSRF token from the cookie
+        var csrftoken = getCookie('csrftoken');
+
+        // AJAX call to fetch details
+        $.ajax({
+            url: '/fetch_salary_increment/', // Update with your actual endpoint URL
+            method: 'POST', // Use POST or GET as per your backend configuration
+            data: { 
+                userId: userId,
+                csrfmiddlewaretoken: csrftoken // Include CSRF token in the request data
+            },
+            success: function(response){
+                // Handle the response from the server
+                if (response.error) {
+                    // Display error message if any
+                    $('#fetchedDetails').html('<p>' + response.error + '</p>');
+                } else {
+                    // Populate the table with fetched details
+                    var userDetails = response;
+                    var counter = 1;
+                    var tableRow = '<tr>' +
+                        '<td>' + counter++ + '</td>' + // Serial number column
+                        '<td>' + userDetails.user_id + '</td>' +
+                        '<td>' + userDetails.incre_dt + '</td>' +
+                        '<td>' + userDetails.position + '</td>' +
+                                       
+                                       
+                                       '<td>' + userDetails.salary + '</td>' +
+                                   '</tr>';
+                    $('.table tbody').html(tableRow);
+                }
+            },
+            error: function(xhr, status, error){
+                // Handle errors
+                console.error(xhr.responseText);
+            }
+        });
+    });
+});
+
+// Function to get CSRF token from the cookie
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Check if the cookie name matches the expected format
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+                </script>
+
+            <script>
+                $(document).ready(function() {
+                    $('#submitButton').click(function(event) {
+                        event.preventDefault(); // Prevent default button click behavior
+            
+                        // Get data from input fields
+                        var salary = $('#salaryInput').val();
+                        var basic = $('#basicOutput').val();
+                        var hr = $('#hrOutput').val();
+                        var conv_All = $('#convAllOutput').val();
+                        var medical_All = $('#medicalOutput').val();
+                        var special_All = $('#specialOutput').val();
+                        var incre_date = $('#increment_dt').val();
+                        var position = $('#position').val();
+                        var final_salary = $('#final_salary').val();
+                        var user_id = $('#employeeCode').val();
+                        
+                        var csrftoken = getCookie('csrftoken');
+                        // Create data object to send via AJAX
+                        var data = {
+                            'salary': salary,
+                            'basic': basic,
+                            'hr': hr,
+                            'conv_All': conv_All,
+                            'medical_All': medical_All,
+                            'special_All': special_All,
+                            'incre_date': incre_date,
+                            'position': position,
+                            'final_salary': final_salary,
+                            'user_id': user_id,
+                            'csrfmiddlewaretoken': csrftoken
+                           
+                        };
+            
+                        // Send AJAX POST request
+                        $.ajax({
+                            type: 'POST',
+                            url: '{% url "add_salary_increment" %}', // Replace with your Django view URL
+                            data: data,
+                            success: function(response) {
+                                // Handle successful form submission
+                                alert('Data submitted successfully!');
+                               
+                               
+                            },
+                            error: function(xhr, status, error) {
+                                // Handle errors
+                                alert('An error occurred while submitting the data: ' + error);
+                            }
+                        });
+                    });
+                });
+
+// Function to retrieve CSRF token from cookies
+function getCookie(name) {
+var cookieValue = null;
+if (document.cookie && document.cookie !== '') {
+var cookies = document.cookie.split(';');
+for (var i = 0; i < cookies.length; i++) {
+var cookie = cookies[i].trim();
+if (cookie.substring(0, name.length + 1) === (name + '=')) {
+    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+    break;
+}
+}
+}
+return cookieValue;
+}
+
+            </script>
+            </div>
+
+            <div class="col-md-6" >
+                <table class="table" style="color: #b30047; font-weight: bold;">
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+
+            
+            <button type="button" onclick="validateForm()" class="btn btn-success col-md-12 mt-3 form-control">Submit</button>
+            <script>
+
+
+function validateForm() {
+        // Your validation code here
+
+        // Assuming validation passes, send data to the server
+        if (validateInputs()) {
+            submitForm();
+            return true; // Continue with form submission
+        } else {
+            return false; // Stop form submission
+        }
+    }
+
+
+
+    function validateInputs() {
+        var nameInput = document.getElementById('name');
+        var nameError = document.getElementById('nameError');
+        var mobileNumberInput = document.getElementById('mobilenumber');
+        var mobileNumberError = document.getElementById('mobileNumberError');
+        // var emergencyError = document.getElementById('emergencyError');
+        // var emergencyNumberInput = document.getElementById('homemobile');
+
+        var departmentSelect = document.getElementById('departmentHead');
+        var departmentError = document.getElementById('departmentError');
+        var workFromInput = document.getElementsByName('workfrom')[0];
+        var workFromError = document.getElementById('workFromError');
+        var workToInput = document.getElementsByName('workto')[0];
+        var workToError = document.getElementById('workToError');
+
+        var companyNameInput = document.getElementById("companyName");
+        var companyNameError = document.getElementById("companyNameError");
+
+        var branchSelect = document.getElementById('branchName');
+        var branchError = document.getElementById('branchNameError');
+
+        // Check if the input value is empty or not
+        if (companyNameInput.value.trim() === "") {
+            companyNameError.innerHTML = "Please fill the field.";
+            return false;
+        } else {
+            companyNameError.innerHTML = ""; // Clear any previous error messages
+        }
+
+        if (branchSelect.value.trim() === '') {
+            branchError.innerHTML = 'Please select the BranchName.';
+            return false;
+        } else {
+            branchError.innerHTML = '';
+        }
+
+        if (nameInput.value.trim() === '') {
+            nameError.innerHTML = 'Please enter the Name.';
+            return false; // Stop form submission
+        } else {
+            nameError.innerHTML = '';
+        }
+
+        var mobileNumberPattern = /^\d{10}$/;
+        if (!mobileNumberPattern.test(mobileNumberInput.value.trim())) {
+            mobileNumberError.innerHTML = 'Please enter a valid 10-digit Mobile Number.';
+            return false;
+        } else {
+            mobileNumberError.innerHTML = '';
+        }
+
+        // var emergencyNumberPattern = /^\d{10}$/;
+        // if (!emergencyNumberPattern.test(emergencyNumberInput.value.trim())) {
+        //     emergencyError.innerHTML = 'Please enter a valid 10-digit Mobile Number.';
+        //     return false;
+        // } else {
+        //     emergencyError.innerHTML = '';
+        // }
+
+        if (departmentSelect.value === '' || departmentSelect.value === 'Select') {
+            departmentError.innerHTML = 'Please select a User Department.';
+            return false;
+        } else {
+            departmentError.innerHTML = ''; // Clear the department error message
+        }
+
+        if (workFromInput.value.trim() === '') {
+            workFromError.innerHTML = 'Please enter the Work From time.';
+            return false;
+        } else {
+            workFromError.innerHTML = '';
+        }
+
+        if (workToInput.value.trim() === '') {
+            workToError.innerHTML = 'Please enter the Work To time.';
+            return false;
+        } else {
+            workToError.innerHTML = '';
+        }
+
+        
+            
+        return true;
+                }
+            
+
+
+                async function submitForm() {
+    var user_id = $('#employeeCode').val();
+
+    // Get CSRF token from cookies
+    var csrftoken = getCookie('csrftoken');
+    // Make an AJAX request to check if user_id exists
+    $.ajax({
+        url: '/check_trainee_id/',
+        method: 'POST',
+        data: { user_id: user_id },
+        headers: { "X-CSRFToken": csrftoken }, // Include CSRF token in headers
+        success: function(response) {
+            if (response.exists) {
+                // Display error message for existing user_id
+                alert("Employee ID already exists. Please enter a unique ID.");
+            } else {
+                // Proceed with form submission
+                submitFormData();
+            }
+        },
+        error: function(xhr, status, error) {
+            // Handle AJAX error
+            console.error('Error occurred during AJAX request:', error);
+            // Optionally, display an error message to the user
+            alert("Error occurred while checking the employee ID. Please try again.");
+        }
+    });
+}
+
+// Function to get CSRF token from cookies
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Check if the cookie contains the CSRF token
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+
+
+                function submitFormData() {
+    // Get form data
+    var formData = new FormData(document.getElementById('myForm'));
+    console.log(formData); // Log the entire form data object to the console
+
+    // Access individual form field values
+    var designation = formData.get('designation');
+    var nocl = formData.get('nocl');
+    var permission = formData.get('permission');
+    var gender = formData.get('gender');
+
+    // Log values (you can send them to the server as needed)
+    console.log('Designation:', designation);
+    console.log('No Of CL:', nocl);
+    console.log('Permission HR:', permission);
+    console.log('gender:', gender);
+
+    // Use fetch to send data to the server
+    fetch('/empinsert/', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.text();
+    })
+    .then(data => {
+        // Handle the successful response
+        console.log('Server response:', data);
+        Swal.fire({
+        title: 'Employee Registration Successfully!',
+        icon: 'success',
+        showCancelButton: false,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'OK'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.reload();
+        }
+    });
+    })
+    .catch(error => {
+        // Handle network errors or other issues
+        console.error('Error:', error.message);
+    });
+}
+
+
+            </script>
+            
+            
+
+        </div>
+    </div>
+    </div>
+    <script>
+        var lilota = document.getElementById("lolita");
+    var lilotaoff = document.getElementById("lolitaoff");
+    var offcanvas = document.getElementById("offcanvasExample");
+    var navigation1 = document.getElementById("navigation");
+    var branchSelect = document.getElementById("branchSelect");
+    
+    // Function to set dark mode based on the value stored in localStorage
+    function setDarkModeFromStorage() {
+      var element = document.body;
+      var storedDarkMode = localStorage.getItem('darkMode');
+      var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+    
+      if (storedDarkMode === 'true') {
+        element.classList.add('dark-mode');
+        toggleDarkModeButton.checked = true;
+        applyDarkModeStyles();
+      } else {
+        element.classList.remove('dark-mode');
+        toggleDarkModeButton.checked = false;
+        removeDarkModeStyles();
+      }
+    }
+    
+    // Function to apply dark mode styles
+    function applyDarkModeStyles() {
+      lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+      lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+      offcanvas.classList.add("offcanvasdrk");
+      navigation1.classList.add("navbardrk");
+      branchSelect.classList.add("selectheadadmindark");
+    }
+    
+    // Function to remove dark mode styles
+    function removeDarkModeStyles() {
+      lolita.src = "{% static 'img/staffinlogooff.png' %}";
+      lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+      offcanvas.classList.remove("offcanvasdrk");
+      navigation1.classList.remove("navbardrk");
+    
+      branchSelect.classList.remove("selectheadadmindark");
+    }
+    
+    // Function to toggle dark mode and store the state in localStorage
+    function toggleDarkMode() {
+      var element = document.body;
+      element.classList.toggle('dark-mode');
+        
+      if (element.classList.contains("dark-mode")) {
+        applyDarkModeStyles();
+      } else {
+        removeDarkModeStyles();
+      }
+    
+      // Store the current dark mode state in localStorage
+      var isDarkMode = element.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isDarkMode.toString());
+    }
+    
+    // Call the function to set dark mode on page load
+    setDarkModeFromStorage();
+      </script>
+</form>
+        
+    
+{% endblock %}
+

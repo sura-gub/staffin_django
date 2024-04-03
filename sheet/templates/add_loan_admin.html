@@ -1,0 +1,1120 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_adm.html' %}
+<!-- <head> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css" />
+
+    <!-- </head> -->
+
+<style>
+    
+    body {
+          background-image: url('{% static "img/logbg2.png" %}');
+          min-height: 70vh;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+        
+
+
+.box{
+    box-shadow: 0 0 10px rgba(31, 32, 32, 0.4);  
+    border: 1px solid #b6afaf; 
+    
+}
+/* input{
+    box-shadow: 0 0 10px rgba(44, 46, 46, 0.1);
+    padding: 2%;  
+} */
+.tab{
+    background-color: #005c99;
+    box-shadow: 0 0 10px rgba(31, 32, 32, 0.3); 
+    text-align: center;
+    color: white;
+}
+.ttbody{
+   background-color: #e6f5ff;
+   box-shadow: 0 0 10px rgba(31, 32, 32, 0.3); 
+   border: 1px solid rgb(207, 207, 207);
+   text-align: center;
+}
+td {
+    box-shadow: 0 0 10px rgba(31, 32, 32, 0.3); 
+      
+}
+.tdtop{
+    color: rgb(0, 42, 255);
+    font-size: 15px;
+    font-weight: 600;
+    font-family: calibri;
+}
+
+.con{
+    border: 1px solid rgb(131, 192, 212);
+    padding: 30px;
+    background-color: #eaf3f5;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(31, 32, 32, 0.3); 
+    
+}
+label{
+    font-weight: bolder;
+}
+
+
+    
+    .status-approved {
+    color: green;
+    text-transform: uppercase;
+}
+
+.status-pending {
+    color: red;
+    text-transform: uppercase;
+}
+
+.status-hold {
+    color: rgb(15, 76, 146); /* or any other color for "hold" status */
+    text-transform: uppercase;
+}
+
+.buttonhead {
+  margin: 100px 0 20px 500px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+input[type="search"] {
+            padding: 8px;
+            border: 1px solid #35acb4;
+            border-radius: 7px;
+            outline: none;
+            width: 25%; /* Set the width as needed */
+            box-sizing: border-box;
+            margin-left: 3%;
+           
+        }
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 200px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  font-weight: 800;
+
+  --fs-size: 2em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: 38696d;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+
+/* hover */
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+.custom-input {
+        border: 1px solid rgb(131, 192, 212);
+        /* Add any additional styling here */
+    }
+    /* button head */
+
+.buttonhead {
+    margin: 5.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+input[type="search"] {
+            padding: 8px;
+            border: 1px solid #35acb4;
+            border-radius: 7px;
+            outline: none;
+            width: 25%; /* Set the width as needed */
+            box-sizing: border-box;
+            margin-left: 3%;
+           
+        }
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 200px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  font-weight: 800;
+
+  --fs-size: 1.8em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+
+/* hover */
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+.a{
+        
+        background-color: rgba(255, 255, 255, 0.237);
+        border:1px solid rgb(210, 204, 204);
+    }
+    .a1{
+    
+        /* background-color:#FFC5C5; */
+        height:1550px;
+        /* border:1px solid darkgray; */
+    }
+ .containeradli {
+
+    --size: 150px; /* control the size */
+  --color: #bdcdd1;
+
+  background: transparent;
+  background-size: var(--size) var(--size);
+  /* backdrop-filter: blur(10px); */
+}
+.nj{
+    margin-top:10px;
+    font-weight: bold;
+    color: red;
+    text-transform: uppercase;
+ }
+
+ .priya{
+        cursor: pointer;
+    }
+    .priya:hover{
+    background-color: #990033;
+    color: white;
+}
+.highlighted {
+    background-color: #2381e1;
+    color: white;
+}
+
+ /* inputs top */
+ .inputint {
+  max-width: 190px;
+  height: 34px;
+  background-color: #ffffff;
+  border-radius: .5rem;
+  padding: 0 1rem;
+  border: 2px solid transparent;
+  font-size: 1rem;
+  transition: border-color .3s cubic-bezier(.25,.01,.25,1) 0s, color .3s cubic-bezier(.25,.01,.25,1) 0s,background .2s cubic-bezier(.25,.01,.25,1) 0s;
+}
+
+.labelint {
+  display: block;
+  margin-bottom: .3rem;
+  font-size: .9rem;
+  font-weight: bold;
+  color: #05060f99;
+  transition: color .3s cubic-bezier(.25,.01,.25,1) 0s;
+}
+
+.input:hover, .input:focus, .input-intgroub:hover .input {
+  outline: none;
+  border-color: #05060f;
+}
+
+.input-intgroub:hover .labelint, .input:focus {
+  color: #05060fc2;
+}
+.input-intgroub{
+    margin-right: 100px;
+}
+.bbt{
+    border-radius: 10px;
+    width: 80px;
+    margin-left: -50px;
+
+}
+.table-container {
+      max-height: 400px; /* Set the maximum height of the table */
+      overflow-y: auto; /* Add a vertical scrollbar if needed */
+    }
+
+    input[type="search"] {
+            padding: 8px;
+            border: 1px solid #97dbe5;
+            border-radius: 5px;
+            outline: none;
+            width: 200px; /* Set the width as needed */
+            box-sizing: border-box;
+            /* margin-left: 20%; */
+            /* margin-bottom: -30%; */
+            
+        }
+
+@media screen and (min-width:750px) {
+    .a{
+            height:1550px;
+            background-color: rgba(255, 255, 255, 0.277);
+            /* border:1px solid darkgray; */
+        }
+
+    }
+
+        @media screen and (max-width:950px) {
+
+        .a{
+          
+            background-color: rgba(255, 255, 255, 0.361);
+            border:1px solid darkgray;
+        }}
+
+        .custom-container {
+    background-color: rgb(17, 82, 99); /* Set your desired background color */
+    color:white;
+    padding: 5px; /* Add padding for better styling */
+    border-radius: 5px; /* Optional: Add border-radius for rounded corners */
+    width: 70%;
+  /* margin-left: 70%; */
+    text-align: center;
+    /* margin-top: -10%; */
+    margin-left: 10%;
+  }
+   
+  .ashi {
+        max-height: 370px;
+        width: 300px;
+        overflow-y: auto;
+    }
+
+</style>
+
+
+<body  class="w-100 container-fluid">
+  <div class="col-md-12  col-12 mb-3 " style="margin-top: 30px;">
+    <button class="buttonhead col-4" data-text="Awesome">
+        <span class="actual-text">&nbsp;Add Loan &nbsp;</span>
+    </button>
+</div>
+
+<div class="row ">
+    <div class="col-md-3 a containeradli">
+        <p style="margin-top: -4%;" class="text-center mt-4 custom-container " >
+            <label for="staff" style="font-weight: bold; " >Emp</label>
+            <input type="radio" class="roleRadio" name="role" value="staff" checked>&nbsp;&nbsp;
+            <label for="admin" style="font-weight: bold; ">Admin</label>
+            <input type="radio" class="roleRadio" name="role" value="admin">&nbsp;&nbsp;
+            <label for="admin" style="font-weight: bold; ">All</label>
+            <input type="radio" class="roleRadio" name="role" value="all" >&nbsp;&nbsp;
+                                
+        
+        </p>
+<hr>
+<input type="search" placeholder="Search..." name="search" id="searchInput" autofocus>
+
+<script>
+    $('#searchInput').on('input', function () {
+                        var searchTerm = $(this).val().toLowerCase();
+
+                        $('#userTableBody tr').filter(function () {
+                            $(this).toggle($(this).text().toLowerCase().indexOf(searchTerm) > -1);
+                        });
+                    });
+</script>
+<div class="table-container mt-3">
+    <div class="ashi">
+<table class="table table-bordered">
+    <thead style="background-color: #005c99; color: white;">
+       <tr>
+<th class="col-2">SL.NO</th>
+    <th class="col-2 text-center">EMP.ID</th>
+    <th class="text-center">NAME</th>
+</tr> 
+    </thead>
+    <tbody id="userTableBody" style="background-color: white;">
+        
+
+    </tbody>
+</table>
+</div>
+</div>
+</div>
+       
+
+<div class="col-md-9 a1 containeradli" >
+<!-- <button class="btn btn-primary float-end m-3">view-staff</button> -->
+
+<h5 class="nj" id="userID">Name : UserId</h5>
+
+<div class="col-md-9 d-flex m-2">
+    <div class="px-3">
+        <label class="labelint">Loan Amount</label>
+        <input type="text" autocomplete="off" name="Email" id="loan_amount" class="inputint" type="email" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        </div> 
+
+        <div class="px-3">
+            <label class="labelint">Loan Date</label>
+            <input type="date" autocomplete="off" name="Email" id="loan_date" class="inputint" >
+           </div>
+
+            <div class="px-5">
+                <button autocomplete="off" name="Email" id="Email" class="btn btn-success mt-4 bbt" type="email" onclick="insertLoan()">Add</button>
+            </div>
+
+<script>
+    
+    $(document).ready(function() {
+
+// Check if the sessionStorage has the stored user ID and name
+if(sessionStorage.getItem("clickedUserID") !== null && sessionStorage.getItem("clickedUserName") !== null) {
+        var userId = sessionStorage.getItem("clickedUserID");
+        var userName = sessionStorage.getItem("clickedUserName");
+
+        // Set the values to the desired elements
+        document.getElementById("userID").textContent = userName + " : " + userId;
+        $('#user_id').val(userId);
+
+        // Apply the style to the row with the matching userId
+        $('#userTableBody tr[data-user-id="' + userId + '"]').addClass('highlighted');
+    }
+    var role=sessionStorage.getItem('selectedRole', role);
+        console.log('Radio button ',role)
+
+
+        // Check radio button based on role value
+        var roleRadios = document.getElementsByClassName('roleRadio');
+        for (var i = 0; i < roleRadios.length; i++) {
+            if (roleRadios[i].value === role) {
+                roleRadios[i].checked = true;
+                break; // Stop loop once matched radio button is found
+            }
+        }
+
+    var clickedUserID = sessionStorage.getItem("clickedUserID");
+    console.log("clickedUserID", clickedUserID);
+
+    // Check if the clickedUserID is stored in sessionStorage
+    if (clickedUserID) {
+        // Make an AJAX request to fetch user details using the stored userID
+        $.ajax({
+            url: '/get_user_loan_records/',
+            method: 'POST',
+            data: { 
+                user_id: clickedUserID,
+                csrfmiddlewaretoken: '{{ csrf_token }}'  // Include the CSRF token
+            },
+            success: function (response) {
+                // Assuming response contains user details in JSON format as an array of objects
+                var userDetailsArray = response.user_details; // Accessing 'user_details' key
+                console.log("userDetails", userDetailsArray);
+
+                // Clear existing table content
+                $('#TableBody').empty(); 
+
+                // Iterate through userDetailsArray and create rows for each user
+                $.each(userDetailsArray, function(index, userDetails) {
+                    var row = '<tr id="userRow_' + userDetails.id + '">';
+                    row += '<td>' + (index + 1) + '</td>'; 
+                    row += '<td>' + userDetails.loan_amount + '</td>'; 
+                    row += '<td style="display:none;">' + userDetails.req_date + '</td>'; 
+                    row += '<td>' + dateFormat(userDetails.req_date) + '</td>'; 
+                    row += '<td>' + createStatusDropdown(userDetails.status) + '</td>'; 
+                    row += '<td><button class="btn  deleteLoan" data-id="' + userDetails.id + '"><img src="{% static "img/delete.png" %}" style="width:15px;"></button></td>'; 
+
+                    row += '</tr>';
+                    $('#TableBody').append(row);
+                });
+            },
+            error: function (error) {
+                console.error('Error fetching user details:', error);
+            }
+        });
+
+    }
+});
+
+function createStatusDropdown(currentStatus) {
+    // Define status options with their corresponding display values
+    var statusOptions = [
+        { value: '0', display: 'Pending' },
+        { value: '1', display: 'Approved' },
+        { value: '2', display: 'Hold' }
+    ];
+
+    // Create the dropdown HTML
+    var dropdownHtml = '<select class="statusDropdown">';
+
+    // Loop through each status option
+    for (var i = 0; i < statusOptions.length; i++) {
+        // Use strict comparison (===) to ensure types match
+        var selected = currentStatus == statusOptions[i].value ? 'selected' : '';
+
+        // Append the option to the dropdown
+        dropdownHtml += '<option value="' + statusOptions[i].value + '" ' + selected + '>' + statusOptions[i].display + '</option>';
+    }
+
+    // Close the dropdown tag
+    dropdownHtml += '</select>';
+
+    return dropdownHtml;
+}
+
+// Call the function when the page loads
+$(document).ready(function() {
+    // Event listener for click on delete button inside tbody
+    $('#loanTable tbody').on('click', '.deleteLoan', function() {
+        // Get the ID of the loan record associated with the clicked button
+        var loanId = $(this).data('id');
+        
+        // Confirm deletion
+        var confirmDelete = confirm("Are you sure you want to delete this loan record?");
+        if (confirmDelete) {
+            // Call the deleteLoanRecord function with the loan ID
+            deleteLoanRecord(loanId);
+        }
+    });
+});
+
+// Function to delete a loan record
+function deleteLoanRecord(id) {
+    var csrftoken = getCookie('csrftoken');
+    console.log(id)
+    $.ajax({
+        url: '/delete_loan_record/', // Replace with your server endpoint URL
+        type: 'POST',
+        data: { id: id },
+        headers: { "X-CSRFToken": csrftoken },
+        success: function(response) {
+            // Handle the success response
+            console.log("Loan record deleted:", response);
+            location.reload();
+            // Here you can update the UI or perform any other actions
+        },
+        error: function(xhr, status, error) {
+            // Handle errors
+            console.error("Error deleting loan record:", error);
+        }
+    });
+}
+
+$(document).on('change', '.statusDropdown', function() {
+    // Get the selected value from the dropdown
+    var selectedStatus = $(this).val();
+
+     // Get the corresponding row
+     var row = $(this).closest('tr');
+
+// Get the req_date from the corresponding row
+var reqDate = row.find('td:eq(2)').text(); // Adjust index if needed
+
+// Now you have the req_date, you can do whatever you want with it
+console.log(reqDate);
+
+    // Get the corresponding row index
+    var clickedUserID = sessionStorage.getItem("clickedUserID");
+
+console.log(clickedUserID)
+  // Get the CSRF token from the cookie
+const csrftoken = getCookie('csrftoken');
+
+// Send AJAX request to update the sts field in the PayrollMaathangi model
+$.ajax({
+    type: 'POST',
+    url: '/update_sts_add_loan/',
+    headers: {
+        'X-CSRFToken': csrftoken,
+    },
+    data: {
+        'emp_id': clickedUserID,
+        'status': selectedStatus,
+        'req_date': reqDate,
+        // 'selected_month': selectedMonth,
+    },
+    success: function(response) {
+        console.log('Status updated successfully:', response);
+    },
+    error: function(error) {
+        console.log('Error updating status:', error);
+    }
+});
+
+});
+
+</script>
+
+
+<script>
+    $(document).on("click", ".priya", function(){
+    var userId = $(this).data("user-id"); // Changed to lowercase userId for consistency
+    var userName = $(this).data("name");
+    
+    // Storing data in sessionStorage
+    sessionStorage.setItem("clickedUserID", userId);
+    sessionStorage.setItem("clickedUserName", userName);
+
+    document.getElementById("userID").textContent = userName + " : " + userId;
+
+    console.log("Clicked User ID:", userId);
+    console.log("Clicked User Name:", userName);
+
+    
+    // Remove previous style if any
+    $('#userTableBody tr').removeClass('highlighted');
+
+    // Apply the style to the row with the matching userId
+    $('#userTableBody tr[data-user-id="' + userId + '"]').addClass('highlighted');
+    
+    // Example: document.getElementById("user_id").value = userID;
+    // $('#user_id').val(userId); // Update the user ID input field
+});
+
+                    
+
+
+                  
+function validateLoanFields() {
+        var loanAmount = document.getElementById("loan_amount").value;
+        var loanDate = document.getElementById("loan_date").value;
+        var loanDate2 = new Date(loanDate);
+        var today = new Date();
+        var today2 = today.setDate(today.getDate() - 1); // Subtract one day
+
+        console.log(today2)
+
+        // Check if the increment amount is not empty and is a valid number
+        if (isNaN(loanAmount) || loanAmount.trim() === "") {
+            alert("Please enter a valid Loan amount.");
+            return false;
+        }
+                // Check if the user ID is empty
+        if (loanDate == "") {
+            alert("Please select the Date.");
+            return false;
+        }
+        // Check if the increment date is not empty and is not in the future
+        if (loanDate2 < today2) {
+            alert("The Loan date cannot be in the past.");
+            return false;
+        }
+        
+    
+        return true;
+    }
+
+
+    function insertLoan() {
+        // Perform validation before proceeding
+        if (!validateLoanFields()) {
+            return;
+        }
+
+        // Get the userID from wherever it's available
+        var userId = sessionStorage.getItem("clickedUserID");
+        var userName = sessionStorage.getItem("clickedUserName");
+        var loanDate = document.getElementById("loan_date").value;
+        var loanAmount = document.getElementById("loan_amount").value;
+        var status='1';
+
+        var csrftoken = getCookie('csrftoken');
+
+
+            console.log("UserID:", userId);
+            console.log("userName:", userName);
+            console.log("loanDate:", loanDate);
+            console.log("loanAmount:", loanAmount);
+            console.log("status:", status);
+
+            var requestData = {
+
+                userID: userId,
+                userName: userName,
+                loanDate: loanDate,
+                loanAmount: loanAmount,
+                status: status,
+            };
+
+            $.ajax({
+    url: '/insert_loan_record/', // Replace with your server endpoint URL
+    type: 'POST',
+    data: requestData,
+    headers: { "X-CSRFToken": csrftoken },
+    success: function(response) {
+        // Check if the response contains an error message
+        if (response.error) {
+            // Display error message using SweetAlert
+            swal({
+                title: "Error!",
+                text: response.error,
+                icon: "error"
+            });
+        } else {
+            // If no error, display success message using SweetAlert
+            swal({
+                title: "Success!",
+                text: "Loan Request successfully Received.",
+                icon: "success"
+            }).then((result) => {
+                if (result) {
+                    console.log("OK button clicked. Page will reload.");
+                    location.reload();
+                    // Optionally, you can perform any additional action here
+                }
+            });
+        }
+    },
+    error: function(xhr, status, error) {
+        // Handle AJAX errors
+        console.error("Error inserting loan record:", error);
+        // Display error message using SweetAlert
+        swal({
+            title: "Error!",
+            text: "Failed!!Cannot Apply for Same date Again!!.",
+            icon: "error"
+        });
+    }
+});
+
+        // } else {
+        //     alert("The increment date is in the future.");
+        // }
+    }
+
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                // Check if the cookie contains the CSRF token
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    function getUserDetails(userId) { // Accept userId as a parameter
+        // Make an AJAX request to fetch user details by ID
+        $.ajax({
+            url: '/get_user_loan_records/',
+            method: 'POST',
+            data: {
+                user_id: userId,
+                csrfmiddlewaretoken: '{{ csrf_token }}' // Include the CSRF token
+            },
+            success: function(response) {
+                // Assuming response contains user details in JSON format as an array of objects
+                var userDetailsArray = response.user_details; // Accessing 'user_details' key
+                console.log("userDetails", userDetailsArray);
+                // showInTable(userDetailsArray)
+
+//                 // Clear existing table content
+                $('#TableBody').empty();
+
+                // Iterate through userDetailsArray and create rows for each user
+                $.each(userDetailsArray, function(index, userDetails) {
+                    var row = '<tr id="userRow_' + userDetails.id + '">';
+                    row += '<td>' + (index + 1) + '</td>'; 
+                    row += '<td>' + userDetails.loan_amount + '</td>';
+                    row += '<td style="display:none;">' + userDetails.req_date + '</td>';  
+                    row += '<td>' + dateFormat(userDetails.req_date) + '</td>'; 
+                    row += '<td>' + createStatusDropdown(userDetails.status) + '</td>'; 
+                    row += '<td><button class="btn  deleteLoan" data-id="' + userDetails.id + '"><img src="{% static "img/delete.png" %}" style="width:8px;"></button></td>'; 
+
+                    row += '</tr>';
+                    $('#TableBody').append(row);
+                });
+            },
+            error: function(error) {
+                console.error('Error fetching user details:', error);
+            }
+        });
+    }
+
+
+                    </script>
+                    
+            </div>
+
+
+  </table>
+
+  <table class="table table-bordered " id="loanTable">
+    <thead style="background-color: #1a49a1;color: white;">
+      <tr style="text-align: center;">
+        <th>Sl.No</th>                           
+        <th>Loan Amount</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Cancel</th>                        
+        </tr>
+    </thead>
+    <tbody style="background-color: whitesmoke;text-align: center;" id="TableBody">
+        
+    </tbody>
+
+  </table>
+
+
+
+  <script>
+    $(document).ready(function () {
+
+
+
+        // Function to fetch and display user details based on radio button
+        function fetchUserDetails() {
+            var role = $('input[name="role"]:checked').val();
+            sessionStorage.setItem('selectedRole', role);
+
+            // Make an AJAX request to fetch data from the server
+            $.ajax({
+                url: '/increment_radio/',
+                method: 'POST',
+                data: { 
+                    role: role,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'  // Include the CSRF token
+                },
+                success: function (response) {
+                    // Check if the response contains an error
+                    if (response.error) {
+                        console.error('Error fetching data:', response.error);
+                        return;
+                    }
+
+                    // Clear existing table rows
+                    $('#userTableBody').empty();
+
+                    // Use the response directly without JSON.parse
+                    var responseData = response;
+                    var counter = 1;
+                    // Append new rows based on fetched data
+                    responseData.data.forEach(function (user) {
+                        $('#userTableBody').append('<tr class="priya" data-name="' + user.nm + '" data-user-id="' + user.user_id + '"><td>' + counter++ + '</td><td>' + user.user_id + '</td><td>' + user.nm + '</td></tr>');
+                    });
+
+                    var userId = sessionStorage.getItem("clickedUserID");
+        // Apply the style to the row with the matching userId
+        $('#userTableBody tr[data-user-id="' + userId + '"]').addClass('highlighted');
+
+$('#userTableBody').on('click', 'tr', function() {
+    var userId = $(this).data('user-id');
+    // Make an AJAX request to fetch user details by ID
+    $.ajax({
+        url: '/get_user_loan_records/',
+        method: 'POST',
+        data: { 
+            user_id: userId,
+            csrfmiddlewaretoken: '{{ csrf_token }}'  // Include the CSRF token
+        },
+        success: function (response) {
+            // Assuming response contains user details in JSON format as an array of objects
+            var userDetailsArray = response.user_details; // Accessing 'user_details' key
+            console.log("userDetails", userDetailsArray);
+            // showInTable(userDetailsArray)
+            // Clear existing table content
+            $('#TableBody').empty(); 
+
+            // Iterate through userDetailsArray and create rows for each user
+            $.each(userDetailsArray, function(index, userDetails) {
+                    var row = '<tr id="userRow_' + userDetails.id + '">';
+                    row += '<td>' + (index + 1) + '</td>'; 
+                    row += '<td>' + userDetails.loan_amount + '</td>'; 
+                    row += '<td style="display:none;">' + userDetails.req_date + '</td>'; 
+                    row += '<td>' + dateFormat(userDetails.req_date) + '</td>'; 
+                    row += '<td>' + createStatusDropdown(userDetails.status) + '</td>'; 
+                    row += '<td><button class="btn  deleteLoan" data-id="' + userDetails.id + '"><img src="{% static "img/delete.png" %}" style="width:8px;"></button></td>'; 
+
+                    row += '</tr>';
+                    $('#TableBody').append(row);
+                });
+
+
+        },
+        error: function (error) {
+            console.error('Error fetching user details:', error);
+        }
+    });
+});
+                },
+                error: function (error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+        }
+
+        // Call fetchUserDetails on page load and whenever the radio buttons change
+        $(document).on('change', '.roleRadio', fetchUserDetails);
+        fetchUserDetails(); // Initial call
+    });
+
+
+    function dateFormat(date) {
+    // Parse the input date string
+    const parts = date.split('-');
+    const year = parts[0];
+    const month = parseInt(parts[1]); // Parse month as an integer
+    const day = parts[2];
+
+    // Create an array of month names
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June", 
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    // Get the month name corresponding to the month number
+    const monthName = monthNames[month - 1]; // Adjust index by 1
+
+    // Construct the new date string in the required format
+    const formattedDate = `${day}-${monthName}-${year}`;
+    
+    // Return the formatted date
+    return formattedDate;
+}
+
+function StatuShow(status) {
+    switch (status) {
+        case 0:
+            return '<span style="color: red;"><b>Pending</b></span>';
+        case 1:
+            return '<span style="color: green;"><b>Approved</b></span>';
+        case 2:
+            return '<span style="color: orange;"><b>Hold</b></span>';
+        default:
+            return ''; // Handle other cases if needed
+    }
+}
+    
+// Function to delete a salary record
+function delete_salary_record(userId) {
+    // Display a SweetAlert confirmation dialog
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this record!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then((willDelete) => {
+        if (willDelete) {
+            // Proceed with deletion
+            console.log("Deleting salary record for user ID:", userId);
+            // Make an AJAX request to delete the salary record
+            $.ajax({
+                url: '/delete_salary_record/',
+                method: 'POST',
+                data: { 
+                    user_id: userId,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'  // Include the CSRF token
+                },
+                success: function (response) {
+    // If the deletion was successful, remove the corresponding row from the table
+    
+    // $('#userRow_' + userId).remove();
+    // Display success message
+    swal({
+        title: "Success",
+        text: "Salary record deleted successfully!",
+        icon: "success",
+        closeOnClickOutside: false, // Prevent closing by clicking outside
+        closeOnEsc: false // Prevent closing by pressing Esc key
+    }).then((result) => {
+        if (result) {
+            console.log("OK button clicked. Page will not reload.");
+            location.reload();
+            // Optionally, you can perform any additional action here
+        }
+    });
+    console.log("Salary record deleted successfully.");
+}
+
+                
+            });
+        } else {
+            // User cancelled the deletion
+            console.log("Deletion cancelled.");
+        }
+    });
+}
+
+
+
+
+</script>
+
+
+
+
+
+  <script>
+    var lilota = document.getElementById("lolita");
+var lilotaoff = document.getElementById("lolitaoff");
+var offcanvas = document.getElementById("offcanvasExample");
+var navigation1 = document.getElementById("navigation");
+var branchSelect = document.getElementById("branchSelect");
+
+// Function to set dark mode based on the value stored in localStorage
+function setDarkModeFromStorage() {
+  var element = document.body;
+  var storedDarkMode = localStorage.getItem('darkMode');
+  var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+
+  if (storedDarkMode === 'true') {
+    element.classList.add('dark-mode');
+    toggleDarkModeButton.checked = true;
+    applyDarkModeStyles();
+  } else {
+    element.classList.remove('dark-mode');
+    toggleDarkModeButton.checked = false;
+    removeDarkModeStyles();
+  }
+}
+
+// Function to apply dark mode styles
+function applyDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  offcanvas.classList.add("offcanvasdrk");
+  navigation1.classList.add("navbardrk");
+  branchSelect.classList.add("selectheadadmindark");
+}
+
+// Function to remove dark mode styles
+function removeDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+  offcanvas.classList.remove("offcanvasdrk");
+  navigation1.classList.remove("navbardrk");
+
+  branchSelect.classList.remove("selectheadadmindark");
+}
+
+// Function to toggle dark mode and store the state in localStorage
+function toggleDarkMode() {
+  var element = document.body;
+  element.classList.toggle('dark-mode');
+    
+  if (element.classList.contains("dark-mode")) {
+    applyDarkModeStyles();
+  } else {
+    removeDarkModeStyles();
+  }
+
+  // Store the current dark mode state in localStorage
+  var isDarkMode = element.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', isDarkMode.toString());
+}
+
+// Call the function to set dark mode on page load
+setDarkModeFromStorage();
+  </script>
+</body>
+<!-- {% include 'footer.html' %} -->
+{% endblock %}

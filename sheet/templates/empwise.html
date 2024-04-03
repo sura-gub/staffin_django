@@ -1,0 +1,3422 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_adm.html' %}
+
+    <style>
+
+.table-container {
+      max-height: 400px; /* Set the maximum height of the table */
+      overflow-y: auto; /* Add a vertical scrollbar if needed */
+    }
+
+        .sunday {
+        
+        color: rgb(177, 2, 2);
+        /* Add any other styles you want for Sundays */
+    }
+        body {
+          background-image: url('{% static "img/logbg2.png" %}');
+          min-height: 750px;
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+        .sele{
+         padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            /* width: 200px; Set the width as needed */
+            box-sizing: border-box;
+            background-color: #5c5859;
+            color: white;
+            
+}
+
+.attendance-button {
+    padding: 3px 5px;
+    background-color: #006666;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+input[type="search"] {
+            padding: 5px;
+            border: 1px solid #c1c6f7;
+            border-radius: 5px;
+            outline: none;
+            width: 210px; /* Set the width as needed */
+            box-sizing: border-box;
+        }
+
+        .a{
+        
+            background-color: white;
+            border:1px solid darkgray;
+        }
+        .a1{
+        
+            /* background-color:#FFC5C5; */
+            height:1550px;
+            border:1px solid darkgray;
+        }
+ .bb{
+    border:1px solid rgb(156, 155, 154);
+ }
+ .bbb{
+  width:170px;
+
+ }
+ .nj{
+    margin-top:10px;
+    font-weight: bold;
+    color: #1431d3;
+ }
+ #monthYearHeading{
+    margin-top:10px;
+    font-weight: bold;
+    color: #1431d3;
+ }
+
+ #userTableBody tr {
+    cursor: pointer;
+}
+
+.priya:hover{
+    background-color: #ee9e90;
+    color: white;
+}
+
+.highlighted {
+    background-color: #ee9e90;
+    color: white;
+}
+
+
+ @media screen and (min-width:750px) {
+    .a{
+            height:1550px;
+            background-color: white;
+            border:1px solid darkgray;
+        }
+        .bh{
+    margin-left:600px;
+    margin-top:20px;
+   
+ }
+ .col-4{
+  flex-basis: 40%;
+  position: relative;
+  margin-left: 500px;
+  margin-top: 120px;
+color: #004aad;
+font-family:calibri;
+
+ }
+ }
+ @media screen and (max-width:950px) {
+    .col-4{
+
+  position: relative;
+  margin-left: 60px;
+  margin-top: 100px;
+color: #004aad;
+font-family:calibri;
+
+ }
+        .a{
+          
+            background-color: white;
+            border:1px solid darkgray;
+        }
+        .bh{
+    margin-left:100px;
+    margin-top:20px;
+ }
+
+ }
+ @media screen and (max-width:950px) {
+   
+        .bh{
+    margin-left:70px;
+    margin-top:20px;
+ }
+
+ }
+
+ /* for container */
+
+ .containeradli {
+
+    --size: 150px; /* control the size */
+  --color: #bdcdd1;
+
+  background: transparent;
+  background-size: var(--size) var(--size);
+  /* backdrop-filter: blur(10px); */
+}
+
+/* side of the addentance list */
+.containersadli {
+    background: #ecf8ec;
+  /* Add your background pattern here */
+}
+
+ /* for heading */
+ .buttonhead {
+  margin: 7.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  font-weight: 800;
+  --fs-size: 1.8em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+
+.custom-container {
+    background-color: rgb(17, 82, 99); /* Set your desired background color */
+    color:white;
+    padding: 5px; /* Add padding for better styling */
+    border-radius: 5px; /* Optional: Add border-radius for rounded corners */
+    width: 70%;
+  /* margin-left: 70%; */
+    text-align: center;
+    /* margin-top: -10%; */
+   
+  }
+
+   </style>
+
+
+
+<script>
+    $(document).ready(function () {
+
+       
+
+   
+        // Function to fetch and display user details based on radio button
+        function fetchUserDetails() {
+            var role = $('input[name="role"]:checked').val();
+            sessionStorage.setItem('selectedRole', role);
+
+            // Make an AJAX request to fetch data from the server
+            $.ajax({
+                url: '/fetch_data_radio/',  // Update to your actual endpoint
+                method: 'POST',
+                data: { role: role },
+
+                success: function (response) {
+                    // Check if the response contains an error
+                    if (response.error) {
+                        // console.error('Error fetching data:', response.error);
+                        return;
+                    }
+
+                    // Clear existing table rows
+                    $('#userTableBody').empty();
+                   
+
+                    // Use the response directly without JSON.parse
+                    var responseData = response;
+                    var counter = 1;
+                    // Append new rows based on fetched data
+                    responseData.data.forEach(function (user) {
+                        $('#userTableBody').append('<tr class="priya" data-name="' + user.nm + '" data-user-id="' + user.user_id + '"><td>' + counter++ + '</td><td>' + user.user_id + '</td><td>' + user.nm + '</td></tr>');
+                    });
+                    
+
+                    $('#searchInput').on('input', function () {
+                        var searchTerm = $(this).val().toLowerCase();
+
+                        $('#userTableBody tr').filter(function () {
+                            $(this).toggle($(this).text().toLowerCase().indexOf(searchTerm) > -1);
+                        });
+                    });
+
+
+                    $(document).ready(function() {
+    // Click event handler for table rows
+    $('#userTableBody tr').click(function () {
+        var name = $(this).data('name');
+        var userId = $(this).data('user-id');
+
+        // Clear existing userId in sessionStorage
+        sessionStorage.removeItem('userId');
+
+        // Store new userId in sessionStorage
+        sessionStorage.setItem('userId', userId);
+        sessionStorage.setItem('name', name);
+
+        // Reload the page
+        location.reload();
+        $('.nj').text(name + ' : ' + userId);
+        
+    });
+
+    // Get userId from sessionStorage
+    var userId = sessionStorage.getItem('userId');
+
+    // Remove previous style if any
+    $('#userTableBody tr').removeClass('highlighted');
+
+    // Apply the style to the row with the matching userId
+    $('#userTableBody tr[data-user-id="' + userId + '"]').addClass('highlighted');
+
+    // Update the content of the h5 tag with the name and userId
+    
+   
+});
+
+
+// Display initial user ID if available in sessionStorage
+var initialUserId = sessionStorage.getItem('userId');
+var initialUserName = sessionStorage.getItem('name');
+
+if (initialUserId && initialUserName) {
+    $('.nj').text(initialUserName.toUpperCase() + ' : ' + initialUserId.toUpperCase()).css('color', 'blue');
+} else {
+    $('.nj').text('Please Select Employee Name/ID').css('color', 'red');
+}
+
+
+                },
+                error: function (error) {
+                    // console.error('Error fetching data:', error);
+                }
+            });
+        }
+
+      
+        // Call fetchUserDetails on page load and whenever the radio buttons change
+        $(document).on('change', '.roleRadio', fetchUserDetails);
+        fetchUserDetails(); // Initial call
+
+        $(document).on('change', '.roleRadio', fetchUserDetails);
+    fetchUserDetails();
+   
+    
+
+   
+});
+
+
+
+</script>
+
+
+
+    <body  class="w-100 container-fluid">
+
+    
+
+<!--content-->
+<div class="container-fluid">
+<!-- <h3  class="" ><b></b></h3> -->
+
+<button class="buttonhead col-4" data-text="Awesome">
+    <span class="actual-text">&nbsp;Attendance Report&nbsp;</span>
+</button>
+
+    <div class="row ">
+        <div class="col-md-3 a containeradli">
+            <p style="margin-top: -4%;" class="text-center mt-4 custom-container" >
+                <label for="staff" style="font-weight: bold; " >Emp</label>
+                <input type="radio" class="roleRadio" name="role" value="staff" checked>&nbsp;&nbsp;
+                <label for="admin" style="font-weight: bold; ">Admin</label>
+                <input type="radio" class="roleRadio" name="role" value="admin">&nbsp;&nbsp;
+                <label for="admin" style="font-weight: bold; ">All</label>
+                <input type="radio" class="roleRadio" name="role" value="all" >&nbsp;&nbsp;
+                                    
+            
+            </p>
+            <div class="mt-4">
+                <input type="search" placeholder="Search..." name="search" id="searchInput">
+            </div>
+    <hr>
+    
+<div class="table-container">
+    <table class="table table-bordered">
+        <thead style="background-color: #005c99; color: white;">
+           <tr>
+    <th class="col-2">SL.NO</th>
+        <th class="col-2 text-center">EMP.ID</th>
+        <th class="text-center">NAME</th>
+    </tr> 
+        </thead>
+        <tbody id="userTableBody" style="background-color: white;">
+    
+   
+        </tbody>
+</table>
+</div>
+<script>
+    $(document).ready(function () {
+        // Add click event listener to table rows
+        $(".clickable-row").click(function() {
+            // Remove the "clicked-row" class from all rows
+            $(".clickable-row").removeClass("clicked-row");
+            // Add the "clicked-row" class to the clicked row
+            $(this).addClass("clicked-row");
+        });
+    });
+</script>
+
+        </div>
+       
+
+        <div class="col-md-9 a1 containeradli" >
+        <!-- <button class="btn btn-primary float-end m-3">view-staff</button> -->
+
+        <h5 class="nj" style="color: red;">Please Select Employee Name/ID</h5>
+<div class="d-flex">
+    <h5 id="monthYearHeading">Month:Year</h5>
+
+<div class="bh">
+ <table>
+    <tr>
+           <th></th>
+        <td> <select id="monthDropdown" class="sele" >
+            <option value="" disabled style="color: rgb(218, 214, 214);background-color: #5F6E85;">MONTH</option>
+        </select></td>
+  <td> <select id="yearDropdown" class="sele">
+    <option value="" disabled style="color: rgb(218, 214, 214);background-color: #5F6E85;">YEAR</option>
+</select></td>
+    </tr>
+</table>
+<script>
+    // Function to get the current year
+    function getCurrentYear() {
+        return new Date().getFullYear();
+    }
+
+    // Function to get the total days in a month
+    function getTotalDaysInMonth(year, month) {
+        return new Date(year, month, 0).getDate();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Populate the year dropdown dynamically using JavaScript
+        var yearDropdown = document.getElementById('yearDropdown');
+        var startYear = 2015;
+        var currentYear = getCurrentYear();
+
+        for (var year = startYear; year <= currentYear; year++) {
+            var option = document.createElement('option');
+            option.value = year;
+            option.text = year;
+            yearDropdown.appendChild(option);
+        }
+
+        // Populate the month dropdown as you did in your original code
+        var monthDropdown = document.getElementById('monthDropdown');
+        var months = [
+            'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
+            'JULY', 'AUGEST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'
+        ];
+
+       
+
+        for (var i = 0; i < months.length; i++) {
+            var option = document.createElement('option');
+            option.value = i + 1;
+            option.text = months[i];
+            monthDropdown.appendChild(option);
+            
+        }
+
+        // Set default values for the month and year dropdowns
+        var currentDate = new Date();
+
+        // Set default values for the month dropdown
+        monthDropdown.value = (currentDate.getMonth() + 1).toString(); // Months are 0-indexed, so add 1
+
+        // Set default values for the year dropdown
+        yearDropdown.value = currentDate.getFullYear().toString();
+
+        // Fetch userId from sessionStorage
+        var userId = sessionStorage.getItem('userId');
+
+        // Update content function
+        var currentMonthYear = document.getElementById('currentMonthYear');
+
+        // Retrieve the text content of the element
+
+ var totalDaysTh = document.getElementById('totalDays');
+// Store the currentMonthYearValue in session storage
+sessionStorage.setItem('totalDaysTh', totalDaysTh);
+
+       
+
+        function updateContent() {
+            var selectedMonthIndex = monthDropdown.value - 1;
+            var selectedMonthName = months[selectedMonthIndex];
+            
+             //sessionStorage.setItem('selectedMonthText', selectedMonthName);
+
+            var selectedYear = yearDropdown.value;
+            var totalDays = getTotalDaysInMonth(selectedYear, monthDropdown.value);
+
+            currentMonthYear.textContent = `Total Days ${selectedMonthName} : ${selectedYear}`;
+            totalDaysTh.textContent = `${totalDays} Days`;
+            sessionStorage.setItem('totalDays', totalDays);
+
+        }
+
+        // Initial update
+        updateContent();
+        
+        // Add event listeners to the dropdowns to update the content on change
+        yearDropdown.addEventListener('change', updateContent );
+        monthDropdown.addEventListener('change', updateContent);
+
+        
+        
+    });
+</script>
+
+
+
+<script>
+    
+    // Function to get the number of days in a month
+function getDaysInMonth(year, month) {
+    return new Date(year, month + 1, 0).getDate();
+}
+
+
+     document.addEventListener('DOMContentLoaded', function () {
+        var yearDropdown = document.getElementById('yearDropdown');
+        var monthDropdown = document.getElementById('monthDropdown');
+
+       
+
+        var tableBody = document.getElementById('tableBody');
+        var monthYearHeading = document.getElementById('monthYearHeading');
+
+
+        var currentDate = new Date();
+        monthDropdown.value = (currentDate.getMonth() + 1).toString();
+        yearDropdown.value = currentDate.getFullYear().toString();
+
+
+
+        var role=sessionStorage.getItem('selectedRole', role);
+        console.log('Radio button ',role)
+
+
+        // Check radio button based on role value
+        var roleRadios = document.getElementsByClassName('roleRadio');
+        for (var i = 0; i < roleRadios.length; i++) {
+            if (roleRadios[i].value === role) {
+                roleRadios[i].checked = true;
+                break; // Stop loop once matched radio button is found
+            }
+        }
+
+
+       
+
+     
+
+
+
+        // function fetchUserDetails() {
+        //     // var role = $('input[name="role"]:checked').val();
+        //     // sessionStorage.setItem('selectedRole', role);
+
+        //     // Make an AJAX request to fetch data from the server
+        //     $.ajax({
+        //         url: '/fetch_data_radio/',  // Update to your actual endpoint
+        //         method: 'POST',
+        //         data: { role: role },
+
+        //         success: function (response) {
+        //             // Check if the response contains an error
+        //             if (response.error) {
+        //                 // console.error('Error fetching data:', response.error);
+        //                 return;
+        //             }
+
+        //             // Clear existing table rows
+        //             $('#userTableBody').empty();
+                   
+
+        //             // Use the response directly without JSON.parse
+        //             var responseData = response;
+        //             var counter = 1;
+        //             // Append new rows based on fetched data
+        //             responseData.data.forEach(function (user) {
+        //                 $('#userTableBody').append('<tr class="priya" data-name="' + user.nm + '" data-user-id="' + user.user_id + '"><td>' + counter++ + '</td><td>' + user.user_id + '</td><td>' + user.nm + '</td></tr>');
+        //             });
+
+                    
+        //         },
+        //         error: function (error) {
+        //             // console.error('Error fetching data:', error);
+        //         }
+        //     });
+        // }
+        
+        
+        // Update table based on selected month and year
+     // Update table based on selected month and year
+// Update table based on selected month and year
+function updateTable(attendanceDetailsArray , matchingDetails ,lopDetailsArray , matchingLeaves , clDetailsArray ,matchingCl , halflopDetailsArray ,matchingHalflop , odDetailsArray,matchingod , halfclDetailsArray , matchinhalfcl,halfodDetailsArray ,matchinhalfod ,holidayDetailsArray ,holidayDate,storeMonth ,storeYear,storeMonthname) {
+    
+   
+    // Fetch attendance details using AJAX
+   
+    function fetchAttendanceDetails(selectedUserId) {
+        
+        return $.ajax({
+            url: `/fetch_attendance/?user_id=${selectedUserId}`,
+            method: 'GET',
+            dataType: 'json'
+        });
+    }
+    function fetchlopdata(selectedUserId ,storeMonth ,storeYear) {
+    return $.ajax({
+        url: `/fetch_user_data/?user_id=${selectedUserId},mnth=${storeMonth},yr=${storeYear}`,
+        method: 'GET',
+        dataType: 'json'
+    });
+}
+
+function fetchcldata(selectedUserId,storeMonth ,storeYear) {
+    return $.ajax({
+        url: `/fetch_cl/?user_id=${selectedUserId},mnth=${storeMonth},yr=${storeYear}`,
+        method: 'GET',
+        dataType: 'json'
+    });
+}
+
+function fetchhalflop(selectedUserId) {
+    return $.ajax({
+        url: `/fetch_halflop/?user_id=${selectedUserId}`,
+        method: 'GET',
+        dataType: 'json'
+    });
+}
+
+function fetchod(selectedUserId ,storeMonth ,storeYear) {
+    return $.ajax({
+        url: `/fetch_od/?user_id=${selectedUserId},mnth=${storeMonth},yr=${storeYear}`,
+        method: 'GET',
+        dataType: 'json'
+    });
+}
+
+function fetchHalfcl(selectedUserId) {
+    return $.ajax({
+        url: `/fetch_halfcl/?user_id=${selectedUserId}`,
+        method: 'GET',
+        dataType: 'json'
+    });
+}
+
+function fetchHalfod(selectedUserId) {
+    return $.ajax({
+        url: `/fetch_halfod/?user_id=${selectedUserId}`,
+        method: 'GET',
+        dataType: 'json'
+    });
+}
+
+function fetch_holiday(storeMonthname, selectedYear)  {
+    return $.ajax({
+        url: `/fetch_holiday/?mnth=${storeMonthname}`,
+        method: 'GET',
+        dataType: 'json'
+    });
+}
+
+ updateMonthYearHeading();
+
+
+
+    tableBody.innerHTML = '';
+    var selectedYear = parseInt(yearDropdown.value);
+    var selectedMonth = parseInt(monthDropdown.value) - 1; // Months are 0-indexed
+
+    
+   
+    // Get the number of days in the selected month
+    var daysInMonth = getDaysInMonth(selectedYear, selectedMonth);
+
+    var selectedYear = parseInt($('#yearDropdown').val());
+    var selectedMonth = parseInt($('#monthDropdown').val()) - 1; // Months are 0-indexed
+     var selectedMonthh = selectedMonth + 1;
+// console.log("ygft6yfrtfyfgfvghfcgrgtf",selectedMonthh)
+// console.log("ygft6yfrtfyfgfvghfcgrgtf",selectedYear)
+var monthNames = [
+  "January", "February", "March", "April", "May", "June", "July",
+  "August", "September", "October", "November", "December"
+];
+
+// Convert the incremented month value to text format
+var selectedMonthText = monthNames[selectedMonthh - 1]; // Adjust for 0-based index
+
+// Store the text format of the month in session storage
+sessionStorage.setItem("selectedMonthText", selectedMonthText);
+
+// Check if totalPunchedDays is stored in the session storage
+var totalPunchedDays = sessionStorage.getItem('totalPunchedDays');
+
+// If totalPunchedDays is already set, clear it
+if (totalPunchedDays) {
+    sessionStorage.removeItem('totalPunchedDays');
+}
+
+// Set totalPunchedDays to 0 for the new month and year
+totalPunchedDays = 0;
+
+// Update the displayed total punched days
+document.getElementById('totalPunchedDays').textContent = ` ${totalPunchedDays}`;
+
+// Similarly, you can apply the same logic for halfdaymissed
+var halfdaymissed = sessionStorage.getItem('halfdaymissed');
+
+// If halfdaymissed is already set, clear it
+if (halfdaymissed) {
+    sessionStorage.removeItem('halfdaymissed');
+}
+
+// Set halfdaymissed to 0 for the new month and year (or whatever initial value you prefer)
+halfdaymissed = 0;
+
+// Update the displayed halfdaymissed value
+document.getElementById("halfdaymissed").textContent = ` ${halfdaymissed}`;
+
+// Similarly, apply the same logic for holiday
+var holiday = sessionStorage.getItem('holiday');
+
+// If holiday is already set, clear it
+if (holiday) {
+    sessionStorage.removeItem('holiday');
+}
+
+// Set holiday to 0 for the new month and year (or whatever initial value you prefer)
+holiday = 0;
+
+// Update the displayed holiday value
+document.getElementById('holiday').textContent = ` ${holiday}`;
+
+// Similarly, apply the same logic for halfdayod
+var halfdayod = sessionStorage.getItem('halfdayod');
+
+// If halfdayod is already set, clear it
+if (halfdayod) {
+    sessionStorage.removeItem('halfdayod');
+}
+
+// Set halfdayod to 0 for the new month and year (or whatever initial value you prefer)
+halfdayod = 0;
+
+// Update the displayed halfdayod value
+document.getElementById('halfdayod').textContent = ` ${halfdayod}`;
+
+// Similarly, apply the same logic for halfdaycl
+var halfdaycl = sessionStorage.getItem('halfdaycl');
+
+// If halfdaycl is already set, clear it
+if (halfdaycl) {
+    sessionStorage.removeItem('halfdaycl');
+}
+
+// Set halfdaycl to 0 for the new month and year (or whatever initial value you prefer)
+halfdaycl = 0;
+
+
+document.getElementById('halfdayod').textContent = ` ${halfdayod}`;
+
+var halfmissed = sessionStorage.getItem('halfmissed');
+
+// If halfdaycl is already set, clear it
+if (halfmissed) {
+    sessionStorage.removeItem('halfmissed');
+}
+
+// Set halfdaycl to 0 for the new month and year (or whatever initial value you prefer)
+halfmissed = 0;
+
+// Update the displayed halfdaycl value
+document.getElementById('halfdaycl').textContent = ` ${halfdaycl}`;
+
+
+var halfodmissed  = sessionStorage.getItem('halfodmissed');
+
+// If halfdaycl is already set, clear it
+if (halfodmissed ) {
+    sessionStorage.removeItem('halfodmissed');
+}
+
+// Set halfdaycl to 0 for the new month and year (or whatever initial value you prefer)
+halfodmissed  = 0;
+
+// Update the displayed halfdaycl value
+document.getElementById('halfdaycl').textContent = ` ${halfdaycl}`;
+
+var halflopmissed  = sessionStorage.getItem('halflopmissed');
+
+// If halfdaycl is already set, clear it
+if (halflopmissed ) {
+    sessionStorage.removeItem('halflopmissed');
+}
+
+// Set halfdaycl to 0 for the new month and year (or whatever initial value you prefer)
+halflopmissed  = 0;
+
+
+
+document.getElementById('halfdaycl').textContent = ` ${halfdaycl}`;
+
+var od = sessionStorage.getItem('od');
+
+if (od) {
+    sessionStorage.removeItem('od');
+}
+
+// Set od to 0 for the new month and year (or whatever initial value you prefer)
+od = 0;
+
+// Update the displayed od value
+document.getElementById('od').textContent = ` ${od}`;
+
+var od = sessionStorage.getItem('od');
+
+// If od is already set, clear it
+if (matchingLeavesCount) {
+    sessionStorage.removeItem('matchingLeavesCount');
+}
+// Set matchingLeavesCount to 0 for the new month and year (or whatever initial value you prefer)
+matchingLeavesCount = 0;
+
+// Update the displayed matchingLeavesCount value
+document.getElementById('matchingLeavesCount').textContent = ` ${matchingLeavesCount}`;
+
+sessionStorage.setItem('matchingLeavesCount', matchingLeavesCount);
+// Similarly, apply the same logic for clCount
+var clCount = sessionStorage.getItem('clCount');
+
+// If clCount is already set, clear it
+if (clCount) {
+    sessionStorage.removeItem('clCount');
+}
+
+// Set clCount to 0 for the new month and year (or whatever initial value you prefer)
+clCount = 0;
+
+// Update the displayed clCount value
+document.getElementById('clCount').textContent = ` ${clCount}`;
+
+// Similarly, apply the same logic for Halflop
+var Halflop = sessionStorage.getItem('Halflop');
+
+// If Halflop is already set, clear it
+if (Halflop) {
+    sessionStorage.removeItem('Halflop');
+}
+
+// Set Halflop to 0 for the new month and year (or whatever initial value you prefer)
+Halflop = 0;
+
+// Update the displayed Halflop value
+document.getElementById('Halflop').textContent = ` ${Halflop}`;
+
+
+
+
+
+
+
+// Store initial values in session storage
+sessionStorage.setItem('selectedYear', selectedYear);
+sessionStorage.setItem('selectedMonthh', selectedMonthh);
+
+
+
+// Store initial values in session storage
+sessionStorage.setItem('selectedYear', selectedYear);
+sessionStorage.setItem('selectedMonthh', selectedMonthh);
+    
+
+    // Rest of your code for generating rows (unchanged)
+    var daysInMonth = getDaysInMonth(selectedYear, selectedMonth);
+    var dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+   
+    
+    var attendanceDetails;
+var totalMissedClockInDays = 0;
+ var totalLateDifferenceHours = 0;
+var totalLateDifferenceMinutes = 0;
+
+var totalEarlyDifferenceHours = 0;
+var totalEarlyDifferenceMinutes = 0;
+    // var totalPunchedDays = 0;
+    
+    // var   matchingLeavesCount = 0;
+    // var   clCount = 0;
+    // var Halflop = 0;
+    // var od = 0;
+    // var halfdaycl = 0;
+    // var halfdayod = 0;
+    // var holiday = 0;
+   
+
+var tally = 0;
+//var halfdaymissed = 0;
+
+
+    for (var day = 1; day <= daysInMonth; day++) {
+        var date = new Date(selectedYear, selectedMonth, day);
+        var dayName = dayNames[date.getDay()];
+        var formattedDate = `${selectedYear}-${('0' + (selectedMonth + 1)).slice(-2)}-${('0' + day).slice(-2)}`;
+        var aligndate = `${('0' + day).slice(-2)}-${('0' + (selectedMonth + 1)).slice(-2)}-${selectedYear}`;
+
+        var row = document.createElement('tr');
+        
+
+        // Add a class 'sunday' to rows corresponding to Sundays
+        if (dayName === 'Sun') {
+            row.classList.add('sunday');
+        }
+
+        
+
+// Update the table to display the total count in the "Tally" column
+document.getElementById('tally').textContent = ` ${tally}`;
+
+        // Check if attendance details are available for the current day
+        var matchingDetails = attendanceDetailsArray && attendanceDetailsArray.find(details => details.date === formattedDate);
+    //  console.log("matchingDetails",matchingDetails)
+
+     var matchingLeave = lopDetailsArray && lopDetailsArray.find(details => {
+    var fromDt = new Date(details.from_dt);
+    var toDt = new Date(details.to_dt);
+    var formattedDateObj = new Date(formattedDate);
+    // Check if formattedDate is within the range of from_dt and to_dt and it's not a Sunday
+    if (formattedDateObj >= fromDt && formattedDateObj <= toDt && formattedDateObj.getDay() !== 0) {
+        var dateDifference = Math.ceil((formattedDateObj - fromDt) / (1000 * 60 * 60 * 24));
+        details.date_difference = dateDifference;
+        return true;
+    }
+    return false;
+});
+   
+
+
+// console.log("matchingLeaves", matchingLeaves);
+
+     var matchingCl = clDetailsArray && clDetailsArray.find(details => details.from_dt === formattedDate);
+    //  console.log("matchingCl",matchingCl)
+    
+     var matchingHalflop = halflopDetailsArray && halflopDetailsArray.find(details => details.from_dt === formattedDate);
+    //  console.log("matchingHalflop",matchingHalflop)
+
+     var matchingod = odDetailsArray && odDetailsArray.find(details => details.from_dt === formattedDate);
+    //  console.log("odDetailsArray",odDetailsArray)
+    console.log("matchingod",matchingod)
+
+   
+
+
+     var matchinhalfcl = halfclDetailsArray&& halfclDetailsArray.find(details => details.from_dt === formattedDate);
+
+     var matchinhalfod = halfodDetailsArray&& halfodDetailsArray.find(details => details.from_dt === formattedDate);
+     
+     var holidayDate = holidayDetailsArray && holidayDetailsArray.find(details => details.holiday_date === formattedDate);
+// console.log("holidayDate", holidayDate);
+
+
+       
+     var dailyTally = 0;
+
+     if (matchinhalfod ) {
+        
+        row.innerHTML = `
+            
+            <td colspan="10" class="text-center" style="background-color:  #cc6699; color: white;">${matchinhalfod.lev_typ} : ${matchinhalfod.reason}</td>
+            
+        `;
+
+      
+        // Create a new row for the second part
+        var row1 = document.createElement('tr');
+        var recordId = matchingDetails ? matchingDetails.id : null;
+      // Check if matchingDetails exists
+    if (!matchingDetails) {
+        // If matchingDetails doesn't exist, show the missed clock-in message
+        row1.innerHTML = `
+        <td rowspan="2" style="background-color: #cc6699;color:white;" class="text-center">${day}</td>
+        <td rowspan="2" style="background-color: #cc6699; color:white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+            ${aligndate} - ${dayName}
+        </td>
+            <td colspan="9" class="text-center" style="background-color: #cc6699; color: white;">missed to clockin</td>
+            <td class="text-center" style="background-color: #cc6699; ">
+                <button type="button" class="attendance-button addInOutButton" onclick="showPopup(${selectedYear}, ${selectedMonth + 1}, ${day})">Add In/Out</button>
+            </td>
+        `;
+        halfodmissed++;
+        sessionStorage.setItem('halfodmissed', halfodmissed);
+    } else {
+
+        var totalHours = matchingDetails.tot_hr;
+console.log("totalHours", totalHours);
+
+var timeComponents1 = totalHours.split(':'); // Splitting the formatted time string by ':'
+
+console.log("timeComponents", timeComponents1);
+
+var hours = parseInt(timeComponents1[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents1[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime);
+
+
+        // Append each cell individually to row1
+        row1.innerHTML += `
+
+        
+        
+        <td rowspan="2" style="background-color:  #cc6699; color: white;" class="text-center">${day}</td>
+            <td rowspan="2" style="background-color:  #cc6699; color: white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+                ${aligndate} - ${dayName}
+            </td>
+
+
+
+            <td class="text-center" style="background-color:#cc6699;">${convertTo12HourFormat(matchingDetails.clk_in_tm)}</td>
+    <td class="text-center" style="background-color:#cc6699;">${convertTo12HourFormat(matchingDetails.clk_out_tm)}</td>
+    <td class="text-center" style="background-color:#cc6699;">${formattedTime}</td>
+    <td class="text-center" style="background-color:#cc6699;">${matchingDetails.clkin_ip}</td>
+    <td class="text-center" style="background-color:#cc6699;">${matchingDetails.clkout_ip}</td>
+    <td class="text-center" style="background-color:#cc6699;">--</td>
+    <td class="text-center" style="background-color:#cc6699;">--</td>
+    <td class="text-center" style="background-color:#cc6699;">--</td>
+    <td class="text-center" style="background-color:#cc6699;">--</td>
+    <td class="text-center" style="background-color:#cc6699;">
+        <button class="btn bg-primary attendance-button" onclick="openEditModal(${selectedYear}, ${selectedMonth + 1}, ${day})">
+            <i class="fa-solid fa-pen-to-square"></i>
+        </button>&nbsp;&nbsp;&nbsp;
+        <button class="btn bg-danger attendance-button" onclick="deleteRecord(${recordId})">
+            <i class="fa-solid fa-trash-can"></i>
+        </button>
+    </td>
+
+
+        `;
+    }
+        // Append the second row to the table body
+        $('#tableBody').append(row1);
+        // Add the row to your table (assuming you have a table with id 'tableBody')
+        halfdayod++;
+        dailyTally++;
+  
+// Set the total punched days in the th element  totallop
+document.getElementById('halfdayod').textContent = ` ${halfdayod}`; 
+sessionStorage.setItem('halfdayod', halfdayod);
+   
+}
+
+
+    else if (matchinhalfcl ) {
+        
+        row.innerHTML = `
+            
+            <td colspan="10" class="text-center" style="background-color: #3366cc; color: white;">${matchinhalfcl.lev_typ} : ${matchinhalfcl.reason}</td>
+            
+        `;
+
+      
+        // Create a new row for the second part
+        var row1 = document.createElement('tr');
+
+        var recordId = matchingDetails ? matchingDetails.id : null;
+
+        if (!matchingDetails) {
+        // If matchingDetails doesn't exist, show the missed clock-in message
+        row1.innerHTML = `
+        <td rowspan="2" style="background-color: #3366cc;color:white;" class="text-center">${day}</td>
+        <td rowspan="2" style="background-color: #3366cc; color:white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+            ${aligndate} - ${dayName}
+        </td>
+            <td colspan="9" class="text-center" style="background-color: #3366cc; color: white;">missed to clockin</td>
+
+
+            <td class="text-center" style="background-color: #3366cc; ">
+                <button type="button" class="attendance-button addInOutButton" onclick="showPopup(${selectedYear}, ${selectedMonth + 1}, ${day})">Add In/Out</button>
+            </td>
+        `;
+        halfmissed++;
+        sessionStorage.setItem('halfmissed', halfmissed);
+        }
+        else {
+
+            var totalHours = matchingDetails.tot_hr;
+console.log("totalHours", totalHours);
+
+var timeComponents1 = totalHours.split(':'); // Splitting the formatted time string by ':'
+
+console.log("timeComponents", timeComponents1);
+
+var hours = parseInt(timeComponents1[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents1[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime);
+
+
+        // Append each cell individually to row1
+        row1.innerHTML += `
+
+        
+        
+        <td rowspan="2" style="background-color: #3366cc; color: white;" class="text-center">${day}</td>
+            <td rowspan="2" style="background-color: #3366cc; color: white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+                ${aligndate} - ${dayName}
+            </td>
+
+            <td class="text-center" style="background-color:#3366cc; color: white;">${convertTo12HourFormat(matchingDetails.clk_in_tm)}</td>
+    <td class="text-center" style="background-color:#3366cc; color: white;">${convertTo12HourFormat(matchingDetails.clk_out_tm)}</td>
+    <td class="text-center" style="background-color:#3366cc; color: white;">${formattedTime}</td>
+    <td class="text-center" style="background-color:#3366cc; color: white;">${matchingDetails.clkin_ip}</td>
+    <td class="text-center" style="background-color:#3366cc; color: white;">${matchingDetails.clkout_ip}</td>
+    <td class="text-center" style="background-color:#3366cc; color: white;">--</td>
+    <td class="text-center" style="background-color:#3366cc; color: white;">--</td>
+    <td class="text-center" style="background-color:#3366cc; color: white;">--</td>
+    <td class="text-center" style="background-color:#3366cc; color: white;">--</td>
+    <td class="text-center" style="background-color:#3366cc; color: white;">
+        <button class="btn bg-primary attendance-button" onclick="openEditModal(${selectedYear}, ${selectedMonth + 1}, ${day})">
+            <i class="fa-solid fa-pen-to-square"></i>
+        </button>&nbsp;&nbsp;&nbsp;
+        <button class="btn bg-danger attendance-button" onclick="deleteRecord(${recordId})">
+            <i class="fa-solid fa-trash-can"></i>
+        </button>
+    </td>
+
+
+        `;
+    }
+        // Append the second row to the table body
+        $('#tableBody').append(row1);
+        // Add the row to your table (assuming you have a table with id 'tableBody')
+        halfdaycl++;
+        dailyTally++;
+       
+  
+// Set the total punched days in the th element  totallop
+document.getElementById('halfdaycl').textContent = ` ${halfdaycl}`; 
+sessionStorage.setItem('halfdaycl', halfdaycl);
+
+
+   
+}
+
+
+
+    else if (matchingod ) {
+        
+
+
+        row.innerHTML = `
+        <!-- Your HTML structure for a matching leave -->
+        <td style="background-color: #85ADAD;color:white;" class="text-center">${day}</td>
+        <td style="background-color: #85ADAD; color:white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+            ${aligndate} - ${dayName}
+        </td>
+        <td colspan="10" class="text-center" style="background-color: #85ADAD; color:white; ">${matchingod.lev_typ} : ${matchingod.reason}</td>
+    `;
+       
+      
+        // Add the row to your table (assuming you have a table with id 'tableBody')
+        od++;
+        dailyTally++;
+  
+// Set the total punched days in the th element  totallop
+document.getElementById('od').textContent = ` ${od}`; 
+sessionStorage.setItem('od', od);
+
+   
+}
+
+else if (matchingHalflop) {
+    console.log("matchingDetails", matchingDetails);
+    row.innerHTML = `
+        <td colspan="12" class="text-center" style="background-color: #666699; color: white;">${matchingHalflop.lev_typ} : ${matchingHalflop.reason}</td>
+        
+    `;
+
+    // Create a new row for the second part
+    var row1 = document.createElement('tr');
+    console.log("row1", row1);
+    var recordId = matchingDetails ? matchingDetails.id : null;
+
+    // Check if matchingDetails exists
+    if (!matchingDetails) {
+        // If matchingDetails doesn't exist, show the missed clock-in message
+        row1.innerHTML = `
+        <td rowspan="2" style="background-color: #666699;color:white;" class="text-center">${day}</td>
+        <td rowspan="2" style="background-color: #666699; color:white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+            ${aligndate} - ${dayName}
+        </td>
+            <td colspan="9" class="text-center" style="background-color: #666699; color: white;">missed to clockin</td>
+            <td class="text-center" style="background-color: #666699; ">
+                <button type="button" class="attendance-button addInOutButton" onclick="showPopup(${selectedYear}, ${selectedMonth + 1}, ${day})">Add In/Out</button>
+            </td>
+        `;
+        halflopmissed++;
+        sessionStorage.setItem('halflopmissed', halflopmissed);
+    } else {
+
+        var totalHours = matchingDetails.tot_hr;
+console.log("totalHours", totalHours);
+
+var timeComponents1 = totalHours.split(':'); // Splitting the formatted time string by ':'
+
+console.log("timeComponents", timeComponents1);
+
+var hours = parseInt(timeComponents1[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents1[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime);
+
+
+
+        // Append each cell individually to row1
+        row1.innerHTML += `
+            <td rowspan="2" style="background-color: #666699; color: white;" class="text-center">${day}</td>
+            <td rowspan="2" style="background-color: #666699; color: white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+                ${aligndate} - ${dayName}
+            </td>
+            <td class="text-center" style="background-color:#666699; color: white;">${convertTo12HourFormat(matchingDetails.clk_in_tm)}</td>
+            <td class="text-center" style="background-color:#666699; color: white;">${convertTo12HourFormat(matchingDetails.clk_out_tm)}</td>
+            <td class="text-center" style="background-color:#666699; color: white;">${formattedTime}</td>
+            <td class="text-center" style="background-color:#666699; color: white;">${matchingDetails.clkin_ip}</td>
+            <td class="text-center" style="background-color:#666699; color: white;">${matchingDetails.clkout_ip}</td>
+            <td class="text-center" style="background-color:#666699; color: white;">--</td>
+            <td class="text-center" style="background-color:#666699; color: white;">--</td>
+            <td class="text-center" style="background-color:#666699; color: white;">--</td>
+            <td class="text-center" style="background-color:#666699; color: white;">--</td>
+            <td class="text-center" style="background-color:#666699; color: white;">
+                <button class="btn bg-primary attendance-button" onclick="openEditModal(${selectedYear}, ${selectedMonth + 1}, ${day})">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </button>&nbsp;&nbsp;&nbsp;
+                <button class="btn bg-danger attendance-button" onclick="deleteRecord(${recordId})">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+            </td>
+        `;
+    }
+
+    // Append the second row to the table body
+    $('#tableBody').append(row1);
+    // Add the row to your table (assuming you have a table with id 'tableBody')
+    Halflop++;
+    dailyTally++;
+
+    // Set the total punched days in the th element  totallop
+    document.getElementById('matchingHalflop').textContent = ` ${Halflop}`;
+    document.getElementById('Halflop').textContent = ` ${Halflop}`;
+
+    sessionStorage.setItem('Halflop', Halflop);
+}
+
+else if (matchingCl) {
+    row.innerHTML = `
+        <!-- Your HTML structure for a matching leave -->
+        <td style="background-color: #75b1bd;color:white;" class="text-center">${day}</td>
+        <td style="background-color: #75b1bd; color:white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+            ${aligndate} - ${dayName}
+        </td>
+        <td colspan="10" class="text-center" style="background-color: #75b1bd; color:white; ">${matchingCl.lev_typ} : ${matchingCl.reason}</td>
+    `;
+
+        // Increment the clCount
+        clCount++;
+        dailyTally++;
+
+        // Set the total punched days in the th element totallop
+        document.getElementById('clCount').textContent = ` ${clCount}`;
+sessionStorage.setItem('clCount', clCount);
+
+    }
+
+    else if (matchingLeave) {
+    row.innerHTML = `
+        <!-- Your HTML structure for a matching leave -->
+        <td style="background-color: #FF6666;color:white;" class="text-center">${day}</td>
+        <td style="background-color: #FF6666; color:white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+            ${aligndate} - ${dayName}
+        </td>
+        <td colspan="10" class="text-center" style="background-color: #FF6666; color:white; ">${matchingLeave.lev_typ} : ${matchingLeave.reason}</td>
+    `;
+    // Add the row to your table (assuming you have a table with id 'tableBody')
+    matchingLeavesCount++;
+    dailyTally++;
+    // Set the total punched days in the th element 'matchingLeavesCount'
+    document.getElementById('matchingLeavesCount').textContent = `${matchingLeavesCount}`;
+
+    sessionStorage.setItem('matchingLeavesCount', matchingLeavesCount);
+}
+
+else if (holidayDate) {
+        
+        row.innerHTML = `
+            <!-- Your HTML structure for a matching leave -->
+           
+            <td style="background-color: #db441a;color:white;" class="text-center">${day}</td>
+            <td style="background-color: #db441a; color:white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+                ${aligndate} - ${dayName}
+            </td>
+            <td colspan="10" class="text-center" style="background-color: #db441a; color:white; ">${holidayDate.reason}</td>
+        
+        `;
+        // Add the row to your table (assuming you have a table with id 'tableBody')
+        holiday++;
+        dailyTally++;
+// Set the total punched days in the th element  totallop
+document.getElementById('holiday').textContent = ` ${holiday}`; 
+sessionStorage.setItem('holiday', holiday);
+   
+}
+
+   
+else if (matchingDetails) {
+
+            var workFromTime = new Date();
+var workFromTimeComponents = matchingDetails.work_frm.split(':');
+
+// Set hours, minutes, and seconds
+workFromTime.setHours(Number(workFromTimeComponents[0]));
+workFromTime.setMinutes(Number(workFromTimeComponents[1]));
+workFromTime.setSeconds(Number(workFromTimeComponents[2]));
+
+// Check if the date is valid
+if (isNaN(workFromTime)) {
+    // console.error('Invalid date format');
+    // Handle the error or return from the function
+}
+
+// Now you can use workFromTime as needed
+// console.log('Work From Time:', workFromTime);
+
+
+var clockinTime = new Date();
+var clockinTimeComponents = matchingDetails.clk_in_tm.split(':');
+
+// Set hours, minutes, and seconds
+clockinTime.setHours(Number(clockinTimeComponents[0]));
+clockinTime.setMinutes(Number(clockinTimeComponents[1]));
+clockinTime.setSeconds(Number(clockinTimeComponents[2]));
+
+// Check if the date is valid
+if (isNaN(clockinTime)) {
+    // console.error('Invalid date format');
+    // Handle the error or return from the function            
+}
+
+// Now you can use workFromTime as needed
+// console.log('clockin Time:', clockinTime);
+
+// Calculate the late difference in milliseconds
+var lateDifferenceMilliseconds = clockinTime - workFromTime;
+lateDifferenceMilliseconds = Math.max(lateDifferenceMilliseconds, 0);
+
+// Ensure the difference is positive (i.e., clockinTime is later than workFromTime)
+if (lateDifferenceMilliseconds < 0) {
+    // console.error('Invalid time difference');
+    // Handle the error or return from the function
+}
+
+// Convert the difference to hours, minutes, and seconds
+var lateDifferenceSeconds = Math.floor(lateDifferenceMilliseconds / 1000);
+var lateDifferenceHours = Math.floor(lateDifferenceSeconds / 3600);
+var lateDifferenceMinutes = Math.floor((lateDifferenceSeconds % 3600) / 60);
+
+// Format the late difference
+var formattedLateDifference = `${('0' + lateDifferenceHours).slice(-2)}:${('0' + lateDifferenceMinutes).slice(-2)}:00`;
+
+// Now you can use formattedLateDifference as needed
+// console.log('Late hjgkjukigy Difference:', lateDifferenceHours);
+    // Update total late difference
+    totalLateDifferenceHours += lateDifferenceHours;
+    totalLateDifferenceMinutes += lateDifferenceMinutes;
+
+    // Display the formattedLateDifference for each day
+    // console.log(`Late Difference for ${formattedDate}: ${formattedLateDifference}`);
+
+//calculate the early by...
+
+var worktoTime = new Date();
+var worktoTimeComponents = matchingDetails.work_to.split(':');
+
+// Set hours, minutes, and seconds
+worktoTime.setHours(Number(worktoTimeComponents[0]));
+worktoTime.setMinutes(Number(worktoTimeComponents[1]));
+worktoTime.setSeconds(Number(worktoTimeComponents[2]));
+
+// Check if the date is valid
+if (isNaN(worktoTime)) {
+    // console.error('Invalid date format');
+    // Handle the error or return from the function
+}
+
+// Now you can use workFromTime as needed
+// console.log('Work to Time:', worktoTime);
+
+
+var clockoutTime = new Date();
+var clockoutTimeComponents = matchingDetails.clk_out_tm.split(':');
+
+// Set hours, minutes, and seconds
+clockoutTime.setHours(Number(clockoutTimeComponents[0]));
+clockoutTime.setMinutes(Number(clockoutTimeComponents[1]));
+clockoutTime.setSeconds(Number(clockoutTimeComponents[2]));
+
+// Check if the date is valid
+if (isNaN(clockoutTime)) {
+    // console.error('Invalid date format');
+    // Handle the error or return from the function
+}
+
+// Now you can use workFromTime as needed
+// console.log('clock out Time:', clockoutTime);
+
+// Calculate the late difference in milliseconds
+var earlyDifferenceMilliseconds = worktoTime - clockoutTime;
+earlyDifferenceMilliseconds = Math.max(earlyDifferenceMilliseconds, 0);
+
+
+
+// Ensure the difference is positive (i.e., clockinTime is later than workFromTime)
+if (earlyDifferenceMilliseconds < 0) {
+    // console.error('Invalid time difference');
+    // Handle the error or return from the function
+}
+
+// Convert the difference to hours, minutes, and seconds
+var earlyDifferenceSeconds = Math.floor(earlyDifferenceMilliseconds / 1000);
+var earlyDifferenceHours = Math.floor(earlyDifferenceSeconds / 3600);
+var earlyDifferenceMinutes = Math.floor((earlyDifferenceSeconds % 3600) / 60);
+
+// Format the late difference
+var formattedEarlyDifference = `${('0' + earlyDifferenceHours).slice(-2)}:${('0' + earlyDifferenceMinutes).slice(-2)}:00`;
+
+// Now you can use formattedLateDifference as needed
+// console.log('Early hgjuhgjkhu Difference:', earlyDifferenceHours);
+
+totalEarlyDifferenceHours += earlyDifferenceHours;
+    totalEarlyDifferenceMinutes += earlyDifferenceMinutes;
+
+    // Display the formattedLateDifference for each day
+    // console.log(`Early Difference for ${formattedDate}: ${formattedEarlyDifference}`);
+
+
+    if ( earlyDifferenceHours >= 4) {
+        var recordId = matchingDetails.id;
+        row.innerHTML = `
+            
+            <td colspan="10" class="text-center" style="background-color:  #ff6600; color: white;">Missed-to-clock-in</td>
+           
+        `;
+
+      
+        // Create a new row for the second part
+        var row1 = document.createElement('tr');
+
+
+        var totalHours = matchingDetails.tot_hr;
+console.log("totalHours", totalHours);
+
+var timeComponents1 = totalHours.split(':'); // Splitting the formatted time string by ':'
+
+console.log("timeComponents", timeComponents1);
+
+var hours = parseInt(timeComponents1[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents1[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime);
+
+
+
+
+// var total_hours =matchingDetails.tot_hr;
+// console.log("total_hours",total_hours)
+// var totalHours =total_hours.split(':'); // Splitting the formatted time string by ':'
+// console.log("timeComponents", totalHours);
+
+// var hours = parseInt(totalHours[0]);
+// console.log("hours", hours);
+// var minutes = parseInt(totalHours[1]);
+// console.log("minutes", minutes);
+
+
+
+// var Hourss = hours + "h " + minutes + "min";
+
+// console.log("Hours", Hourss);
+
+
+
+
+
+
+
+ // Assuming formattedLateDifference contains time difference in minutes
+ var timeComponents = formattedLateDifference.split(':'); // Splitting the formatted time string by ':'
+console.log("timeComponents", timeComponents);
+
+var hours = parseInt(timeComponents[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime1 = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime1);
+
+
+
+var timeComponents1 = formattedEarlyDifference.split(':'); // Splitting the formatted time string by ':'
+console.log("timeComponents", timeComponents1);
+
+var hours = parseInt(timeComponents1[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents1[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime2 = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime2);
+
+
+
+        row1.innerHTML = `
+
+        
+        
+        <td rowspan="2" style="background-color:  #ff6600; color: white;" class="text-center">${day}</td>
+            <td rowspan="2" style="background-color:  #ff6600; color: white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+                ${aligndate} - ${dayName}
+            </td>
+
+
+
+            <td class="text-center" style="background-color:#ff6600;">${convertTo12HourFormat(matchingDetails.clk_in_tm)}</td>
+    <td class="text-center" style="background-color:#ff6600;">${convertTo12HourFormat(matchingDetails.clk_out_tm)}</td>
+    <td class="text-center" style="background-color:#ff6600;">${formattedTime}</td>
+    <td class="text-center" style="background-color:#ff6600;">${matchingDetails.clkin_ip}</td>
+    <td class="text-center" style="background-color:#ff6600;">${matchingDetails.clkout_ip}</td>
+    <td class="text-center" style="background-color:#ff6600;">${formattedTime1}</td>
+    <td class="text-center" style="background-color:#ff6600;">${formattedTime2}</td>
+    <td class="text-center" style="background-color:#ff6600;">--</td>
+    <td class="text-center" style="background-color:#ff6600;">--</td>
+    <td class="text-center" style="background-color:#ff6600;">
+        <button class="btn bg-primary attendance-button" onclick="openEditModal(${selectedYear}, ${selectedMonth + 1}, ${day})">
+            <i class="fa-solid fa-pen-to-square"></i>
+        </button>&nbsp;&nbsp;&nbsp;
+        <button class="btn bg-danger attendance-button" onclick="deleteRecord(${recordId})">
+            <i class="fa-solid fa-trash-can"></i>
+        </button>
+    </td>
+
+
+        `;
+        halfdaymissed ++;
+        dailyTally++;
+
+        // Append the second row to the table body
+        $('#tableBody').append(row1);
+
+
+    // Display information about missed clock-in
+    // console.log(`Missed Clock-in for ${formattedDate}: ${matchingDetails}`);
+    document.getElementById("halfdaymissed").textContent = ` ${halfdaymissed + halflopmissed + halfmissed +halfodmissed}`;
+    sessionStorage.setItem('halfdaymissed', halfdaymissed);
+    // You can add additional code to display this information in your HTML or handle it as needed
+}
+
+else if ( lateDifferenceHours >= 4) {
+    var recordId = matchingDetails.id;
+row.innerHTML = `
+    
+    <td colspan="10" class="text-center" style="background-color:  #ff6600; color: white;">Missed-to-clock-in</td>
+    
+`;
+
+
+// Create a new row for the second part
+var row1 = document.createElement('tr');
+
+
+var totalHours = matchingDetails.tot_hr;
+console.log("totalHours", totalHours);
+
+var timeComponents1 = totalHours.split(':'); // Splitting the formatted time string by ':'
+
+console.log("timeComponents", timeComponents1);
+
+var hours = parseInt(timeComponents1[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents1[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime);
+
+
+
+
+ // Assuming formattedLateDifference contains time difference in minutes
+ var timeComponents = formattedLateDifference.split(':'); // Splitting the formatted time string by ':'
+console.log("timeComponents", timeComponents);
+
+var hours = parseInt(timeComponents[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime1 = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime1);
+
+
+
+var timeComponents1 = formattedEarlyDifference.split(':'); // Splitting the formatted time string by ':'
+console.log("timeComponents", timeComponents1);
+
+var hours = parseInt(timeComponents1[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents1[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime2 = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime2);
+
+
+
+row1.innerHTML = `
+
+
+
+<td rowspan="2" style="background-color:  #ff6600; color: white;" class="text-center">${day}</td>
+    <td rowspan="2" style="background-color:  #ff6600; color: white;" class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+        ${aligndate} - ${dayName}
+    </td>
+
+
+
+    <td class="text-center" style="background-color:#ff6600;">${convertTo12HourFormat(matchingDetails.clk_in_tm)}</td>
+<td class="text-center" style="background-color:#ff6600;">${matchingDetails.clk_out_tm}</td>
+<td class="text-center" style="background-color:#ff6600;">${formattedTime}</td>
+<td class="text-center" style="background-color:#ff6600;">${matchingDetails.clkin_ip}</td>
+<td class="text-center" style="background-color:#ff6600;">${matchingDetails.clkout_ip}</td>
+<td class="text-center" style="background-color:#ff6600;">${formattedTime1}</td>
+<td class="text-center" style="background-color:#ff6600;">${formattedTime2}</td>
+<td class="text-center" style="background-color:#ff6600;">--</td>
+<td class="text-center" style="background-color:#ff6600;">--</td>
+<td class="text-center" style="background-color:#ff6600;">
+<button class="btn bg-primary attendance-button" onclick="openEditModal(${selectedYear}, ${selectedMonth + 1}, ${day})">
+    <i class="fa-solid fa-pen-to-square"></i>
+</button>&nbsp;&nbsp;&nbsp;
+<button class="btn bg-danger attendance-button" onclick="deleteRecord(${recordId})">
+    <i class="fa-solid fa-trash-can"></i>
+</button>
+</td>
+
+
+`;
+halfdaymissed++;
+dailyTally++;
+
+// Append the second row to the table body
+$('#tableBody').append(row1);
+
+
+// Display information about missed clock-in
+// console.log(`Missed Clock-in for ${formattedDate}: ${matchingDetails}`);
+// You can add additional code to display this information in your HTML or handle it as needed
+document.getElementById("halfdaymissed").textContent = ` ${halfdaymissed}`;
+sessionStorage.setItem('halfdaymissed', halfdaymissed);
+
+}
+
+
+
+else {
+   
+
+
+
+var recordId = matchingDetails.id;
+var userid = matchingDetails.clk_in_tm;
+var user_Id = matchingDetails.user_id;
+var mnth = matchingDetails.mnth;
+var yr = matchingDetails.yr;
+
+
+
+// Get the total hours value from '${matchingDetails.tot_hr}'
+// Assuming 'matchingDetails.tot_hr' contains the total hours value
+
+// Get the total hours value from 'matchingDetails.tot_hr'
+
+
+// var totalHours = matchingDetails.tot_hr;
+// console.log("totalHours", totalHours);
+
+// // Calculate the hours and minutes
+// var hours = Math.floor(totalHours);
+// var minutes = Math.round((totalHours - hours) * 60);
+
+// // Adjust minutes if it exceeds 59
+// if (minutes === 60) {
+//     hours++;
+//     minutes = 0;
+// }
+
+// // Format the result
+// var formattedTime = hours + "h " + minutes + "min";
+
+// // Now you can use 'formattedTime' wherever you need to display the formatted value
+// console.log("formattedTime:", formattedTime); // Example: "5h 30min"
+var totalHours = matchingDetails.tot_hr;
+console.log("totalHours", totalHours);
+
+var timeComponents1 = totalHours.split(':'); // Splitting the formatted time string by ':'
+
+console.log("timeComponents", timeComponents1);
+
+var hours = parseInt(timeComponents1[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents1[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime);
+
+
+
+
+
+ // Assuming formattedLateDifference contains time difference in minutes
+ var timeComponents = formattedLateDifference.split(':'); // Splitting the formatted time string by ':'
+console.log("timeComponents", timeComponents);
+
+var hours = parseInt(timeComponents[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime1 = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime1);
+
+
+
+var timeComponents1 = formattedEarlyDifference.split(':'); // Splitting the formatted time string by ':'
+console.log("timeComponents", timeComponents1);
+
+var hours = parseInt(timeComponents1[0]);
+console.log("hours", hours);
+var minutes = parseInt(timeComponents1[1]);
+console.log("minutes", minutes);
+
+
+
+var formattedTime2 = hours + "h " + minutes + "min";
+
+console.log("formattedTime1", formattedTime2);
+
+
+// Populate attendance details in the row
+row.innerHTML = `
+
+    <td class="text-center" style="background-color:white;">${day}</td>
+    <td class="text-center ${dayName === 'Sun' ? 'sunday' : ''}" style="background-color:white;">
+        ${aligndate} - ${dayName}
+    </td>
+    <td class="text-center" style="background-color:white;">${convertTo12HourFormat(matchingDetails.clk_in_tm)}</td>
+    <td class="text-center" style="background-color:white;">${convertTo12HourFormat(matchingDetails.clk_out_tm)}</td>
+    <td class="text-center" style="background-color:white;">${formattedTime}</td>
+    <td class="text-center" style="background-color:white;">${matchingDetails.clkin_ip}</td>
+    <td class="text-center" style="background-color:white;">${matchingDetails.clkout_ip}</td>
+    <td class="text-center" style="background-color:white;">${formattedTime1}</td>
+    <td class="text-center" style="background-color:white;">${formattedTime2}</td>
+    <td class="text-center" style="background-color:white;">--</td>
+    <td class="text-center" style="background-color:white;">--</td>
+    <td class="text-center" style="background-color:white;">
+        <button class="btn bg-primary attendance-button" onclick="openEditModal(${selectedYear}, ${selectedMonth + 1}, ${day})">
+            <i class="fa-solid fa-pen-to-square"></i>
+        </button>&nbsp;&nbsp;&nbsp;
+        <button class="btn bg-danger attendance-button" onclick="deleteRecord(${recordId})">
+            <i class="fa-solid fa-trash-can"></i>
+        </button>
+    </td>
+    
+`;
+
+totalPunchedDays++;
+dailyTally++;
+// Set the total punched days in the th element  totallop
+document.getElementById('totalPunchedDays').textContent = ` ${totalPunchedDays}`;
+
+sessionStorage.setItem('totalPunchedDays', totalPunchedDays);
+
+}
+
+} 
+
+   
+    else {
+        // If no attendance details are available for the day, display empty cells
+        row.innerHTML = `
+        
+            <td class="text-center">${day}</td>
+            <td class="text-center ${dayName === 'Sun' ? 'sunday' : ''}">
+                ${aligndate} - ${dayName}
+            </td>
+            <td colspan="9" class="text-center">Missed-to-clock-in</td>
+            <td class="text-center">
+                <button type="button" class="attendance-button addInOutButton" onclick="showPopup(${selectedYear}, ${selectedMonth + 1}, ${day})">Add In/Out</button>
+            </td>
+            
+        `;
+        totalMissedClockInDays++;
+        dailyTally++;
+
+
+        // Retrieve the values from session storage
+
+
+ 
+
+        // Set the total missed clock-in days in the th element
+        document.getElementById('totalMissedClockInDays').textContent = ` ${totalMissedClockInDays}`;
+    }
+    
+    tally += dailyTally;
+    document.getElementById('tally').textContent = ` ${tally}`;
+    
+
+function convertTo12HourFormat(timeString) {
+    // Create a new Date object with a fixed date (e.g., '1970-01-01') and the time string
+    var dateObject = new Date('1970-01-01 ' + timeString);
+
+    // Format the time in 12-hour format
+    var formattedTime = dateObject.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+
+    return formattedTime;
+}
+
+
+$('#tableBody').append(row);
+
+
+var totalPunchedDays = sessionStorage.getItem('totalPunchedDays');
+var holiday = sessionStorage.getItem('holiday');
+var matchingLeavesCount = sessionStorage.getItem('matchingLeavesCount');
+var halfdaymissed = sessionStorage.getItem('halfdaymissed');
+var Halflop = sessionStorage.getItem('Halflop');
+
+var totalDays = sessionStorage.getItem('totalDays');
+
+var od = sessionStorage.getItem('od');
+var clCount = sessionStorage.getItem('clCount');
+
+var halfdayod = sessionStorage.getItem('halfdayod');
+
+var halfdaycl = sessionStorage.getItem('halfdaycl');
+
+
+// // Convert retrieved values to numbers
+totalPunchedDays = parseInt(totalPunchedDays) || 0;
+// console.log("totalPunchedDays",totalPunchedDays)
+holiday = parseInt(holiday) || 0;
+matchingLeavesCount = parseInt(matchingLeavesCount) || 0;
+halfdaymissed = parseInt(halfdaymissed) || 0;
+Halflop = parseInt(Halflop) || 0;
+totalDays = parseInt(totalDays) || 0;
+
+od = parseInt(od) || 0;
+clCount = parseInt(clCount) || 0;
+
+halfdayod = parseInt(halfdayod) || 0;
+// console.log("halfdayod",halfdayod)
+
+halfdaycl = parseInt(halfdaycl) || 0;
+// console.log("halfdaycl",halfdaycl)
+// console.log("halfdayod",halfdayod)
+
+// console.log("halfdaycl",halfdaycl)
+
+
+
+
+var total= totalPunchedDays + holiday + matchingLeavesCount + halfdaymissed + Halflop + clCount + od + halfdayod + halfdaycl;
+// console.log("total",total)
+// Calculate the total of all values
+var totalMissedClockInDays =  totalDays - total;
+// console.log("totalMissedClockInDays",totalMissedClockInDays)
+
+// Display the total in the desired format
+document.getElementById('totalMissedClockInDays').textContent = ` ${totalMissedClockInDays}`;
+        
+   
+    // Convert totalLateDifferenceMinutes to hours and add to totalLateDifferenceHours
+totalLateDifferenceHours += Math.floor(totalLateDifferenceMinutes / 60);
+totalLateDifferenceMinutes %= 60;
+
+// Format the total late difference
+var totalFormattedLateDifference = `${('0' + totalLateDifferenceHours).slice(-2)} hr : ${('0' + totalLateDifferenceMinutes).slice(-2)} min`;
+
+
+// Display the total late difference
+// console.log(`Total Late Difference for the Month: ${totalFormattedLateDifference}`);
+document.getElementById("tot_late").innerHTML = totalFormattedLateDifference;
+
+
+
+totalEarlyDifferenceHours += Math.floor(totalEarlyDifferenceMinutes / 60);
+totalEarlyDifferenceMinutes %= 60;
+
+// Format the total late difference
+var totalFormattedEarlyDifference = `${('0' + totalEarlyDifferenceHours).slice(-2)} hr :${('0' + totalEarlyDifferenceMinutes).slice(-2)} min`;
+
+// Display the total late difference
+// console.log(`Total Early Difference for the Month: ${totalFormattedEarlyDifference}`);
+document.getElementById("tot_Early").innerHTML = totalFormattedEarlyDifference;
+document.getElementById("earlyclockout").innerHTML = totalFormattedEarlyDifference;
+
+var totalDifferenceHours = totalLateDifferenceHours + totalEarlyDifferenceHours;
+var totalDifferenceMinutes = totalLateDifferenceMinutes + totalEarlyDifferenceMinutes;
+
+// Convert minutes to hours if necessary
+totalDifferenceHours += Math.floor(totalDifferenceMinutes / 60);
+totalDifferenceMinutes %= 60;
+
+// Format the total difference
+var totalFormattedDifference = `${('0' + totalDifferenceHours).slice(-2)} hr : ${('0' + totalDifferenceMinutes).slice(-2)} min`;
+
+// Display the total difference
+// console.log(`Total Difference between Late and Early for the Month: ${totalFormattedDifference}`);
+document.getElementById("totalFormattedDifference").innerHTML = totalFormattedDifference;
+}
+
+}
+
+
+// Assuming you have the userId stored in sessionStorage beforehand
+
+// Get stored userId from sessionStorage
+async function fetchData() {
+    // Assuming you have the userId stored in sessionStorage beforehand
+    // Get stored userId from sessionStorage
+    var storedUserId = sessionStorage.getItem('userId');
+    var storeMonth = sessionStorage.getItem('selectedMonthh'); // Corrected to 'selectedMonthh'
+    var storeYear = sessionStorage.getItem('selectedYear');
+    // sessionStorage.removeItem('selectedMonthText');
+var storeMonthname = sessionStorage.getItem('selectedMonthText');
+console.log("uyuiyugfugu", storeMonthname);
+
+    // Check if userId is present
+    if (storedUserId && storeMonthname && storeYear) {
+        try {
+            
+
+            // Fetch attendance and lop data asynchronously using the stored userId
+            var attendanceDetailsArray = await fetchAttendanceDetails(storedUserId );
+            var lopDetailsArray = await fetchlopdata(storedUserId, storeMonth, storeYear);
+            var clDetailsArray = await fetchcldata(storedUserId, storeMonth, storeYear);
+            var halflopDetailsArray = await fetchhalflop(storedUserId);
+            var odDetailsArray = await fetchod(storedUserId , storeMonth, storeYear);
+            var halfclDetailsArray = await fetchHalfcl(storedUserId);
+            var halfodDetailsArray = await fetchHalfod(storedUserId);
+
+            var holidayDetailsArray = await fetchHoliday(storeMonthname, storeYear);
+
+            // console.log("attendanceDetailsArray", attendanceDetailsArray);
+            // console.log("lopDetailsArray", lopDetailsArray );
+            // console.log("clDetailsArray", clDetailsArray);
+            // console.log("halflopDetailsArray", halflopDetailsArray);
+            // console.log("odDetailsArray", odDetailsArray);
+            // console.log("halfclDetailsArray", halfclDetailsArray);
+            // console.log("halfodDetailsArray", halfodDetailsArray);
+
+            // console.log("holidayDetailsArray", holidayDetailsArray);
+
+            // Update the table with attendance and lop details
+            updateTable(attendanceDetailsArray, null, lopDetailsArray, null, clDetailsArray, null, halflopDetailsArray, null, odDetailsArray, null, halfclDetailsArray, null, halfodDetailsArray, null, holidayDetailsArray, null);
+            updateMonthYearHeading();
+        } catch (error) {
+            // console.error('Error fetching data:', error);
+        }
+    } else {
+        // console.log('No userId found in sessionStorage.');
+    }
+}
+
+// Call the async function to start the process
+fetchData();
+
+
+
+
+
+// Define a function to fetch attendance details
+function fetchAttendanceDetails(storedUserId) {
+    return new Promise(function (resolve, reject) {
+        // Make an AJAX request to fetch additional data from bkattendance
+        $.ajax({
+            url: '/fetch_attendance/',  // Update to your actual endpoint
+            method: 'GET',  // Use GET method
+            data: { user_id: storedUserId },
+
+            success: function (attendanceResponse) {
+                // Check if the response contains an error
+                if (attendanceResponse && attendanceResponse.error) {
+                    reject(new Error('Error fetching attendance data: ' + attendanceResponse.error));
+                } else {
+                    resolve(attendanceResponse.attendance_details);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                reject(new Error('Error fetching attendance data:' + errorThrown));
+            }
+        });
+    });
+
+
+}
+
+
+function fetchlopdata(storedUserId , storeMonth  ,storeYear ) {
+    return new Promise(function (resolve, reject) {
+        // Make an AJAX request to fetch additional data from bkattendance
+        $.ajax({
+            url: '/fetch_user_data/',  // Update to your actual endpoint
+            method: 'GET',  // Use GET method
+            data: { user_id: storedUserId, mnth: storeMonth  , yr: storeYear },
+
+            success: function (leaveResponse) {
+                // Check if the response contains an error
+                if (leaveResponse && leaveResponse.error) {
+                    reject(new Error('Error fetching leaveResponse data: ' + leaveResponse.error));
+                } else {
+                    resolve(leaveResponse.lop_details);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                reject(new Error('Error fetching leaveResponse data:' + errorThrown));
+            }
+        });
+    });
+
+
+}
+
+function fetchcldata(storedUserId, storeMonth  ,storeYear) {
+    return new Promise(function (resolve, reject) {
+        // Make an AJAX request to fetch additional data from bkattendance
+        $.ajax({
+            url: '/fetch_cl/',  // Update to your actual endpoint
+            method: 'GET',  // Use GET method
+            data: { user_id: storedUserId, mnth: storeMonth  , yr: storeYear },
+
+            success: function (clResponse) {
+                // Check if the response contains an error
+                if (clResponse && clResponse.error) {
+                    reject(new Error('Error fetching clResponse data: ' + clResponse.error));
+                } else {
+                    resolve(clResponse.lop_details);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                reject(new Error('Error fetching clResponse data:' + errorThrown));
+            }
+        });
+    });
+
+
+}
+
+
+
+
+
+function fetchhalflop(storedUserId) {
+    return new Promise(function (resolve, reject) {
+        // Make an AJAX request to fetch additional data from bkattendance
+        $.ajax({
+            url: '/fetch_halflop/',  // Update to your actual endpoint
+            method: 'GET',  // Use GET method
+            data: { user_id: storedUserId },
+
+            success: function (halflopResponse) {
+                // Check if the response contains an error
+                if (halflopResponse && halflopResponse.error) {
+                    reject(new Error('Error fetching halflopResponse data: ' + halflopResponse.error));
+                } else {
+                    resolve(halflopResponse.halflop_details);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                reject(new Error('Error fetching clResponse data:' + errorThrown));
+            }
+        });
+    });
+
+
+}
+
+function fetchod(storedUserId , storeMonth  ,storeYear) {
+    return new Promise(function (resolve, reject) {
+        // Make an AJAX request to fetch additional data from bkattendance
+        $.ajax({
+            url: '/fetch_od/',  // Update to your actual endpoint
+            method: 'GET',  // Use GET method
+            data: { user_id: storedUserId  , mnth: storeMonth  , yr: storeYear },
+
+            success: function (odResponse) {
+                // Check if the response contains an error
+                if (odResponse && odResponse.error) {
+                    reject(new Error('Error fetching odResponse data: ' + odResponse.error));
+                } else {
+                    resolve(odResponse.od_details);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                reject(new Error('Error fetching clResponse data:' + errorThrown));
+            }
+        });
+    });
+
+
+}
+
+function fetchHalfcl(storedUserId) {
+    return new Promise(function (resolve, reject) {
+        // Make an AJAX request to fetch additional data from bkattendance
+        $.ajax({
+            url: '/fetch_halfcl/',  // Update to your actual endpoint
+            method: 'GET',  // Use GET method
+            data: { user_id: storedUserId },
+
+            success: function (halfclResponse) {
+                // Check if the response contains an error
+                if (halfclResponse && halfclResponse.error) {
+                    reject(new Error('Error fetching halfclResponse data: ' + halfclResponse.error));
+                } else {
+                    resolve(halfclResponse.halfcl_details);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                reject(new Error('Error fetching clResponse data:' + errorThrown));
+            }
+        });
+    });
+
+
+}
+
+
+function fetchHalfod(storedUserId) {
+    return new Promise(function (resolve, reject) {
+        // Make an AJAX request to fetch additional data from bkattendance
+        $.ajax({
+            url: '/fetch_halfod/',  // Update to your actual endpoint
+            method: 'GET',  // Use GET method
+            data: { user_id: storedUserId },
+
+            success: function (halfodResponse) {
+                // Check if the response contains an error
+                if (halfodResponse && halfodResponse.error) {
+                    reject(new Error('Error fetching halfodResponse data: ' + halfodResponse.error));
+                } else {
+                    resolve(halfodResponse.halfod_details);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                reject(new Error('Error fetching halfodResponse data:' + errorThrown));
+            }
+        });
+    });
+
+
+}
+
+function fetchHoliday(storeMonthname , storeYear) {
+   
+    return new Promise(function (resolve, reject) {
+        // Make an AJAX request to fetch additional data from bkattendance
+        $.ajax({
+            url: '/fetch_holiday/',  // Update to your actual endpoint
+            method: 'GET',  // Use GET method
+            data: { mnth :  storeMonthname  ,yr: storeYear},
+
+            success: function (haolidayResponse) {
+                // Check if the response contains an error
+                if (haolidayResponse && haolidayResponse.error) {
+                    reject(new Error('Error fetching haolidayResponse data: ' + haolidayResponse.error));
+                } else {
+                    resolve(haolidayResponse.holiday_details);
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                reject(new Error('Error fetching haolidayResponse data:' + errorThrown));
+            }
+        });
+    });
+
+
+}
+
+
+
+
+
+// Helper function to get the number of days in a month
+function getDaysInMonth(year, month) {
+    return new Date(year, month + 1, 0).getDate();
+}
+
+// Example functions for edit and add attendance
+
+
+
+
+// Helper function to get the number of days in a month
+function getDaysInMonth(year, month) {
+    return new Date(year, month + 1, 0).getDate();
+}
+
+
+
+       // Attach event listeners to the dropdowns
+yearDropdown.addEventListener('change', function () {
+    // Update selected year when the dropdown changes
+    selectedYear = parseInt($('#yearDropdown').val());
+
+    sessionStorage.setItem('selectedYear', selectedYear);
+    updateTable();
+    updateMonthYearHeading();
+    fetchData();
+
+   
+});
+
+
+// Retrieve the selected year from session storage and remove it
+var selectedYear = sessionStorage.getItem('selectedYear');
+sessionStorage.removeItem('selectedYear');
+console.log("selectedYear ", selectedYear);
+
+// Assuming 'yearDropdown' is your dropdown element
+var yearDropdown = document.getElementById('yearDropdown');
+
+// Loop through options and select the one matching the retrieved value
+for (var i = 0; i < yearDropdown.options.length; i++) {
+    if (yearDropdown.options[i].value === selectedYear) {
+        yearDropdown.options[i].selected = true;
+        break; // Stop loop once matched option is found
+    }
+}
+
+
+// Retrieve the selected month from session storage and remove it
+var selectedMonth = sessionStorage.getItem('selectedMonthh');
+sessionStorage.removeItem('selectedMonthh);');
+console.log("selectedMonth", selectedMonth);
+
+
+// Assuming 'monthDropdown' is your month dropdown element
+var monthDropdown = document.getElementById('monthDropdown');
+
+// Loop through options and select the one matching the retrieved value
+for (var j = 0; j < monthDropdown.options.length; j++) {
+    if (monthDropdown.options[j].value === selectedMonth) {
+        monthDropdown.options[j].selected = true;
+        break; // Stop loop once matched option is found
+    }
+}
+
+
+
+
+monthDropdown.addEventListener('change', function (load) {
+    // Update selected month when the dropdown changes
+    selectedMonth = parseInt($('#monthDropdown').val()) - 1;
+    var selectedMonthh = selectedMonth + 1;
+
+    updateTable();
+    updateMonthYearHeading();
+    fetchData();
+
+    
+});
+
+        // Initial table update and heading update
+        updateTable();
+        updateMonthYearHeading();
+
+function updateMonthYearHeading() {
+        var selectedMonth = monthDropdown.options[monthDropdown.selectedIndex].text;
+        var selectedYear = yearDropdown.options[yearDropdown.selectedIndex].text;
+
+        monthYearHeading.textContent = ` ${selectedMonth} : ${selectedYear}`;
+
+        
+    }
+
+
+    
+
+
+    });
+
+    
+    
+</script>
+
+<script>
+    function deleteRecord(recordId) {
+        if (!recordId) {
+            alert('Invalid record ID');
+            return;
+        }
+    
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var csrftoken = getCookie('csrftoken');
+    
+                fetch(`/delete_record/${recordId}/`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken,
+                    },
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // console.log(data);
+                    Swal.fire(
+                        'Deleted!',
+                        'Your record has been deleted.',
+                        'success'
+                    ).then(() => {
+                        location.reload();
+                    });
+                })
+                .catch(error => {
+                    // console.error('There was a problem with the fetch operation:', error);
+                    Swal.fire(
+                        'Error!',
+                        'There was an error deleting the record.',
+                        'error'
+                    );
+                });
+            } else {
+                Swal.fire(
+                    'Cancelled',
+                    'Your data is safe :)',
+                    'info'
+                ).then(() => {
+                    location.reload();
+                });
+            }
+        });
+    }
+    </script>
+<script>
+    function openEditModal(year, month, day) {
+        var modal = document.getElementById('editModal');
+        var modalContent = document.querySelector('.modal-contentt');
+        var formattedDate = `${year}-${month}-${day}`; // You may need to format the date as needed
+
+        var currentDate = new Date(formattedDate);
+
+// Get day, month, and year
+var day = currentDate.getDate();
+var month = currentDate.toLocaleString('default', { month: 'long' }); // full month name
+var year = currentDate.getFullYear().toString().substring(0, 4); // first three letters of the year
+
+// Concatenate them in the desired format
+var formattedDateStr = day + " " + month.substring(0, 3) + " " + year;
+
+// Output the formatted date
+console.log("Formatted Date:", formattedDateStr);
+        // Update modal content with fetched details
+        modalContent.innerHTML = `
+    <div class="box">
+        <span class="close" onclick="closeEditModal()">&times;</span>
+        <h4>Update In/Out Time</h4>
+        <hr>
+        <div>
+            <label class="form-label">Date</label>
+            <input type="text" style="display:none;" class="form-control" value="${formattedDate}" readonly>
+            <input type="text" class="form-control" value="${formattedDateStr}" readonly>
+        </div><br>
+        <div>
+            <label class="form-label">In Time</label>
+            <select style="width: 10%; padding: 2px; border-radius: 5px;border-color: #b8bdbe" id="inTime" name="inTime">
+                <option value="" selected disabled>--</option>
+                <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+                <!-- Add other options as needed -->
+            </select>
+            <select id="numberSelect" style="width: 10%; padding: 2px; border-radius: 5px; border-color: #b8bdbe" name="numberSelect">
+                <option value="" selected disabled>--</option>
+                <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
+        <option value="25">25</option>
+        <option value="26">26</option>
+        <option value="27">27</option>
+        <option value="28">28</option>
+        <option value="29">29</option>
+        <option value="30">30</option>
+        <option value="31">31</option>
+        <option value="32">32</option>
+        <option value="33">33</option>
+        <option value="34">34</option>
+        <option value="35">35</option>
+        <option value="36">36</option>
+        <option value="37">37</option>
+        <option value="38">38</option>
+        <option value="39">39</option>
+        <option value="40">40</option>
+        <option value="41">41</option>
+        <option value="42">42</option>
+        <option value="43">43</option>
+        <option value="44">44</option>
+        <option value="45">45</option>
+        <option value="46">46</option>
+        <option value="47">47</option>
+        <option value="48">48</option>
+        <option value="49">49</option>
+        <option value="50">50</option>
+        <option value="51">51</option>
+        <option value="52">52</option>
+        <option value="53">53</option>
+        <option value="54">54</option>
+        <option value="55">55</option>
+        <option value="56">56</option>
+        <option value="57">57</option>
+        <option value="58">58</option>
+        <option value="59">59</option>
+        <option value="00">00</option>
+            </select>
+            <select style="width: 10%; padding: 2px; border-radius: 5px; border-color: #b8bdbe;" name="workfrom_period" id="workfrom_period">
+                <option value="AM">AM</option>
+                <option value="PM" >PM</option>
+            </select>
+        </div>
+        <div>
+            <label class="form-label">Out Time</label>
+            <select style="width: 10%; padding: 2px; border-radius: 5px;border-color: #b8bdbe" id="outTime" name="outTime">
+                <option value="" selected disabled>--</option>
+                <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+                <!-- Add options for Out Time -->
+            </select>
+            <select id="worktoSelect" style="width: 10%; padding: 2px; border-radius: 5px;border-color: #b8bdbe" name="worktoSelect">
+                <option value="" selected disabled>--</option>
+                <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
+        <option value="25">25</option>
+        <option value="26">26</option>
+        <option value="27">27</option>
+        <option value="28">28</option>
+        <option value="29">29</option>
+        <option value="30">30</option>
+        <option value="31">31</option>
+        <option value="32">32</option>
+        <option value="33">33</option>
+        <option value="34">34</option>
+        <option value="35">35</option>
+        <option value="36">36</option>
+        <option value="37">37</option>
+        <option value="38">38</option>
+        <option value="39">39</option>
+        <option value="40">40</option>
+        <option value="41">41</option>
+        <option value="42">42</option>
+        <option value="43">43</option>
+        <option value="44">44</option>
+        <option value="45">45</option>
+        <option value="46">46</option>
+        <option value="47">47</option>
+        <option value="48">48</option>
+        <option value="49">49</option>
+        <option value="50">50</option>
+        <option value="51">51</option>
+        <option value="52">52</option>
+        <option value="53">53</option>
+        <option value="54">54</option>
+        <option value="55">55</option>
+        <option value="56">56</option>
+        <option value="57">57</option>
+        <option value="58">58</option>
+        <option value="59">59</option>
+        <option value="00">00</option>
+            </select>
+            <select style="width: 10%; padding: 2px; border-radius: 5px; border-color: #b8bdbe;" id="workto_period" name="workto_period">
+                <option value="AM">AM</option>
+                <option value="PM" selected>PM</option>
+            </select>
+        </div>
+        <div class="text-center mt-5">
+            <div></div>
+            <div class='mt-3'>
+                <button class="btn btn-primary" onclick="closeEditModal()">Cancel</button>
+                <button class="btn btn-success" onclick="saveChanges('${formattedDate}')">Save</button>
+            </div>
+        </div>
+    </div>
+`;
+
+        // Display the modal
+        modal.style.display = 'block';
+    }
+
+    function closeEditModal() {
+        var modal = document.getElementById('editModal');
+        modal.style.display = 'none';
+    }
+
+
+    function saveChanges(formattedDate) {
+    // Retrieve values from input fields
+    var inTime = document.getElementById("inTime").value;
+    var numberSelect = document.getElementById("numberSelect").value;
+    
+    var workfrom_period = document.getElementById("workfrom_period").value;
+
+
+    var outTime = document.getElementById("outTime").value;
+    var worktoSelect = document.getElementById("worktoSelect").value;
+    var workto_period = document.getElementById("workto_period").value;
+    
+
+    // You might need to adjust the URL based on your project structure
+    var url = `/edit_attendance/${formattedDate}/`;
+
+    // Get the CSRF token from the cookie (assuming it's present)
+    var csrftoken = getCookie('csrftoken');  // Make sure getCookie is defined
+
+    // Perform AJAX request
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken,
+        },
+        body: JSON.stringify({
+            in_time: inTime,
+                        number_Select:numberSelect,
+                        workfromperiod:workfrom_period,
+
+                        out_time: outTime,
+                        workto_Select:worktoSelect,
+                        worktoperiod:workto_period,
+        }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        // console.log(data);  // You can handle the response as needed
+        Swal.fire({
+            title: "Success",
+            text: "Attendance Edit Successfully!",
+            icon: "success",
+        }).then(() => {
+        // Reload the page after the user clicks "OK" in the Swal modal
+        location.reload();
+    });
+    
+        
+        // // closeEditModal();   // Close the modal after a successful save
+        // location.reload();
+    })
+
+    
+    .catch(error => {
+        // console.error('Error:', error);
+        // Handle errors if needed
+        Swal.fire({
+        title: "Error!",
+        text: `Failed to edit attendance..!`, // Display the specific error message
+        icon: "error",
+        confirmButtonText: "OK",
+    });
+    });
+}
+
+
+// Function to get CSRF token from cookie
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Check if the cookie name matches with the CSRF token name
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+    // Close the modal if the user clicks outside of it
+    window.onclick = function(event) {
+        var modal = document.getElementById('editModal');
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+</script>
+
+
+
+
+ </div>
+
+ <!-- The modal -->
+<div id="editModal" class="modall">
+    <div class="modal-contentt">
+
+
+    </div>
+  </div>
+
+
+
+</div>
+
+    <table class="table table-sm table-bordered bb mt-3 containersadli">
+        <thead style="background-color: #3f87a6;">
+            <tr>
+                <th class="text-center">SL.NO</th>
+                <th class="text-center">Date</th>
+                <th class="text-center">In</th>
+                <th class="text-center">Out</th>
+                <th class="text-center">Hour</th>
+                <th class="text-center">In Ip</th>
+                <th class="text-center">Out Ip</th>
+                <th class="text-center">Late</th>
+                <th class="text-center">Early By</th>
+                <th class="text-center">Permi.mng</th>
+                <th class="text-center">Permi.evg</th>
+                <th class="text-center">Actions</th>
+                
+    </tr>
+</thead>
+    <!--a week-->
+    <tbody id="tableBody">
+
+    </tbody>
+</table>
+<table  id="example" width="100%"  class="newtable table-bordered" border="2" style="background-color:#7393b5; border: 2px solid rgb(195, 200, 242);" >
+   
+       				<thead>
+                    	<tr style="background-color:#C1E0FF;color:#000" align="center">
+                          <th  colspan="4" style="background-color:#0520a6;color:#FFF"><center><b>Summary</b></center></th>
+                        </tr>
+                        <tr>
+                        <th style="background-color:#506480;color:#FFF"><b>Punched</b></th><th  id="totalPunchedDays"><b>0</b></th>
+                        <th style="background-color:#506480;color:#FFF"><b>Missed to ClockIn</b></th><th id="totalMissedClockInDays"><b>0</b></th></tr>
+                        <tr><th style="background-color:#506480;color:#FFF"><b>CL</b></th><th id="clCount"><b>0</b></th>
+                        <th style="background-color:#506480;color:#FFF"><b>LOP</b></th><th id="matchingLeavesCount"><b>0</b></th></tr>
+                        <tr><th style="background-color:#506480;color:#FFF"><b>Halfday CL (0.5)</b></th><th id="halfdaycl"><b>0</b></th>
+                        <th style="background-color:#506480;color:#FFF"><b>Halfday LOP (0.5)</b></th><th id="matchingHalflop"><b>0</b></th></tr>
+                        <tr><th style="background-color:#506480;color:#FFF"><b>OD </b></th><th id="od"><b>0</b></th>
+                        <th style="background-color:#506480;color:#FFF"><b>Halfday Missed to ClockIn (0.5)</b></th><th id="halfdaymissed"><b>0</b></th></tr>
+                        <tr><th style="background-color:#506480;color:#FFF"><b>Halfday OD (0.5)</b></th><th id="halfdayod"><b>0</b></th>
+                        <th style="background-color:#506480;color:#FFF"><b>Halfday Punched (0.5)</b></th><th id="Halflop"><b>0</b></th></tr>
+                        <tr><th style="background-color:#506480;color:#FFF"><b>Early Clock Out </b></th><th id="earlyclockout"><b>0 hr : 0 min</b></th>
+
+                        <th style="background-color:#506480;color:#FFF"><b>Holiday</b></th><th id="holiday"><b>4</b></th></tr>
+                        <tr><th id="currentMonthYear" style="background-color:#0520a6;color:#FFF"><b>Total Days Month : Yaer</b></th>
+                        <th style="background-color:#1752b8a4;color:#2e2e2e" id="totalDays"><b>30 Days</b></th>
+                                                <th style="background-color:#0520a6;color:#FFF"><b>Tally </b></th><th style="background-color:#1752b8a4;color:#343333" id="tally"><b>0 Days</b></th></tr>
+                        
+                        
+                                    
+            <tr><th  style="background-color:#00004d;color:#FFF"><b>Mng.Late</b></th><th style="background-color:#00004d;color:#FFF" id="tot_late"><b>0 hr : 0 min</b></th>
+                       
+                                    <th style="background-color:#00004d;color:#FFF"><b>Earlyby </b></th><th style="background-color:#00004d;color:#FFF" id="tot_Early"><b>0 hr : 0 min</b></th></tr>
+                        
+                    <tr><th  style="background-color:#00004d; color:#FFF"><b>Total.Late</b></th><th style="background-color:#00004d;color:#FFF" id="totalFormattedDifference"><b>0</b></th><th  style="background-color:#fadb61;color:#000" colspan="2"><b>Permissioned Hour : 03 hr:00 min</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>Permission Reached : 4 hr:0 min</b></th></tr>
+
+                    </thead>
+                    </table>
+
+                    
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+var initialUserId = sessionStorage.getItem('userId');
+
+   
+
+function showPopup(year, month, day) {
+    // Create a container for the popup and overlay
+    var container = document.createElement("div");
+    container.className = "popup-container";
+
+    var selectdate = `${year}-${('0' + (month)).slice(-2)}-${('0' + day).slice(-2)}`;
+
+    console.log("selectdate",selectdate)
+
+    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    var display_date = `${('0' + day).slice(-2)} ${monthNames[month - 1].substring(0, 4)} ${year}`;
+
+console.log("display_date", display_date);
+
+
+    
+
+    // Create a popup element
+    var popup = document.createElement("div");
+    popup.className = "popup";
+
+    // Check if initialUserId is null
+    if (!initialUserId) {
+        alert("Please select the Name..!");
+        return; // Stop further execution
+    }
+
+
+    
+    // Add content to the popup
+    popup.innerHTML = `
+        <h2>Add In/Out</h2>
+        <p style="display:none; ">Selected Date: <input type="text" name="date" id="date" readonly value="${selectdate}" readonly></p>
+        <p >Selected Date: <input type="text" style="background-color:#f2f2f2; border-radius:5px; border-color:#f2f2f2;" readonly value="${display_date}" readonly></p>
+        
+        <input type="text"  readonly value="${initialUserId}" ><br>
+        <label for="inTime">In Time:</label><br>
+
+        <select style="width: 10%; padding: 2px; border-radius: 5px;border-color: #b8bdbe" id="inTime" name="inTime">
+                        <option value="" selected disabled>--</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                    </select>
+                    <select id="numberSelect" style="width: 10%; padding: 2px; border-radius: 5px; border-color: #b8bdbe" name="numberSelect" >
+        <option value="" selected disabled>--</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
+        <option value="25">25</option>
+        <option value="26">26</option>
+        <option value="27">27</option>
+        <option value="28">28</option>
+        <option value="29">29</option>
+        <option value="30">30</option>
+        <option value="31">31</option>
+        <option value="32">32</option>
+        <option value="33">33</option>
+        <option value="34">34</option>
+        <option value="35">35</option>
+        <option value="36">36</option>
+        <option value="37">37</option>
+        <option value="38">38</option>
+        <option value="39">39</option>
+        <option value="40">40</option>
+        <option value="41">41</option>
+        <option value="42">42</option>
+        <option value="43">43</option>
+        <option value="44">44</option>
+        <option value="45">45</option>
+        <option value="46">46</option>
+        <option value="47">47</option>
+        <option value="48">48</option>
+        <option value="49">49</option>
+        <option value="50">50</option>
+        <option value="51">51</option>
+        <option value="52">52</option>
+        <option value="53">53</option>
+        <option value="54">54</option>
+        <option value="55">55</option>
+        <option value="56">56</option>
+        <option value="57">57</option>
+        <option value="58">58</option>
+        <option value="59">59</option>
+        <option value="00">00</option>
+    </select>
+                     
+                    <select style="width: 10%; padding: 2px; border-radius: 5px; border-color: #b8bdbe;" name="workfrom_period" id="workfrom_period">
+                        
+                        <option value="AM">AM</option>
+                        <option value="PM" >PM</option>
+                    </select>
+
+       
+     
+
+        <br>
+
+        <label for="outTime">Out Time:</label><br>
+        
+
+        <select style="width: 10%; padding: 2px; border-radius: 5px;border-color: #b8bdbe" id="outTime" name="outTime">
+    <option value="" selected disabled>--</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+</select>
+
+<select id="worktoSelect" style="width: 10%; padding: 2px; border-radius: 5px;border-color: #b8bdbe" name="worktoSelect">
+    
+    <option value="" selected disabled>--</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+        <option value="21">21</option>
+        <option value="22">22</option>
+        <option value="23">23</option>
+        <option value="24">24</option>
+        <option value="25">25</option>
+        <option value="26">26</option>
+        <option value="27">27</option>
+        <option value="28">28</option>
+        <option value="29">29</option>
+        <option value="30">30</option>
+        <option value="31">31</option>
+        <option value="32">32</option>
+        <option value="33">33</option>
+        <option value="34">34</option>
+        <option value="35">35</option>
+        <option value="36">36</option>
+        <option value="37">37</option>
+        <option value="38">38</option>
+        <option value="39">39</option>
+        <option value="40">40</option>
+        <option value="41">41</option>
+        <option value="42">42</option>
+        <option value="43">43</option>
+        <option value="44">44</option>
+        <option value="45">45</option>
+        <option value="46">46</option>
+        <option value="47">47</option>
+        <option value="48">48</option>
+        <option value="49">49</option>
+        <option value="50">50</option>
+        <option value="51">51</option>
+        <option value="52">52</option>
+        <option value="53">53</option>
+        <option value="54">54</option>
+        <option value="55">55</option>
+        <option value="56">56</option>
+        <option value="57">57</option>
+        <option value="58">58</option>
+        <option value="59">59</option>
+        <option value="00">00</option>
+</select>
+
+<select style="width: 10%; padding: 2px; border-radius: 5px; border-color: #b8bdbe;" id="workto_period" name="workto_period">
+    
+    <option value="AM">AM</option>
+    <option value="PM" selected>PM</option>
+</select>
+
+
+        <br>
+
+        <button onclick="addInOut(${year}, ${month}, ${day})" class="btn mt-4 bg-success text-white">Save</button>
+        <button onclick="closePopup()" class="btn mt-4 bg-warning text-white">Cancel</button>
+    `;
+
+    // Append the popup to the container
+    container.appendChild(popup);
+
+    // Append the container to the body
+    document.body.appendChild(container);
+}
+
+
+                        
+                   
+
+function addInOut(year, month, day) {
+    // Retrieve values from input fields
+    var inTime = document.getElementById("inTime").value;
+    var numberSelect = document.getElementById("numberSelect").value;
+    
+    var workfrom_period = document.getElementById("workfrom_period").value;
+
+    
+
+    var outTime = document.getElementById("outTime").value;
+    var worktoSelect = document.getElementById("worktoSelect").value;
+    var workto_period = document.getElementById("workto_period").value;
+   
+
+
+    // alert(outTime)
+    var date = document.getElementById("date").value;
+
+    
+    var csrftoken = getCookie('csrftoken');
+
+    // Make an AJAX request to fetch work_frm and work_to values
+    $.ajax({
+        url: '/fetch_work_schedule/',
+        method: 'POST',
+        headers: { 'X-CSRFToken': csrftoken },
+        data: {
+            user_id: initialUserId,
+            date: date,
+        },
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                // Use the fetched values for work_frm and work_to
+                var workFrom = response.work_from;
+                var workTo = response.work_to;
+                var depart = response.depart;
+                // console.log(depart)
+                // Make another AJAX request to add in/out data
+                $.ajax({
+                    url: '/add_in_out/',
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': csrftoken },
+                    data: {
+                        user_id: initialUserId,
+                        date: date,
+
+                        in_time: inTime,
+                        number_Select:numberSelect,
+                        workfromperiod:workfrom_period,
+
+                        out_time: outTime,
+                        workto_Select:worktoSelect,
+                        worktoperiod:workto_period,
+                        
+
+                        
+                        work_from: workFrom,
+                        work_to: workTo,
+                        depart:depart
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+    if (response.success) {
+        Swal.fire({
+            title: "Success!",
+            text: "Attendance saved successfully!",
+            icon: "success",
+            confirmButtonText: "OK",
+        }).then(() => {
+            // console.log('Data inserted successfully');
+            // Close the popup and overlay after saving
+            closePopup();
+            location.reload();
+        });
+    } else {
+        Swal.fire({
+            title: "Error!",
+            text: `Invalid Credentials`,
+            icon: "error",
+            confirmButtonText: "OK",
+        });
+        // console.error('Failed to insert data:', response.error);
+        // Handle error scenario if needed
+    }
+},
+
+
+                    error: function(xhr, status, error) {
+                        // console.error('AJAX request failed:', status, error);
+                        // Handle error scenario if needed
+                    }
+                });
+
+            } else {
+                // console.error('Failed to fetch work schedule:', response.error);
+                // Handle error scenario if needed
+            }
+        },
+        error: function(xhr, status, error) {
+            // console.error('AJAX request failed:', status, error);
+            // Handle error scenario if needed
+        }
+    });
+}
+
+
+function closePopup() {
+    // Remove the popup and overlay container from the DOM
+    var container = document.querySelector(".popup-container");
+
+    if (container) {
+        container.parentNode.removeChild(container);
+    }
+}
+
+// Function to get CSRF token from the cookie
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Search for the CSRF token
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+</script>
+<script>
+    
+
+                    
+// Get the select element
+var selectElement = document.getElementById("worktoSelect");
+
+// Loop to add options from 1 to 59
+for (var i = 1; i <= 59; i++) {
+    var option = document.createElement("option");
+    option.value = i;
+    option.text = i;
+    selectElement.add(option);
+}
+
+</script>
+
+<style>
+    .popup-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+    }
+
+    .popup {
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 40%;
+      
+    }
+</style>
+
+
+
+     <!--footer-->   
+    <!-- <footer class="footer text-center text-lg-start">
+        <div class="text-center p-3">
+          © 2023 Copyright:
+          <a class="text-blue" href="#"> mindtekattendanceportal.com</a>
+        </div>
+      </footer> -->
+
+      <script>
+    // Enable dropdown functionality
+    $(document).ready(function(){
+        $('.dropdown-toggle').dropdown();
+    });
+</script>
+<script>
+    var lilota = document.getElementById("lolita");
+var lilotaoff = document.getElementById("lolitaoff");
+var offcanvas = document.getElementById("offcanvasExample");
+var navigation1 = document.getElementById("navigation");
+var branchSelect = document.getElementById("branchSelect");
+
+// Function to set dark mode based on the value stored in localStorage
+function setDarkModeFromStorage() {
+  var element = document.body;
+  var storedDarkMode = localStorage.getItem('darkMode');
+  var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+
+  if (storedDarkMode === 'true') {
+    element.classList.add('dark-mode');
+    toggleDarkModeButton.checked = true;
+    applyDarkModeStyles();
+  } else {
+    element.classList.remove('dark-mode');
+    toggleDarkModeButton.checked = false;
+    removeDarkModeStyles();
+  }
+}
+
+// Function to apply dark mode styles
+function applyDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+  offcanvas.classList.add("offcanvasdrk");
+  navigation1.classList.add("navbardrk");
+  branchSelect.classList.add("selectheadadmindark");
+}
+
+// Function to remove dark mode styles
+function removeDarkModeStyles() {
+  lolita.src = "{% static 'img/staffinlogooff.png' %}";
+  lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+  offcanvas.classList.remove("offcanvasdrk");
+  navigation1.classList.remove("navbardrk");
+
+  branchSelect.classList.remove("selectheadadmindark");
+}
+
+// Function to toggle dark mode and store the state in localStorage
+function toggleDarkMode() {
+  var element = document.body;
+  element.classList.toggle('dark-mode');
+    
+  if (element.classList.contains("dark-mode")) {
+    applyDarkModeStyles();
+  } else {
+    removeDarkModeStyles();
+  }
+
+  // Store the current dark mode state in localStorage
+  var isDarkMode = element.classList.contains('dark-mode');
+  localStorage.setItem('darkMode', isDarkMode.toString());
+}
+
+// Call the function to set dark mode on page load
+setDarkModeFromStorage();
+  </script>
+<style>
+    /* Style for the modal */
+    .modall {
+        
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgba(0,0,0,0.4); /* Faded background */
+    }
+  
+    /* Style for the modal content */
+    .modal-contentt {
+      background-color: #fefefe;
+      margin: 10% auto; /* 15% from the top and centered */
+      padding: 20px;
+      border: 1px solid #3a3a3a;
+      width: 50%; /* Could be more or less, depending on screen size */
+    }
+  
+    /* Close button style */
+    .close {
+      color: #413f3f;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+  
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .box {
+    padding: 10px;
+    border: 1px solid #727070; /* Border color */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #f9f9f9; /* Background color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow */
+    background-color: #e6e0e0;
+  }
+  </style>
+  
+  
+
+    </body>
+</html>
+
+{% endblock %}

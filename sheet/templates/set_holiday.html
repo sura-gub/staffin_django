@@ -1,0 +1,772 @@
+{% extends 'common_header.html' %}
+{% load static %}
+{% block content %}
+{% include 'header_adm.html' %}
+
+
+<style>
+    body {
+      background-image: url('{% static "img/logbg2.png" %}');
+      min-height: 600px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      font-family:  Calibri;
+    }
+    .day-cell {
+        padding: 15px; /* Adjust the padding as needed */
+        /* margin-left: 5px;  */
+        background-color: rgb(211, 232, 241);
+        text-align: center;
+        border: 1px solid rgb(212, 208, 208);
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 20px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Adjust the box-shadow as needed */
+        margin: 5px; 
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+
+    /* .two-cells-row {
+        margin-bottom: 5px; 
+        text-align: center;
+        padding: 5px;
+    } */
+    input{
+        height: 38px;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+        width: 200px;
+    }
+    button{
+       border:none;
+       /* background-color: rgb(184, 204, 228); */
+       background-color: rgb(219, 229, 241);
+    }
+
+     /* for heading */
+  .buttonhead {
+  margin: 5.5% 0 0% 35%;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+@media screen and (max-width:999px) {
+    .buttonhead {
+  margin: 100px 0 20px 350px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+
+@media screen and (max-width:699px) {
+    .buttonhead {
+  margin: 100px 0 20px 100px;
+  height: auto;
+  background: transparent;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
+.buttonhead {
+  --border-right: 2px;
+  --text-stroke-color: #38696d;
+  --animation-color: #38696d;
+  --fs-size: 1em;
+  letter-spacing: 1.5px;
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+}
+/* button styling */
+.buttonhead {
+  --border-right: 2px;
+  font-weight: 800;
+  --fs-size: 1.8em;
+  letter-spacing: 1px;
+  text-decoration: none;
+  font-size: var(--fs-size);
+  font-family: "calibri";
+  position: relative;
+  text-transform: uppercase;
+  color: #1a49a1;
+  -webkit-text-stroke: 1px var(--text-stroke-color);
+}
+
+.buttonhead:hover .hover-text {
+  width: 100%;
+  filter: drop-shadow(0 0 23px var(--animation-color))
+}
+
+@media screen and (max-width:750px) {
+    .t3{
+        zoom: 0.6;
+    }
+    
+}
+    </style>
+
+<body class="w-100 container-fluid">
+     
+     <div class="row align-items-start" >
+        <div class="col-md-12  col-12 mb-3 " style="margin-top: 30px;">
+            <button class="buttonhead col-4" data-text="Awesome">
+                <span class="actual-text">&nbsp;Set Holiday&nbsp;</span>
+            </button>
+        </div>
+
+         <div class="col-md-6 " style="margin-top: 20px;zoom: 0.9;height: 450px;background-color: rgb(255, 255, 255); box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);" >
+            <center><div><h4 style="color: rgb(33, 87, 247)">Select Date For Set Holiday</h4></div></center>
+            <div class="d-flex justify-content-between align-items-center" style="height: 70px; box-shadow: 2px 2px 2px ;background-color: #38696d;">
+
+                <button class="btn" onclick="changeMonth(-1)"><img src="{% static 'img/left-chevron.png'%}" alt="img" width='20px' height='20px'></button>
+
+                <center><div id="currentMonth" style="color: white; font-size: 18px;"></div></center>
+
+                <button class="btn" onclick="changeMonth(1)"><img src="{% static 'img/right-chevron.png'%}" alt="img" width='20px' height='20px'></button>
+                
+            </div>
+
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+
+            <div class="bg-secondary" style=" box-shadow: 2px 2px 2px ;">
+                <table class="w-100">
+                    <tr class="" style="height: 40px;text-align: center;color: white;">
+                        <td style="width: 90px;">Mo</td>
+                        <td style="width: 90px;">Tu</td>
+                        <td style="width: 90px;">We</td>
+                        <td style="width: 90px;">Th</td>
+                        <td style="width: 90px;">Fr</td>
+                        <td style="width: 90px;">Sa</td>
+                        <td style="width: 90px;">Su</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="mt-2">
+                <table class="w-100 " id="calendarTable" >
+                    <!-- Days will be dynamically generated here -->
+                </table>
+            </div>
+        </div>
+         <div class="col-md-6" style="margin-top: 20px;zoom: 0.9;background-color: rgb(255, 255, 255); box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);">
+            <center><div><h4 style="color: rgb(33, 87, 247)">Update the Holiday With Reason</h4></div></center>
+            <table class="col-md-12 table table-bordered t3" style="border: 1px solid rgb(138, 135, 135);box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);" id="dataTable">
+                <tr style="background-color: #4E81BD; color: white; text-shadow: 1px 1px 2px #2b2b2b;">
+                    <!-- <td>Sl.No</td> -->
+                    <th>Month</th>
+                    <th>Day</th>
+                    <th style="display: none;">Date</th>
+                    <th>Date</th>
+                    <th>Reason</th>
+                    <th>Branch</th>
+                </tr>
+            </table>
+            <center><button class="btn btn-success mb-2" id="button">Update Holidays</button></center>
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"><br>
+
+            <table class="  col-md-12 table table-bordered" style="border: 1px solid rgb(138, 135, 135);box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);" id="dataTable1">
+                <tr>
+                    <!-- <td>Sl.No</td> -->
+                    <th>Month</th>
+                    <th>Day</th>
+                    <th>Year</th>
+                    <th>Reason</th>
+                    <th>Branch</th>
+                </tr>
+            </table>
+         </div>
+
+
+         <script>
+
+document.addEventListener('DOMContentLoaded', function () {
+    fetchAllHolidays();
+    var a = document.getElementById('currentMonth');
+    // alert(a.innerText);
+});
+
+function fetchAllHolidays() {
+    // Fetch all holidays using AJAX
+    $.ajax({
+        url: '/get_all_holidays/',  // Update with your actual URL
+        dataType: 'json',
+        success: function (data) {
+            console.log(data);
+            // Get the table element
+            let dataTable = document.getElementById('dataTable1');
+
+            // Clear existing table content
+            dataTable.innerHTML = '';
+
+            // Insert header row
+            let headerRow = dataTable.insertRow();
+            headerRow.innerHTML = '<th>Month</th><th>Date</th><th>Year</th><th>Reason</th><th>Branch</th><th>Delete</th>';
+            headerRow.style.backgroundColor = '#4E81BD';
+            headerRow.style.color = 'white';
+            headerRow.style.textShadow = '1px 1px 2px #2b2b2b';
+            // Iterate through each holiday and append a new row to the table
+            // style="background-color: #6fadf0; color: white; text-shadow: 1px 1px 2px #2b2b2b;"
+            let counter = 0;
+            data.holidays.forEach(function (holiday) {
+                // Check if the holiday's month and year match the currentMonth and currentYear
+                if (holiday.month.toUpperCase() === getMonthName(currentMonth) && holiday.year === currentYear) {
+                    // Create a new table row
+                    let newRow = dataTable.insertRow();
+                    // newRow.style.backgroundColor='#B8CCE4'
+                    newRow.style.backgroundColor = counter % 2 === 0 ? '#B8CCE4' : '#DBE5F1';
+    counter++;
+
+                    // Insert cells with holiday data
+                    let monthCell = newRow.insertCell(0);
+                    let dateCell = newRow.insertCell(1);
+                    let yearCell = newRow.insertCell(2);
+                    let reasonCell = newRow.insertCell(3);
+                    let branchCell = newRow.insertCell(4);
+                    let deleteCell = newRow.insertCell(5); // New cell for delete button
+
+                    // Populate cells with holiday data
+                    reasonCell.innerHTML = holiday.reason;
+                    dateCell.innerHTML = dateFormat(holiday.holiday_date);
+                    monthCell.innerHTML = holiday.month;
+                    yearCell.innerHTML = holiday.year;
+                    branchCell.innerHTML = holiday.branch;
+
+                    // Create delete button
+                    let deleteButton = document.createElement('button');
+                    deleteButton.innerHTML = '<img src="{% static "img/delete.png" %}" height="20px" width="20px" alt="Delete" >';
+
+                    deleteButton.addEventListener('click', function () {
+    // Get the ID of the holiday
+    const holidayId = holiday.id;
+
+    // Confirm with SweetAlert before deleting
+    Swal.fire({
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const csrftoken = getCookie('csrftoken');
+
+            // Send a request to the server to delete the holiday
+            $.ajax({
+                url: `/delete_holiday/${holidayId}/`,  // Update with your actual URL
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                },
+                method: 'POST',  // Adjust the method based on your server implementation
+                success: function (response) {
+                    console.log('Holiday deleted successfully:', response);
+
+                    // Perform any additional actions after successful deletion
+                    // For example, you might want to update the UI or reload the page
+
+                    // Reload the page for demonstration purposes
+                    location.reload();
+                },
+                error: function (error) {
+                    console.error('Error deleting holiday:', error);
+                }
+            });
+        }
+    });
+});
+
+                    // Append delete button to the delete cell
+    deleteCell.appendChild(deleteButton);
+        }
+            });
+        },
+        error: function () {
+            console.error('Error fetching holidays.');
+        }
+    });
+}
+
+
+function dateFormat(date) {
+    // Parse the input date string
+    const parts = date.split('-');
+    const year = parts[0];
+    const month = parseInt(parts[1]); // Parse month as an integer
+    const day = parts[2];
+
+    // Create an array of month names
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June", 
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    // Get the month name corresponding to the month number
+    const monthName = monthNames[month - 1]; // Adjust index by 1
+
+    // Construct the new date string in the required format
+    const formattedDate = `${day}-${monthName}-${year}`;
+    
+    // Return the formatted date
+    return formattedDate;
+}
+
+function getMonthName(monthIndex) {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return months[monthIndex].toUpperCase();
+}
+
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Check if the cookie name matches the request header expected format
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+           // Get the current date
+// Set initial values for currentMonth and currentYear
+let currentMonth = sessionStorage.getItem('currentMonth') ? parseInt(sessionStorage.getItem('currentMonth')) : new Date().getMonth(); // Month is zero-based
+let currentYear = sessionStorage.getItem('currentYear') ? parseInt(sessionStorage.getItem('currentYear')) : new Date().getFullYear();
+
+// Function to update session storage with currentMonth and currentYear
+function updateSessionStorage() {
+    sessionStorage.setItem('currentMonth', currentMonth);
+    sessionStorage.setItem('currentYear', currentYear);
+}
+
+// Function to update the calendar display
+function updateCalendarDisplay() {
+    document.getElementById('currentMonth').innerHTML = `${getMonthName(currentMonth)}<br>${currentYear}`;
+    updateCalendar();
+}
+
+// Function to change the month
+function changeMonth(offset) {
+    // Change the month and update the calendar
+    currentMonth += offset;
+
+    // Handle month overflow
+    if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+    } else if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+    }
+
+    // Update session storage and calendar display
+    updateSessionStorage();
+    updateCalendarDisplay();
+}
+
+// Function to get the month name
+function getMonthName(monthIndex) {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return months[monthIndex].toUpperCase();
+}
+
+// Set the initial current month display
+document.getElementById('currentMonth').innerHTML = `${getMonthName(currentMonth)}<br>${currentYear}`;
+
+
+function updateCalendar() {
+    // Get the table element
+    let table = document.getElementById('calendarTable');
+
+    // Clear existing rows
+    table.innerHTML = "";
+
+    // Get the number of days in the current month
+    let daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+    // Get the starting day of the month (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+    let firstDay = new Date(currentYear, currentMonth, 1).getDay();
+
+    // Adjust for Monday being the first day of the week
+    firstDay = (firstDay === 0) ? 6 : firstDay - 1;
+
+    // Create a new row
+    let row = table.insertRow();
+
+    // Add empty cells for days before the first day of the month
+    for (let i = 0; i < firstDay; i++) {
+        row.insertCell().className = "day-cell";
+    }
+
+    // Create cells for each day
+    for (let day = 1; day <= daysInMonth; day++) {
+        let cell = row.insertCell();
+        cell.innerHTML = day;
+        cell.className = "day-cell";
+        // Pad the day and month with leading zeros if necessary
+        let paddedDay = (day < 10) ? `0${day}` : day;
+        let paddedMonth = ((currentMonth + 1) < 10) ? `0${currentMonth + 1}` : (currentMonth + 1);
+        cell.setAttribute('data-date', `${currentYear}-${paddedMonth}-${paddedDay}`);
+        cell.addEventListener('click', handleDayClick);
+
+        // Start a new row after every 7 days
+        if ((firstDay + day - 1) % 7 === 6) {
+            row = table.insertRow();
+        }
+    }
+
+    // Fetch and display holidays for the updated month and year
+    fetchAllHolidays();
+}
+
+        
+            let rowVisibilityState = {}; // Keep track of row visibility state
+
+            function handleDayClick(event) {
+    // Handle the click event on a day cell
+    const selectedDate = event.currentTarget.getAttribute('data-date');
+    const parts = selectedDate.split('-'); // Split the date string by hyphens
+    const rearrangedDate = `${parts[2]}-${parts[1]}-${parts[0]}`; // Rearrange the parts to dd-mm-yyyy format
+
+    // Check if the date exists in the database
+    const dateExists = checkDateExists(selectedDate);
+
+    // If the date exists, show a message or perform other actions
+    if (dateExists) {
+        // alert(`Date ${selectedDate} already Updated.`);
+         // Use SweetAlert for a more visually appealing alert
+         Swal.fire({
+            icon: 'info',
+            title: 'Note',
+            text: `Date ${rearrangedDate} has already been updated.`,
+        });
+        // You can add additional logic here if needed
+    } else {
+        // The date doesn't exist, proceed with toggling visibility
+        // Toggle the row visibility state for the selected date
+        rowVisibilityState[selectedDate] = !rowVisibilityState[selectedDate];
+
+        // Show or hide the row based on the visibility state
+        toggleRow(selectedDate, rowVisibilityState[selectedDate]);
+    }
+}
+
+function checkDateExists(selectedDate) {
+    // Perform an AJAX request to check if the date exists in the database
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', `/check_date_exists/?date=${selectedDate}`, false);
+    xhr.send();
+
+    if (xhr.status === 200) {
+        // Parse the response and return true if the date exists
+        var response = JSON.parse(xhr.responseText);
+        return response.exists;
+    } else {
+        // Handle the error or return false if there's an issue with the request
+        console.error('Error checking date existence:', xhr.status);
+        return false;
+    }
+}
+
+
+function toggleRow(selectedDate, isVisible) {
+    // Get the table element
+    let dataTable = document.getElementById('dataTable');
+
+    // Check if a row with the same date already exists
+    let existingRow = findRowByDate(dataTable, selectedDate);
+
+    if (existingRow) {
+        // If it exists, show or hide the row based on the visibility state
+        existingRow.style.display = isVisible ? '' : 'none';
+    } else if (isVisible) {
+        // If it doesn't exist and should be visible, create a new row
+        addToTable(selectedDate);
+    }
+
+// Show or hide the button based on the presence of rows
+// document.getElementById('button').style.display = hasRows ? 'block' : 'none';
+}
+
+function findRowByDate(table, date) {
+    // Iterate through rows and check if a row with the same date exists
+    for (let i = 1; i < table.rows.length; i++) { // Start from 1 to skip header
+        let row = table.rows[i];
+        let dateCell = row.cells[2]; // Assuming the date is in the third cell
+
+        if (dateCell.innerHTML === date) {
+            return row;
+        }
+    }
+
+    return null;
+}
+
+document.getElementById('button').addEventListener('click', handleUpdateClick);
+
+function handleUpdateClick() {
+    // Get the table element
+    let dataTable = document.getElementById('dataTable');
+      // Get the CSRF token from the cookie
+  const csrftoken = getCookie('csrftoken');
+
+// Collect data from selected rows
+let data = [];
+let emptyReason = false; // Flag to track if any reason is empty
+for (let i = 1; i < dataTable.rows.length; i++) { // Start from 1 to skip header
+    let row = dataTable.rows[i];
+    let month = row.cells[0].innerHTML;
+    let holiday_date = row.cells[2].innerHTML;
+    let holiday_date1 = row.cells[3].innerHTML;
+    let reason = row.cells[4].querySelector('input').value; // Assuming the input is in the third cell
+    let branch = row.cells[5].querySelector('select').value; // Assuming the dropdown is in the fourth cell
+
+    // Extract the year from holiday_date
+    let year = new Date(holiday_date).getFullYear();
+
+
+    if (!reason.trim()) { // If reason is empty or contains only whitespace
+            emptyReason = true; // Set flag to true
+        }
+
+    data.push({ month, year, holiday_date, reason, branch });
+}
+
+if (emptyReason) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Empty Reason',
+            text: 'Please provide a reason for all selected dates.',
+            confirmButtonText: 'OK'
+        });
+    } else if (data.length === 0) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'No Dates Selected',
+            text: 'Please select dates to update.',
+            confirmButtonText: 'OK'
+        });
+    } else {
+    fetch('/update_holidays/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken,
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log('Update successful:', result);
+        // Show SweetAlert on successful update
+        Swal.fire({
+            icon: 'success',
+            title: 'Update Successful!',
+            text: 'Data has been updated successfully.',
+            confirmButtonText: 'OK'
+        }).then(() => {
+            // Reload the page after user clicks "OK"
+            location.reload();
+        });
+    })
+    .catch(error => {
+        console.error('Error updating holidays:', error);
+        // Optionally, you can handle errors and provide feedback to the user
+        Swal.fire({
+            icon: 'error',
+            title: 'Update Failed',
+            text: 'There was an error updating the data.',
+            confirmButtonText: 'OK'
+        });
+    });
+}
+
+    // Send the data to the server using Fetch API
+// Send the data to the server using Fetch API
+
+
+}
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            // Check if the cookie name matches the request header expected format
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+// Rest of your script remains the same
+
+            function addToTable(selectedDate) {
+                const parts = selectedDate.split('-'); // Split the date string by hyphens
+const rearrangedDate = `${parts[2]}-${parts[1]}-${parts[0]}`; // Rearrange the parts to dd-mm-yyyy format
+                // Get the table element
+                let dataTable = document.getElementById('dataTable');
+        
+                // Create a new row
+                let row = dataTable.insertRow();
+        
+                // Create cells for each column
+                // let slNoCell = row.insertCell();
+                let monthCell = row.insertCell();
+                let dayCell = row.insertCell();
+                let dateCell = row.insertCell();
+                let dateCell1 = row.insertCell();
+                let reasonCell = row.insertCell();
+                let branchCell = row.insertCell();
+        
+                // Set values for each cell
+                // slNoCell.innerHTML = dataTable.rows.length - 1;
+                monthCell.innerHTML = getMonthName(currentMonth);
+                dayCell.innerHTML = new Date(selectedDate).toLocaleDateString('en-US', { weekday: 'short' });
+                dateCell.innerHTML = selectedDate;
+                dateCell.style.display = 'none';
+                dateCell1.innerHTML = new Date(selectedDate).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' });
+                reasonCell.innerHTML = "<input type='text' style='border: 0.5px solid gray; padding: 5px;'' placeholder='Reason' >"; // You can set the reason based on your logic
+    // Create a dropdown for the branch cell
+// Create a dropdown for the branch cell
+let branchDropdown = document.createElement('select');
+branchDropdown.className = 'form-control';
+
+// Fetch branch names using AJAX
+$.ajax({
+    url: '/get_branch_names/',  // Update with your actual URL
+    dataType: 'json',
+    success: function (data) {
+        // Add options to the dropdown
+        addOption(branchDropdown, 'All Branch', 'All Branch');
+        for (let branchName of data.branch_names) {
+            addOption(branchDropdown, branchName, branchName);
+        }
+
+        // Set the dropdown as the content of the branch cell
+        branchCell.appendChild(branchDropdown);
+    },
+    error: function () {
+        console.error('Error fetching branch names.');
+    }
+});
+
+// Function to add an option to the dropdown
+function addOption(select, text, value) {
+    let option = document.createElement('option');
+    option.text = text;
+    option.value = value;
+    select.add(option);
+}
+    }
+
+        
+            function getMonthName(monthIndex) {
+                const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                return months[monthIndex].toUpperCase();
+            }
+        
+            // Initial calendar update
+            updateCalendar();
+        </script>
+         <script>
+            var lilota = document.getElementById("lolita");
+        var lilotaoff = document.getElementById("lolitaoff");
+        var offcanvas = document.getElementById("offcanvasExample");
+        var navigation1 = document.getElementById("navigation");
+        var branchSelect = document.getElementById("branchSelect");
+        
+        // Function to set dark mode based on the value stored in localStorage
+        function setDarkModeFromStorage() {
+          var element = document.body;
+          var storedDarkMode = localStorage.getItem('darkMode');
+          var toggleDarkModeButton = document.getElementById('toggleDarkModeButton');
+        
+          if (storedDarkMode === 'true') {
+            element.classList.add('dark-mode');
+            toggleDarkModeButton.checked = true;
+            applyDarkModeStyles();
+          } else {
+            element.classList.remove('dark-mode');
+            toggleDarkModeButton.checked = false;
+            removeDarkModeStyles();
+          }
+        }
+        
+        // Function to apply dark mode styles
+        function applyDarkModeStyles() {
+          lolita.src = "{% static 'img/staffinlogooff_drk.png' %}";
+          lolitaoff.src = "{% static 'img/staffinlogooff_drk.png' %}";
+          offcanvas.classList.add("offcanvasdrk");
+          navigation1.classList.add("navbardrk");
+          branchSelect.classList.add("selectheadadmindark");
+        }
+        
+        // Function to remove dark mode styles
+        function removeDarkModeStyles() {
+          lolita.src = "{% static 'img/staffinlogooff.png' %}";
+          lolitaoff.src = "{% static 'img/staffinlogooff.png' %}";
+          offcanvas.classList.remove("offcanvasdrk");
+          navigation1.classList.remove("navbardrk");
+        
+          branchSelect.classList.remove("selectheadadmindark");
+        }
+        
+        // Function to toggle dark mode and store the state in localStorage
+        function toggleDarkMode() {
+          var element = document.body;
+          element.classList.toggle('dark-mode');
+            
+          if (element.classList.contains("dark-mode")) {
+            applyDarkModeStyles();
+          } else {
+            removeDarkModeStyles();
+          }
+        
+          // Store the current dark mode state in localStorage
+          var isDarkMode = element.classList.contains('dark-mode');
+          localStorage.setItem('darkMode', isDarkMode.toString());
+        }
+        
+        // Call the function to set dark mode on page load
+        setDarkModeFromStorage();
+          </script>
+
+</body>
+{% endblock %}
